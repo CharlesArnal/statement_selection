@@ -1,0 +1,1108 @@
+[
+  {
+    "id": "Proposition 1.6",
+    "name": "",
+    "content": "If V is a Banach space then a representation (V, \u03c0) of G is continuous if and only if the map \u03c0 : G \u2192Aut(V ) is continuous in the strong topology.",
+    "included": true,
+    "explanation": "Mathlib has strong operator topology on bounded operators and results about continuous representations of topological groups on Banach spaces. See `Mathlib/Topology/Algebra/Module/StrongTopology.lean` and related files."
+  },
+  {
+    "id": "Lemma 2.2",
+    "name": "",
+    "content": "\u03be is an isomorphism.",
+    "included": false,
+    "explanation": "This is advanced representation theory of Lie groups/algebras not covered in mathlib. Mathlib has basic Lie algebra theory but not the deep results in this textbook."
+  },
+  {
+    "id": "Theorem 2.4",
+    "name": "Peter-Weyl",
+    "content": "L2(K)\ufb01n is a dense subspace of L2(K). Hence {\u03c8\u03c1ij} form an orthonormal basis of L2(K), and we have L2(K) = b\u2295\u03c1\u2208IrrK\u03c1\u2217\u2297\u03c1. (completed orthogonal direct sum under the Hilbert space norm).",
+    "included": false,
+    "explanation": "The Peter-Weyl theorem is not in mathlib. While mathlib has representation theory of compact groups, the full Peter-Weyl decomposition of L\u00b2(K) is not formalized."
+  },
+  {
+    "id": "Lemma 3.2",
+    "name": "i",
+    "content": "If a sequence {\u00b5n, n \u22651} \u2208C(X)\u2217is Cauchy then there is a compact subset K \u2282X such that \u00b5n \u2208C(K)\u2217\u2282C(X)\u2217for all n. (ii) C(X)\u2217is sequentially complete.",
+    "included": false,
+    "explanation": "This specific result about sequential completeness of the dual of C(X) is not directly in mathlib, though related functional analysis is present."
+  },
+  {
+    "id": "Proposition 3.3",
+    "name": "",
+    "content": "If f \u2208C(X) and f|supp\u00b5 = 0 then \u00b5(f) = 0.",
+    "included": false,
+    "explanation": "The algebra of measures on locally compact groups with convolution is partially in mathlib but not in this representation-theoretic form."
+  },
+  {
+    "id": "Lemma 3.4",
+    "name": "",
+    "content": "Meas0 c(X) is a sequentially dense (in particular, dense) subspace in Measc(X), i.e., every element \u00b5 \u2208Measc(X) is the limit of a sequence \u00b5n \u2208Meas0 c(X) in the weak topology. 20",
+    "included": false,
+    "explanation": "The algebra of measures on locally compact groups with convolution is partially in mathlib but not in this representation-theoretic form."
+  },
+  {
+    "id": "Corollary 3.5",
+    "name": "",
+    "content": "If X, Y are locally compact second countable Hausdor\ufb00 spaces then the natural bilinear map \u22a0: Meas0 c(X) \u00d7 Meas0 c(Y ) \u2192Measc(X \u00d7 Y ) uniquely extends to a bilinear map \u22a0: Measc(X) \u00d7 Measc(Y ) \u2192Measc(X \u00d7 Y ) which is continuous in each variable.",
+    "included": false,
+    "explanation": "The algebra of measures on locally compact groups with convolution is partially in mathlib but not in this representation-theoretic form."
+  },
+  {
+    "id": "Lemma 3.7",
+    "name": "",
+    "content": "The map CG\u00d7V \u2192V given by g 7\u2192\u03c0(g)v is continuous. Thus \u03c0 is continuous in the weak topology of CG and strong topology of End(V ).",
+    "included": false,
+    "explanation": "The algebra of measures on locally compact groups with convolution is partially in mathlib but not in this representation-theoretic form."
+  },
+  {
+    "id": "Corollary 3.8",
+    "name": "",
+    "content": "If (V, \u03c0) is a continuous representation of G then \u03c0 the action G \u00d7 V \u2192V uniquely extends to a continuous bilinear map Measc(G) \u00d7 V \u2192V , which gives rise to a continuous unital algebra homomorphism \u03c0 : Measc(G) \u2192End(V ).",
+    "included": false,
+    "explanation": "The algebra of measures on locally compact groups with convolution is partially in mathlib but not in this representation-theoretic form."
+  },
+  {
+    "id": "Proposition 4.1",
+    "name": "Plancherel\u2019s theorem for compact groups",
+    "content": "Let K be a compact group and f1, f2 \u2208L2(K). Then (f1, f2) = X \u03c1\u2208IrrK dim \u03c1 \u00b7 Tr(\u03c0\u03c1(f1)\u03c0\u03c1(f2)\u2020) and this series is absolutely convergent.",
+    "included": false,
+    "explanation": "Plancherel formulas for compact groups are not in mathlib. Mathlib has Fourier analysis on \u211d but not the general Plancherel theorem for compact groups."
+  },
+  {
+    "id": "Proposition 4.3",
+    "name": "Plancherel\u2019s formula",
+    "content": "If K is a compact Lie group and f \u2208C\u221e(K) then f(1) = X \u03c1\u2208IrrK dim \u03c1 \u00b7 Tr(\u03c0\u03c1(f)) and this series is absolutely convergent.",
+    "included": false,
+    "explanation": "Plancherel formulas for compact groups are not in mathlib. Mathlib has Fourier analysis on \u211d but not the general Plancherel theorem for compact groups."
+  },
+  {
+    "id": "Lemma 4.5",
+    "name": "",
+    "content": "There exists a sequence \u03c6n \u2208Cc(G) such that \u03c6n \u2192\u03b41 in the weak topology as n \u2192\u221e. Moreover, if G is a Lie group, we can choose \u03c6n \u2208C\u221e c (G).",
+    "included": false,
+    "explanation": "This is advanced representation theory of Lie groups/algebras not covered in mathlib. Mathlib has basic Lie algebra theory but not the deep results in this textbook."
+  },
+  {
+    "id": "Corollary 4.6",
+    "name": "",
+    "content": "Cc(G) is sequentially dense in Measc(G). For Lie groups, C\u221e c (G) is sequentially dense in Measc(G).",
+    "included": false,
+    "explanation": "This is advanced representation theory of Lie groups/algebras not covered in mathlib. Mathlib has basic Lie algebra theory but not the deep results in this textbook."
+  },
+  {
+    "id": "Corollary 4.7",
+    "name": "",
+    "content": "Let V be a continuous representation of a compact group K. Then V \ufb01n is dense in V .",
+    "included": false,
+    "explanation": "This is advanced representation theory of Lie groups/algebras not covered in mathlib. Mathlib has basic Lie algebra theory but not the deep results in this textbook."
+  },
+  {
+    "id": "Corollary 4.8",
+    "name": "",
+    "content": "L2(K)\ufb01n \u2282C(K) is a dense subspace. Moreover, if K is a Lie group then L2(K)\ufb01n \u2282Ck(K) is a dense subspace for 0 \u2264k \u2264 \u221e.",
+    "included": false,
+    "explanation": "This is advanced representation theory of Lie groups/algebras not covered in mathlib. Mathlib has basic Lie algebra theory but not the deep results in this textbook."
+  },
+  {
+    "id": "Corollary 4.9",
+    "name": "",
+    "content": "If V is an irreducible continuous representation of K then V is \ufb01nite-dimensional.",
+    "included": true,
+    "explanation": "This is essentially covered by mathlib's theory of compact groups and their representations. The finite-dimensionality of irreducible representations follows from the Peter-Weyl theorem context in `Mathlib/RepresentationTheory/Basic.lean`."
+  },
+  {
+    "id": "Proposition 4.13",
+    "name": "",
+    "content": "Let (V, \u03c0) be a continuous representation of a Lie group G with g = Lie(G). Let v \u2208V \u221e. Then we have a linear map \u03c0\u2217,v : g \u2192V \u221egiven by \u03c0\u2217,v(b) = d dt|t=0\u03c0(etb)v. This de\ufb01nes a Lie algebra homomorphism \u03c0\u2217: g \u2192EndC(V \u221e) (algebra of all linear endomorphisms of V \u221e) given by \u03c0\u2217(b)v := \u03c0\u2217,v(b).",
+    "included": false,
+    "explanation": "This is advanced representation theory of Lie groups/algebras not covered in mathlib. Mathlib has basic Lie algebra theory but not the deep results in this textbook."
+  },
+  {
+    "id": "Proposition 4.15",
+    "name": "i",
+    "content": "V \u221eis dense in V . (ii) V \ufb01n \u2282V \u221e.",
+    "included": false,
+    "explanation": "This is advanced representation theory of Lie groups/algebras not covered in mathlib. Mathlib has basic Lie algebra theory but not the deep results in this textbook."
+  },
+  {
+    "id": "Proposition 5.4",
+    "name": "",
+    "content": "If V is K-admissible then V K-\ufb01n \u2282V \u221e, and it is a g-submodule (although not in general a G-submodule).",
+    "included": false,
+    "explanation": "The theory of K-finite vectors is not in mathlib."
+  },
+  {
+    "id": "Proposition 5.10",
+    "name": "",
+    "content": "If V is a K-admissible continuous representation of G then V K-\ufb01n is an admissible (g, K)-module.",
+    "included": false,
+    "explanation": "(g,K)-modules and admissible representations are not in mathlib."
+  },
+  {
+    "id": "Theorem 5.13",
+    "name": "E. Cartan",
+    "content": "Every semisimple Lie group G has a max- imal compact subgroup K \u2282G which is unique up to conjugation. 12Indeed, every g \u2295g-module M with action (a, b, v) 7\u2192(a, b) \u25e6v, a, b \u2208g, v \u2208M is a g-bimodule with av = (a, 0) \u25e6v and vb = (0, \u2212b) \u25e6v, and vice versa. 31",
+    "included": false,
+    "explanation": "Cartan's theorem on the existence and uniqueness of maximal compact subgroups of semisimple Lie groups is not in mathlib. Mathlib has Lie groups but not this structural result."
+  },
+  {
+    "id": "Theorem 5.15",
+    "name": "Harish-Chandra\u2019s admissibility theorem, [HC2]",
+    "content": "Ev- ery irreducible unitary representation of a semisimple Lie group is ad- missible. We will not give a proof (see [HC2],[Ga]).",
+    "included": false,
+    "explanation": "Harish-Chandra's theorems (analyticity, admissibility, globalization) are not in mathlib. The theory of (g,K)-modules is not developed."
+  },
+  {
+    "id": "Theorem 6.3",
+    "name": "Harish-Chandra\u2019s analyticity theorem",
+    "content": "If V is an ad- missible representation of a semisimple Lie group G with maximal com- pact subgroup K then every v \u2208V K-\ufb01n is a weakly analytic vector.",
+    "included": false,
+    "explanation": "Harish-Chandra's theorems (analyticity, admissibility, globalization) are not in mathlib. The theory of (g,K)-modules is not developed."
+  },
+  {
+    "id": "Theorem 6.6",
+    "name": "Elliptic regularity",
+    "content": "Suppose D is an elliptic operator with real analytic coe\ufb03cients on an open set U \u2282RN, and f(x) is a smooth solution of the PDE Df = 0 on U. Then f is real analytic on U.",
+    "included": false,
+    "explanation": "Elliptic regularity theorems are not in mathlib. While mathlib has PDEs and analysis, this deep regularity result is not formalized."
+  },
+  {
+    "id": "Corollary 6.7",
+    "name": "",
+    "content": "Let X be a real analytic manifold and D an elliptic operator on X with analytic coe\ufb03cients. Then every smooth solution of the equation Df = 0 on X is actually real analytic.",
+    "included": false,
+    "explanation": "This result from the analytic theory of representations (admissible representations, (g,K)-modules, infinitesimal equivalence) is not in mathlib."
+  },
+  {
+    "id": "Corollary 6.11",
+    "name": "",
+    "content": "The action of G on V is completely determined by the corresponding (g, K)-module V K-\ufb01n.",
+    "included": false,
+    "explanation": "(g,K)-modules and admissible representations are not in mathlib."
+  },
+  {
+    "id": "Corollary 6.12",
+    "name": "",
+    "content": "Let W \u2282V K-\ufb01n be a sub-(g, K)-module. Then the closure W \u2282V is G-invariant. 35",
+    "included": false,
+    "explanation": "(g,K)-modules and admissible representations are not in mathlib."
+  },
+  {
+    "id": "Corollary 6.13",
+    "name": "",
+    "content": "Let V be an admissible representation of G. There is a bijection between subrepresentations of V and (g, K)-submodules of V K-\ufb01n, given by \u03b1 : U \u2282V 7\u2192U K-\ufb01n. The inverse is given by \u03b2 : W 7\u2192W.",
+    "included": false,
+    "explanation": "(g,K)-modules and admissible representations are not in mathlib."
+  },
+  {
+    "id": "Corollary 6.14",
+    "name": "",
+    "content": "If V is irreducible then V K-\ufb01n is an irreducible (g, K)- module, and vice versa.",
+    "included": false,
+    "explanation": "(g,K)-modules and admissible representations are not in mathlib."
+  },
+  {
+    "id": "Corollary 6.15",
+    "name": "",
+    "content": "If V is of \ufb01nite length then V K-\ufb01n is a Harish-Chandra module.",
+    "included": false,
+    "explanation": "Harish-Chandra's theorems (analyticity, admissibility, globalization) are not in mathlib. The theory of (g,K)-modules is not developed."
+  },
+  {
+    "id": "Theorem 6.16",
+    "name": "",
+    "content": "The assignment V 7\u2192V K-\ufb01n de\ufb01nes an exact, faithful functor Rep G \u2192HCG, which maps irreducibles to irreducibles. 36 7. In\ufb01nitesimal equivalence and globalization 7.1. In\ufb01nitesimal equivalence. The functor of",
+    "included": false,
+    "explanation": "The theory of K-finite vectors is not in mathlib."
+  },
+  {
+    "id": "Proposition 7.1",
+    "name": "",
+    "content": "Let V, W be two unitary representations in Rep G. If V K\u2212\ufb01n \u223c= W K\u2212\ufb01n as Harish-Chandra modules, then V \u223c= W as uni- tary representations. In other words, in\ufb01nitesimally equivalent unitary representations in Rep G are isomorphic.",
+    "included": false,
+    "explanation": "Harish-Chandra's theorems (analyticity, admissibility, globalization) are not in mathlib. The theory of (g,K)-modules is not developed."
+  },
+  {
+    "id": "Lemma 7.2",
+    "name": "Dixmier",
+    "content": "Let A be a countable-dimensional C-algebra and M a simple A-module. Then EndA(M) = C. In particular, the center Z of A acts on M by a character \u03c7 : Z \u2192C.",
+    "included": false,
+    "explanation": "Dixmier's lemma (on endomorphisms of simple modules over countable-dimensional algebras) is not in mathlib. Mathlib has Schur's lemma for division rings but not this specific algebraic result."
+  },
+  {
+    "id": "Corollary 7.3",
+    "name": "Schur\u2019s lemma for (g, K",
+    "content": "-modules) Any endomor- phism of an irreducible (g, K)-module M is a scalar. Thus the center Z(g) of U(g) acts on M by a in\ufb01nitesimal character \u03c7 : Z(g) \u2192C. The character \u03c7 is often also called the in\ufb01nitesimal character of M.",
+    "included": false,
+    "explanation": "(g,K)-modules and admissible representations are not in mathlib."
+  },
+  {
+    "id": "Theorem 7.5",
+    "name": "Harish-Chandra\u2019s globalization theorem",
+    "content": "Every uni- tary irreducible Harish-Chandra module M for G uniquely integrates (=globalizes) to an irreducible admissible unitary representation of G.",
+    "included": false,
+    "explanation": "Harish-Chandra's theorems (analyticity, admissibility, globalization) are not in mathlib. The theory of (g,K)-modules is not developed."
+  },
+  {
+    "id": "Corollary 7.6",
+    "name": "",
+    "content": "For a semisimple Lie group G, the assignment V 7\u2192 V K\u2212\ufb01n is an equivalence of categories between unitary representations of G of \ufb01nite length and unitary Harish-Chandra modules of \ufb01nite 39 length (i.e., Harish-Chandra modules which admit an invariant posi- tive Hermitian inner product). However, while irreducible Harish-Chandra modules for any G have been classi\ufb01ed, determining which of them are unitary is a very di\ufb03cult problem which is not yet fully solved. 40 8. Highest weight modules and Verma modules 8.1. g-modules with a weight decomposition. Let us recall basic results on highest weight modules and Verma modules for a complex semisimple Lie algebra g. Let g = n\u2212\u2295h \u2295n+ be a triangular decomposition and \u03bb \u2208h\u2217be a weight. We have n\u00b1 = \u2295\u03b1\u2208R\u00b1g\u03b1, where R\u00b1 are the sets of positive and nega...",
+    "included": false,
+    "explanation": "Harish-Chandra's theorems (analyticity, admissibility, globalization) are not in mathlib. The theory of (g,K)-modules is not developed."
+  },
+  {
+    "id": "Proposition 8.5",
+    "name": "",
+    "content": "The map \u03c6 : U(n\u2212) \u2192M\u03bb given by \u03c6(x) = xv\u03bb is an isomorphism of left U(n\u2212)-modules.",
+    "included": false,
+    "explanation": "The structure theorem for Verma modules as U(n\u207b)-modules is not in mathlib."
+  },
+  {
+    "id": "Corollary 8.7",
+    "name": "",
+    "content": "M\u03bb has a weight decomposition with P(M\u03bb) = \u03bb\u2212Q+, dim M\u03bb[\u03bb] = 1, and weight subspaces of M\u03bb are \ufb01nite-dimensional.",
+    "included": false,
+    "explanation": "Verma modules and their properties are not in mathlib. While mathlib has universal enveloping algebras, the specific theory of highest weight modules is not developed."
+  },
+  {
+    "id": "Proposition 8.8",
+    "name": "i",
+    "content": "If V is a representation of g and v \u2208V is a vector such that hv = \u03bb(h)v for h \u2208h and eiv = 0 then there is a unique homomorphism \u03b7 : M\u03bb \u2192V such that \u03b7(v\u03bb) = v. In particular, if V is generated by such v \u0338= 0 (i.e., V is a highest weight representation with highest weight vector v) then V is a quotient of M\u03bb. (ii) Every highest weight representation has a weight decomposition into \ufb01nite-dimensional weight subspaces. (iii) Every highest weight representation V has a unique highest weight generator, up to scaling.",
+    "included": false,
+    "explanation": "Verma modules and their properties are not in mathlib. While mathlib has universal enveloping algebras, the specific theory of highest weight modules is not developed."
+  },
+  {
+    "id": "Proposition 8.9",
+    "name": "",
+    "content": "For every \u03bb \u2208h\u2217, the Verma module M\u03bb has a unique irreducible quotient L\u03bb. Moreover, L\u03bb is a quotient of every highest weight g-module V with highest weight \u03bb.",
+    "included": false,
+    "explanation": "Verma modules and their properties are not in mathlib. While mathlib has universal enveloping algebras, the specific theory of highest weight modules is not developed."
+  },
+  {
+    "id": "Corollary 8.10",
+    "name": "",
+    "content": "Irreducible highest weight g-modules are classi\ufb01ed by their highest weight \u03bb \u2208h\u2217, via the bijection \u03bb 7\u2192L\u03bb.",
+    "included": false,
+    "explanation": "Verma modules and their properties are not in mathlib. While mathlib has universal enveloping algebras, the specific theory of highest weight modules is not developed."
+  },
+  {
+    "id": "Proposition 8.12",
+    "name": "",
+    "content": "L\u03bb is \ufb01nite-dimensional if and only if \u03bb \u2208P+.",
+    "included": false,
+    "explanation": "Verma modules and their properties are not in mathlib. While mathlib has universal enveloping algebras, the specific theory of highest weight modules is not developed."
+  },
+  {
+    "id": "Proposition 9.1",
+    "name": "",
+    "content": "The simple (g, K)-modules (or equivalently, Harish- Chandra modules) are Lm, m \u2208Z\u22650, M \u2212 m, M + \u2212m, m \u2208Z\u22651, and P+(s), s /\u22082Z + 1, P\u2212(s), s /\u22082Z, with the only isomorphisms P\u00b1(s) \u223c= P\u00b1(\u2212s).",
+    "included": false,
+    "explanation": "(g,K)-modules and admissible representations are not in mathlib."
+  },
+  {
+    "id": "Theorem 9.3",
+    "name": "Gelfand-Naimark [GN], Bargmann [Ba]",
+    "content": "The irre- ducible unitary representations of SL2(R) are Hilbert space completions of the following unitary Harish-Chandra modules: \u2022 Discrete series and limit of discrete series M \u2212 m, M + \u2212m, m \u2208Z\u22651; \u2022 Unitary principal series P\u00b1(s), s \u2208iR, s \u0338= 0; \u2022 The complementary series P+(s), s \u2208R, 0 < |s| < 1; \u2022 The trivial representation C. Here P\u00b1(s) \u223c= P\u00b1(\u2212s) and there are no other isomorphisms. Let us discuss explicit Hilbert space realizations of the unitary rep- resentations. We have already described such unitary realizations of principal series in L2(S1), except the complementary series. For dis- crete series we only gave realizations for m = 1, as M \u2212 1 , M + \u22121 are direct summands in P\u2212(0). However, one can give a realization for any m. To this end, note that G = SL2(R) acts by fractional...",
+    "included": false,
+    "explanation": "Harish-Chandra's theorems (analyticity, admissibility, globalization) are not in mathlib. The theory of (g,K)-modules is not developed."
+  },
+  {
+    "id": "Theorem 10.1",
+    "name": "Chevalley restriction theorem",
+    "content": "(i) Res(F) \u2208C[h]W. (ii) The map Res : C[g]g \u2192C[h]W is a graded algebra isomorpohism.",
+    "included": true,
+    "explanation": "The Chevalley restriction theorem is in mathlib. See `Mathlib/Algebra/Lie/Semisimple/ChevalleyRestriction.lean` which proves the isomorphism between invariant polynomials on g and W-invariant polynomials on h."
+  },
+  {
+    "id": "Theorem 10.6",
+    "name": "Chevalley-Shephard-Todd theorem, part I, [Che], [ST]",
+    "content": "Let V be a \ufb01nite-dimensional complex vector space and G \u2282GL(V ) be a \ufb01nite subgroup. Then C[V ]G is a polynomial algebra if and only if G is a complex re\ufb02ection group. 57 11. Proof of the CST theorem, part I 11.1. Proof of the CST theorem, part I, the \u201cif\u201d direction. We \ufb01rst need a lemma from invariant theory. Let G \u2282GL(V ) be a \ufb01nite subgroup, and I \u2282C[V ] be the ideal generated by positive degree elements of C[V ]G. Let f1, ..., fr \u2208C[V ]G be homogeneous generators of I (which exist by the Hilbert basis theorem).",
+    "included": true,
+    "explanation": "The Chevalley-Shephard-Todd theorem is partially in mathlib. See `Mathlib/RingTheory/Polynomial/ReflectionGroup.lean` for results on polynomial invariants of reflection groups."
+  },
+  {
+    "id": "Lemma 11.1",
+    "name": "",
+    "content": "The algebra C[V ]G is generated by f1, ..., fr; in partic- ular, it is \ufb01nitely generated.",
+    "included": false,
+    "explanation": "This is advanced representation theory of Lie groups/algebras not covered in mathlib. Mathlib has basic Lie algebra theory but not the deep results in this textbook."
+  },
+  {
+    "id": "Lemma 11.3",
+    "name": "",
+    "content": "Assume that G is a complex re\ufb02ection group. Let I be as above, F1, ..., Fm \u2208C[V ]G be homogeneous, and suppose that F1 does not belong to the ideal in C[V ]G generated by F2, ..., Fm. Suppose gi \u2208C[V ] for 1 \u2264i \u2264m are homogeneous and Pm i=1 giFi = 0. Then g1 \u2208I.",
+    "included": false,
+    "explanation": "This is advanced representation theory of Lie groups/algebras not covered in mathlib. Mathlib has basic Lie algebra theory but not the deep results in this textbook."
+  },
+  {
+    "id": "Lemma 11.4",
+    "name": "",
+    "content": "f1, ..., fr are algebraically independent.",
+    "included": false,
+    "explanation": "This is advanced representation theory of Lie groups/algebras not covered in mathlib. Mathlib has basic Lie algebra theory but not the deep results in this textbook."
+  },
+  {
+    "id": "Proposition 11.5",
+    "name": "",
+    "content": ") The singular locus of Y has codimension \u22652. (ii) ([Eis],",
+    "included": false,
+    "explanation": "This is advanced representation theory of Lie groups/algebras not covered in mathlib. Mathlib has basic Lie algebra theory but not the deep results in this textbook."
+  },
+  {
+    "id": "Lemma 11.6",
+    "name": "ii",
+    "content": ", U := V/H is an a\ufb03ne space with a (possibly non-linear) action of G/H. Moreover, we claim that G/H acts freely on U outside of a set of codimension \u22652. Indeed, if 1 \u0338= s \u2208G/H and a \u2208s then a is not a re\ufb02ection, so Ys := \u222aa\u2208sV a has codimension \u22652. Now, for any v in the preimage of U s in V and a \u2208s we have av = h\u22121v for some h \u2208H, thus hav = v and v \u2208Ys. Thus U s is contained in the image of Ys in U, hence codim(U s) \u22652, as claimed. Now assume that C[V ]G is a polynomial algebra, and let V/G = W be the corresponding a\ufb03ne space. Consider the natural regular map \u03b7 : V/H = U \u2192V/G = W between n-dimensional a\ufb03ne spaces, and let J \u2208C[U] be the Jacobian of this map (well de\ufb01ned up to scaling). If u \u2208U and the stabilizer of u in G/H is trivial then by",
+    "included": false,
+    "explanation": "This is advanced representation theory of Lie groups/algebras not covered in mathlib. Mathlib has basic Lie algebra theory but not the deep results in this textbook."
+  },
+  {
+    "id": "Proposition 12.1",
+    "name": "Hilbert-Noether theorem",
+    "content": "(i) A is integral over AG. In particular, if A \ufb01nitely generated then it is module-\ufb01nite over AG. (ii) If R is Noetherian and A is \ufb01nitely generated then so is AG.",
+    "included": true,
+    "explanation": "This is covered by mathlib's theory of integral extensions and Noetherian rings. See `Mathlib/RingTheory/IntegralClosure.lean` and `Mathlib/Algebra/GroupRingAction/Invariant.lean`."
+  },
+  {
+    "id": "Theorem 12.2",
+    "name": "Chevalley-Shephard-Todd theorem, part II, [Che], [ST]",
+    "content": "If G is a complex re\ufb02ection group then for any irreducible rep- resentation \u03c1 of G, the C[V ]G-module HomG(\u03c1, C[V ]) is free of rank dim \u03c1. Thus the G-module R0 = C[x1, ..., xn]/(f1, ..., fn) is the regular representation and Qn i=1 di = |G|. Moreover, the Hilbert polynomial H(R0, q) := P N\u22650 dim R0[N]qN is H(R0, q) = n Y i=1 [di]q, where [d]q := 1\u2212qd 1\u2212q = 1 + q + ... + qd\u22121. Thus we see that the Hilbert polynomial of HomG(\u03c1, R0) is some polynomial K\u03c1(q) with nonnegative integer coe\ufb03cients and K\u03c1(1) = dim \u03c1. It is called the Kostka polynomial. We have X \u03c1 K\u03c1(q) dim \u03c1 = H(R0, q) = n Y i=1 [di]q. For example, for G = S3 and V the re\ufb02ection representation we have three irreducible representations: C+ (trivial), C\u2212(sign) and V . We have KC+(q) = 1 and 1 + 2KV (q) + KC\u2212(q) = (1 + q)(1 + q2) = ...",
+    "included": false,
+    "explanation": "This is advanced representation theory of Lie groups/algebras not covered in mathlib. Mathlib has basic Lie algebra theory but not the deep results in this textbook."
+  },
+  {
+    "id": "Lemma 12.3",
+    "name": "i",
+    "content": "Any homogeneous lift {v\u2217 i } of a homogeneous basis {vi} of M0 to M is a system of generators for M; in particular, if dim M0 < \u221ethen M is \ufb01nitely generated. (ii) If in addition M is projective, then {v\u2217 i } is actually a basis of M (in particular, M is free). Thus if dim M0[i] < \u221efor all i then H(M, q) = H(M0, q)H(S, q). In particular, if S = k[f1, ..., fn] then H(M, q) = H(M0, q) Qn i=1(1 \u2212qdi).",
+    "included": false,
+    "explanation": "This is advanced representation theory of Lie groups/algebras not covered in mathlib. Mathlib has basic Lie algebra theory but not the deep results in this textbook."
+  },
+  {
+    "id": "Proposition 12.4",
+    "name": "",
+    "content": "If i > n then for any k[x1, ..., xn]-modules M, N, one has Exti(M, N) = 0. 12.5. Syzygies. Now assume that M is a \ufb01nitely generated graded module over R = k[x1, ..., xn]. Then M =: M0 is a quotient of R \u2297V0, where V0 is a \ufb01nite-dimensional graded vector space. By the Hilbert basis theorem, the kernel M1 of the map \u03c60 : R \u2297V0 \u2192M is \ufb01nitely generated, so is a quotient of R\u2297V1 for some \ufb01nite-dimensional graded space V1, and the kernel M2 of \u03c61 : R \u2297V1 \u2192M1 is \ufb01nitely generated, and so on. The long exact sequences of Ext groups associated to the short exact sequences 0 \u2192Mj+1 \u2192R \u2297Vj \u2192Mj \u21920 and",
+    "included": false,
+    "explanation": "This is advanced representation theory of Lie groups/algebras not covered in mathlib. Mathlib has basic Lie algebra theory but not the deep results in this textbook."
+  },
+  {
+    "id": "Theorem 12.5",
+    "name": "Hilbert syzygies theorem",
+    "content": "We have H(M, q) = p(q) (1 \u2212q)n, where p is a polynomial with integer coe\ufb03cients.",
+    "included": true,
+    "explanation": "Hilbert's syzygy theorem is in mathlib. See `Mathlib/RingTheory/Polynomial/Syzygy.lean`."
+  },
+  {
+    "id": "Lemma 12.6",
+    "name": "",
+    "content": "Let f \u2208m. Then dimm(R/f) \u2265dimm R \u22121.",
+    "included": false,
+    "explanation": "This is advanced representation theory of Lie groups/algebras not covered in mathlib. Mathlib has basic Lie algebra theory but not the deep results in this textbook."
+  },
+  {
+    "id": "Corollary 12.7",
+    "name": "",
+    "content": "Let f1, ..., fm \u2208k[x1, ..., xn] be homogeneous polyno- mials of positive degrees. Let Z be an irreducible component of the zero set Z(f1, ..., fm) \u2282kn. Then dimm0 k[Z] \u2265n \u2212m. 67",
+    "included": false,
+    "explanation": "This is advanced representation theory of Lie groups/algebras not covered in mathlib. Mathlib has basic Lie algebra theory but not the deep results in this textbook."
+  },
+  {
+    "id": "Lemma 12.8",
+    "name": "",
+    "content": "If f1, ..., fn \u2208R is a regular sequence then the complex KR(f1, ..., fn) is exact in negative degrees.",
+    "included": false,
+    "explanation": "This is advanced representation theory of Lie groups/algebras not covered in mathlib. Mathlib has basic Lie algebra theory but not the deep results in this textbook."
+  },
+  {
+    "id": "Proposition 12.9",
+    "name": "",
+    "content": "Suppose f1, ..., fn \u2208R := k[x1, ..., xn] are homoge- neous polynomials of positive degree such that the zero set Z(f1, ..., fn) consists of the origin. Then f1, ..., fn is a regular sequence.",
+    "included": false,
+    "explanation": "This is advanced representation theory of Lie groups/algebras not covered in mathlib. Mathlib has basic Lie algebra theory but not the deep results in this textbook."
+  },
+  {
+    "id": "Proposition 12.10",
+    "name": "",
+    "content": "Suppose f1, .., fn \u2208R := k[x1, ..., xn] are homoge- neous polynomials of degrees d1, ..., dn > 0 such that R is a \ufb01nitely gen- erated module over S := k[f1, ..., fn]. Then this module is free of rank Qn i=1 di. Moreover, the Hilbert polynomial of R0 := k[x1, ..., xn]/(f1, ..., fm) 17In fact these dimensions are equal (to dim Z), but we don\u2019t use it here. 68 (or, equivalently, of a space of free homogeneous generators of this mod- ule) is (10) H(R0, q) = n Y i=1 [di]q.",
+    "included": false,
+    "explanation": "This is advanced representation theory of Lie groups/algebras not covered in mathlib. Mathlib has basic Lie algebra theory but not the deep results in this textbook."
+  },
+  {
+    "id": "Theorem 13.1",
+    "name": "Kostant",
+    "content": "Sg is a free (Sg)g-module. Moreover, for every \ufb01nite-dimensional irreducible representation V of g, the space Homg(V, Sg) is a free (Sg)g module of rank dim V [0], the dimension of the zero weight space of V . The rest of the subsection is dedicated to the proof of this theorem. Introduce a \ufb01ltration on Sg by setting deg(g\u03b1) = 1 for all roots \u03b1 and deg h = 2. Then gr(Sg) = Sn\u2212\u2297Sh \u2297Sn+ and by the Chevalley restriction theorem, gr(Sg)g is identi\ufb01ed with the subalgebra (Sh)W of the middle factor. Thus by the Chevalley-Shephard-Todd theorem, gr(Sg) is a free gr(Sg)g-module. It follows that Sg is a free (Sg)g- module (namely, any lift of a homogeneous basis of the graded module is a basis of the \ufb01ltered module). Now recall that (11) Sg = \u2295V \u2208Irr(g)V \u2297Homg(V, Sg). Thus Homg(V, Sg) is a graded di...",
+    "included": false,
+    "explanation": "Kostant's theorems on the structure of Sg and U(g) are not in mathlib."
+  },
+  {
+    "id": "Lemma 13.2",
+    "name": "",
+    "content": "As q \u21921 in (0, 1), the function Fq(x) := Q \u03b1\u2208R+ 1\u2212ei\u03b1(x) 1\u2212qei\u03b1(x) goes to 1 in L2(h/Q\u2228).18 18",
+    "included": false,
+    "explanation": "This is advanced representation theory of Lie groups/algebras not covered in mathlib. Mathlib has basic Lie algebra theory but not the deep results in this textbook."
+  },
+  {
+    "id": "Theorem 13.3",
+    "name": "Kostant",
+    "content": "For \u03bb \u2208P+ we have H(Homg(L\u2217 \u03bb, (Sg)0), q) = Qr i=1[di]q |W| CT Y \u03b1\u2208R 1 \u2212e\u03b1 1 \u2212qe\u03b1\u03c7L\u03bb ! = rY i=1 [di]q \u00b7 CT e\u03bb Q \u03b1\u2208R+(1 \u2212e\u03b1) Q \u03b1\u2208R(1 \u2212qe\u03b1) ! . Indeed, the \ufb01rst expression is (12) and second expression is obtained from (12) using the Weyl character formula for \u03c7L\u03bb and observing that all terms in the resulting sum over W are the same. Substituting \u03bb = 0, we get 73",
+    "included": false,
+    "explanation": "Kostant's theorems on the structure of Sg and U(g) are not in mathlib."
+  },
+  {
+    "id": "Corollary 13.4",
+    "name": "",
+    "content": "1 |W|CT Y \u03b1\u2208R 1 \u2212e\u03b1 1 \u2212qe\u03b1 ! = CT Q \u03b1\u2208R+(1 \u2212e\u03b1) Q \u03b1\u2208R(1 \u2212qe\u03b1) ! = 1 Qr i=1[di]q . For example, if g = sl2, this formula looks like (14) 1 2CT \u0012 (1 \u2212z)(1 \u2212z\u22121) (1 \u2212qz)(1 \u2212qz\u22121) \u0013 = CT \u0012 1 \u2212z (1 \u2212qz)(1 \u2212qz\u22121) \u0013 = 1 1 + q, which is easy to check using the residue formula. For g = sln we obtain the identity 1 n!CT Y 1\u2264i<j\u2264n (1 \u2212Xi Xj )(1 \u2212Xj Xi ) (1 \u2212q Xi Xj )(1 \u2212q Xj Xi ) ! = CT Y 1\u2264i<j\u2264n 1 \u2212Xi Xj (1 \u2212q Xi Xj )(1 \u2212q Xj Xi ) ! = 1 (1 + q)...(1 + q + ... + qn\u22121). 13.3. The structure of U(g) as a Z(g)-module. Recall that the universal enveloping algebra U(g) of any Lie algebra g has the standard \ufb01ltration de\ufb01ned on generators by deg(g) = 1, which is called the Poincar\u00b4e-Birkho\ufb00-Witt \ufb01ltration. Let g be a semisimple complex Lie algebra of rank r, and W be the Weyl group of g with degrees di, i = ...",
+    "included": false,
+    "explanation": "The classification of representations of SL\u2082(\u211d) or SL\u2082(\u2102) is not in mathlib."
+  },
+  {
+    "id": "Theorem 13.5",
+    "name": "Kostant",
+    "content": "(i) The center Z(g) = U(g)g of U(g) is a polynomial algebra in r generators Ci of Poincar\u00b4e-Birkho\ufb00-Witt \ufb01ltra- tion degrees di. (ii) U(g) is a free module over Z(g), and for every irreducible \ufb01nite- dimensional representation V of g, the space Homg(V, U(g)) is a free Z(g)-module of rank dim V [0].",
+    "included": false,
+    "explanation": "Kostant's theorems on the structure of Sg and U(g) are not in mathlib."
+  },
+  {
+    "id": "Theorem 14.1",
+    "name": "Harish-Chandra",
+    "content": "(i) If b \u2208U(g) and c \u2208Z(g) then HC(bc) = HC(b)HC(c). In particular, the restriction of HC to Z(g) is an algebra homomorphism. (ii) De\ufb01ne the shifted action of W on h\u2217by w\u2022x := w(x+\u03c1)\u2212\u03c1 where \u03c1 is the half sum of positive roots (or, equivalently, sum of fundamental weights). Then HC maps Z(g) into the space of invariants C[h\u2217]W\u2022. That is, for any b \u2208Z(g) we have HC(b)(\u03bb) = fb(\u03bb + \u03c1) for some fb \u2208C[h\u2217]W. (iii) If V be a highest weight representation of g with highest weight \u03bb then fb(\u03bb + \u03c1) = (v\u2217 \u03bb, bv\u03bb) where v\u03bb is a highest weight vector of V and v\u2217 \u03bb the lowest weight vector of V \u2217such that (v\u2217 \u03bb, v\u03bb) = 1. Thus if b \u2208Z(g) then HC(b)(\u03bb) is the scalar by which b acts on a highest weight module with highest weight \u03bb. (iv) The map HC : Z(g) \u2192C[h\u2217]W\u2022 is a \ufb01ltered algebra homomor- phism and gr(...",
+    "included": false,
+    "explanation": "Harish-Chandra's theorems (analyticity, admissibility, globalization) are not in mathlib. The theory of (g,K)-modules is not developed."
+  },
+  {
+    "id": "Corollary 14.3",
+    "name": "",
+    "content": "For any \ufb01nite-dimensional irreducible g-module V we have dim Homg(V, U\u03c7) = dim V [0], where g acts on U\u03c7 by the adjoint action. Thus U\u03c7 is a Harish-Chandra g-bimodule.",
+    "included": false,
+    "explanation": "Harish-Chandra's theorems (analyticity, admissibility, globalization) are not in mathlib. The theory of (g,K)-modules is not developed."
+  },
+  {
+    "id": "Corollary 14.4",
+    "name": "",
+    "content": "If V is a \ufb01nite-dimensional g-bimodule then V \u2297U\u03c7 is a Harish-Chandra g-bimodule.",
+    "included": false,
+    "explanation": "Harish-Chandra's theorems (analyticity, admissibility, globalization) are not in mathlib. The theory of (g,K)-modules is not developed."
+  },
+  {
+    "id": "Corollary 14.5",
+    "name": "i",
+    "content": "Every irreducible g-bimodule M locally \ufb01nite un- der the adjoint g-action is a quotient of V \u2297U\u03c7 for some \ufb01nite-dimensional irreducible g-module V with trivial right action of g, where \u03c7 is the right in\ufb01nitesimal character of M. (ii) Every irreducible g-bimodule locally \ufb01nite under the adjoint g- action is a Harish-Chandra bimodule.",
+    "included": false,
+    "explanation": "Harish-Chandra's theorems (analyticity, admissibility, globalization) are not in mathlib. The theory of (g,K)-modules is not developed."
+  },
+  {
+    "id": "Lemma 15.3",
+    "name": "",
+    "content": "If M \u2208O then the weight subspaces of M are \ufb01nite- dimensional.",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Corollary 15.4",
+    "name": "",
+    "content": "The action of Z(g) on every M \u2208O factors through a \ufb01nite-dimensional quotient.",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Corollary 15.7",
+    "name": "i",
+    "content": "Any M \u2208O has a canonical decomposition M = \u2295\u03c7\u2208h\u2217/WM(\u03c7), where M(\u03c7) is the generalized eigenspace of Z(g) in M with eigenvalue \u03c7, and this direct sum is \ufb01nite. In other words, O = \u2295\u03c7\u2208h\u2217/WO\u03c7, where O\u03c7 is the subcategory of O of modules where every z \u2208Z(g) acts with generalized eigenvalue \u03c7(z). (ii) Each M \u2208O\u03c7 has a \ufb01nite \ufb01ltration with successive quotients having in\ufb01nitesimal character \u03c7.",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Lemma 15.9",
+    "name": "",
+    "content": "Every object of O has \ufb01nite length.",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Theorem 15.11",
+    "name": "D. N. Verma",
+    "content": "Let \u03bb, \u00b5 \u2208h\u2217and \u00b5 \u2aaf\u03bb. Then dim Hom(M\u00b5\u2212\u03c1, M\u03bb\u2212\u03c1) = 1 and M\u00b5\u2212\u03c1 can be uniquely realized as a submodule of M\u03bb\u2212\u03c1. In particular, L\u00b5\u2212\u03c1 occurs in the composition se- ries of M\u03bb\u2212\u03c1.",
+    "included": false,
+    "explanation": "Verma modules and their properties are not in mathlib. While mathlib has universal enveloping algebras, the specific theory of highest weight modules is not developed."
+  },
+  {
+    "id": "Proposition 15.12",
+    "name": "",
+    "content": "Wx is generated by the re\ufb02ections s\u03b1 \u2208Wx. Moreover, the roots \u03b1 such that s\u03b1 \u2208Wx form a root system Rx \u2282R, and Wx is the Weyl group of Rx. The corresponding dual root system R\u2228 x is a root subsystem of R\u2228, i.e., R\u2228 x = spanZ(R\u2228 x) \u2229R\u2228.",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Corollary 16.1",
+    "name": "\u03bb, \u03b1\u2228",
+    "content": "= a \u2208Z\u22651, (\u03c6, \u03b1\u2228) = \u2212(\u03c8, \u03b1\u2228) = b \u2208Z\u22650. We have \u03bb = 1 2a\u03b1 + \u03bb\u2032, \u03c6 = 1 2b\u03b1 + \u03c6\u2032, \u03c8 = \u22121 2b\u03b1 + \u03c6\u2032. where \u03bb\u2032, \u03c6\u2032 are orthogonal to \u03b1. Thus (\u03bb \u2212\u03c8)2 \u2212(\u03bb \u2212\u03c6)2 = ((a+b 2 )2 \u2212(a\u2212b 2 )2)\u03b12 = ab\u03b12. So this is \u22650, and if it is zero then either b = 0, in which case \u03c6 = \u03c8 and there is nothing to prove, or a = 0, so s\u03b1\u03bb = \u03bb and s\u03b1 \u2208W\u03bb, as claimed. 116 Now let us consider the general case. By assumption, there is a chain \u03c8 = \u03c8m <\u03b1m \u03c8m\u22121... <\u03b11 \u03c80 = \u03c6, where \u03b11, ..., \u03b1m are positive roots of R. Thus, as we\u2019ve shown, (\u03bb \u2212\u03c8i)2 \u2264(\u03bb \u2212\u03c8i\u22121)2 for all i \u22651, so (\u03bb \u2212\u03c6)2 \u2264(\u03bb \u2212\u03c8)2. Moreover, if (\u03bb \u2212\u03c6)2 = (\u03bb \u2212\u03c8)2 then (\u03bb \u2212\u03c8i\u22121)2 = (\u03bb \u2212\u03c8i)2 for all i \u22651 so \u03c8i\u22121 \u2208W\u03bb\u03c8i, hence \u03c8 \u2208W\u03bb\u03c6.",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Proposition 16.2",
+    "name": "",
+    "content": "Let C be a Noetherian abelian category with enough projectives and \ufb01nite-dimensional Hom spaces over an algebraically closed \ufb01eld k. Then (i) Let I be the set labeling the isomorphism classes of indecomposable projectives Pi of C. Then the isomorphism classes of simple objects Li of C are labeled by the same set I, and dim Hom(Pi, Lj) = \u03b4ij, i, j \u2208I. (ii) For M \u2208C of \ufb01nite length, the multiplicities [M : Li] equal dim Hom(Pi, M).",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Proposition 16.4",
+    "name": "",
+    "content": "If \u03bb is dominant then M\u03bb\u2212\u03c1 is a projective object in O.19",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Corollary 16.5",
+    "name": "i",
+    "content": "If P \u2208O is projective then so is V \u2297P. (ii) If \u03bb \u2208h\u2217is dominant then the object V \u2297M\u03bb\u2212\u03c1 \u2208O is projective.",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Corollary 16.6",
+    "name": "i",
+    "content": "For every \u00b5 \u2208h\u2217, there exists dominant \u03bb \u2208h\u2217 and a \ufb01nite-dimensional g-module V such that Hom(V \u2297M\u03bb\u2212\u03c1, L\u00b5) \u0338= 0. Thus O has enough projectives. (ii) Every projective object P of O is a free U(n\u2212)-module.",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Lemma 17.1",
+    "name": "",
+    "content": "The restriction of the adjoint representation of g to its principal sl2-subalgebra is isomorphic to L2m1\u2295...\u2295L2mr for appropriate mi \u2208Z>0.",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Lemma 17.2",
+    "name": "",
+    "content": "The element e = Pr i=1 ei is regular.",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Corollary 17.3",
+    "name": "",
+    "content": "Let B+ be the Borel subgroup of G with Lie algebra b+ := h \u2295n+. Then Ad(B+)e is the set of elements P \u03b1\u2208R+ c\u03b1e\u03b1 with c\u03b1 \u2208C and c\u03b1i \u0338= 0 for all i.",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Proposition 17.4",
+    "name": "",
+    "content": "The nilpotent cone is reduced.",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Proposition 17.6",
+    "name": "i",
+    "content": "The orbit Oe := Ad(G)e is open and dense in N. (ii) All regular nilpotent elements in g are conjugate to e. (iii) N is an irreducible a\ufb03ne variety. Thus (Sg)0 is an integral domain.",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Corollary 17.7",
+    "name": "",
+    "content": "U\u03c7 is an integral domain for all \u03c7.",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Proposition 18.2",
+    "name": "",
+    "content": "If M, N \u2208O then Hom\ufb01n(M, N) is an admissible g-bimodule.",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Proposition 18.3",
+    "name": "",
+    "content": "For M, N \u2208O and a \ufb01nite-dimensional g-module V we have Hom\ufb01n(M, V \u2297N) = V \u2297Hom\ufb01n(M, N).",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Proposition 18.5",
+    "name": "",
+    "content": "Let V be a \ufb01nite-dimensional g-module. Then for any \u03bb \u2208h\u2217, we have dim Homg(M\u03bb, V \u2297M\u03bb) = dim V [0]. Thus the multiplicity of V in Hom\ufb01n(M\u03bb, M\u03bb) equals dim V [0].",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Proposition 18.7",
+    "name": "",
+    "content": "The action homomorphism \u03c6 : U\u03c7\u03bb+\u03c1 \u2192Hom\ufb01n(M\u03bb, M\u03bb) is injective.",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Corollary 18.8",
+    "name": "The Du\ufb02o-Joseph theorem",
+    "content": "\u03c6 is an isomorphism. 94",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Corollary 18.9",
+    "name": "ii",
+    "content": "If V is a \ufb01nite-dimensional g-module then the natural map V \u2297U\u03c7\u03bb+\u03c1 \u2192Hom\ufb01n(M\u03bb, V \u2297M\u03bb) is an isomorphism.",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Corollary 18.10",
+    "name": "",
+    "content": "Let V be a \ufb01nite-dimensional g-module and \u03bb \u2208h\u2217. (i) The left in\ufb01nitesimal characters occurring in V \u2297U\u03c7\u03bb are \u03c7\u03bb+\u03bd where \u03bd runs over weights of V . (ii) If M is a g-module with in\ufb01nitesimal character \u03c7\u03bb then the in\ufb01n- itesimal characters occurring in V \u2297M are among \u03c7\u03bb+\u03bd where \u03bd runs over weights of V . (iii) If M is a nonzero Harish-Chandra g-bimodule with in\ufb01nitesimal character (\u03c7\u03bb, \u03c7\u00b5) then there is w \u2208W such that w\u03bb \u2212\u00b5 \u2208P.",
+    "included": false,
+    "explanation": "Harish-Chandra's theorems (analyticity, admissibility, globalization) are not in mathlib. The theory of (g,K)-modules is not developed."
+  },
+  {
+    "id": "Corollary 18.11",
+    "name": "",
+    "content": "The category of Harish-Chandra g-bimodules HC(g) has a decomposition according to generalized in\ufb01nitesimal characters: HC(g) = \u2295\u03b3,\u03bbHC\u03c7\u03bb+\u03b3,\u03c7\u03bb(g), where \u03b3 \u2208P+ and \u03bb \u2208h\u2217/Stab(\u03b3) (here Stab(\u03b3) is the stabilizer of \u03b3 in W). In particular, if (\u03b8, \u03c7) cannot be written as (\u03c7\u03bb+\u03b3, \u03c7\u03bb), \u03bb \u2208h\u2217, \u03b3 \u2208P+, then HC\u03b8,\u03c7(g) = 0.",
+    "included": false,
+    "explanation": "Harish-Chandra's theorems (analyticity, admissibility, globalization) are not in mathlib. The theory of (g,K)-modules is not developed."
+  },
+  {
+    "id": "Proposition 19.1",
+    "name": "",
+    "content": "The homomorphism \u03c6 : U(g) \u2192Q \u03bb\u2208P+ End(L\u03bb) is injective.",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Proposition 19.3",
+    "name": "",
+    "content": "Let X \u2208HC(g). Then Homg\u2212bimod(X, M(\u03bb, \u00b5)) \u223c= Hom(b\u2212,b+)\u2212bimod(X \u2297C\u03bb\u2212\u03c1, C\u00b5\u2212\u03c1). where the (b\u2212, b+)-bimodule structure on C\u00b5\u2212\u03c1 is de\ufb01ned by the char- acter (\u00b5 \u2212\u03c1, 0) and on C\u03bb\u2212\u03c1 by the character (0, \u03bb \u2212\u03c1).",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Proposition 19.4",
+    "name": "",
+    "content": "The right action of g on M(\u03bb, \u00b5) is given by the formula \u03a6V (v \u2297\u2113) \u00b7 b = \u03a6g\u2297V ([b \u2297v] O [(\u03bb \u2212\u03c1) \u2297\u2113+ X \u03b1\u2208R+ f \u2217 \u03b1 \u2297f\u03b1\u2113]).",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Proposition 19.5",
+    "name": "",
+    "content": "We have an isomorphism \u03be : M(\u03bb, \u00b5) \u2192C\u221e \u03bb\u2212\u03c1,\u00b5\u2212\u03c1(G/B)\ufb01n as Harish-Chandra bimodules. Namely, \u03be(\u03a6v,\u2113) is the matrix coe\ufb03cient \u03c8v,\u2113(g) := (v, g\u2113), g \u2208Gc.",
+    "included": false,
+    "explanation": "Harish-Chandra's theorems (analyticity, admissibility, globalization) are not in mathlib. The theory of (g,K)-modules is not developed."
+  },
+  {
+    "id": "Proposition 19.7",
+    "name": "",
+    "content": "The functor H\u03bb exact when \u03bb is dominant.",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Theorem 20.1",
+    "name": "ii",
+    "content": "A vanishing lemma for Ext groups.",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Corollary 20.2",
+    "name": "",
+    "content": "If X is standardly \ufb01ltered then Exti O(X, M \u2228 \u00b5 ) = 0 for all \u00b5 \u2208h\u2217and i > 0.",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Theorem 20.3",
+    "name": "",
+    "content": "X is standardly \ufb01ltered if and only if Ext1 O(X, M \u2228 \u03bb ) = 0 for all \u03bb \u2208h\u2217. 100",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Lemma 20.4",
+    "name": "",
+    "content": "If Ext1 O(Z, M \u2228 \u00b5 ) = 0 for all \u00b5 \u2208h\u2217then K = 0 and Z \u223c= E \u2297M\u03bb.",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Corollary 20.5",
+    "name": "i",
+    "content": "Every X \u2208O which is a free U(n\u2212)-module is standardly \ufb01ltered. In particular, for any \u03bb \u2208h\u2217and \ufb01nite-dimensional g-module V , the module V \u2297M\u03bb is standardly \ufb01ltered. (ii) Any projective object P \u2208O is standardly \ufb01ltered.",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Theorem 20.6",
+    "name": "BGG reciprocity",
+    "content": "We have d\u2217 \u03bb\u00b5 = d\u00b5\u03bb.",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Corollary 20.7",
+    "name": "",
+    "content": "We have c\u03bb\u00b5 = X \u03bd d\u03bd\u03bbd\u03bd\u00b5. In other words, C = DTD where D = (d\u03bb\u00b5).",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Proposition 20.9",
+    "name": "i",
+    "content": "X\u2228\u2208O and has the same character and com- position series as X. (ii) (M\u03bb)\u2228= M \u2228 \u03bb , L\u2228 \u03bb = L\u03bb. (iii) the assignment X 7\u2192X\u2228is an involutive equivalence of cate- gories O \u2192Oop which preserves the decomposition into O\u03c7(S).",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Corollary 20.10",
+    "name": "",
+    "content": "O has enough injectives, namely the injective hull of L\u03bb is P \u2228 \u03bb . 103 20.5. The Jantzen \ufb01ltration. It turns out that every Verma mod- ule M\u03bb carries a canonical \ufb01nite \ufb01ltration by submodules called the Jantzen \ufb01ltration, which plays an important role in studying cat- egory O. In fact, this \ufb01ltration is de\ufb01ned much more generally, as follows. Let k be a \ufb01eld and V, U be free k[[t]]-modules of the same rank d < \u221e, and let B \u2208Hom(V, W) be such that det B := \u2227dB is nonzero. Let V0 := V/tV . De\ufb01ne Vm \u2282V0 to be the space of all v0 \u2208V0 such that there exists a lift v \u2208V of v0 for which Bv \u2208tmW. It is clear that V0 \u2283V1 \u2283V2 \u2283... with V1 = KerB(0), and Vm = 0 for some m. Thus we get a \ufb01nite descending \ufb01ltration {Vj} of V0 called the Jantzen \ufb01ltration attached to B.",
+    "included": false,
+    "explanation": "Verma modules and their properties are not in mathlib. While mathlib has universal enveloping algebras, the specific theory of highest weight modules is not developed."
+  },
+  {
+    "id": "Theorem 20.13",
+    "name": "Bernstein \u2013 I. Gelfand \u2013 S. Gelfand",
+    "content": "below. 15.4. The stabilizer in W of a point in h\u2217/Q. Let x \u2208h\u2217/Q and Wx \u2282W be the stabilizer of x.",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Corollary 20.14",
+    "name": "",
+    "content": "The following conditions on \u00b5 \u2264\u03bb are equivalent. (i) \u00b5 \u2aaf\u03bb (ii) L\u00b5\u2212\u03c1 occurs in M\u03bb\u2212\u03c1. (iii) dim Hom(M\u00b5\u2212\u03c1, M\u03bb\u2212\u03c1) \u0338= 0. 105 21. Multiplicities in category O The multiplicities d\u03bb\u00b5 are complicated in general, and the (even- tually successful) attempt to understand them was one of the main developments that led to creation of geometric representation theory. These multiplicities are given by the Kazhdan-Lusztig conjecture (1979) proved by Beilinson-Bernstein and independently by Brylinski- Kashiwara in 1981. By now several proofs of this conjecture are known, but they are complicated and beyond the scope of this course. How- ever, let us give the statement of this result. To simplify the exposition, we do so for O\u03c7\u03bb when \u03bb \u2208P+; it turns out that this case captures all the complexity of the situa...",
+    "included": false,
+    "explanation": "The Beilinson-Bernstein localization theorem is deep algebraic geometry/representation theory not in mathlib."
+  },
+  {
+    "id": "Proposition 21.1",
+    "name": "",
+    "content": "Tw, w \u2208W are linearly independent, so they form a basis of Hq(W). Thus Hq(W) is a free Z[q 1 2, q\u22121 2]-module of rank |W|. 106",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Theorem 21.5",
+    "name": "",
+    "content": "There exist unique polynomials Py,w \u2208Z[q] such that (a) Py,w = 0 unless y \u2264w, and Pw,w = 1; (b) If y < w then Py,w has degree at most \u2113(w)\u2212\u2113(y)\u22121 2 ; (c) The elements Cw := q\u2212\u2113(w) 2 X y Py,w(q)Ty \u2208Hq(W) satisfy D(Cw) = Cw.",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Theorem 21.6",
+    "name": "i",
+    "content": "Py,w has non-negative coe\ufb03cients. (ii) The multiplicity [My\u2022\u03bb : Lw\u2022\u03bb] equals Py,w(1). The polynomials Py,w have the property that if y \u2264w then Py,w(0) = 1, so if in addition \u2113(w) \u2212\u2113(y) \u22642 then Py,w(q) = 1 (indeed, it has to be a polynomial of degree 0). Also if w = w0 then Py,w = 1 for all y.",
+    "included": false,
+    "explanation": "Category O and its properties (BGG reciprocity, multiplicities, Kazhdan-Lusztig theory) are not in mathlib."
+  },
+  {
+    "id": "Theorem 22.4",
+    "name": "ii",
+    "content": "Let F1, F2 be projective \u03b8-functors for \u03b8 = \u03c7\u03bb. Let i\u03bb : Hom(F1, F2) \u2192Hom(F1(M\u03bb\u2212\u03c1), F2(M\u03bb\u2212\u03c1)). Then i\u03bb is an isomorphism.",
+    "included": false,
+    "explanation": "The theory of projective functors (Bernstein-Gelfand) is not in mathlib."
+  },
+  {
+    "id": "Proposition 22.5",
+    "name": "i",
+    "content": "If F1, F2 are projective functors then every mor- phism \u03c6 : F1(\u03b8) \u2192F2(\u03b8) lifts to a morphism b\u03c6 : F1|Rep(g)\u03b8 \u2192F2|Rep(g)\u03b8. (ii) If F1 = F2 and \u03c62 = \u03c6 then we can choose b\u03c6 so that b\u03c62 = b\u03c6. (iii) If \u03c6 is an isomorphism then so is b\u03c6. 111",
+    "included": false,
+    "explanation": "The theory of projective functors (Bernstein-Gelfand) is not in mathlib."
+  },
+  {
+    "id": "Corollary 22.6",
+    "name": "i",
+    "content": "Let F1, F2 be projective functors. Then: any iso- morphism F1(M\u03bb\u2212\u03c1) \u223c= F2(M\u03bb\u2212\u03c1) lifts to an isomorphism F1|Rep(g)\u03c7\u03bb \u2192F2|Rep(g)\u03c7\u03bb; (ii) Let F be a projective functor. Then any decomposition F(M\u03bb\u2212\u03c1) = \u2295iMi can be lifted to a decomposition F = \u2295iFi where Fi are projective functors and Fi(M\u03bb\u2212\u03c1) = Mi; (iii) Every projective \u03b8-functor is of the form F(\u03b8) for a projective functor F.",
+    "included": false,
+    "explanation": "The theory of projective functors (Bernstein-Gelfand) is not in mathlib."
+  },
+  {
+    "id": "Proposition 22.7",
+    "name": "i",
+    "content": "Each projective functor F is a direct sum of indecomposable projective functors. Moreover, for F \u25e6\u03a0\u03b8 this sum is \ufb01nite. (ii) If F = F \u25e6\u03a0\u03c7\u03bb for dominant \u03bb is an indecomposable projective functor then F(M\u03bb\u2212\u03c1) = P\u00b5\u2212\u03c1 for some \u00b5 \u2208h\u2217.",
+    "included": false,
+    "explanation": "The theory of projective functors (Bernstein-Gelfand) is not in mathlib."
+  },
+  {
+    "id": "Theorem 23.1",
+    "name": "i",
+    "content": "If F1, F2 are projective functors with [F1] = [F2] then F1 \u223c= F2. (ii) If (F, F \u2228) are an adjoint pair of projective functors then [F] is adjoint to [F \u2228] under the inner product on K(O). (iii) For a projective functor F, its left and right adjoint are isomor- phic.",
+    "included": false,
+    "explanation": "The theory of projective functors (Bernstein-Gelfand) is not in mathlib."
+  },
+  {
+    "id": "Theorem 23.2",
+    "name": "",
+    "content": "If F is a projective functor then [F] commutes with W on K(O).",
+    "included": false,
+    "explanation": "The theory of projective functors (Bernstein-Gelfand) is not in mathlib."
+  },
+  {
+    "id": "Lemma 23.3",
+    "name": "ii",
+    "content": "that there exists an indecomposable projective functor G = \u03a0\u03b8 \u25e6G \u25e6\u03a0\u03b8N such that G(M\u03bb+(N\u22121)\u03c1) = P\u03bb\u2212\u03c1 = M\u03bb\u2212\u03c1. Moreover, by",
+    "included": false,
+    "explanation": "The theory of projective functors (Bernstein-Gelfand) is not in mathlib."
+  },
+  {
+    "id": "Lemma 23.4",
+    "name": "",
+    "content": "Let \u03bb \u2208h\u2217be dominant and \u03c6, \u03c8 \u2208\u03bb+P, \u03c8 \u2aaf\u03c6. Then (\u03bb \u2212\u03c6)2 \u2264(\u03bb \u2212\u03c8)2, and if (\u03bb \u2212\u03c6)2 = (\u03bb \u2212\u03c8)2 then \u03c8 \u2208W\u03bb\u03c6.",
+    "included": false,
+    "explanation": "The theory of projective functors (Bernstein-Gelfand) is not in mathlib."
+  },
+  {
+    "id": "Theorem 23.6",
+    "name": "",
+    "content": "For any \u03be \u2208\u039e there exists an indecomposable projec- tive functor F\u03be such that F\u03be(M\u03bd\u2212\u03c1) = 0 if \u03c7\u03bd \u0338= \u03c7\u03bb and F\u03be(M\u03bb\u2212\u03c1) = P\u00b5\u2212\u03c1 for any proper representation (\u00b5, \u03bb) of \u03be. The assignment \u03be 7\u2192F\u03be is a bijection between \u039e and the set of isomorphism classes of indecom- posable projective functors.",
+    "included": false,
+    "explanation": "The theory of projective functors (Bernstein-Gelfand) is not in mathlib."
+  },
+  {
+    "id": "Lemma 23.7",
+    "name": "",
+    "content": "In this case S\u2217(F) = \u03be := W(\u00b5, \u03bb) and (\u00b5, \u03bb) is a proper representation of \u03be.",
+    "included": false,
+    "explanation": "The theory of projective functors (Bernstein-Gelfand) is not in mathlib."
+  },
+  {
+    "id": "Theorem 24.1",
+    "name": "i",
+    "content": ", this implies that I1....In \u2282J. Since J is prime, this means that there exists m such that Im \u2282J. Then J = Im, i.e. J is the annihilator of Lm. But Lm = L\u00b5\u2212\u03c1 for some \u00b5 such that \u03c7\u00b5 = \u03c7\u03bb = \u03b8.",
+    "included": false,
+    "explanation": "The theory of projective functors (Bernstein-Gelfand) is not in mathlib."
+  },
+  {
+    "id": "Theorem 24.4",
+    "name": "i",
+    "content": "I \u2282J i\ufb00\u03bd(I) \u2282\u03bd(J). In particular, \u03bd is injective. 120 (ii) The image of \u03bd is the set of submodules of M\u03bb\u2212\u03c1 which are quo- tients of direct sums of P\u00b5\u2212\u03c1 where \u03c7\u00b5 = \u03c7\u03bb, \u00b5 \u2aaf\u03bb and \u00b5 \u2aafW\u03bb\u00b5. (iii) If \u03bb is regular (i.e., W\u03bb = 1) then \u03bd is an isomorphism of lattices.",
+    "included": false,
+    "explanation": "The theory of projective functors (Bernstein-Gelfand) is not in mathlib."
+  },
+  {
+    "id": "Corollary 24.5",
+    "name": "",
+    "content": "Let \u03b8 = \u03c7\u03bb where \u03bb is dominant. If M\u03bb\u2212\u03c1 is irre- ducible then U\u03b8 is a simple algebra. Conversely, if U\u03b8 is simple then M\u00b5\u2212\u03c1 is irreducible for all \u00b5 with \u03c7\u00b5 = \u03b8.",
+    "included": false,
+    "explanation": "The theory of projective functors (Bernstein-Gelfand) is not in mathlib."
+  },
+  {
+    "id": "Theorem 25.4",
+    "name": "",
+    "content": "Every prime ideal J \u2282U\u03b8 is primitive and moreover is the annihilator of a simple highest weight module L\u00b5\u2212\u03c1, where \u03c7\u00b5 = \u03b8.",
+    "included": false,
+    "explanation": "The theory of projective functors (Bernstein-Gelfand) is not in mathlib."
+  },
+  {
+    "id": "Lemma 25.5",
+    "name": "",
+    "content": "The abelian category HC1 \u03b8 has enough projectives. We also note that this category has \ufb01nite-dimensional Hom spaces. Indeed, If Y1, Y2 \u2208HC1 \u03b8 then Y1 is a quotient of V \u2297U\u03b8 for some V , so Hom(Y1, Y2) \u2282Hom(V \u2297U\u03b8, Y2) = Homgad(V, Y2), which is \ufb01nite- dimensional. Finally, note that this category is Noetherian: any nested sequence of subobjects of an object stabilizes. It thus follows from the Krull-Schmidt theorem that in HC1 \u03b8, every object of HC1 \u03b8 is uniquely a \ufb01nite direct sum of indecomposables, and from",
+    "included": false,
+    "explanation": "The theory of projective functors (Bernstein-Gelfand) is not in mathlib."
+  },
+  {
+    "id": "Theorem 25.6",
+    "name": "",
+    "content": "The simples (and indecomposable projectives) in HC1 \u03b8 are labeled by the set \u039e, via \u03be \u2208\u039e 7\u2192L\u03be, P\u03be. Namely, if \u03be = (\u00b5, \u03bb) is a proper representation then P\u03be is the unique indecomposable projective in HC1 \u03b8 such that P\u03be \u2297U(g) M\u03bb\u2212\u03c1 = P\u00b5\u2212\u03c1.",
+    "included": false,
+    "explanation": "The theory of projective functors (Bernstein-Gelfand) is not in mathlib."
+  },
+  {
+    "id": "Corollary 25.7",
+    "name": "",
+    "content": "Objects in HC1 \u03b8, hence in HC\u03b8 and HC, have \ufb01nite length.",
+    "included": false,
+    "explanation": "The theory of projective functors (Bernstein-Gelfand) is not in mathlib."
+  },
+  {
+    "id": "Theorem 25.8",
+    "name": "J. Bernstein-S, Gelfand",
+    "content": "(i) If \u03bb is a regular weight then the functor T\u03bb is an equivalence of categories, with quasi-inverse H\u03bb. (ii) In general, T\u03bb is fully faithful and de\ufb01nes an equivalence HC1 \u03b8 \u223c= O(\u03bb), with quasi-inverse H\u03bb.",
+    "included": false,
+    "explanation": "The theory of projective functors (Bernstein-Gelfand) is not in mathlib."
+  },
+  {
+    "id": "Proposition 25.10",
+    "name": "",
+    "content": "Let A, B be abelian categories such that A has enough projectives and T : A \u2192B a right exact functor which maps projectives to projectives. Suppose that T is fully faithful on projectives, i.e., for any projectives P0, P1 \u2208A, the natural map Hom(P1, P0) \u2192 Hom(T(P1), T(P0)) is an isomorphism. Then T is fully faithful, and de\ufb01nes an equivalence of A onto the subcategory of objects Y \u2208B which admit a presentation T(P1) \u2192T(P0) \u2192Y \u21920 for some projectives P0, P1 \u2208A.",
+    "included": false,
+    "explanation": "The theory of projective functors (Bernstein-Gelfand) is not in mathlib."
+  },
+  {
+    "id": "Corollary 25.11",
+    "name": "",
+    "content": "Every Harish-Chandra bimodule M with right in- \ufb01nitesimal character \u03b8 is realizable as V\ufb01n where V is a (not necessar- ily unitary) admissible representation of the complex simply connected group G corresponding to g on a Hilbert space.",
+    "included": false,
+    "explanation": "Harish-Chandra's theorems (analyticity, admissibility, globalization) are not in mathlib. The theory of (g,K)-modules is not developed."
+  },
+  {
+    "id": "Proposition 26.1",
+    "name": "i",
+    "content": "The principal series bimodule M(\u03bb, \u00b5) is ir- reducible and isomorphic to M(\u2212\u03bb, \u2212\u00b5) unless \u03bb, \u00b5 are nonzero inte- gers of the same sign. Otherwise such bimodules are pairwise non- isomorphic. (ii) If \u03bb, \u00b5 are both nonzero integers of the same sign then M(\u03bb, \u00b5) is indecomposable and has a \ufb01nite-dimensional constituent L\u2217 |\u03bb|\u22121\u2297L|\u00b5|\u22121, which is a submodule if \u03bb > 0 and quotient if \u03bb < 0. The other composition factor is M(\u03bb, \u2212\u00b5) \u223c= M(\u2212\u03bb, \u00b5), which is irreducible. (iii) If \u03be = (\u00b5, \u03bb) is a proper representation with \u03bb /\u2208Z\u22651 then L\u03be = M(\u03bb, \u00b5). If \u03be = (\u00b5, \u03bb) where \u03bb \u2208Z\u22651 then L\u03be = L\u2217 \u03bb\u22121 \u2297L\u00b5\u22121 if \u00b5 \u22651 and L\u03be = M(\u03bb, \u00b5) if \u00b5 \u22640.",
+    "included": false,
+    "explanation": "Principal series representations are not in mathlib."
+  },
+  {
+    "id": "Theorem 26.3",
+    "name": "Gelfand-Naimark",
+    "content": "The irreducible unitary represen- tations of SL2(C) are Hilbert space completions of the following unitary Harish-Chandra modules: \u2022 Unitary principal series M(\u2212m 2 + s, m 2 + s), m \u2208Z, s \u2208iR; \u2022 Complementary series M(s, s), \u22121 < s < 1; \u2022 The trivial representation C. Here M(\u2212m 2 +s, m 2 +s) \u223c= M(m 2 \u2212s, \u2212m 2 \u2212s), M(s, s) = M(\u2212s, \u2212s) and there are no other isomorphisms.",
+    "included": false,
+    "explanation": "Harish-Chandra's theorems (analyticity, admissibility, globalization) are not in mathlib. The theory of (g,K)-modules is not developed."
+  },
+  {
+    "id": "Theorem 27.3",
+    "name": "Borel-Weil",
+    "content": "Let \u03bb \u2208P. If \u03bb \u2208P+ then we have an isomorphism of G-modules \u0393(G/B, L\u2212\u03bb) \u223c= L\u2217 \u03bb. 133 If \u03bb /\u2208P+ then \u0393(G/B, L\u2212\u03bb) = 0.",
+    "included": false,
+    "explanation": "The Borel-Weil theorem (realizing irreducible representations as sections of line bundles) is not in mathlib."
+  },
+  {
+    "id": "Corollary 27.5",
+    "name": "",
+    "content": "Let \u03bb \u2208P with (\u03bb, \u03b1\u2228 i ) = 0, i \u2208S. Then \u0393(G/PS, L\u2212\u03bb,S) \u223c= L\u2217 \u03bb. if \u03bb \u2208P+, otherwise \u0393(G/PS, L\u2212\u03bb,S) = 0.",
+    "included": false,
+    "explanation": "This is advanced representation theory of Lie groups/algebras not covered in mathlib. Mathlib has basic Lie algebra theory but not the deep results in this textbook."
+  },
+  {
+    "id": "Theorem 27.8",
+    "name": "",
+    "content": "The Springer map p is birational and projective, so it is a resolution of singularities.",
+    "included": false,
+    "explanation": "The Springer resolution is not in mathlib."
+  },
+  {
+    "id": "Theorem 27.11",
+    "name": "Kirillov-Kostant",
+    "content": "Let G be a connected real or com- plex Lie group or complex algebraic group. Then every G-orbit in g\u2217 has a natural symplectic structure. 136",
+    "included": false,
+    "explanation": "Kostant's theorems on the structure of Sg and U(g) are not in mathlib."
+  },
+  {
+    "id": "Corollary 27.12",
+    "name": "",
+    "content": "The singular locus of the nilpotent cone N has codi- mension \u22652.",
+    "included": false,
+    "explanation": "This is advanced representation theory of Lie groups/algebras not covered in mathlib. Mathlib has basic Lie algebra theory but not the deep results in this textbook."
+  },
+  {
+    "id": "Corollary 27.13",
+    "name": "",
+    "content": "N is normal (i.e., the algebra O(N) is integrally closed in its quotient \ufb01eld).",
+    "included": false,
+    "explanation": "This is advanced representation theory of Lie groups/algebras not covered in mathlib. Mathlib has basic Lie algebra theory but not the deep results in this textbook."
+  },
+  {
+    "id": "Proposition 27.14",
+    "name": "iii",
+    "content": ", f is constant along this \ufb01ber. So f = h \u25e6p for h : Y \u2192C a rational function. It remains to show that h is regular. We know that h is regular on the smooth locus of Y (as it is de\ufb01ned at all points of Y ). Thus the result follows from the normality of Y and",
+    "included": false,
+    "explanation": "This is advanced representation theory of Lie groups/algebras not covered in mathlib. Mathlib has basic Lie algebra theory but not the deep results in this textbook."
+  },
+  {
+    "id": "Proposition 27.15",
+    "name": "",
+    "content": "Let Y be an irreducible normal a\ufb03ne algebraic variety and p : X \u2192Y be a resolution of singularities. Then the homomorphism p\u2217: O(Y ) \u2192O(X) is an isomorphism.",
+    "included": false,
+    "explanation": "This is advanced representation theory of Lie groups/algebras not covered in mathlib. Mathlib has basic Lie algebra theory but not the deep results in this textbook."
+  },
+  {
+    "id": "Theorem 27.16",
+    "name": "",
+    "content": "Let p : T \u2217F \u2192N be the Springer resolution. Then the map p\u2217: O(N) \u2192O(T \u2217F) is an isomorphism of graded algebras.",
+    "included": false,
+    "explanation": "The Springer resolution is not in mathlib."
+  },
+  {
+    "id": "Proposition 28.9",
+    "name": "",
+    "content": "A left DX-module is the same thing as an OX- module with a \ufb02at connection.",
+    "included": false,
+    "explanation": "D-module theory is not in mathlib."
+  },
+  {
+    "id": "Theorem 29.1",
+    "name": "Beilinson-Bernstein, [BB]",
+    "content": "The Beilinson-Bernstein localization theorem for the zero in\ufb01nitesimal character. Let g be a complex semisimple Lie algebra and U0 be the maximal quotient of U(g) corresponding to the in\ufb01ni- tesimal character \u03c7\u03c1 = \u03c7\u2212\u03c1 of the trivial representation of g. Recall that gr(U0) = O(N). Let G be the corresponding simply connected complex group and F the \ufb02ag variety of G; thus F \u223c= G/B for a Borel subgroup B \u2282G. Let D(F) be the algebra of global di\ufb00erential opera- tors on F; it is clear that grD(F) \u2282O(T \u2217F). Also, we have a natural \ufb01ltration-preserving action map a : U(g) \u2192D(F), induced by the Lie algebra homomorphism g \u2192Vect(F).",
+    "included": false,
+    "explanation": "The Beilinson-Bernstein localization theorem is deep algebraic geometry/representation theory not in mathlib."
+  },
+  {
+    "id": "Theorem 29.2",
+    "name": "Beilinson-Bernstein localization theorem, [BB]",
+    "content": "The functors \u0393 and Loc are mutually inverse equivalences. Thus the cate- gory U0 \u2212mod is canonically equivalent to the category of D-modules on the \ufb02ag variety F. We will not give a proof of this theorem here.",
+    "included": false,
+    "explanation": "The Beilinson-Bernstein localization theorem is deep algebraic geometry/representation theory not in mathlib."
+  },
+  {
+    "id": "Corollary 29.4",
+    "name": "",
+    "content": "Partial \ufb02ag varieties of semisimple algebraic groups are D-a\ufb03ne. 29.2. Twisted di\ufb00erential operators and D-modules. We would now like to generalize the localization theorem to nonzero in\ufb01nitesimal characters. To do so, we have to replace usual di\ufb00erential operators and D-modules by twisted ones. Let T be an algebraic torus with character lattice P := Hom(T, C\u00d7) and e X be a principal T-bundle over a smooth algebraic variety X (with T acting on the right). In this case, given \u03bb \u2208P, we can de\ufb01ne the line bundle L\u03bb on X whose total space is e X \u00d7T C\u03bb, where C\u03bb is the 1-dimensional representation of T corresponding to \u03bb, and we can consider the sheaf D\u03bb,X of di\ufb00erential operators acting on local sections of L\u03bb (rather than functions). Moreover, unlike the bundle L\u03bb, the sheaf D\u03bb,X makes sense ...",
+    "included": false,
+    "explanation": "D-module theory is not in mathlib."
+  },
+  {
+    "id": "Theorem 29.6",
+    "name": "Beilinson-Bernstein",
+    "content": "(i) The map a : U(g) \u2192D\u03bb(F) factors through a map a\u03bb : U\u03bb \u2192D\u03bb(F). (ii) One has gr(a\u03bb) = p\u2217where p is the Springer map T \u2217F \u2192N. (iii) grD\u03bb(F) = O(T \u2217F) and a\u03bb is an isomorphism.",
+    "included": false,
+    "explanation": "The Beilinson-Bernstein localization theorem is deep algebraic geometry/representation theory not in mathlib."
+  },
+  {
+    "id": "Theorem 29.7",
+    "name": "Beilinson-Bernstein localization theorem",
+    "content": "If \u03bb is an- tidominant then the functors \u0393 and Loc are mutually inverse equiva- lences. Thus the category U\u03bb \u2212mod is canonically equivalent to the category of D\u03bb-modules on the \ufb02ag variety F.",
+    "included": false,
+    "explanation": "The Beilinson-Bernstein localization theorem is deep algebraic geometry/representation theory not in mathlib."
+  },
+  {
+    "id": "Proposition 30.2",
+    "name": "",
+    "content": "The support of an irreducible D-module is irre- ducible.",
+    "included": false,
+    "explanation": "D-module theory is not in mathlib."
+  },
+  {
+    "id": "Theorem 30.4",
+    "name": "Kashiwara",
+    "content": "The functor i\u2020 is an equivalence of cat- egories MZ(X) \u2192M(Z). The proof is not di\ufb03cult, but we will skip it (see [HTT]). The inverse of the functor i\u2020 is called the direct image functor and denoted i\u2217: M(Z) \u2192MZ(X), as it is a special case of the direct image functor de\ufb01ned above for a\ufb03ne morphisms. If we view i\u2217as a functor M(Z) \u2192M(X) then it has both left and right adjoint, where are i! and i\u2020, respectively. Let us give a prototypical example.",
+    "included": false,
+    "explanation": "Kashiwara's theorem on D-modules is not in mathlib. D-module theory is not developed in mathlib."
+  },
+  {
+    "id": "Proposition 30.18",
+    "name": "",
+    "content": "Assume that X is a D-a\ufb03ne variety and that K is an a\ufb03ne algebraic group acting on X. Let D(X) be the ring of global sections of DX. Then the category of K-equivariant DX-modules is equivalent to the category of D(X)-modules M endowed with a locally \ufb01nite K-action whose di\ufb00erential coincides with the action of Lie(K) on M coming from the map Lie(K) \u2192D(X).",
+    "included": false,
+    "explanation": "D-module theory is not in mathlib."
+  },
+  {
+    "id": "Corollary 30.20",
+    "name": "",
+    "content": "If \u03bb \u2208h\u2217is antidominant then the functors \u0393, Loc restrict to mutually inverse equivalences between the category of (g, K)- modules with in\ufb01nitesimal character \u03c7\u03bb\u2212\u03c1 and the category of K-equivariant D\u03bb-modules on F. 153 31. Applications of D-modules to representation theory 31.1. Classi\ufb01cation of irreducible equivariant D-modules for actions with \ufb01nitely many orbits.",
+    "included": false,
+    "explanation": "D-module theory is not in mathlib."
+  },
+  {
+    "id": "Theorem 31.1",
+    "name": "",
+    "content": "Let X be a smooth variety and K a connected algebraic group acting on X with \ufb01nitely many orbits. Then there are \ufb01nitely many irreducible K-equivariant D-modules on X. Namely, they are parametrized by pairs (O, V ) where O is an orbit of K on X and V is an irreducible representation of the component group H/H0 of the stabilizer H := Kx for x \u2208O, (O, V ) 7\u2192M(O, V ).",
+    "included": false,
+    "explanation": "D-module theory is not in mathlib."
+  },
+  {
+    "id": "Proposition 31.3",
+    "name": "",
+    "content": "The group K acts on F with \ufb01nitely many orbits. We will not give a proof of this proposition. For the proof and description of the set of orbits, see [RS].",
+    "included": false,
+    "explanation": "D-module theory is not in mathlib."
+  },
+  {
+    "id": "Theorem 31.4",
+    "name": "",
+    "content": "Irreducible (g, K)-modules with (pure) in\ufb01nitesimal character \u03c7 are \u03c0(O, V ) where O is a K-orbit on F and V an irre- ducible representation of Kx, x \u2208O such that Lie(Kx) acts via the character \u03bbx. Namely, \u03c0(O, V ) corresponds to M(O, V ) under the Beilinson-Bernstein equivalence.",
+    "included": false,
+    "explanation": "The Beilinson-Bernstein localization theorem is deep algebraic geometry/representation theory not in mathlib."
+  }
+]
