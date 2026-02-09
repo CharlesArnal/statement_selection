@@ -9,6 +9,8 @@ import urllib.request
 import xml.etree.ElementTree as ET
 from difflib import SequenceMatcher
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from html.parser import HTMLParser
 
 
 def fetch_sitemap():
@@ -337,34 +339,115 @@ def find_best_match(course_num, course_name, lookup):
     return best_slug, best_semester
 
 
-def construct_zip_url(slug, course_num_raw):
+class ZipLinkParser(HTMLParser):
+    """Parse an OCW download page to find the .zip download href."""
+
+    def __init__(self):
+        super().__init__()
+        self.zip_href = None
+
+    def handle_starttag(self, tag, attrs):
+        if tag == "a" and self.zip_href is None:
+            attrs_dict = dict(attrs)
+            href = attrs_dict.get("href", "")
+            if href.endswith(".zip"):
+                self.zip_href = href
+
+
+def fetch_zip_url_from_download_page(slug):
+    """Fetch the download page for a course and extract the .zip URL.
+
+    Returns (slug, zip_url) or (slug, None) on failure.
     """
-    Construct the ZIP download URL.
-    Pattern: https://ocw.mit.edu/courses/{slug}/{course_num_dots}-{semester}-{year}.zip
-    Example: 18-06-linear-algebra-spring-2010 -> 18.06-spring-2010.zip
+    download_page_url = f"https://ocw.mit.edu/courses/{slug}/download/"
+    try:
+        req = urllib.request.Request(
+            download_page_url, headers={"User-Agent": "Mozilla/5.0"}
+        )
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            html = resp.read().decode("utf-8", errors="replace")
 
-    But actually the zip filename uses the slug with dots instead of first hyphen:
-    Actually the pattern seems to be: the slug itself as the zip name.
-    Let me use the pattern from the plan: {course_num_dots}-{semester}-{year}.zip
+        parser = ZipLinkParser()
+        parser.feed(html)
+
+        if parser.zip_href:
+            # The href may be relative (e.g., /courses/slug/file.zip) or absolute
+            href = parser.zip_href
+            if href.startswith("/"):
+                return slug, f"https://ocw.mit.edu{href}"
+            elif href.startswith("http"):
+                return slug, href
+            else:
+                return slug, f"https://ocw.mit.edu/courses/{slug}/{href}"
+        return slug, None
+    except Exception as e:
+        print(f"  Warning: Failed to fetch download page for {slug}: {e}")
+        return slug, None
+
+
+def fetch_all_zip_urls(slugs, max_workers=10):
+    """Fetch ZIP download URLs for all slugs in parallel.
+
+    Returns a dict mapping slug -> zip_url (or None).
     """
-    # Extract semester and year from slug
-    semester_match = re.search(r"-(spring|fall|summer|january-iap|iap)-((?:19|20)\d{2})$", slug)
-    if not semester_match:
-        return None
+    print(f"\nFetching download pages for {len(slugs)} courses (max {max_workers} workers)...")
+    zip_urls = {}
 
-    semester = semester_match.group(1)
-    year = semester_match.group(2)
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        futures = {
+            executor.submit(fetch_zip_url_from_download_page, slug): slug
+            for slug in slugs
+        }
+        done_count = 0
+        for future in as_completed(futures):
+            slug, zip_url = future.result()
+            zip_urls[slug] = zip_url
+            done_count += 1
+            if done_count % 20 == 0 or done_count == len(slugs):
+                print(f"  Progress: {done_count}/{len(slugs)}")
 
-    # Extract the course number in dotted form from the slug
-    # e.g., 18-06-linear-algebra-spring-2010 -> 18-06
-    # We need to convert to: 18.06
+    found = sum(1 for v in zip_urls.values() if v is not None)
+    print(f"  Found ZIP URLs for {found}/{len(slugs)} courses")
+    return zip_urls
 
-    # For RES courses: res-18-001-... -> RES.18-001  but in zip: res-18-001
-    # Let's just use the slug name directly for the zip
-    # Actually, looking at real OCW zips, the pattern is typically just the slug name
 
-    zip_name = f"{slug}.zip"
-    return f"https://ocw.mit.edu/courses/{slug}/{zip_name}"
+def verify_zip_urls(zip_urls_to_verify, max_workers=10):
+    """Verify ZIP URLs by making HEAD requests. Reports failures."""
+    print(f"\nVerifying {len(zip_urls_to_verify)} ZIP URLs...")
+
+    def check_url(item):
+        course_label, url = item
+        try:
+            req = urllib.request.Request(
+                url, method="HEAD", headers={"User-Agent": "Mozilla/5.0"}
+            )
+            with urllib.request.urlopen(req, timeout=15) as resp:
+                return course_label, url, resp.status
+        except urllib.error.HTTPError as e:
+            return course_label, url, e.code
+        except Exception as e:
+            return course_label, url, str(e)
+
+    failures = []
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        futures = [executor.submit(check_url, item) for item in zip_urls_to_verify]
+        done_count = 0
+        for future in as_completed(futures):
+            course_label, url, status = future.result()
+            done_count += 1
+            if status != 200:
+                failures.append((course_label, url, status))
+            if done_count % 20 == 0 or done_count == len(zip_urls_to_verify):
+                print(f"  Verified: {done_count}/{len(zip_urls_to_verify)}")
+
+    if failures:
+        print(f"\n  {len(failures)} ZIP URLs returned non-200 status:")
+        for label, url, status in sorted(failures):
+            print(f"    {label}: {status} — {url}")
+    else:
+        print(f"  All {len(zip_urls_to_verify)} ZIP URLs verified OK (200)")
+
+    return failures
 
 
 def main():
@@ -380,50 +463,67 @@ def main():
     # Step 3: Parse course list
     courses = parse_course_list(input_file)
 
-    # Step 4: Match and generate output
-    matched = 0
+    # Step 4: Match courses to slugs
+    matched_courses = []  # (course_num, course_name, slug)
     unmatched = []
 
-    output_lines = []
-    output_lines.append("# MIT OCW Course Links\n")
-
     for course_num, course_name, all_nums in courses:
-        slug, semester = find_best_match(course_num, course_name, lookup)
+        slug, _ = find_best_match(course_num, course_name, lookup)
 
         # If primary didn't match, try other cross-listed numbers
         if slug is None and len(all_nums) > 1:
             for alt_num in all_nums[1:]:
-                slug, semester = find_best_match(alt_num.upper(), course_name, lookup)
+                slug, _ = find_best_match(alt_num.upper(), course_name, lookup)
                 if slug:
                     break
 
         if slug:
-            matched += 1
-            homepage = f"https://ocw.mit.edu/courses/{slug}/"
-            zip_url = construct_zip_url(slug, course_num)
-
-            output_lines.append(f"## {course_num} — {course_name}")
-            output_lines.append(f"- **Homepage**: {homepage}")
-            if zip_url:
-                output_lines.append(f"- **Download**: {zip_url}")
-            output_lines.append("")
+            matched_courses.append((course_num, course_name, slug))
         else:
             unmatched.append((course_num, course_name))
-            output_lines.append(f"## {course_num} — {course_name}")
-            output_lines.append(f"- **Homepage**: *Not found on OCW*")
-            output_lines.append("")
+
+    print(f"\nMatched {len(matched_courses)}/{len(courses)} courses to OCW slugs")
+
+    # Step 5: Fetch ZIP URLs in parallel for all matched courses
+    unique_slugs = list({slug for _, _, slug in matched_courses})
+    zip_url_map = fetch_all_zip_urls(unique_slugs)
+
+    # Step 6: Generate output
+    output_lines = []
+    output_lines.append("# MIT OCW Course Links\n")
+    zip_urls_to_verify = []
+
+    for course_num, course_name, slug in matched_courses:
+        homepage = f"https://ocw.mit.edu/courses/{slug}/"
+        zip_url = zip_url_map.get(slug)
+
+        output_lines.append(f"## {course_num} — {course_name}")
+        output_lines.append(f"- **Homepage**: {homepage}")
+        if zip_url:
+            output_lines.append(f"- **Download**: {zip_url}")
+            zip_urls_to_verify.append((f"{course_num} — {course_name}", zip_url))
+        output_lines.append("")
+
+    for course_num, course_name in unmatched:
+        output_lines.append(f"## {course_num} — {course_name}")
+        output_lines.append(f"- **Homepage**: *Not found on OCW*")
+        output_lines.append("")
 
     # Write output
     with open(output_file, "w") as f:
         f.write("\n".join(output_lines))
 
-    print(f"\nResults: {matched}/{len(courses)} courses matched")
+    print(f"\nResults: {len(matched_courses)}/{len(courses)} courses matched")
     if unmatched:
         print(f"\nUnmatched courses ({len(unmatched)}):")
         for num, name in unmatched:
             print(f"  {num} — {name}")
 
     print(f"\nOutput written to {output_file}")
+
+    # Step 7: Verify ZIP URLs
+    if zip_urls_to_verify:
+        verify_zip_urls(zip_urls_to_verify)
 
 
 if __name__ == "__main__":
