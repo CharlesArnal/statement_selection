@@ -338,8 +338,7 @@ def process_course(course: dict) -> dict:
     strategy = course["strategy"]
 
     src_dir = UNZIPPED / source / "static_resources"
-    dst_dir = PROJECT_ROOT / folder / "content"
-    dst_dir.mkdir(parents=True, exist_ok=True)
+    course_dir = PROJECT_ROOT / folder
 
     pdfs = list_pdfs(src_dir)
 
@@ -352,7 +351,9 @@ def process_course(course: dict) -> dict:
         if match is None:
             return {"folder": folder, "strategy": strategy, "count": 0,
                     "error": f"no match for '{target}'"}
-        shutil.copy2(match, dst_dir / "book.pdf")
+        # <folder>/book.pdf
+        course_dir.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(match, course_dir / "book.pdf")
         return {"folder": folder, "strategy": strategy, "count": 1}
 
     else:  # parts
@@ -366,8 +367,11 @@ def process_course(course: dict) -> dict:
             return {"folder": folder, "strategy": strategy, "count": 0,
                     "error": f"no files matched pattern '{pattern}'"}
 
+        # <folder>/book/partN.pdf
+        book_dir = course_dir / "book"
+        book_dir.mkdir(parents=True, exist_ok=True)
         for i, path in enumerate(ordered, 1):
-            shutil.copy2(path, dst_dir / f"part{i}.pdf")
+            shutil.copy2(path, book_dir / f"part{i}.pdf")
 
         return {"folder": folder, "strategy": strategy, "count": len(ordered)}
 

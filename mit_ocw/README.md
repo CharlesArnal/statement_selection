@@ -3,14 +3,49 @@
 
 This folder contains utilities to process content provided by the MIT on their OCW platform.
 
-## Preprocessing Steps 
+## Reproducing the Course Data
 
-#### Retrieve List of Courses
+To download and organize the MIT OCW course PDFs from scratch, follow these steps.
+
+### 1. Download the ZIP files
+
+```bash
+python mit_ocw/download_zips.py
+```
+
+This reads the course URLs from `mit_ocw/2_list_of_urls.md` and downloads each course's ZIP archive into `mit_ocw/zip_files/`.
+
+### 2. Unzip the files
+
+```bash
+python mit_ocw/unzip_files.py
+```
+
+This extracts each ZIP into `mit_ocw/unzipped/<course-id>/`.
+
+### 3. Organize courses into folders
+
+```bash
+python mit_ocw/organize_courses.py
+```
+
+This processes the 69 courses tagged as Good/Borderline/To-check in `mit_ocw/3_list_of_first_candidates.md` and creates a folder for each at the project root:
+
+- **Single-PDF courses** (30): `<course_name>/book.pdf`
+- **Multi-PDF courses** (39): `<course_name>/book/part1.pdf`, `part2.pdf`, ...
+
+The script handles stripping OCW hash prefixes from filenames, deduplication, and sorting.
+
+## Extraction Background
+
+Here is how I extracted the course data.
+
+### Retrieve List of Courses
 
 This was ctrl+A on the course explorer on OpenCourseWare.
 It was used to create `list_of_mit_courses.md`
 
-#### Retrive Urls and Download Content
+### Retrieve URLs and Download Content
 
 Claude prompted with
 ```
@@ -23,7 +58,7 @@ Claude prompted with
 Can you create a script to download the zip the files from the `list_of_mit_courses_with_links.md`? Can you also create a script to unzip these files? Call these scripts `download_zips.py` and `unzip_files.py`.
 ```
 
-#### Filter Courses based on Autoformalization Potential
+### Filter Courses based on Autoformalization Potential
 
 Claude prompted with
 ```
@@ -50,14 +85,9 @@ Reason: Clear and well structured textbook `mit18-755-s24_lec_full.pdf` covering
 ```
 It was used to create `list_of_first_candidates.md`
 
-#### TODO: Extract main pdf files, order them, and put them in a special location
+### Extract and Organize PDFs
 
-Claude prompted with
-```
-For all the course tagged in the list `mit_ocw/3_list_of_first_candidates.md` as either `Good candidate`, `Borderline candidate` or `To check`, can you create a dedicated folder with the course name (used the title, e.g. `representations_of_lie_groups` not the numbering version, e.g. `18.755-sprint-2024`)?
-Within this folder, create a subfolder `content`.
-Then, put all and only the ressources that will be autoformalized that you will find in `mit_ocw/unzipped/<course id>/static_resources` in this `content` subfolder. Ideally the resources should be a simple pdf, which you can rename `book.pdf`. Eventually it could be several pdf, which you should then order and named `partX.pdf` where X = 1, 2, ....
-```
+See step 3 above. The `organize_courses.py` script contains the full configuration for all 69 courses (source directories, file matching patterns, and ordering).
 
 #### TODO: Run Charles' pipeline on each borderline and better candidate
 Once we have this list, let's extract everything in a cleaner format, the one we agreed before, and let's run the instruction.md on each of them.
