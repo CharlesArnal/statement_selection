@@ -1,3 +1,8 @@
 .DS_Store
 
-*.zip
+# Downloaded and extracted courses
+zip_files/
+unzipped/
+
+# 
+spectral_methods_data_science/tex_source/

@@ -7,10 +7,11 @@ to generate list_of_mit_courses_with_links.md with homepage and ZIP URLs.
 import re
 import urllib.request
 import xml.etree.ElementTree as ET
-from difflib import SequenceMatcher
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from difflib import SequenceMatcher
 from html.parser import HTMLParser
+from pathlib import Path
 
 
 def fetch_sitemap():
@@ -451,8 +452,9 @@ def verify_zip_urls(zip_urls_to_verify, max_workers=10):
 
 
 def main():
-    input_file = "list_of_mit_courses.md"
-    output_file = "list_of_mit_courses_with_links.md"
+    DIR = Path(__file__).parent
+    input_file = DIR / "list_of_mit_courses.md"
+    output_file = DIR / "list_of_mit_courses_with_links.md"
 
     # Step 1: Fetch sitemap
     course_urls = fetch_sitemap()
@@ -506,7 +508,7 @@ def main():
 
     for course_num, course_name in unmatched:
         output_lines.append(f"## {course_num} — {course_name}")
-        output_lines.append(f"- **Homepage**: *Not found on OCW*")
+        output_lines.append("- **Homepage**: *Not found on OCW*")
         output_lines.append("")
 
     # Write output

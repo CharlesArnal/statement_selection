@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Download all ZIP files listed in list_of_mit_courses_with_links.md."""
 
-import os
 import re
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
