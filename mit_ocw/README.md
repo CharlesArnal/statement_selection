@@ -1,12 +1,16 @@
 
-# Preprocessing steps 
+# MIT OpenCourseWare
 
-#### Retrieve list of courses
+This folder contains utilities to process content provided by the MIT on their OCW platform.
+
+## Preprocessing Steps 
+
+#### Retrieve List of Courses
 
 This was ctrl+A on the course explorer on OpenCourseWare.
 It was used to create `list_of_mit_courses.md`
 
-#### Retrive urls 
+#### Retrive Urls and Download Content
 
 Claude prompted with
 ```
@@ -19,16 +23,31 @@ Claude prompted with
 Can you create a script to download the zip the files from the `list_of_mit_courses_with_links.md`? Can you also create a script to unzip these files? Call these scripts `download_zips.py` and `unzip_files.py`.
 ```
 
-#### Retreive the main source for each courses
+#### TODO: Filter Courses based on Autoformalization Potential
 
-TODO: Describe the structure of the MIT downloaded folder, and give claude instructions in order to filter for good and less good candidates to filter book candidates.
+Claude prompted with
+```
+I have a directory `mit_ocw/unzipped` containing folders for MIT OpenCourseWare courses.
+Each course folder is typically named `<class_number>-<semester_date>` and includes a `static_resources` subfolder containing course materials.
+My goal is to identify courses with the most suitable content for autoformalization in Lean4.  
+Here are my criteria to filter out poor candidates:
+1. Content Quality: Filter out content that are not well-structured (e.g., slides only, too informal, not clear way to extract the main content of the course).  
+2. Formalization Potential: Exclude courses that are already well-represented in `mathlib` due to being too basic.
 
-Use the currently existing instructions to get the final files with the statements of interest.
+Output a list of all MIT courses in the directory, annotated with their candidate status and a short rationale for rejections. E.g.,
+```
+18.417 | Graduate
+Introduction to Computational Molecular Biology
+Source: 18.417-fall-2004
+Status: ❌ Not a Candidate  
+Reason: Not clear textbook, cluttered lectures, without strong formalization potential
 
-Unzip what we have download, look into static_ressources.
-There, there are usually much more files than what we need, there may be duplicate between chapters and the full book, there may be tex source.
-We want to extrat a single source, best is a single tex (if there are many we many contenate them ourselves), or a single pdf (if they are split by chapter, we may need to concatenate them).
 
-# Check if good source
-Check if it is a good candidate for autoformalization, is the content good enough? Is the content already in mathlib?
-Make it a skills for Claude to work on this.
+18.757 | Graduate
+Representations of Lie Groups
+Source: 18.755-sprint-2024
+Status: ✅ Good Candidate  
+Reason: Clear and well structured textbook `mit18-755-s24_lec_full.pdf` covering important subject missing in mathlib. 
+```
+
+Once we have this list, let's extract everything in a cleaner format, the one we agreed before, and let's run the instruction.md on each of them.
