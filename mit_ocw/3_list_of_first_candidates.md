@@ -17,8 +17,9 @@ candidacy for autoformalization in Lean4.
 | Status | Count |
 |--------|-------|
 | ✅ Good Candidate | 40 |
-| ⚠️ Borderline Candidate | 19 |
-| ❌ Not a Candidate | 81 |
+| ⚠️ Borderline Candidate | 20 |
+| ⚠️ To check | 9 |
+| ❌ Not a Candidate | 71 |
 | **Total** | **140** |
 
 ## Top-Tier Candidates
@@ -371,13 +372,13 @@ Reason: Introductory probability. 37 lectures + 10 problem sets but content is t
 **18.465** | Graduate
 *Topics in Statistics: Nonparametrics and Robustness*
 Source: `18.465-spring-2005`
-Status: ❌ Not a Candidate
+Status: ⚠️ To check
 Reason: 22 PDFs. Statistics course with applied focus. No clear lecture structure.
 
 **18.465** | Graduate
 *Topics in Statistics: Statistical Learning Theory*
 Source: `18.465-spring-2007`
-Status: ❌ Not a Candidate
+Status: ⚠️ To check
 Reason: 34 lectures on statistical learning theory. Applied/ML-adjacent. Low formalization potential.
 
 **18.600** | Undergraduate
@@ -395,13 +396,13 @@ Reason: Applied statistics. Mostly video transcripts. Low formalization potentia
 **18.657** | Graduate
 *Mathematics of Machine Learning*
 Source: `18.657-fall-2015`
-Status: ❌ Not a Candidate
+Status: ⚠️ To check
 Reason: ML theory course. Only labeled lectures are generic. Applied focus.
 
 **18.S997** | Graduate
 *High-Dimensional Statistics*
 Source: `18.s997-spring-2015`
-Status: ❌ Not a Candidate
+Status: ⚠️ To check
 Reason: Has course notes PDF but covers statistical methods. Applied focus, low formalization potential.
 
 ### Algebra & Number Theory (Graduate)
@@ -602,6 +603,7 @@ Source: `18.304-spring-2015`
 Status: ❌ Not a Candidate
 Reason: Only 2 PDFs + 3 TeX files. Insufficient content. Student project format.
 
+[TOREVIEW]
 **18.310** | Undergraduate
 *Principles of Discrete Applied Mathematics*
 Source: `18.310-fall-2013`
@@ -623,8 +625,8 @@ Reason: 38 lecture PDFs + 8 problem sets. Comprehensive graduate combinatorics. 
 **18.318** | Graduate
 *Topics in Algebraic Combinatorics*
 Source: `18.318-spring-2006`
-Status: ❌ Not a Candidate
-Reason: Only 10 PDFs. Sparse content. Few notes files.
+Status: ⚠️ Borderline Candidate
+Reason: Only 10 PDFs. Sparse content. Few notes files. High-quality but with holes in content.
 
 **18.319** | Graduate
 *Geometric Combinatorics*
@@ -655,7 +657,7 @@ Reason: 13 lecture PDFs on PCP theorem and hardness of approximation. Specialize
 **18.409** | Graduate
 *Topics in Theoretical Computer Science: An Algorithmist's Toolkit*
 Source: `18.409-fall-2009`
-Status: ❌ Not a Candidate
+Status: ⚠️ To check
 Reason: 33 PDFs but mostly scribe notes with inconsistent naming. Toolkit/survey format.
 
 **18.409** | Graduate
@@ -679,7 +681,7 @@ Reason: Computational biology. Not pure mathematics.
 **18.433** | Undergraduate
 *Combinatorial Optimization*
 Source: `18.433-fall-2003`
-Status: ❌ Not a Candidate
+Status: ⚠️ To check
 Reason: 17 PDFs with terse naming (l1, l18, l20). Optimization algorithms. Applied.
 
 **18.435J** | Graduate
@@ -727,7 +729,7 @@ Reason: Distributed systems algorithms. CS course, not pure math.
 **6.854J** | Graduate
 *Advanced Algorithms*
 Source: `6.854j-fall-2008`
-Status: ❌ Not a Candidate
+Status: ⚠️ To check
 Reason: Advanced algorithms (linear programming, approximation). CS/applied focus.
 
 **6.856J** | Graduate
@@ -759,7 +761,7 @@ Reason: Numerical analysis. 7 lecture PDFs + 8 homework sets. Computational focu
 **18.335J** | Graduate
 *Introduction to Numerical Methods*
 Source: `18.335j-spring-2019`
-Status: ❌ Not a Candidate
+Status: ⚠️ To check
 Reason: Numerical methods. 24 lectures. Computational focus.
 
 **18.336** | Graduate
@@ -813,7 +815,7 @@ Reason: Data science mathematics. Sessions + open problems format. Applied.
 **18.S096** | Undergraduate
 *Matrix Calculus for Machine Learning and Beyond*
 Source: `18.s096-iap-2023`
-Status: ❌ Not a Candidate
+Status: ⚠️ To check
 Reason: Has full lecture notes but covers matrix calculus for ML applications. Applied focus.
 
 ### Dynamical Systems / Physics-Adjacent

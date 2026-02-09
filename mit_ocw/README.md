@@ -23,7 +23,7 @@ Claude prompted with
 Can you create a script to download the zip the files from the `list_of_mit_courses_with_links.md`? Can you also create a script to unzip these files? Call these scripts `download_zips.py` and `unzip_files.py`.
 ```
 
-#### TODO: Filter Courses based on Autoformalization Potential
+#### Filter Courses based on Autoformalization Potential
 
 Claude prompted with
 ```
@@ -50,4 +50,7 @@ Reason: Clear and well structured textbook `mit18-755-s24_lec_full.pdf` covering
 ```
 It was used to create `list_of_first_candidates.md`
 
+#### TODO: Extract main pdf files, order them, and put them in a special location
+
+#### TODO: Run Charles' pipeline on each borderline and better candidate
 Once we have this list, let's extract everything in a cleaner format, the one we agreed before, and let's run the instruction.md on each of them.
