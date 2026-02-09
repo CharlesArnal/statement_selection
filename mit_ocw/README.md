@@ -35,13 +35,12 @@ Here are my criteria to filter out poor candidates:
 2. Formalization Potential: Exclude courses that are already well-represented in `mathlib` due to being too basic.
 
 Output a list of all MIT courses in the directory, annotated with their candidate status and a short rationale for rejections. E.g.,
-```
+
 18.417 | Graduate
 Introduction to Computational Molecular Biology
 Source: 18.417-fall-2004
 Status: ❌ Not a Candidate  
 Reason: Not clear textbook, cluttered lectures, without strong formalization potential
-
 
 18.757 | Graduate
 Representations of Lie Groups
@@ -49,5 +48,6 @@ Source: 18.755-sprint-2024
 Status: ✅ Good Candidate  
 Reason: Clear and well structured textbook `mit18-755-s24_lec_full.pdf` covering important subject missing in mathlib. 
 ```
+It was used to create `list_of_first_candidates.md`
 
 Once we have this list, let's extract everything in a cleaner format, the one we agreed before, and let's run the instruction.md on each of them.
