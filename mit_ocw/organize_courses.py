@@ -17,7 +17,7 @@ UNZIPPED = PROJECT_ROOT / "mit_ocw" / "unzipped"
 # sort_key: function name or "custom" for hardcoded ordering.
 
 COURSES = [
-    # ── "full" strategy (30 courses, incl. 3 switched from parts) ──────────
+    # ── "full" strategy (32 courses, incl. 5 switched from parts) ──────────
 
     # 1
     {"folder": "algebra_ii_student_notes", "source": "RES.18-012-spring-2022",
@@ -109,8 +109,14 @@ COURSES = [
     # 30 - switched from parts: has notes.pdf
     {"folder": "algebraic_geometry_i", "source": "18.725-fall-2015",
      "strategy": "full", "target": "notes.pdf"},
+    # 31 - switched from parts: has lecture_notes.pdf (111 pages)
+    {"folder": "algebraic_topology_i", "source": "18.905-fall-2016",
+     "strategy": "full", "target": "lecture_notes.pdf"},
+    # 32 - switched from parts: has 18_969_geometry.pdf (55 pages)
+    {"folder": "dirac_geometry", "source": "18.969-fall-2006",
+     "strategy": "full", "target": "18_969_geometry.pdf"},
 
-    # ── "parts" strategy (39 courses) ──────────────────────────────────────
+    # ── "parts" strategy (37 courses) ──────────────────────────────────────
 
     # 1
     {"folder": "rational_points_on_elliptic_curves", "source": "18.704-fall-2004",
@@ -148,80 +154,74 @@ COURSES = [
     {"folder": "elliptic_curves", "source": "18.783-spring-2021",
      "strategy": "parts", "pattern": r"notes(\d+)\.pdf$"},
     # 11
-    {"folder": "algebraic_topology_i", "source": "18.905-fall-2016",
-     "strategy": "parts", "pattern": r"_lec(\d+)\.pdf$"},
-    # 12
     {"folder": "the_sullivan_conjecture", "source": "18.917-fall-2007",
      "strategy": "parts", "pattern": r"lecture(\d+(?:_\d+)?)\.pdf$"},
-    # 13
+    # 12
     {"folder": "geometry_of_manifolds_i", "source": "18.965-fall-2004",
      "strategy": "parts", "pattern": r"lecture(\d+(?:_\d+)?)\.pdf$"},
-    # 14
+    # 13
     {"folder": "geometry_of_manifolds_ii", "source": "18.966-spring-2007",
      "strategy": "parts", "pattern": r"lect(\d+)\.pdf$"},
-    # 15 - no hash prefixes
+    # 14 - no hash prefixes
     {"folder": "analysis_of_boolean_functions", "source": "18-218-spring-2021",
      "strategy": "parts", "pattern": r"lec(\d+(?:-\d+)?)\.pdf$"},
-    # 16 - stripped names are just lec01.pdf, lec02.pdf... (no course prefix after hash strip)
+    # 15 - stripped names are just lec01.pdf, lec02.pdf... (no course prefix after hash strip)
     {"folder": "combinatorial_theory", "source": "18.315-spring-2005",
      "strategy": "parts", "pattern": r"^lec(\d+)\.pdf$"},
-    # 17
+    # 16
     {"folder": "the_polynomial_method", "source": "18.s997-fall-2012",
      "strategy": "parts", "pattern": r"_lec(\d+)\.pdf$"},
-    # 18
+    # 17
     {"folder": "real_analysis_18100c", "source": "18.100c-fall-2012",
      "strategy": "parts", "pattern": r"l(\d+)sum\.pdf$"},
-    # 19
+    # 18
     {"folder": "measure_and_integration", "source": "18.125-fall-2003",
      "strategy": "parts", "pattern": r"18125_lec(\d+)\.pdf$"},
-    # 20
+    # 19
     {"folder": "advanced_calculus_for_engineers", "source": "18.075-fall-2004",
      "strategy": "parts", "pattern": r"lecture(\d+)\.pdf$"},
-    # 21
+    # 20
     {"folder": "linear_partial_differential_equations", "source": "18.303-fall-2014",
      "strategy": "parts", "pattern": r"_Lecture(\d+)\.pdf$"},
-    # 22
+    # 21
     {"folder": "topics_in_algebraic_number_theory", "source": "18.786-spring-2010",
      "strategy": "parts", "pattern": r"_lec(\d+)\.pdf$"},
-    # 23 - custom order
+    # 22 - custom order
     {"folder": "intersection_theory_on_moduli_spaces", "source": "18.727-spring-2006",
      "strategy": "parts", "pattern": "custom",
      "custom_order": [
          "week1", "picard", "const", "homology",
          "kontsevich", "generaltype", "formularium"
      ]},
-    # 24 - no hash prefix, skip quizzes q1-q40
+    # 23 - no hash prefix, skip quizzes q1-q40
     {"folder": "geometry_and_topology_in_the_plane", "source": "18.900-spring-2023",
      "strategy": "parts", "pattern": r"^mit18_900s23_lec(\d+)\.pdf$"},
-    # 25
-    {"folder": "dirac_geometry", "source": "18.969-fall-2006",
-     "strategy": "parts", "pattern": r"lecture(\d+)\.pdf$"},
-    # 26
+    # 24
     {"folder": "mirror_symmetry", "source": "18.969-spring-2009",
      "strategy": "parts", "pattern": r"_lec(\d+)\.pdf$"},
-    # 27 - custom order
+    # 25 - custom order
     {"folder": "topics_in_algebraic_combinatorics", "source": "18.318-spring-2006",
      "strategy": "parts", "pattern": "custom",
      "custom_order": ["notes2", "sperner", "boolean", "hadamard", "young"]},
-    # 28 - skip video transcript PDFs (YouTube ID filenames)
+    # 26 - skip video transcript PDFs (YouTube ID filenames)
     {"folder": "theory_of_computation", "source": "18.404j-fall-2020",
      "strategy": "parts", "pattern": r"_lec(\d+)\.pdf$"},
-    # 29 - no hash prefix, combined lecture ranges
+    # 27 - no hash prefix, combined lecture ranges
     {"folder": "probabilistically_checkable_proofs", "source": "18.408-fall-2022",
      "strategy": "parts", "pattern": r"lec(\d+(?:-\d+)?)\.pdf$"},
-    # 30
+    # 28
     {"folder": "topics_in_combinatorial_optimization", "source": "18.997-spring-2004",
      "strategy": "parts", "pattern": r"co_lec(\d+)\.pdf$"},
-    # 31
+    # 29
     {"folder": "automata_computability_and_complexity", "source": "6.045j-spring-2011",
      "strategy": "parts", "pattern": r"_lec(\d+)\.pdf$"},
-    # 32 - has both writtenlec and lec patterns; use writtenlec (written lecture notes)
+    # 30 - has both writtenlec and lec patterns; use writtenlec (written lecture notes)
     {"folder": "design_and_analysis_of_algorithms", "source": "6.046j-spring-2015",
      "strategy": "parts", "pattern": r"writtenlec(\d+)\.pdf$"},
-    # 33 - mixed naming: lec_1 to lec_10, lec11_12, lec13_14, lec15_16
+    # 31 - mixed naming: lec_1 to lec_10, lec11_12, lec13_14, lec15_16
     {"folder": "simplicity_theory", "source": "18.996a-spring-2004",
      "strategy": "parts", "pattern": r"lec[_]?(\d+(?:_\d+)?)\.pdf$"},
-    # 34 - custom order
+    # 32 - custom order
     {"folder": "nonparametrics_and_robustness", "source": "18.465-spring-2005",
      "strategy": "parts", "pattern": "custom",
      "custom_order": [
@@ -229,19 +229,19 @@ COURSES = [
          "breakdown", "m_estimates", "outliers", "spatialmedian",
          "brkdn_location", "quantiles", "obenchain", "run_mwwtest"
      ]},
-    # 35
+    # 33
     {"folder": "statistical_learning_theory", "source": "18.465-spring-2007",
      "strategy": "parts", "pattern": r"lecture(\d+)\.pdf$"},
-    # 36
+    # 34
     {"folder": "an_algorithmists_toolkit", "source": "18.409-fall-2009",
      "strategy": "parts", "pattern": r"scribe(\d+)\.pdf$"},
-    # 37 - stripped names: l123.pdf, l4.pdf, l78.pdf, l1617.pdf etc.
+    # 35 - stripped names: l123.pdf, l4.pdf, l78.pdf, l1617.pdf etc.
     {"folder": "combinatorial_optimization", "source": "18.433-fall-2003",
      "strategy": "parts", "pattern": r"^l(\d+)\.pdf$"},
-    # 38 - stripped names: lec1.pdf, lec5.pdf etc. Skip lecture18.pdf, lect* variants
+    # 36 - stripped names: lec1.pdf, lec5.pdf etc. Skip lecture18.pdf, lect* variants
     {"folder": "advanced_algorithms", "source": "6.854j-fall-2008",
      "strategy": "parts", "pattern": r"^lec(\d+)\.pdf$"},
-    # 39
+    # 37
     {"folder": "introduction_to_numerical_methods", "source": "18.335j-spring-2019",
      "strategy": "parts", "pattern": r"_lec(\d+)\.pdf$"},
 ]
