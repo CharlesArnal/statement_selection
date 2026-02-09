@@ -52,5 +52,12 @@ It was used to create `list_of_first_candidates.md`
 
 #### TODO: Extract main pdf files, order them, and put them in a special location
 
+Claude prompted with
+```
+For all the course tagged in the list `mit_ocw/3_list_of_first_candidates.md` as either `Good candidate`, `Borderline candidate` or `To check`, can you create a dedicated folder with the course name (used the title, e.g. `representations_of_lie_groups` not the numbering version, e.g. `18.755-sprint-2024`)?
+Within this folder, create a subfolder `content`.
+Then, put all and only the ressources that will be autoformalized that you will find in `mit_ocw/unzipped/<course id>/static_resources` in this `content` subfolder. Ideally the resources should be a simple pdf, which you can rename `book.pdf`. Eventually it could be several pdf, which you should then order and named `partX.pdf` where X = 1, 2, ....
+```
+
 #### TODO: Run Charles' pipeline on each borderline and better candidate
 Once we have this list, let's extract everything in a cleaner format, the one we agreed before, and let's run the instruction.md on each of them.
