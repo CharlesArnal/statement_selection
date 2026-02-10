@@ -260,6 +260,9 @@ COURSES = [
     # 37
     {"folder": "introduction_to_numerical_methods", "source": "18.335j-spring-2019",
      "strategy": "parts", "pattern": r"_lec(\d+)\.pdf$"},
+    # 38
+    {"folder": "differential_geometry", "source": "18.950-fall-2008",
+     "strategy": "parts", "pattern": r"ch(\d+)_revised\.pdf$"},
 ]
 
 

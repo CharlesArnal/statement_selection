@@ -18,8 +18,8 @@ candidacy for autoformalization in Lean4.
 |--------|-------|
 | ✅ Good Candidate | 40 |
 | ⚠️ Borderline Candidate | 20 |
-| ⚠️ To check | 9 |
-| ❌ Not a Candidate | 71 |
+| ⚠️ To check | 10 |
+| ❌ Not a Candidate | 70 |
 | **Total** | **140** |
 
 ## Top-Tier Candidates
@@ -544,7 +544,7 @@ Reason: 38 detailed lecture PDFs covering the Sullivan conjecture. Specialized b
 **18.950** | Undergraduate
 *Differential Geometry*
 Source: `18.950-fall-2008`
-Status: ❌ Not a Candidate
+Status: ⚠️ To check
 Reason: 14 PDFs but only problem sets + a few revised chapter notes. No systematic lecture notes.
 
 **18.965** | Graduate
@@ -620,7 +620,7 @@ Reason: Only 12 PDFs with 6 lectures. Too sparse.
 *Combinatorial Theory: Introduction to Graph Theory, Extremal and Enumerative Combinatorics*
 Source: `18.315-spring-2005`
 Status: ✅ Good Candidate
-Reason: 38 lecture PDFs + 8 problem sets. Comprehensive graduate combinatorics. Well-structured. Graph theory and enumerative combinatorics not well-represented in mathlib.
+Reason: 38 lecture PDFs + 8 problem sets. Comprehensive graduate combinatorics. Well-structured. Graph theory and enumerative combinatorics not well-represented in mathlib. Yet notes are only handwritten.
 
 **18.318** | Graduate
 *Topics in Algebraic Combinatorics*

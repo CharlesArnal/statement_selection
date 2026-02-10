@@ -1,24 +1,4 @@
-- Run the OCR on a cluster.
-- Remove the part*.md on devfair
-
-- Review all the folder to see if all of them have been OCR.
-
-Ask Claude to inspect the work.
-Were there error, if so were do they come from.
-How can we fix them.
-
-[TODO] Try again once the OCR is over
-```md
-I have run an OCR pipeline. I have extracted ressources online in `ocr_mit/unzipped`.
-I have then tried to copy the best pdf sources into `mit_books`/
-I have then OCR these books.
-However, I have noticed some mistakes in my pipeline.
-Let's take for example Algebra 1 (`mit_books/algebra_i_student_notes`), the OCR is poor quality. Moreover the book.pdf stops early (which I noticed as the OCR version stops early beside having a long table of contents).
-I can map it back to the `ocr_mit/unzipped/RES.18-011-fall-2021` (thanks to the `3_list_of_first_candidates.md`). I see that I did not took the full book, which should have been `mit18_701f21_full_lec_new.pdf`.
-Can you review all my OCR books in `mit_books` and check for mistakes. If you find some, can you go back to the root of the problem. Can you then fix these mistakes?
-```
-
-- Run Claude to see what is alreday in mathlib.
+- Run Claude to see what is alreday in mathlib for all the books.
 
 
 - Add algebraic stack content
@@ -37,7 +17,6 @@ Can you review all my OCR books in `mit_books` and check for mistakes. If you fi
 
 #### OCR improvement
 
-- [BEING DONE] For the autoformalization pipeline, we may want to add an LLM back-end to pdf-marker in `extract_pdf.py`. We may need to wrap the llama API service in `marker/services/openai.py` in order to use our Llama API key.
 - The building books shows that OCR often write z ∈ Y and not $z \in Y$, which is fine in markdown, but we may use the latter option.
 
 
