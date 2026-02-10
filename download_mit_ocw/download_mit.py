@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Download all ZIP files listed in list_of_mit_courses_with_links.md."""
+"""Download all ZIP files listed in 2_list_of_urls.md."""
 
 import re
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
-MARKDOWN_FILE = Path(__file__).parent / "list_of_mit_courses_with_links.md"
+MARKDOWN_FILE = Path(__file__).parent / "2_list_of_urls.md"
 OUTPUT_DIR = Path(__file__).parent / "zip_files"
 
 

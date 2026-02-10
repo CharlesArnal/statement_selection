@@ -1,6 +1,6 @@
 # Annotated MIT OCW Course List for Lean4 Autoformalization
 
-This document lists all 140 courses in `mit_ocw/unzipped/`, annotated with their
+This document lists all 140 courses in `download_mit_ocw/unzipped/`, annotated with their
 candidacy for autoformalization in Lean4.
 
 ## Criteria

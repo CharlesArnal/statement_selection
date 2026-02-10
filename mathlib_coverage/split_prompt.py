@@ -8,9 +8,9 @@ def main():
     args = parser.parse_args()
 
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    template = open(os.path.join(base_dir, "initial_prompt.md")).read()
+    template = open(os.path.join(base_dir, "template_mathlib_prompt.md")).read()
 
-    mit_books_dir = os.path.join(base_dir, "mit_books")
+    mit_books_dir = os.path.join(base_dir, "..", "mit_books")
     dirs = sorted(
         d for d in os.listdir(mit_books_dir)
         if os.path.isdir(os.path.join(mit_books_dir, d))
@@ -28,7 +28,7 @@ def main():
     for i, chunk in enumerate(chunks, 1):
         textbook_list = "\n".join(f"- mit_books/{d}" for d in chunk) + "\n"
         content = template.replace("{TEXTBOOK_LIST}", textbook_list)
-        path = os.path.join(base_dir, f"initial_prompt_batch_{i}.md")
+        path = os.path.join(base_dir, "..", f"initial_prompt_batch_{i}.md")
         with open(path, "w") as f:
             f.write(content)
         print(f"Wrote {path} ({len(chunk)} textbooks)")

@@ -6,7 +6,7 @@ import shutil
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-UNZIPPED = PROJECT_ROOT / "mit_ocw" / "unzipped"
+UNZIPPED = PROJECT_ROOT / "download_mit_ocw" / "unzipped"
 
 # ── Course configurations ──────────────────────────────────────────────────────
 # strategy: "full" → copy single PDF as book.pdf

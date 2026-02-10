@@ -453,8 +453,8 @@ def verify_zip_urls(zip_urls_to_verify, max_workers=10):
 
 def main():
     DIR = Path(__file__).parent
-    input_file = DIR / "list_of_mit_courses.md"
-    output_file = DIR / "list_of_mit_courses_with_links.md"
+    input_file = DIR / "1_list_of_courses.md"
+    output_file = DIR / "2_list_of_urls.md"
 
     # Step 1: Fetch sitemap
     course_urls = fetch_sitemap()

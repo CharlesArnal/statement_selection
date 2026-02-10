@@ -3,6 +3,8 @@ from datetime import timedelta
 
 from sickle import Sickle
 
+from pathlib import Path
+
 # --- CONFIGURATION ---
 TIMEOUT_MINUTES = 5
 FROM_DATE = '2023-01-01'  # Looking for recent papers
@@ -11,13 +13,13 @@ LICENSE_FILTER = "creativecommons.org/licenses/by/4.0" # Target License
 
 # Keywords to find textbooks
 KEYWORDS = [
-    "textbook", "lecture notes", "course notes", 
-    "introduction to", "comprehensive survey", 
+    "textbook", "lecture notes", "course notes",
+    "introduction to", "comprehensive survey",
     "graduate course", "undergraduate course",
     "tutorial", "monograph"
 ]
 
-OUTPUT_FILE = f'arxiv_recent_textbooks_{SUBJECT_SET}.md'
+OUTPUT_FILE = Path(__file__).resolve().parent / f'arxiv_recent_textbooks_{SUBJECT_SET}.md'
 # ---------------------
 
 def run_harvester():

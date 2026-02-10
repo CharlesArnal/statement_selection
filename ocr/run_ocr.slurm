@@ -5,11 +5,11 @@
 # Prerequisites: run from the project root with your conda env active.
 #   cd /path/to/statement_selection
 #   conda activate <your-env>
-#   sbatch mit_ocw/run_ocr.slurm
+#   sbatch ocr/run_ocr.slurm
 #
 # Usage:
-#   Single course: sbatch --array=0 mit_ocw/run_ocr.slurm
-#   Full launch:   sbatch mit_ocw/run_ocr.slurm
+#   Single course: sbatch --array=0 ocr/run_ocr.slurm
+#   Full launch:   sbatch ocr/run_ocr.slurm
 #   Monitor:       squeue -u $USER
 ###############################################################################
 
@@ -45,7 +45,7 @@ echo "GPU: $(nvidia-smi --query-gpu=name --format=csv,noheader 2>/dev/null || ec
 echo "Start: $(date)"
 echo "============================================"
 
-python extract_pdf.py "${COURSE_DIR}" \
+python ocr/extract_pdf.py "${COURSE_DIR}" \
     --force-ocr \
     --use-llm \
     --llm-service openai \
