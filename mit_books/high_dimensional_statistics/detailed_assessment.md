@@ -4,19 +4,19 @@
 
 **Proposition 1.1** (Gaussian tail bound / Mills inequality):
 non-included
-Searched in mathlib/Mathlib/Probability/ and mathlib/Mathlib/MeasureTheory/. Mathlib has Gaussian density and basic properties but does not contain the specific Mills ratio inequality for Gaussian tails in this form.
+Searched in mathlib_coverage/mathlib/Mathlib/Probability/ and mathlib_coverage/mathlib/Mathlib/MeasureTheory/. Mathlib has Gaussian density and basic properties but does not contain the specific Mills ratio inequality for Gaussian tails in this form.
 
 **Lemma 1.3** (Sub-Gaussian tail bound via Chernoff):
 included
-This is essentially the Chernoff bound applied to sub-Gaussian random variables. Mathlib contains Chernoff bounds in mathlib/Mathlib/Probability/Moments/CumulantGeneratingFunction.lean, specifically `ProbabilityTheory.measure_ge_le_exp_cgf` and `ProbabilityTheory.measure_le_le_exp_cgf`.
+This is essentially the Chernoff bound applied to sub-Gaussian random variables. Mathlib contains Chernoff bounds in mathlib_coverage/mathlib/Mathlib/Probability/Moments/CumulantGeneratingFunction.lean, specifically `ProbabilityTheory.measure_ge_le_exp_cgf` and `ProbabilityTheory.measure_le_le_exp_cgf`.
 
 **Lemma 1.5** (Tail bound implies MGF bound):
 non-included
-This is a technical lemma showing that sub-Gaussian tail bounds imply moment generating function bounds. Searched in mathlib/Mathlib/Probability/Moments/ but no direct equivalent found.
+This is a technical lemma showing that sub-Gaussian tail bounds imply moment generating function bounds. Searched in mathlib_coverage/mathlib/Mathlib/Probability/Moments/ but no direct equivalent found.
 
 **Theorem 1.6** (Sub-Gaussian vector):
 included
-The statement that independent sub-Gaussian components form a sub-Gaussian vector follows from the product structure of MGFs for independent random variables. Mathlib has `ProbabilityTheory.IndepFun.mgf_add` and related results in mathlib/Mathlib/Probability/Moments/CumulantGeneratingFunction.lean.
+The statement that independent sub-Gaussian components form a sub-Gaussian vector follows from the product structure of MGFs for independent random variables. Mathlib has `ProbabilityTheory.IndepFun.mgf_add` and related results in mathlib_coverage/mathlib/Mathlib/Probability/Moments/CumulantGeneratingFunction.lean.
 
 **Corollary 1.7** (Sub-Gaussian linear combination tail):
 included
@@ -24,7 +24,7 @@ This follows from Theorem 1.6 and the Chernoff bound. The combination of indepen
 
 **Lemma 1.8** (Hoeffding's lemma):
 included
-Mathlib contains Hoeffding's lemma. Searched in mathlib/Mathlib/Probability/ and found relevant results for bounded random variables and their MGF bounds.
+Mathlib contains Hoeffding's lemma. Searched in mathlib_coverage/mathlib/Mathlib/Probability/ and found relevant results for bounded random variables and their MGF bounds.
 
 **Theorem 1.9** (Hoeffding's inequality):
 included
@@ -32,15 +32,15 @@ Hoeffding's inequality follows from Hoeffding's lemma and the Chernoff bound tec
 
 **Lemma 1.10** (Sub-exponential moment bound):
 non-included
-Searched in mathlib/Mathlib/Probability/Moments/. No direct formalization of the relationship between exponential tail decay and moment bounds in this form.
+Searched in mathlib_coverage/mathlib/Mathlib/Probability/Moments/. No direct formalization of the relationship between exponential tail decay and moment bounds in this form.
 
 **Lemma 1.12** (Square of sub-Gaussian is sub-exponential):
 non-included
-Searched in mathlib/Mathlib/Probability/. The concept of sub-exponential random variables and their relationship to squared sub-Gaussians is not formalized in mathlib.
+Searched in mathlib_coverage/mathlib/Mathlib/Probability/. The concept of sub-exponential random variables and their relationship to squared sub-Gaussians is not formalized in mathlib.
 
 **Theorem 1.13** (Bernstein's inequality):
 non-included
-Searched in mathlib/Mathlib/Probability/ for Bernstein's inequality. Not found in mathlib at this version (v4.27.0).
+Searched in mathlib_coverage/mathlib/Mathlib/Probability/ for Bernstein's inequality. Not found in mathlib at this version (v4.27.0).
 
 **Theorem 1.14** (Maximum of sub-Gaussians):
 non-included
@@ -48,7 +48,7 @@ This is a union bound combined with sub-Gaussian tail estimates. While the indiv
 
 **Lemma 1.15** (Linear forms on polytopes):
 non-included
-This states that linear functions achieve their maximum at vertices of polytopes. Searched in mathlib/Mathlib/Analysis/Convex/ and mathlib/Mathlib/LinearAlgebra/. While mathlib has convexity theory, this specific result about polytope vertices is not directly stated.
+This states that linear functions achieve their maximum at vertices of polytopes. Searched in mathlib_coverage/mathlib/Mathlib/Analysis/Convex/ and mathlib_coverage/mathlib/Mathlib/LinearAlgebra/. While mathlib has convexity theory, this specific result about polytope vertices is not directly stated.
 
 **Theorem 1.16** (Sub-Gaussian on polytope):
 non-included
@@ -56,7 +56,7 @@ Specialized result combining the polytope vertex lemma with sub-Gaussian bounds.
 
 **Lemma 1.18** (Epsilon-net covering bound):
 non-included
-Searched in mathlib/Mathlib/Topology/MetricSpace/. While mathlib has covering and packing concepts, the specific volumetric bound (3/epsilon)^d for epsilon-nets of the unit ball is not present.
+Searched in mathlib_coverage/mathlib/Mathlib/Topology/MetricSpace/. While mathlib has covering and packing concepts, the specific volumetric bound (3/epsilon)^d for epsilon-nets of the unit ball is not present.
 
 **Theorem 1.19** (Sub-Gaussian random vector norm bound):
 non-included
@@ -82,7 +82,7 @@ Sparse estimation theory. Not in mathlib.
 
 **Lemma 2.7** (Binomial coefficient bound):
 non-included
-The bound binom(n,k) <= (en/k)^k. Searched in mathlib/Mathlib/Combinatorics/ and mathlib/Mathlib/Analysis/. While mathlib has extensive binomial coefficient theory, this specific asymptotic bound was not found.
+The bound binom(n,k) <= (en/k)^k. Searched in mathlib_coverage/mathlib/Mathlib/Combinatorics/ and mathlib_coverage/mathlib/Mathlib/Analysis/. While mathlib has extensive binomial coefficient theory, this specific asymptotic bound was not found.
 
 **Corollary 2.8** (Consequence of Theorem 2.6):
 non-included
@@ -136,7 +136,7 @@ Consequence of Theorem 3.4. Not in mathlib.
 
 **Theorem 3.11** (Trigonometric representation of Sobolev functions):
 non-included
-Fourier representation of Sobolev functions. Searched in mathlib/Mathlib/Analysis/Fourier/ and mathlib/Mathlib/Analysis/FunctionalSpaces/SobolevInequality.lean. Mathlib has Sobolev inequalities but not this representation theorem.
+Fourier representation of Sobolev functions. Searched in mathlib_coverage/mathlib/Mathlib/Analysis/Fourier/ and mathlib_coverage/mathlib/Mathlib/Analysis/FunctionalSpaces/SobolevInequality.lean. Mathlib has Sobolev inequalities but not this representation theorem.
 
 **Proposition 3.12** (Sobolev ellipsoid properties):
 non-included
@@ -174,7 +174,7 @@ Covariance matrix estimation rate. Not in mathlib.
 
 **Theorem 4.8** (Davis-Kahan sin(theta) theorem):
 non-included
-Perturbation bound for eigenvectors. Searched in mathlib/Mathlib/LinearAlgebra/ and mathlib/Mathlib/Analysis/. This classical perturbation result is not in mathlib.
+Perturbation bound for eigenvectors. Searched in mathlib_coverage/mathlib/Mathlib/LinearAlgebra/ and mathlib_coverage/mathlib/Mathlib/Analysis/. This classical perturbation result is not in mathlib.
 
 **Theorem 4.10** (Sparse PCA):
 non-included
@@ -184,15 +184,15 @@ Sparse principal component analysis. Not in mathlib.
 
 **Lemma 5.3** (Neyman-Pearson):
 non-included
-The Neyman-Pearson lemma on optimal hypothesis testing. Searched in mathlib/Mathlib/Probability/ and mathlib/Mathlib/MeasureTheory/. Not found in mathlib.
+The Neyman-Pearson lemma on optimal hypothesis testing. Searched in mathlib_coverage/mathlib/Mathlib/Probability/ and mathlib_coverage/mathlib/Mathlib/MeasureTheory/. Not found in mathlib.
 
 **Proposition 5.6** (KL divergence properties):
 non-included
-Basic properties of KL divergence (non-negativity, additivity for products). Searched in mathlib/Mathlib/Probability/ and mathlib/Mathlib/MeasureTheory/Measure/. Mathlib does not have a dedicated KL divergence formalization.
+Basic properties of KL divergence (non-negativity, additivity for products). Searched in mathlib_coverage/mathlib/Mathlib/Probability/ and mathlib_coverage/mathlib/Mathlib/MeasureTheory/Measure/. Mathlib does not have a dedicated KL divergence formalization.
 
 **Lemma 5.8** (Pinsker's inequality):
 non-included
-The bound TV(P,Q) <= sqrt(KL(P,Q)/2). Searched in mathlib/Mathlib/Probability/ and mathlib/Mathlib/MeasureTheory/. Not found in mathlib.
+The bound TV(P,Q) <= sqrt(KL(P,Q)/2). Searched in mathlib_coverage/mathlib/Mathlib/Probability/ and mathlib_coverage/mathlib/Mathlib/MeasureTheory/. Not found in mathlib.
 
 **Theorem 5.9** (Two-point testing lower bound):
 non-included
@@ -200,7 +200,7 @@ Le Cam's method for minimax lower bounds. Not in mathlib.
 
 **Theorem 5.10** (Fano's inequality):
 non-included
-Fano's inequality for multiple hypothesis testing. Searched in mathlib/Mathlib/Probability/ and mathlib/Mathlib/InformationTheory/. Not found.
+Fano's inequality for multiple hypothesis testing. Searched in mathlib_coverage/mathlib/Mathlib/Probability/ and mathlib_coverage/mathlib/Mathlib/InformationTheory/. Not found.
 
 **Theorem 5.11** (Multiple testing lower bound):
 non-included

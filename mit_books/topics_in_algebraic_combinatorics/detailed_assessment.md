@@ -54,7 +54,7 @@ This theorem states that U_i is one-to-one if i < n/2 and onto if i >= n/2 for t
 
 ## Statement 14: Corollary 4.8
 **Assessment: included**
-The boolean algebra B_n has the Sperner property. In mathlib, this is formalized as `IsAntichain.sperner` in `/Users/vivc/code/Lean/statement_selection/mathlib/Mathlib/Combinatorics/SetFamily/LYM.lean`. The theorem states: the size of any antichain in `Finset alpha` is bounded by the size of the maximal layer `C(n, n/2)`, where n = Fintype.card alpha. Since `Finset alpha` ordered by inclusion is exactly the boolean algebra B_n, this is precisely the Sperner property of B_n. The proof in mathlib uses the LYM inequality rather than the operator-theoretic approach of the textbook, but the result is the same.
+The boolean algebra B_n has the Sperner property. In mathlib, this is formalized as `IsAntichain.sperner` in `/Users/vivc/code/Lean/statement_selection/mathlib_coverage/mathlib/Mathlib/Combinatorics/SetFamily/LYM.lean`. The theorem states: the size of any antichain in `Finset alpha` is bounded by the size of the maximal layer `C(n, n/2)`, where n = Fintype.card alpha. Since `Finset alpha` ordered by inclusion is exactly the boolean algebra B_n, this is precisely the Sperner property of B_n. The proof in mathlib uses the LYM inequality rather than the operator-theoretic approach of the textbook, but the result is the same.
 
 ## Statement 15: Proposition 5.6
 **Assessment: non-included**
@@ -86,7 +86,7 @@ This theorem states there is no circulant Hadamard matrix of order 2^k for k > 3
 
 ## Statement 22: Lemma 2
 **Assessment: included**
-The polynomial p_k(x) = x^{2^{k-1}} + 1 is irreducible over Q. This polynomial is the cyclotomic polynomial cyclotomic(2^k). Mathlib proves that all cyclotomic polynomials are irreducible over Z (and Q) in `/Users/vivc/code/Lean/statement_selection/mathlib/Mathlib/RingTheory/Polynomial/Cyclotomic/Roots.lean`:
+The polynomial p_k(x) = x^{2^{k-1}} + 1 is irreducible over Q. This polynomial is the cyclotomic polynomial cyclotomic(2^k). Mathlib proves that all cyclotomic polynomials are irreducible over Z (and Q) in `/Users/vivc/code/Lean/statement_selection/mathlib_coverage/mathlib/Mathlib/RingTheory/Polynomial/Cyclotomic/Roots.lean`:
 - `Polynomial.cyclotomic.irreducible`: `cyclotomic n Z` is irreducible for any n > 0.
 - `Polynomial.cyclotomic.irreducible_rat`: `cyclotomic n Q` is irreducible for any n > 0.
 The identification cyclotomic(2^k) = X^{2^{k-1}} + 1 follows from `cyclotomic_prime_pow_eq_geom_sum` in `Mathlib/RingTheory/Polynomial/Cyclotomic/Basic.lean` applied with p = 2 (the geometric sum has only 2 terms: X^{2^{k-1}} + 1).
@@ -97,11 +97,11 @@ This lemma states that the eigenvalues gamma_j of a circulant Hadamard matrix al
 
 ## Statement 24: Lemma 4
 **Assessment: included**
-The statement that 2 = (1 - zeta)^{n/2} * u where u is a unit in Z[zeta], for zeta a primitive 2^k-th root of unity. This is formalized in mathlib in `/Users/vivc/code/Lean/statement_selection/mathlib/Mathlib/NumberTheory/NumberField/Cyclotomic/Ideal.lean`. The key result is `map_eq_span_zeta_sub_one_pow`, which shows that the ideal (p) in the ring of integers of the p^{k+1}-th cyclotomic field equals the ideal (zeta - 1)^{finrank Q K}. For p = 2, the finrank is phi(2^{k+1}) = 2^k = n/2 (where n = 2^{k+1} is the order of the root). Since (zeta - 1) generates a principal ideal, this ideal equality translates to the element-level statement 2 = (1 - zeta)^{n/2} * u. Additionally, `associated_norm_zeta_sub_one` establishes the associated norm result.
+The statement that 2 = (1 - zeta)^{n/2} * u where u is a unit in Z[zeta], for zeta a primitive 2^k-th root of unity. This is formalized in mathlib in `/Users/vivc/code/Lean/statement_selection/mathlib_coverage/mathlib/Mathlib/NumberTheory/NumberField/Cyclotomic/Ideal.lean`. The key result is `map_eq_span_zeta_sub_one_pow`, which shows that the ideal (p) in the ring of integers of the p^{k+1}-th cyclotomic field equals the ideal (zeta - 1)^{finrank Q K}. For p = 2, the finrank is phi(2^{k+1}) = 2^k = n/2 (where n = 2^{k+1} is the order of the root). Since (zeta - 1) generates a principal ideal, this ideal equality translates to the element-level statement 2 = (1 - zeta)^{n/2} * u. Additionally, `associated_norm_zeta_sub_one` establishes the associated norm result.
 
 ## Statement 25: Lemma 5
 **Assessment: included**
-The statement Z[zeta]/(1 - zeta) = F_2 for zeta a primitive 2^k-th root of unity. This is formalized in mathlib in `/Users/vivc/code/Lean/statement_selection/mathlib/Mathlib/NumberTheory/NumberField/Cyclotomic/Ideal.lean`. The result `absNorm_span_zeta_sub_one` states that the absolute norm of the ideal (zeta - 1) equals p. For p = 2, this means |O_K/(zeta - 1)| = 2, so the quotient is F_2. The result `inertiaDeg_span_zeta_sub_one` confirms the residual degree is 1, further establishing the quotient is F_p. The more general version holds for any prime p: Z[zeta]/(1 - zeta) = F_p.
+The statement Z[zeta]/(1 - zeta) = F_2 for zeta a primitive 2^k-th root of unity. This is formalized in mathlib in `/Users/vivc/code/Lean/statement_selection/mathlib_coverage/mathlib/Mathlib/NumberTheory/NumberField/Cyclotomic/Ideal.lean`. The result `absNorm_span_zeta_sub_one` states that the absolute norm of the ideal (zeta - 1) equals p. For p = 2, this means |O_K/(zeta - 1)| = 2, so the quotient is F_2. The result `inertiaDeg_span_zeta_sub_one` confirms the residual degree is 1, further establishing the quotient is F_p. The more general version holds for any prime p: Z[zeta]/(1 - zeta) = F_p.
 
 ## Statement 26: Lemma 6
 **Assessment: non-included**
@@ -113,11 +113,11 @@ This corollary states that either gamma_0/gamma_1 or gamma_1/gamma_0 is in Z[zet
 
 ## Statement 28: Lemma 8
 **Assessment: included**
-The statement that an algebraic integer theta whose conjugates all have absolute value one is a root of unity. This is Kronecker's theorem, formalized in `/Users/vivc/code/Lean/statement_selection/mathlib/Mathlib/NumberTheory/NumberField/InfinitePlace/Embeddings.lean` as `NumberField.Embeddings.pow_eq_one_of_norm_eq_one`: for an algebraic integer x in a number field K, if all embeddings phi : K -> A satisfy ||phi(x)|| = 1, then x^n = 1 for some positive n. Since any algebraic integer generates a number field Q(theta), this covers the general statement of Lemma 8. The file explicitly names this as Kronecker's Theorem in its docstring.
+The statement that an algebraic integer theta whose conjugates all have absolute value one is a root of unity. This is Kronecker's theorem, formalized in `/Users/vivc/code/Lean/statement_selection/mathlib_coverage/mathlib/Mathlib/NumberTheory/NumberField/InfinitePlace/Embeddings.lean` as `NumberField.Embeddings.pow_eq_one_of_norm_eq_one`: for an algebraic integer x in a number field K, if all embeddings phi : K -> A satisfy ||phi(x)|| = 1, then x^n = 1 for some positive n. Since any algebraic integer generates a number field Q(theta), this covers the general statement of Lemma 8. The file explicitly names this as Kronecker's Theorem in its docstring.
 
 ## Statement 29: Theorem 9 (Kronecker)
 **Assessment: included**
-The statement that if tau is a root of unity and alpha in Q[tau] with |alpha| = 1, then alpha is a root of unity. This is a special case of Statement 28, where the ambient number field is the cyclotomic field Q(tau). It is covered by the same mathlib result `NumberField.Embeddings.pow_eq_one_of_norm_eq_one` in `/Users/vivc/code/Lean/statement_selection/mathlib/Mathlib/NumberTheory/NumberField/InfinitePlace/Embeddings.lean`. The more general version `pow_eq_one_of_norm_le_one` (for conjugates inside the closed unit disk) is also available and is explicitly labeled as Kronecker's Theorem.
+The statement that if tau is a root of unity and alpha in Q[tau] with |alpha| = 1, then alpha is a root of unity. This is a special case of Statement 28, where the ambient number field is the cyclotomic field Q(tau). It is covered by the same mathlib result `NumberField.Embeddings.pow_eq_one_of_norm_eq_one` in `/Users/vivc/code/Lean/statement_selection/mathlib_coverage/mathlib/Mathlib/NumberTheory/NumberField/InfinitePlace/Embeddings.lean`. The more general version `pow_eq_one_of_norm_le_one` (for conjugates inside the closed unit disk) is also available and is explicitly labeled as Kronecker's Theorem.
 
 ## Statement 30: Proposition 6.2
 **Assessment: non-included**

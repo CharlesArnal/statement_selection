@@ -1,4 +1,4 @@
 [submodule "mathlib"]
-	path = mathlib
+	path = mathlib_coverage/mathlib
 	url = https://github.com/leanprover-community/mathlib4.git
 	branch = v4.27.0

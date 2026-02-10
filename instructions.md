@@ -18,7 +18,7 @@ When asked to process a textbook, you must:
 - Start reading the textbook from the start, and process each statement one after the other. As the textbooks can be very long, do not read the textbooks all at once. Rather, read them by chunks of a few pages and process one statement after the other. Finish processing all the statements in a chunk before moving on to the next one.
 - For each statement that you encounter:
 1) You must add it to a file called "all_statements.md", which you will place in the folder corresponding to the textbook. If a statement has a name such as "Lemma 3.1 [Yoneda's lemma]", report the entire name, including the statement's "nickname".
-2. You must thoroughly search mathlib, which can be found at mathlib/, to see if it is already present in mathlib. You must not only use regex: you must actually read the files that seem relevant. If a statement is not stated exactly as it is in mathlib, but if it is essentially equivalent to one or several existing statements, we still consider that it is already present in mathlib.
+2. You must thoroughly search mathlib, which can be found at mathlib_coverage/mathlib/, to see if it is already present in mathlib. You must not only use regex: you must actually read the files that seem relevant. If a statement is not stated exactly as it is in mathlib, but if it is essentially equivalent to one or several existing statements, we still consider that it is already present in mathlib.
 3. After having determined whether the statement is already in mathlib, you must report your conclusions in two files that will also be placed in the folder corresponding to the texstbook: one is called detailed_assessment.md, the other short_assessment.md. In short_assessment.md, you only list the statements and write after each one "included" or "non-included" depending on whether it is already in mathlib, like so:
 
 Lemma 3.1:
@@ -30,7 +30,7 @@ In detailed_assessment.md, you must also give a one-paragraph explanation of you
 
 Lemma 3.1:
 included
-Corresponds to lemma leadingCoeff_preΨ' from mathlib/Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Degree.lean
+Corresponds to lemma leadingCoeff_preΨ' from mathlib_coverage/mathlib/Mathlib/AlgebraicGeometry/EllipticCurve/DivisionPolynomial/Degree.lean
 
 4) Once you are done processing a statement, you can move on to the next statement.
 

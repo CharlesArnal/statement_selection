@@ -170,7 +170,7 @@ Conceptual correspondence. Not a formal statement.
 
 ## Statement 43: Theorem (Dirichlet's theorem on primes in arithmetic progressions)
 **Status**: included
-Corresponds to results in mathlib/Mathlib/NumberTheory/LSeries/PrimesInAP.lean and mathlib/Mathlib/NumberTheory/LSeries/Dirichlet.lean. Mathlib proves that for coprime $a, q$, there are infinitely many primes congruent to $a$ mod $q$, using Dirichlet L-series methods.
+Corresponds to results in mathlib_coverage/mathlib/Mathlib/NumberTheory/LSeries/PrimesInAP.lean and mathlib_coverage/mathlib/Mathlib/NumberTheory/LSeries/Dirichlet.lean. Mathlib proves that for coprime $a, q$, there are infinitely many primes congruent to $a$ mod $q$, using Dirichlet L-series methods.
 
 ## Statement 44: Theorem (Siegel-Walfisz)
 **Status**: not included
@@ -186,7 +186,7 @@ The large sieve inequality for Dirichlet characters. Not in mathlib.
 
 ## Statement 47: Lemma (Orthogonality of characters)
 **Status**: included
-The orthogonality of Dirichlet characters is available in mathlib. Corresponds to results in mathlib/Mathlib/NumberTheory/DirichletCharacter/ and mathlib/Mathlib/Analysis/Fourier/FiniteAbelian/Orthogonality.lean, which establish orthogonality relations for characters of finite abelian groups.
+The orthogonality of Dirichlet characters is available in mathlib. Corresponds to results in mathlib_coverage/mathlib/Mathlib/NumberTheory/DirichletCharacter/ and mathlib_coverage/mathlib/Mathlib/Analysis/Fourier/FiniteAbelian/Orthogonality.lean, which establish orthogonality relations for characters of finite abelian groups.
 
 ## Statement 48: Lemma (Dual large sieve)
 **Status**: not included
@@ -262,23 +262,23 @@ An open conjecture (recently proved by Gowers-Green-Manners-Tao for F_2^n). Not 
 
 ## Statement 66: Theorem (Ruzsa's triangle inequality)
 **Status**: included
-Corresponds to `Finset.ruzsa_triangle_inequality_div_div_div` and its variants in mathlib/Mathlib/Combinatorics/Additive/PluenneckeRuzsa.lean. Multiple versions (multiplicative, additive, with different sign patterns) are available.
+Corresponds to `Finset.ruzsa_triangle_inequality_div_div_div` and its variants in mathlib_coverage/mathlib/Mathlib/Combinatorics/Additive/PluenneckeRuzsa.lean. Multiple versions (multiplicative, additive, with different sign patterns) are available.
 
 ## Statement 67: Corollary (Ruzsa's covering lemma)
 **Status**: included
-Corresponds to the Ruzsa covering lemma in mathlib/Mathlib/Combinatorics/Additive/RuzsaCovering.lean.
+Corresponds to the Ruzsa covering lemma in mathlib_coverage/mathlib/Mathlib/Combinatorics/Additive/RuzsaCovering.lean.
 
 ## Statement 68: Theorem (Plunnecke's inequality)
 **Status**: included
-Corresponds to `Finset.pluennecke_petridis_inequality_mul` and related results in mathlib/Mathlib/Combinatorics/Additive/PluenneckeRuzsa.lean.
+Corresponds to `Finset.pluennecke_petridis_inequality_mul` and related results in mathlib_coverage/mathlib/Mathlib/Combinatorics/Additive/PluenneckeRuzsa.lean.
 
 ## Statement 69: Corollary (Plunnecke-Ruzsa iterated sumset bound)
 **Status**: included
-Corresponds to `Finset.pluennecke_ruzsa_inequality_pow_div_pow_mul` and variants in mathlib/Mathlib/Combinatorics/Additive/PluenneckeRuzsa.lean.
+Corresponds to `Finset.pluennecke_ruzsa_inequality_pow_div_pow_mul` and variants in mathlib_coverage/mathlib/Mathlib/Combinatorics/Additive/PluenneckeRuzsa.lean.
 
 ## Statement 70: Corollary (Sumset chain bound)
 **Status**: included
-Follows from the Plunnecke-Ruzsa inequality in mathlib/Mathlib/Combinatorics/Additive/PluenneckeRuzsa.lean, specifically `pluennecke_ruzsa_inequality_pow_mul`.
+Follows from the Plunnecke-Ruzsa inequality in mathlib_coverage/mathlib/Mathlib/Combinatorics/Additive/PluenneckeRuzsa.lean, specifically `pluennecke_ruzsa_inequality_pow_mul`.
 
 ## Statement 71: Lemma (Contagious structure)
 **Status**: not included

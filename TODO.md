@@ -27,7 +27,8 @@ Missing OCR:
 
 I want to extract 4 or 5 books to send to annotators for an autoformalization project. The goal would be that the annotators write the formal statements of some hard theorems that are not in mathlib, and for which reading the associated books should provide the informal context, which translated into formal context would yield the proof of the theorem. I have an assessment of the mathlib coverage of books for all the mit_books. Can you review all of them, and suggest some books that would provide some good coverage of math (like proba, stats, algebra, pde, ...). 
  
-I have extracted assessment for all the books in mit_books. I want to know which one I should not bother formalizing as most of the content is already in mathlib. Can you do this for me? 
+I have extracted assessment for all the books in mit_books. I want to know which one I should not bother formalizing as most of the content is already in mathlib. Can you do this for me?
+- **Done**: Full tiered analysis of all 69 books by mathlib coverage. See `mathlib_coverage/books_to_skip.md`. 5 books have >=80% coverage (skip), 7 more have 60-80% (consider skipping), 8 have 40-60% (mixed), and 49 have <40% (worth formalizing).
 
 I have extracted assessment for all the books in mit_books. I want to know which books would be good candidates to fill in the missing undergrad math from mathlib: http://leanprover-community.github.io/undergrad_todo.html.
 
