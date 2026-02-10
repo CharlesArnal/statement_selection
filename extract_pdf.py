@@ -10,14 +10,18 @@ Dependencies: pip install marker-pdf
 
 import argparse
 import gc
+import os
 import re
 from pathlib import Path
 
 import pypdfium2 as pdfium
+from dotenv import load_dotenv
 from marker.config.parser import ConfigParser
 from marker.converters.pdf import PdfConverter
 from marker.models import create_model_dict
 from marker.output import text_from_rendered
+
+load_dotenv()  # loads .env from cwd (or parent dirs)
 
 
 LLM_SERVICES = {
@@ -130,7 +134,8 @@ def load_models():
 
 
 def build_converter(model_dict, *, force_ocr: bool = False, use_llm: bool = False,
-                    page_range: str | None = None, llm_service: str | None = None):
+                    page_range: str | None = None, llm_service: str | None = None,
+                    openai_config: dict | None = None):
     """Build a PdfConverter with the given options."""
     config = {
         "output_format": "markdown",
@@ -144,6 +149,8 @@ def build_converter(model_dict, *, force_ocr: bool = False, use_llm: bool = Fals
         config["llm_service"] = llm_service
     if page_range is not None:
         config["page_range"] = page_range
+    if openai_config:
+        config.update(openai_config)
 
     config_parser = ConfigParser(config)
 
@@ -167,7 +174,8 @@ def _get_page_count(pdf_path: Path) -> int:
 
 def convert_one(model_dict, pdf_path: Path, verbose: bool, *,
                 force_ocr: bool = False, use_llm: bool = False,
-                chunk_size: int = 50, llm_service: str | None = None) -> bool:
+                chunk_size: int = 50, llm_service: str | None = None,
+                openai_config: dict | None = None) -> bool:
     """Convert a single PDF to markdown. Returns True on success.
 
     For large PDFs, processes in chunks of `chunk_size` pages to avoid OOM.
@@ -202,6 +210,7 @@ def convert_one(model_dict, pdf_path: Path, verbose: bool, *,
                 converter = build_converter(
                     model_dict, force_ocr=force_ocr, use_llm=use_llm,
                     page_range=page_range, llm_service=llm_service,
+                    openai_config=openai_config,
                 )
                 rendered = converter(str(pdf_path))
                 text, _, _ = text_from_rendered(rendered)
@@ -218,7 +227,7 @@ def convert_one(model_dict, pdf_path: Path, verbose: bool, *,
         try:
             converter = build_converter(
                 model_dict, force_ocr=force_ocr, use_llm=use_llm,
-                llm_service=llm_service,
+                llm_service=llm_service, openai_config=openai_config,
             )
             rendered = converter(str(pdf_path))
             text, _, _ = text_from_rendered(rendered)
@@ -253,8 +262,12 @@ def main():
     parser.add_argument("--use-llm", action="store_true",
                         help="Use LLM-assisted conversion (highest quality, needs API key)")
     parser.add_argument("--llm-service", type=str, default=None,
-                        choices=["gemini", "claude", "openai", "azure", "ollama"],
-                        help="LLM provider to use with --use-llm (default: gemini)")
+                        choices=["openai", "gemini", "claude", "azure", "ollama"],
+                        help="LLM provider to use with --use-llm (default: None)")
+    parser.add_argument("--openai-api-key", type=str, default=None,
+                        help="API key for the OpenAI-compatible endpoint (default: LLAMA_API_KEY from .env)")
+    parser.add_argument("--openai-model", type=str, default="claude-4-6-opus-genai",
+                        help="Model name for the OpenAI-compatible endpoint")
     parser.add_argument("--dry-run", action="store_true",
                         help="List PDFs that would be processed without converting")
     parser.add_argument("--verbose", "-v", action="store_true",
@@ -264,8 +277,18 @@ def main():
 
     args = parser.parse_args()
 
+    # --llm-service implies --use-llm
+    if args.llm_service:
+        args.use_llm = True
+
     # Resolve LLM service name to full import path
     llm_service = LLM_SERVICES.get(args.llm_service) if args.llm_service else None
+
+    # Build OpenAI-compatible endpoint config from CLI flags / .env
+    openai_config = {}
+    openai_config["openai_base_url"] = "https://api.llama.com/compat/v1/"
+    openai_config["openai_api_key"] = args.openai_api_key or os.environ.get("LLAMA_API_KEY")
+    openai_config["openai_model"] = args.openai_model
 
     # Stage 1: PDF Discovery
     pdfs = discover_pdfs(args.path, args.force)
@@ -291,7 +314,8 @@ def main():
         print(f"[{i}/{len(pdfs)}] {pdf}")
         if convert_one(model_dict, pdf, args.verbose,
                        force_ocr=args.force_ocr, use_llm=args.use_llm,
-                       chunk_size=args.chunk_size, llm_service=llm_service):
+                       chunk_size=args.chunk_size, llm_service=llm_service,
+                       openai_config=openai_config or None):
             successes += 1
         else:
             failures.append(pdf)
