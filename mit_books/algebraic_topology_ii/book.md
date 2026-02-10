@@ -39,8 +39,6 @@ These notes reflect approximately what actually happened in the classroom. Many 
 |                           | 40                                               | Applications of cobordism                                                                                                                                                                                                                                                                                              | 152                                             |  |
 | $\mathbf{B}^{\mathbf{i}}$ | ibliog                                           | graphy                                                                                                                                                                                                                                                                                                                 | 159                                             |  |
 
-CONTENTS iii
-
 # Chapter 1
 
 # Basic homotopy theory

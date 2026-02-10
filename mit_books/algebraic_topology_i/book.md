@@ -32,7 +32,6 @@ In the course of editing these notes, beyond correcting various errors (while ho
 |                           | 11    | The Eilenberg Steenrod axioms and the locality principle | 25             |  |  |  |  |  |  |  |
 |                           | 12    | Subdivision                                              | 28             |  |  |  |  |  |  |  |
 |                           | 13    | Proof of the Locality Principle                          | 30             |  |  |  |  |  |  |  |
-|                           | 10    | 1 foot of the Locality 1 finciple                        | 50             |  |  |  |  |  |  |  |
 | 2                         | Con   | Computational methods                                    |                |  |  |  |  |  |  |  |
 |                           | 14    | CW-complexes                                             | 35             |  |  |  |  |  |  |  |
 |                           | 15    | CW-complexes II                                          | 38             |  |  |  |  |  |  |  |
@@ -54,10 +53,6 @@ In the course of editing these notes, beyond correcting various errors (while ho
 |                           | 29    | Cup product, continued                                   | 77             |  |  |  |  |  |  |  |
 |                           | 30    | Surfaces and nondegenerate symmetric bilinear forms      | 80             |  |  |  |  |  |  |  |
 |                           | 31    | Local coefficients and orientations                      | 83             |  |  |  |  |  |  |  |
-
-| CONTENTS |
-|----------|
-|----------|
 
 | 32           | Proof of the orientation theorem       | 88  |  |  |  |  |
 |--------------|----------------------------------------|-----|--|--|--|--|

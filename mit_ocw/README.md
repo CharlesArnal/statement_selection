@@ -83,20 +83,19 @@ It was used to create `list_of_mit_courses.md`.
 
 ### Retrieve URLs and Download Content
 
-Claude prompted with
+Claude initially prompted with
 ```md
 For each book in the list_of_mit_courses.md, e.g. for Graduate Topology Seminar: Kan Seminar, can you provide the associated url, for both the main course page, e.g. https://ocw.mit.edu/courses/18-915-graduate-topology-seminar-kan-seminar-fall-2014/, as well as the download url for the zip materials associated to the courses, e.g., https://ocw.mit.edu/courses/18-915-graduate-topology-seminar-kan-seminar-fall-2014/18.915-fall-2014.zip. Do it for all the book in the list, you may create a markdown file list_of_mit_courses_with_links, with a rubric homepage and a rubric download link.
-Do it by creating a script called `find_ocw_urls.py`.
 ```
 
-Claude prompted with
+Claude initially prompted with
 ```md
-Can you create a script to download the zip the files from the `list_of_mit_courses_with_links.md`? Can you also create a script to unzip these files? Call these scripts `download_zips.py` and `unzip_files.py`.
+Can you create a script to download the zip the files from the `list_of_mit_courses_with_links.md`? Can you also create a script to unzip these files?
 ```
 
 ### Filter Courses based on Autoformalization Potential
 
-Claude prompted with
+Claude initially prompted with
 ```md
 I have a directory `mit_ocw/unzipped` containing folders for MIT OpenCourseWare courses.
 Each course folder is typically named `<class_number>-<semester_date>` and includes a `static_resources` subfolder containing course materials.
@@ -121,20 +120,42 @@ Reason: Clear and well structured textbook `mit18-755-s24_lec_full.pdf` covering
 ```
 It was used to create `list_of_first_candidates.md`
 
-### Extract and Organize PDFs
+### Extract, Organize PDFs, and OCR
 
-Claude prompted with
+Claude initially prompted with
 ```md
 For all the course tagged in the list `mit_ocw/3_list_of_first_candidates.md` as either `Good candidate`, `Borderline candidate` or `To check`, can you create a dedicated folder with the course name (used the title, e.g. `representations_of_lie_groups` not the numbering version, e.g. `18.755-sprint-2024`)? Within this folder, create a subfolder `content`. Then, put all and only the ressources that will be autoformalized that you will find in `mit_ocw/unzipped/<course id>/static_resources` in this `content` subfolder. Ideally the resources should be a simple pdf, which you can rename `book.pdf`. Eventually it could be several pdf, which you should then order and named `partX.pdf` where X = 1, 2, ....
 ```
 It was used to create the `organize_courses.py` script.
 
-Claude prompted with
+Claude initially prompted with
 ```md
-I have a list of books that I want to study throughoutly with an LLM. They are Math textbooks in pdf format. I need some scripts in order to extract the content in a format that is LLM friendly
+I have a list of books that I want to study throughoutly with an LLM. They are Math textbooks in pdf format. I need some scripts in order to extract the content in a format that is LLM friendly.
 ```
-It created `extract_pdf.py`.
-Best is to run this of GPU to extract the pdf faster.
+It created `extract_pdf.py`, and then `run_ocr.slurm`.
+
+### Cleaning
+
+Claude initially prompted with
+```md
+I have run an OCR pipeline. I have extracted ressources online in `ocr_mit/unzipped`.
+I have then tried to copy the best pdf sources into `mit_books`/
+I have then OCR these books.
+Can you review all my OCR books in `mit_books` and check for mistakes. If you find some, can you go back to the root of the problem. Can you then fix these mistakes?
+```
+
+**Skip OCR thanks to tex sources:**
+
+Claude initially prompted with
+```md
+I have run an OCR pipeline. I have extracted ressources online in `ocr_mit/unzipped`.
+I have then tried to copy the best pdf sources into `mit_books`/
+I have then OCR these books.
+However for some books I have some tex files that should have authority over my OCR pipeline.
+Let's take for example Algebra 1 (`mit_books/algebra_i_student_notes`), I can map it back to the `ocr_mit/unzipped/RES.18-011-fall-2021` (thanks to the `3_list_of_first_candidates.md`).
+I see that the tex files exists there.
+Can you review all my OCR books in `mit_books` and check for the ones where I actually have the tex files. Can you list those? And update the content in `mit_books` to put the tex files there instead?
+```
 
 #### TODO: Run Charles' pipeline on each borderline and better candidate
 Once we have this list, let's extract everything in a cleaner format, the one we agreed before, and let's run the instruction.md on each of them.
