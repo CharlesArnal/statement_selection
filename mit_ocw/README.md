@@ -76,20 +76,20 @@ It was used to create `list_of_mit_courses.md`.
 ### Retrieve URLs and Download Content
 
 Claude prompted with
-```
+```md
 For each book in the list_of_mit_courses.md, e.g. for Graduate Topology Seminar: Kan Seminar, can you provide the associated url, for both the main course page, e.g. https://ocw.mit.edu/courses/18-915-graduate-topology-seminar-kan-seminar-fall-2014/, as well as the download url for the zip materials associated to the courses, e.g., https://ocw.mit.edu/courses/18-915-graduate-topology-seminar-kan-seminar-fall-2014/18.915-fall-2014.zip. Do it for all the book in the list, you may create a markdown file list_of_mit_courses_with_links, with a rubric homepage and a rubric download link.
 Do it by creating a script called `find_ocw_urls.py`.
 ```
 
 Claude prompted with
-```
+```md
 Can you create a script to download the zip the files from the `list_of_mit_courses_with_links.md`? Can you also create a script to unzip these files? Call these scripts `download_zips.py` and `unzip_files.py`.
 ```
 
 ### Filter Courses based on Autoformalization Potential
 
 Claude prompted with
-```
+```md
 I have a directory `mit_ocw/unzipped` containing folders for MIT OpenCourseWare courses.
 Each course folder is typically named `<class_number>-<semester_date>` and includes a `static_resources` subfolder containing course materials.
 My goal is to identify courses with the most suitable content for autoformalization in Lean4. 
@@ -116,13 +116,13 @@ It was used to create `list_of_first_candidates.md`
 ### Extract and Organize PDFs
 
 Claude prompted with
-```
+```md
 For all the course tagged in the list `mit_ocw/3_list_of_first_candidates.md` as either `Good candidate`, `Borderline candidate` or `To check`, can you create a dedicated folder with the course name (used the title, e.g. `representations_of_lie_groups` not the numbering version, e.g. `18.755-sprint-2024`)? Within this folder, create a subfolder `content`. Then, put all and only the ressources that will be autoformalized that you will find in `mit_ocw/unzipped/<course id>/static_resources` in this `content` subfolder. Ideally the resources should be a simple pdf, which you can rename `book.pdf`. Eventually it could be several pdf, which you should then order and named `partX.pdf` where X = 1, 2, ....
 ```
 It was used to create the `organize_courses.py` script.
 
 Claude prompted with
-```
+```md
 I have a list of books that I want to study throughoutly with an LLM. They are Math textbooks in pdf format. I need some scripts in order to extract the content in a format that is LLM friendly
 ```
 It created `extract_pdf.py`.

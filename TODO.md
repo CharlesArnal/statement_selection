@@ -1,3 +1,8 @@
+- Run the OCR on a cluster.
+
+- Run Claude to see what is alreday in mathlib.
+
+
 - Add algebraic stack content
 
 - Run Claude on all the MIT books content.
