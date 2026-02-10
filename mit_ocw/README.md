@@ -36,7 +36,33 @@ This processes the 69 courses tagged as Good/Borderline/To-check in `mit_ocw/3_l
 
 The script handles stripping OCW hash prefixes from filenames, deduplication, and sorting.
 
-### [TODO] 4. Extract pdf content
+### 4. Extract PDF content
+
+Convert the organized PDFs to LLM-friendly markdown using `extract_pdf.py`.
+
+**Dependencies:**
+
+```bash
+pip install marker-pdf python-dotenv pypdfium2
+```
+
+**Basic usage** — single file or entire directory:
+
+```bash
+# Single PDF
+python extract_pdf.py mit_books/advanced_algorithms/part4.pdf --verbose
+
+# All PDFs in a directory (discovers book.pdf and part*.pdf)
+python extract_pdf.py mit_books/advanced_algorithms/ --verbose
+```
+
+**LLM-assisted conversion** — uses an Llama API endpoint for higher quality:
+
+```bash
+python extract_pdf.py mit_books/advanced_algorithms/part4.pdf --verbose --llm-service openai
+```
+
+The script points at `https://api.llama.com/compat/v1/` by default. Set your LLAMA_API_KEY key in a `.env` file at the project root (it will be loaded automatically via `python-dotenv`.)
 
 ## Extraction Background
 
