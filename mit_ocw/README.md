@@ -36,6 +36,8 @@ This processes the 69 courses tagged as Good/Borderline/To-check in `mit_ocw/3_l
 
 The script handles stripping OCW hash prefixes from filenames, deduplication, and sorting.
 
+### [TODO] 4. Extract pdf content
+
 ## Extraction Background
 
 Here is how I extracted the course data.
@@ -43,7 +45,7 @@ Here is how I extracted the course data.
 ### Retrieve List of Courses
 
 This was ctrl+A on the course explorer on OpenCourseWare.
-It was used to create `list_of_mit_courses.md`
+It was used to create `list_of_mit_courses.md`.
 
 ### Retrieve URLs and Download Content
 
@@ -97,6 +99,8 @@ Claude prompted with
 ```
 I have a list of books that I want to study throughoutly with an LLM. They are Math textbooks in pdf format. I need some scripts in order to extract the content in a format that is LLM friendly
 ```
+It created `extract_pdf.py`.
+Best is to run this of GPU to extract the pdf faster.
 
 #### TODO: Run Charles' pipeline on each borderline and better candidate
 Once we have this list, let's extract everything in a cleaner format, the one we agreed before, and let's run the instruction.md on each of them.
