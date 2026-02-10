@@ -1,4 +1,3 @@
-import csv
 import time
 from datetime import timedelta
 
@@ -18,7 +17,7 @@ KEYWORDS = [
     "tutorial", "monograph"
 ]
 
-OUTPUT_FILE = f'arxiv_recent_textbooks_{SUBJECT_SET}.csv'
+OUTPUT_FILE = f'arxiv_recent_textbooks_{SUBJECT_SET}.md'
 # ---------------------
 
 def run_harvester():
@@ -30,13 +29,12 @@ def run_harvester():
     print(f"Subject: {SUBJECT_SET}")
     print(f"From:    {FROM_DATE}")
     
-    # 1. FIXED: Removed 'ignore_deleted=True' to stop the crash
     try:
-        records = sickle.ListRecords(
-            metadataPrefix='arXiv',
-            set=SUBJECT_SET,
-            from_=FROM_DATE
-        )
+        records = sickle.ListRecords(**{
+            'metadataPrefix': 'arXiv',
+            'set': SUBJECT_SET,
+            'from': FROM_DATE,
+        })
     except Exception as e:
         print(f"Connection Error: {e}")
         return
@@ -44,9 +42,10 @@ def run_harvester():
     matches = 0
     scanned = 0
 
-    with open(OUTPUT_FILE, mode='w', newline='', encoding='utf-8') as f:
-        writer = csv.writer(f)
-        writer.writerow(['ID', 'Title', 'Authors', 'License', 'Link'])
+    with open(OUTPUT_FILE, mode='w', encoding='utf-8') as f:
+        f.write('| ID | Title | Authors | License | Link |\n')
+        f.write('| -- | ----- | ------- | ------- | ---- |\n')
+        f.flush()
 
         print("\nScanning... (Press Ctrl+C to stop early)")
         
@@ -54,7 +53,7 @@ def run_harvester():
             for record in records:
                 scanned += 1
                 
-                # 2. FIXED: Manually skip deleted records here
+                # Skip deleted records
                 if record.header.deleted:
                     continue
 
@@ -66,7 +65,7 @@ def run_harvester():
                 
                 # Check License
                 licenses = meta.get('license', [])
-                if not any(LICENSE_FILTER in lic for lic in licenses):
+                if not any(LICENSE_FILTER in lic for lic in licenses if lic):
                     continue
 
                 # Check Keywords
@@ -79,12 +78,20 @@ def run_harvester():
                 if any(kw in full_text for kw in KEYWORDS):
                     matches += 1
                     pid = meta.get('id', ['Unknown'])[0]
-                    auth = ", ".join(meta.get('authors', [])[:3])
+                    forenames = meta.get('forenames', [])
+                    keynames = meta.get('keyname', [])
+                    authors = [f"{fn} {kn}" if fn else kn
+                               for fn, kn in zip(forenames, keynames)]
+                    auth = ", ".join(authors[:3])
                     
                     print(f"\n[MATCH {matches}] {title}")
                     print(f"   -> {licenses[0]}")
 
-                    writer.writerow([pid, title, auth, licenses[0], f"https://arxiv.org/abs/{pid}"])
+                    link = f'https://arxiv.org/abs/{pid}'
+                    esc_title = title.replace('|', '\\|')
+                    esc_auth = auth.replace('|', '\\|')
+                    f.write(f'| {pid} | {esc_title} | {esc_auth} | [CC-BY-4.0]({licenses[0]}) | [arxiv]({link}) |\n')
+                    f.flush()
 
                 if scanned % 100 == 0:
                     print(f"Scanned {scanned} records...", end='\r')
