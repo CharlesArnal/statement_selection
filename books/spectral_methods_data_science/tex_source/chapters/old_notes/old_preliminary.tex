@@ -1,0 +1,281 @@
+\section{Appendix B: Basics of matrix analysis} \label{subsec:Matrix-analysis}
+
+In this section, we review some basic facts in matrix analysis that are useful for the development in Chapter~\ref{{cha:matrix-perturbation}}. 
+ 
+
+\subsection{Eigenvalues and eigenvectors}
+
+We start with the definition of eigenvalues and eigenvectors of a real
+square matrix.
+
+\begin{definition}[Eigenpair]\label{def:eigenpair} Fix a square
+matrix $\bm{A}\in\mathbb{R}^{n\times n}$. We say $(\lambda,\bm{v})\in\mathbb{C}\times\mathbb{C}^{n}$
+is an \emph{eigenpair} of $\bm{A}$ if $\bm{v}$ is nonzero and 
+\begin{equation}
+\bm{A}\bm{v}=\lambda\bm{v}.\label{eq:def-eigenpair}
+\end{equation}
+In particular, the scalar $\lambda$ is an eigenvalue of $\bm{A}$
+and $\bm{v}$ is the associated eigenvector. \end{definition}
+
+In words, an eigenvector $\bm{v}$ of $\bm{A}$ does not change its
+direction when multiplied by $\bm{A}$ and the eigenvalue $\lambda$
+measures the amount of expansion or shrinkage in this linear transformation.
+Several remarks regarding Definition~\ref{def:eigenpair} are in
+order.
+\begin{itemize}
+\item The eigenpair (i.e.~the eigenvalue and the associated eigenvector) is only defined
+for square matrices. This is implicitly assumed in the definition
+of the eigenpair (see~(\ref{def:eigenpair})).
+\item Every $n\times n$ square matrix has exactly $n$ (complex) eigenvalues,
+possibly with repetitions. To see this, one can transform (\ref{def:eigenpair})
+into the identity
+\[
+\left(\lambda\bm{I}_{n}-\bm{A}\right)\bm{v}=\bm{0}.
+\]
+Consequently, the scalar $\lambda$ is an eigenvalue of $\bm{A}$
+if and only if 
+\[
+\mathsf{det}\left(\lambda\bm{I}_{n}-\bm{A}\right)=0,
+\]
+where $\mathsf{det}(\cdot)$ is the determinant of a matrix. Notice that the above relation specifies a polynomial equation of
+degree $n$, which by the fundamental theorem of algebra, has exactly
+$n$ roots in the complex field (and hence $n$ complex eigenvalues
+of~$\bm{A}$).
+\item A real matrix can have complex eigenvalues and
+complex eigenvectors. Take for instance the matrix
+\[
+\bm{A}=\left[\begin{array}{cc}
+3 & -2\\
+4 & -1
+\end{array}\right],
+\]
+where $1+2i$ and $1-2i$ are its two complex eigenvalues. Here $i$
+denotes the imaginary unit.
+\end{itemize}
+With the last remark being said, there exists one important set of
+real matrices --- \emph{real symmetric matrices} --- of which the eigenvalues
+must be real. This claim is formalized in the following theorem.  
+
+\begin{theorem}[Spectral theorem]\label{thm:spectral} Let $\bm{A}\in\mathbb{R}^{n\times n}$
+be a real symmetric matrix. Then there exists $n$ real eigenvalues
+$\lambda_{1},\cdots\lambda_{n}\in\mathbb{R}$ and an orthonormal basis
+$\bm{u}_{1},\cdots\bm{u}_{n}\in\mathbb{R}^{n}$ such that $\bm{A}\bm{u}_{i}=\lambda_{i}\bm{u}_{i}$.
+Equivalently, a real symmetric matrix $\bm{A}$ enjoys the following
+spectral decomposition 
+\begin{equation}
+\bm{A}=\sum_{i=1}^{n}\lambda_{i}\bm{u}_{i}\bm{u}_{i}^{\top}.\label{eq:spectral-decomposition-summation-form}
+\end{equation}
+%where $\{\lambda_{i}\}_{1\leq i\leq n}$ are the real eigenvalues of $\bm{A}$ and $\{\bm{u}_{i}\}_{1\leq i\leq n}$ is an orthonormal basis of~$\mathbb{R}^{n}$.
+
+\end{theorem}
+
+Since the eigenvalues of real symmetric matrices are guaranteed to
+be real numbers, we can therefore order them. From now on, denote
+by $\lambda_{i}(\bm{A})$ the $i$th largest eigenvalue of a real
+symmetric matrix $\bm{A}\in\mathbb{R}^{n\times n}$. In addition,
+we define 
+$$\lambda_{\max}(\bm{A})\coloneqq\lambda_{1}(\bm{A}) \quad \mbox{and}
+\quad \lambda_{\min}(\bm{A})\coloneqq\lambda_{n}(\bm{A}). $$
+
+To make the formula (\ref{eq:spectral-decomposition-summation-form})
+more compact, we denote 
+\[
+\bm{U}=\left[\begin{array}{ccc}
+\rvert &  & \rvert\\
+\bm{u}_{1} & \cdots & \bm{u}_{n}\\
+\rvert &  & \rvert
+\end{array}\right]\in\mathbb{R}^{n\times n},\;\text{and}\;\bm{\Lambda}=\left[\begin{array}{cccc}
+\lambda_{1} & 0 & \cdots & 0\\
+0 & \lambda_{2} & \cdots & 0\\
+\vdots & \vdots & \ddots & \vdots\\
+0 & 0 & \cdots & \lambda_{n}
+\end{array}\right]\in\mathbb{R}^{n\times n}.
+\]
+As a result, the decomposition (\ref{eq:spectral-decomposition-summation-form})
+can be rewritten as 
+\begin{equation}
+\bm{A}=\bm{U}\bm{\Lambda}\bm{U}^{\top},\label{eq:spectral-decomposition-multiplication-form}
+\end{equation}
+in which a real symmetric matrix is decomposed into the multiplications
+of orthonormal matrices (i.e.~$\bm{U}$) and a real diagonal matrix
+(i.e.~$\bm{\Lambda}$). Another useful way to interpret spectral
+decomposition is through the lens of diagonalization. Simple algebraic
+manipulation reveals an equivalent form of (\ref{eq:spectral-decomposition-multiplication-form})
+\begin{equation}
+\bm{U}^{\top}\bm{A}\bm{U}=\bm{\Lambda}.\label{eq:spectral-decomposition-diagonalization-form}
+\end{equation}
+This essentially tells us that any real symmetric matrix $\bm{A}$
+can be \emph{diagonalized }by an orthonormal matrix~(i.e.~$\bm{U}$).
+
+\subsection{Singular values and singular vectors}
+
+As we have pointed out in the remarks following Definition~\ref{def:eigenpair},
+a rectangular matrix does \emph{not} have well-defined eigenvalues
+and eigenvectors. It is then natural to ask whether there is a similar
+decomposition of a general matrix to that of a real symmetric matrix
+(cf.~(\ref{eq:spectral-decomposition-multiplication-form})). Fortunately,
+a general matrix admits another useful representation: singular value
+decomposition (SVD).
+
+\begin{definition}[Singular value decomposition]\label{def:SVD}Let
+$\bm{A}\in\mathbb{R}^{m\times n}$ be a general matrix. Without loss
+of generality, assume that $m\leq n$. There exists a pair of orthonormal
+matrices $\bm{U}\in\mathbb{R}^{m\times m}$ and $\bm{V}\in\mathbb{R}^{n\times n}$
+such that 
+\begin{equation}\label{eq:SVD}
+\bm{A}=\bm{U}\bm{\Sigma}\bm{V}^{\top},
+\end{equation}
+where $\bm{\Sigma}$ is a rectangular diagonal matrix with 
+\[
+\bm{\Sigma}=\left[\begin{array}{cccccc}
+\sigma_{1} & 0 & \cdots & \cdots & 0 & 0\\
+0 & \sigma_{2} & \cdots & \cdots & 0 & 0\\
+\vdots & \vdots & \ddots & \vdots & \vdots & \vdots\\
+0 & 0 & \cdots & \sigma_{m} & 0 & 0
+\end{array}\right]\in\mathbb{R}^{m\times n}
+\]
+and $\sigma_{1}\geq\sigma_{2}\geq\cdots\geq\sigma_{m}\geq0$. The
+decomposition (\ref{eq:SVD}) is called singular value decomposition,
+where the nonnegative real numbers $\{\sigma_{i}\}_{1\leq i\leq n}$
+are the singular values of $\bm{A}$ and the columns in $\bm{U}$
+(resp.~$\bm{V}$) are the left (resp.~right) singular vectors of
+$\bm{A}$. \end{definition}
+
+Similar to the eigenvalues of real symmetric matrices, the singular
+values of a general matrix are guaranteed to be real. \yc{a bit redundant since the above already said all singular values are above zero (hence must be real).}As a result,
+for any $1\leq i\leq\min\{m,n\}$, we define $\sigma_{i}(\bm{A})$
+to be $i$th largest singular value of $\bm{A}$, define $\sigma_{\max}(\bm{A})\coloneqq\sigma_{1}(\bm{A})$
+(resp.~$\sigma_{\min}(\bm{A})\coloneqq\sigma_{\min\{m,n\}}(\bm{A})$)
+to be the largest (resp.~smallest) singular values of $\bm{A}$.
+
+It is straightforward to read the rank of a matrix from its singular
+values in that the rank is equal to the number of nonzero singular
+values. If the rank $r$ of a matrix $\bm{A}\in\mathbb{R}^{m\times n}$
+is smaller than $\min\{m,n\}$, it is often more economical to represent
+the matrix using the \emph{compact SVD }
+\begin{equation}
+\bm{A}=\bm{U}_{r}\bm{\Sigma}_{r}\bm{V}_{r}^{\top},\label{eq:compact-SVD}
+\end{equation}
+where $\bm{U}_{r}$ (resp.~$\bm{V}_{r}$) is the first $r$ columns
+of $\bm{U}$ (resp.~$\bm{V}$) and $\bm{\Sigma}_{r}$ is the upper
+left block of $\bm{\Sigma}$ with size $r$.
+
+Having introduced two decompositions, it is instrumental to compare
+the singular value decomposition of a general matrix (cf.~Definition~\ref{def:SVD})
+with the spectral decomposition of a real symmetric matrix (cf.~Theorem~(\ref{thm:spectral})).
+First, the eigenvalues of a real symmetric matrix are not necessarily
+nonnegative whereas singular values must be. Second, as claimed in
+(\ref{eq:spectral-decomposition-diagonalization-form}), any real
+symmetric matrix can be diagonalized by a single orthonormal matrix.
+However, this may not hold true for a general matrix, nevertheless,
+SVD points out a way to diagonalize a matrix using two orthonormal
+matrices. To see this, one can equate (\ref{eq:SVD}) with
+
+\[
+\bm{U}^{\top}\bm{A}\bm{V}=\bm{\Sigma}.
+\]
+Last but not least, singular value decomposition and spectral decomposition
+are inherently related. It is an easy exercise to see that the columns
+of $\bm{U}$ (resp.~$\bm{V}$) are eigenvectors of $\bm{A}\bm{A}^{\top}$
+(resp.~$\bm{A}^{\top}\bm{A}$). In addition, the singular values
+of $\bm{A}$ are nonnegative square roots of the eigenvalues of either
+$\bm{A}\bm{A}^{\top}$ or $\bm{A}^{\top}\bm{A}$ (modulo zero singular
+values). This connection shall prove useful in later discussions.
+
+\subsection{Matrix norms}
+
+To measure the size of the perturbation (e.g.~$\bm{E}$), we need
+to introduce appropriate metrics~/~norms on the space of matrices.
+Among all matrix norms, unitarily invariant norms are of most interest
+to us. \begin{definition}[Unitarily invariant norms]A matrix norm
+$\vertiii{\cdot}$ on $\mathbb{R}^{m\times n}$ is unitarily invariant
+if
+\[
+\vertiii{\bm{A}}=\vertiiibig{\bm{U}^{\top}\bm{A}\bm{V}}
+\]
+for any matrix $\bm{A}\in\mathbb{R}^{m\times n}$ and any two orthogonal
+matrices $\bm{U}\in\mathbb{R}^{m\times m}$ and $\bm{V}\in\mathbb{R}^{n\times n}$.
+\end{definition}
+
+Two prominent examples include the Frobenius norm and the operator
+norm
+
+\begin{equation}
+\left\Vert \bm{A}\right\Vert _{\mathrm{F}}=\sqrt{\sum_{i,j}A_{ij}^{2}}\qquad\text{and}\qquad\left\Vert \bm{A}\right\Vert =\max_{\bm{x}\in\mathbb{R}^{n}:\bm{x}\neq\bm{0}}\frac{\left\Vert \bm{A}\bm{x}\right\Vert _{2}}{\left\Vert \bm{x}\right\Vert _{2}}.\label{eq:def-fro-op-norm}
+\end{equation}
+To see why both $\|\cdot\|_{\mathrm{F}}$ and $\|\cdot\|$ are unitarily
+invariant norms, we have the following important characterizations
+\[
+\left\Vert \bm{A}\right\Vert _{\mathrm{F}}=\sqrt{\sum_{i=1}^{\min\{m,n\}}\sigma_{i}^{2}\left(\bm{A}\right)}\qquad\text{and}\qquad\left\Vert \bm{A}\right\Vert _{\mathsf{2}}=\sigma_{1}\left(\bm{A}\right),
+\]
+where we recall that $\sigma_{1}(\bm{A})\geq\sigma_{2}(\bm{A})\geq\cdots\geq\sigma_{\min\{m,n\}}(\bm{A})\geq0$
+are the singular values of $\bm{A}$ in descending order.
+
+Last but not least, unitarily invariant norms enjoy the following
+nice properties.
+
+\begin{proposition}\label{prop:unitary_norm_relation}Let $\vertiii{\cdot}$ be any unitarily invariant norm.
+One has 
+\begin{align*}
+\vertiii{\bm{A}\bm{B}} & \leq\vertiii{\bm{A}}\left\Vert \bm{B}\right\Vert _{2}, &  & \vertiii{\bm{A}\bm{B}}\leq\vertiii{\bm{B}}\left\Vert \bm{A}\right\Vert _{2},\\
+\vertiii{\bm{A}\bm{B}} & \geq\vertiii{\bm{A}}\sigma_{\min}\left(\bm{B}\right), &  & \vertiii{\bm{A}\bm{B}}\geq\vertiii{\bm{B}}\sigma_{\min}\left(\bm{A}\right).
+\end{align*}
+\end{proposition}
+\begin{proof}See Theorem 3.9 in \citep{stewart1990matrix}.\end{proof}
+
+\subsection{Perturbation bounds for eigenvalues and singular values}
+
+
+In this section, we review classical perturbation
+bounds for eigenvalues of symmetric matrices and singular values for general matrices. 
+
+\begin{lemma}[Weyls's inequality]\label{lemma:weyl}Let
+$\bm{A},\bm{E}\in\mathbb{R}^{n\times n}$ be two real symmetric matrices.
+For every $1\leq i\leq n$, we have 
+\begin{equation}
+\left|\lambda_{i}\left(\bm{A}\right)-\lambda_{i}\left(\bm{A} +\bm{E}\right)\right|\leq\left\Vert \bm{E}\right\Vert .\label{eq:weyl}
+\end{equation}
+\end{lemma}
+\begin{proof}See Equation (1.63) in \citep{Tao2012RMT}. \end{proof}
+
+
+An immediate implication of Lemma~\ref{lemma:weyl} is that the eigenvalues
+of a real symmetric matrix are stable against perturbations. Similar bounds hold for singular values.
+
+
+\begin{lemma}[Wely's inequality for singular values]\label{lemma:weyls-singular-value}Let
+$\bm{A},\bm{E}\in\mathbb{R}^{m\times n}$ be two general matrices.
+Without loss of generality, assume that $m\leq n$. Then for every
+$1\leq i\leq m$, one has 
+\[
+\left|\sigma_{i}\left(\bm{A}+\bm{E}\right)-\sigma_{i}\left(\bm{A}\right)\right|\leq\left\Vert \bm{E}\right\Vert .
+\]
+\end{lemma}
+\begin{proof}See Exercise 1.3.22 in \citep{Tao2012RMT}. \end{proof}
+Again, Lemma~\ref{lemma:weyls-singular-value} reveals that singular
+values are \emph{stable }with respect to small perturbations.
+
+
+%\chapter{Random matrix theory}
+%
+%\cm{Need to motivate why we need these. }
+%
+%As we have mentioned in Section~XXX, we often observe
+%
+%One quantitative version of the central limit theorem \cm{TODO}
+%
+%
+%\begin{theorem}[Bernstein's inequality]Let $\{x_{i}\}_{1\leq i\leq n}$
+%be a sequence of independent random variables. Suppose that for each
+%$1\leq i\leq n$, $\mathbb{E}[x_{i}]=0$ and $|x_{i}|\leq B$ almost
+%surely. Then we have for all $t\geq0$ 
+%\[
+%\mathbb{P}\left(\left|\sum_{i=1}^{n}x_{i}\right|\geq t\right)\leq2\exp\left(\frac{-t^{2}/2}{V+Bt/3}\right),
+%\]
+%where $V$ is the variance statistic 
+%\[
+%V\coloneqq\left|\sum_{i=1}^{n}\mathbb{E}\left[x_{i}^{2}\right]\right|.
+%\]
+%\end{theorem}
+
+

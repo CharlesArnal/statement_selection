@@ -1,0 +1,168 @@
+\section{Preliminaries: Matrix tail bounds}
+\label{sec:matrix-Bernstein}
+
+In order to invoke the sin$\bm{\Theta}$ theorems (Theorems~\ref{thm:davis-kahan} and \ref{thm:wedin}), an important ingredient lies in developing a tight upper bound on the spectral norm $\|\bm{E}\|$ of the perturbation matrix $\bm{E}$. This is where statistical/probabilistic tools play a major role.
+Rather than presenting an encyclopedia of probabilistic techniques (which can be gleaned from \citet{tropp2015introduction,vershynin2016high,boucheron2013concentration,wainwright2019high,tropp2011freedman,raginsky2013concentration,howard2020time}), this monograph singles out only two useful matrix concentration inequalities that suffice for the applications considered herein.
+
+
+\subsubsection{The (truncated) matrix Bernstein inequality}
+The first result is an extension of the celebrated matrix Bernstein inequality \citep{oliveira2009concentration, tropp2012user,hopkins2016fast}. 
+This is an elegant and convenient tail bound for the sum of independent random matrices, resulting in effective performance guarantees for a diverse array of statistical applications.   We refer the interested reader to \citet{tropp2015introduction} for a highly accessible introduction of the classical matrix Bernstein inequality,
+and \citet[Section~A.2.2]{hopkins2016fast} for a proof of the truncated variant stated in Theorem~\ref{thm:matrix-Bernstein}.
+
+%
+\begin{theorem}[Truncated matrix Bernstein]
+\label{thm:matrix-Bernstein}
+Let $\{\bm{X}_{i}\}_{1\leq i\leq m}$ be a sequence of independent real random matrices with dimension $n_{1}\times n_{2}$. Suppose that for all $1\leq i\leq m$,
+%
+%\begin{align}
+%\mathbb{E}\left[\bm{X}_{i}\right]=\bm{0}
+%	\quad \text{and} \quad
+%	\left\Vert \bm{X}_{i}\right\Vert \leq L\qquad\text{for all } i.
+%	\label{eq:mean-zero-bound-B}
+%\end{align}
+%
+\begin{subequations} 	\label{eq:mean-zero-bound-B-truncated}
+\begin{align}
+	\mathbb{P}\big\{\left\Vert \bm{X}_{i}- \mathbb{E}\left[\bm{X}_{i}\right] \right\Vert \geq L \big\} & \leq q_{0}  \\
+	\big\| \mathbb{E}\left[\bm{X}_{i}\right]- \mathbb{E}\left[\bm{X}_{i}\mathbbm1\big\{\left\Vert \bm{X}_{i}\right\Vert < L \big\}\right] \big\| & \leq q_{1}
+\end{align}	
+\end{subequations}
+%
+hold for some quantities $0 \leq q_0 \leq 1$ and $q_1 \geq 0$. In addition, define  the matrix variance statistic $v$  as
+%
+\begin{align}
+	v \coloneqq
+	\max\Bigg\{ & \Bigg\Vert \sum_{i=1}^m\mathbb{E}\Big[(\bm{X}_{i}-\mathbb{E}\left[\bm{X}_{i}\right])(\bm{X}_{i}-\mathbb{E}\left[\bm{X}_{i}\right])^{\top}\Big]\Bigg\Vert , \nonumber \\
+ &	\qquad   \Bigg\Vert \sum_{i=1}^m\mathbb{E}\Big[(\bm{X}_{i}-\mathbb{E}\left[\bm{X}_{i}\right])^{\top}(\bm{X}_{i}-\mathbb{E}\left[\bm{X}_{i}\right])\Big]\Bigg\Vert \Bigg\} .
+	\label{defn:variance-statistic}
+\end{align}
+%
+Then for all $t\geq  mq_1$, one has
+\[
+	\mathbb{P}\left( \left\Vert \sum_{i=1}^m(\bm{X}_{i}-\mathbb{E}\left[\bm{X}_{i}\right])\right\Vert \geq t\right)\leq\left(n_{1}+n_{2}\right) \exp\left(\frac{-(t- mq_1)^{2}/2}{v+L(t-mq_1)/3}\right) + mq_0.
+\]
+\end{theorem}
+%
+\begin{remark}
+Note that when the $\bm{X}_{i}$'s are  i.i.d.~zero-mean random matrices, the matrix variance statistic simplifies  to
+$$
+  v = m \max \Big\{ \big\Vert \mathbb{E}\big[\bm{X}_{i}\bm{X}_{i}^{\top}\big]\big\Vert,
+	\big\Vert \mathbb{E}\big[\bm{X}_{i}^{\top} \bm{X}_{i}\big]\big\Vert \Big\}.
+$$
+\end{remark}
+% When specialized to the i.i.d.~vector case with $n_2 = 1$ and zero mean, one has $v = m \mathsf{tr}(\mathbb{E}[ \bX_i \bX_i^\top])$,
+% which is $m$ times the trace of the covariance matrix of $\bX_i$.
+
+
+To make it more user-friendly, we record a straightforward consequence of Theorem~\ref{thm:matrix-Bernstein} as follows.
+%
+\begin{corollary}
+\label{thm:matrix-Bernstein-friendly-truncated}
+	Suppose the assumptions of Theorem~\ref{thm:matrix-Bernstein} hold, and set $n\coloneqq\max\{n_1,n_2\}$. For any $a\geq 2$, with probability exceeding $1-2n^{-a+1}-mq_0$ one has
+	%
+	\begin{align}
+		\left\Vert \sum_{i=1}^m (\bm{X}_{i} - \mathbb{E}\left[\bm{X}_{i}\right]) \right\Vert \leq \sqrt{2a v \log n } + \frac{2a}{3}L\log n  + mq_1.
+	\end{align}
+\end{corollary}
+%
+In order to make effective use of the above results (particularly when handling unbounded random matrices), it is advisable to take $L$ as a high-probability bound on $\|\bm{X}_i -  \mathbb{E}\left[\bm{X}_{i}\right]  \|$.
+The rationale is simple: by properly truncating $\bm{X}_i$ based on the level $L$,
+we end up with a {\em bounded} sequence that is more convenient to work with while not deviating much  from the original sequence.
+In particular,  if all $\|\bm{X}_i-  \mathbb{E}\left[\bm{X}_{i}\right] \|$ are bounded by a deterministic quantity which is set to be $L$,
+then both $q_0$ and $q_1$ vanish, thus eliminating the need of enforcing truncation.
+In this case, Corollary~\ref{thm:matrix-Bernstein-friendly-truncated} simplifies to a user-friendly version of the standard matrix Bernstein inequality, which we record below for ease of reference.
+%
+\begin{corollary}[Matrix Bernstein]
+\label{thm:matrix-Bernstein-friendly}
+		Let $\{\bm{X}_{i}\}_{1 \leq i \leq m}$
+be a set of independent real random matrices with dimension $n_{1}\times n_{2}$. Suppose that
+%
+\begin{align}
+\mathbb{E}\left[\bm{X}_{i}\right]=\bm{0},
+	\quad \text{and} \quad
+	\left\Vert \bm{X}_{i}\right\Vert \leq L,\qquad\text{for all } i.
+	\label{eq:mean-zero-bound-B}
+\end{align}
+%
+Set $n\coloneqq\max\{n_1,n_2\}$, and recall the definition of variance statistic in~\eqref{defn:variance-statistic}. For any $a\geq 2$, with probability exceeding $1-2n^{-a+1}$ one has
+	%
+	\begin{align}
+		\Bigg\Vert \sum_{i=1}^m \bm{X}_{i} \Bigg\Vert \leq \sqrt{2a v \log n } + \frac{2a}{3}L\log n.
+	\end{align}
+\end{corollary}
+%
+
+By virtue of the above  inequalities, the key to bounding  $\left\Vert \sum\nolimits_{i}\bm{X}_{i}\right\Vert$ largely lies in controlling the following  two crucial quantities:
+%
+\begin{align*}
+	\sqrt{v\log n} \qquad \text{and} \qquad L\log n,
+\end{align*}
+%
+where the former depends on the number $m$ of random matrices involved.
+
+
+
+
+\subsubsection{Spectral norm of random matrices with independent entries}
+An important family of random matrices that merits special attention comprises the ones with independent random entries,
+that is, matrices of the form $\bm{X}=[X_{i,j}]_{1\leq i,j\leq n}$ with independent $X_{i,j}$'s.
+While the spectral norm of such a matrix can also be analyzed via matrix Bernstein (by treating $\bm{X}$ as the sum of independent random matrices $X_{i,j}\bm{e}_i\bm{e}_j^{\top}$),
+this approach is typically loose in terms of the logarithmic factor.
+Motivated by the abundance of such random matrices in practice,
+we record below a strengthened non-asymptotic spectral norm bound, which is of significant utility and is tighter than what matrix Bernstein has to offer for this case.
+%
+\begin{theorem}
+	\label{thm:tighter-spectral-normal-ramon}
+	Consider a \emph{symmetric} random matrix $\bm{X}=[X_{i,j}]_{1\leq i,j\leq n}$ in $\mathbb{R}^{n\times n}$, whose entries are independently generated and obey		%
+	\begin{align}
+		\label{eq:Xij-condition-iid}
+		\mathbb{E}[X_{i,j}]=0, \quad \text{and} \quad  |X_{i,j}|\leq B,  \qquad 1\leq i,j\leq n.
+	\end{align}	
+	%
+	Define
+	%
+	\begin{align}
+		\label{eq:Xij-row-sum-variance}
+		\nu \coloneqq \max_i \sum\nolimits_j \mathbb{E}[X_{i,j}^2].
+	\end{align}
+	%
+	Then there exists some universal constant $c>0$ such that for any $t\geq 0$,
+	%
+	\begin{align} \label{eq3.8}
+		\mathbb{P}\Big\{ \|\bm{X}\|\geq4\sqrt{\nu}+t \Big\} \leq n\exp\Big(-\frac{t^{2}}{cB^{2}}\Big).		
+	\end{align}
+\end{theorem}
+
+
+This result, which appeared in \citet[Remark 3.13]{bandeira2016sharp}, can be established via  tighter control of the expected spectral norm in conjunction with Talagrand's concentration inequality. Two remarks are in order.
+%
+\begin{itemize}
+\item
+First, it is easy to see that the result extends to asymmetric matrices with independent entries, using the standard ``dilation trick'' (see, e.g., \citep[Section~2.1.17]{tropp2015introduction}). Specifically, for an asymmetric random matrix $\bm{X}\in\mathbb{R}^{n_1\times n_2}$, let us introduce the symmetric dilation $\mathcal{S}(\bm{X})$ of $\bm{X}$:
+\[
+\mathcal{S}(\bm{X})\coloneqq\left[\begin{array}{cc}
+\bm{0} & \bm{X}\\
+\bm{X}^{\top} & \bm{0}
+\end{array}\right] \in \mathbb{R}^{ (n_1+n_2) \times (n_1+ n_2)},
+\]
+which enjoys the desired symmetry and can be analyzed directly using Theorem~\ref{thm:tighter-spectral-normal-ramon}. The resulting bound on $\|\mathcal{S}(\bm{X})\|$ can be translated back to $\|\bm{X}\|$ via the elementary identity $\|\bm{X}\| = \|\mathcal{S}(\bm{X})\|$. For conciseness, we will occasionally apply Theorem~\ref{thm:tighter-spectral-normal-ramon} directly to asymmetric matrices without invoking the dilation trick.
+
+\item As a useful corollary, if we know {\em a priori} that $\mathbb{E}[X_{i,j}^2]\leq \sigma^2$ for all $1\leq i,j\leq n$, then Theorem~\ref{thm:tighter-spectral-normal-ramon} implies that
+%
+\begin{align}
+	\|\bm{X}\| \leq 4\sigma \sqrt{n} + \widetilde{c} B \sqrt{ \log n }
+	\label{eq:X-spectral-norm-iid-special-ramon}
+\end{align}
+%
+with probability at least $1-n^{-8}$ for some  constant $\widetilde{c} >0$. To see this, it suffices to set $\widetilde{c} = \sqrt{9c}$ and take $t = B\sqrt{9c \log n} $ in \eqref{eq3.8}.
+
+\end{itemize}
+
+
+
+
+\begin{remark}
+	The inequality \eqref{eq:X-spectral-norm-iid-special-ramon} continues to hold if we replace $n^{-8}$ with $n^{-\alpha}$ for any positive constant $\alpha>0$.
+	Here and below, we often go with the artificial choice like $n^{-8}$ since it is small enough for our purpose.
+\end{remark}

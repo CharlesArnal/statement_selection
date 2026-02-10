@@ -1,0 +1,6109 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+
+
+\usepackage{amsthm} % for theorems
+
+\usepackage{hyperref} % hyperrefs
+
+
+\usepackage{amsmath,amssymb} % for \vertiii
+\newcommand{\vertiii}[1]{{\left\vert\kern-0.25ex\left\vert\kern-0.25ex\left\vert #1 
+    \right\vert\kern-0.25ex\right\vert\kern-0.25ex\right\vert}}
+
+\usepackage{bbm}
+
+
+\let\hat\widehat
+\let\tilde\widetilde
+\let\check\widecheck
+\let\epsilon\varepsilon
+
+
+
+\usepackage{color}
+\definecolor{cm}{RGB}{0,0,200}
+\newcommand{\cm}[1]{\textcolor{cm}{[CM: #1]}}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1in
+\topmargin 1in
+\rightmargin 1in
+\bottommargin 1in
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+theoremstyle
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+plain
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newtheorem{lemma}{
+\end_layout
+
+\end_inset
+
+
+\series bold
+Lemma
+\series default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newtheorem{prop}{
+\end_layout
+
+\end_inset
+
+
+\series bold
+Proposition
+\series default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newtheorem{theorem}{
+\end_layout
+
+\end_inset
+
+
+\series bold
+Theorem
+\series default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+setcounter{theorem}{0}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newtheorem{corollary}{
+\end_layout
+
+\end_inset
+
+
+\series bold
+Corollary
+\series default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newtheorem{assumption}{
+\end_layout
+
+\end_inset
+
+
+\series bold
+Assumption
+\series default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newtheorem{example}{
+\end_layout
+
+\end_inset
+
+
+\series bold
+Example
+\series default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newtheorem{definition}{
+\end_layout
+
+\end_inset
+
+
+\series bold
+Definition
+\series default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newtheorem{fact}{
+\end_layout
+
+\end_inset
+
+
+\series bold
+Fact
+\series default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+theoremstyle
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+definition
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+theoremstyle
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+remark
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newtheorem{remark}{
+\end_layout
+
+\end_inset
+
+
+\series bold
+Remark
+\series default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newtheorem{condition}{
+\end_layout
+
+\end_inset
+
+Condition
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+newtheorem{claim}{
+\end_layout
+
+\end_inset
+
+
+\series bold
+Claim
+\series default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Title
+Classical perturbation theory
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{2.5em}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $\bm{A}\in\mathbb{R}^{m\times n}$
+\end_inset
+
+ be the matrix under study and 
+\begin_inset Formula $\hat{\bm{A}}=\bm{A}+\bm{E}$
+\end_inset
+
+ be the perturbed matrix, where 
+\begin_inset Formula $\bm{E}\in\mathbb{R}^{m\times n}$
+\end_inset
+
+ represents the perturbation.
+ The central question of the current monograph is: How does the eigenvalues
+ (resp.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+singular values) and eigenvectors (resp.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+singular vectors) of 
+\begin_inset Formula $\bm{A}$
+\end_inset
+
+ change in response to the perturbation
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\bm{E}$
+\end_inset
+
+?
+\end_layout
+
+\begin_layout Section
+Mathematical backgrounds
+\end_layout
+
+\begin_layout Standard
+Before presenting the classical matrix perturbation theory, we first review
+ some basic facts in matrix analysis and probability theory that are used
+ extensively in the coming sections.
+ The readers familiar with these materials can proceed directly to Section
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:classical-perturbation"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Matrix analysis 
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Matrix-analysis"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Eigenvalues and eigenvectors
+\end_layout
+
+\begin_layout Standard
+We start with the definition of eigenvalues and eigenvectors of a square
+ matrix.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{definition}[
+\end_layout
+
+\end_inset
+
+Eigenpair
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+]
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "def:eigenpair"
+
+\end_inset
+
+ Fix a square matrix 
+\begin_inset Formula $\bm{A}\in\mathbb{C}^{n\times n}$
+\end_inset
+
+.
+ We say 
+\begin_inset Formula $(\lambda,\bm{v})\in\mathbb{C}\times\mathbb{C}^{n}$
+\end_inset
+
+ is an 
+\emph on
+eigenpair
+\emph default
+ of 
+\begin_inset Formula $\bm{A}$
+\end_inset
+
+ if 
+\begin_inset Formula $\bm{v}$
+\end_inset
+
+ is nonzero and 
+\begin_inset Formula 
+\begin{equation}
+\bm{A}\bm{v}=\lambda\bm{v}.\label{eq:def-eigenpair}
+\end{equation}
+
+\end_inset
+
+In particular, the scalar 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ is an eigenvalue of 
+\begin_inset Formula $\bm{A}$
+\end_inset
+
+ and 
+\begin_inset Formula $\bm{v}$
+\end_inset
+
+ is the associated eigenvector.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{definition}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In words, an eigenvector 
+\begin_inset Formula $\bm{v}$
+\end_inset
+
+ of 
+\begin_inset Formula $\bm{A}$
+\end_inset
+
+ does not change its direction when multiplied by 
+\begin_inset Formula $\bm{A}$
+\end_inset
+
+ and the eigenvalue 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ measures the amount of expansion or shrinkage in this transformation.
+ Several remarks regarding Definition
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "def:eigenpair"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ are in order.
+\end_layout
+
+\begin_layout Itemize
+The eigenpair (i.e.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+the eigenvalue and the eigenvector) is only defined for square matrices.
+ This is implicitly assumed in the definition of the eigenpair
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+(see
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+(
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "def:eigenpair"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+)).
+\end_layout
+
+\begin_layout Itemize
+Every 
+\begin_inset Formula $n\times n$
+\end_inset
+
+ square matrix has exactly 
+\begin_inset Formula $n$
+\end_inset
+
+ (complex) eigenvalues, possibly with repetitions.
+ To see this, one can transform (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "def:eigenpair"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) into the identity
+\begin_inset Formula 
+\[
+\left(\lambda\bm{I}_{n}-\bm{A}\right)\bm{v}=\bm{0}.
+\]
+
+\end_inset
+
+Consequently, the scalar 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ is an eigenvalue of 
+\begin_inset Formula $\bm{A}$
+\end_inset
+
+ if and only if 
+\begin_inset Formula 
+\[
+\mathsf{det}\left(\lambda\bm{I}_{n}-\bm{A}\right)=0.
+\]
+
+\end_inset
+
+Notice that the above relation specifies a polynomial equation of degree
+ 
+\begin_inset Formula $n$
+\end_inset
+
+, which by the fundamental theorem of algebra, has exactly 
+\begin_inset Formula $n$
+\end_inset
+
+ roots in the complex field (and hence 
+\begin_inset Formula $n$
+\end_inset
+
+ complex eigenvalues of 
+\begin_inset Formula $\bm{A}$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Itemize
+A matrix consisting of real entries can have complex eigenvalues and complex
+ eigenvectors.
+ Take for instance the matrix
+\begin_inset Formula 
+\[
+\bm{A}=\left[\begin{array}{cc}
+3 & -2\\
+4 & -1
+\end{array}\right],
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $1+2i$
+\end_inset
+
+ and 
+\begin_inset Formula $1-2i$
+\end_inset
+
+ are its two complex eigenvalues.
+ Here 
+\begin_inset Formula $i$
+\end_inset
+
+ denotes the imaginary unit.
+\end_layout
+
+\begin_layout Standard
+With the last remark being said, there exists one important set of matrices
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+--- 
+\end_layout
+
+\end_inset
+
+
+\emph on
+real symmetric matrices
+\emph default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+ ---
+\end_layout
+
+\end_inset
+
+ of which the eigenvalues must be real.
+ This claim is formalized in the following theorem.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{theorem}[
+\end_layout
+
+\end_inset
+
+Spectral theorem
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+]
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:spectral"
+
+\end_inset
+
+ Let 
+\begin_inset Formula $\bm{A}\in\mathbb{R}^{n\times n}$
+\end_inset
+
+ be a real symmetric matrix.
+ Then there exist 
+\begin_inset Formula $n$
+\end_inset
+
+ real eigenvalues 
+\begin_inset Formula $\lambda_{1},\cdots\lambda_{n}\in\mathbb{R}$
+\end_inset
+
+ and an orthonormal basis 
+\begin_inset Formula $\{\bm{u}_{1},\bm{u}_{2},\cdots,\bm{u}_{n}\}\subset\mathbb{R}^{n}$
+\end_inset
+
+ such that 
+\begin_inset Formula $\bm{A}\bm{u}_{i}=\lambda_{i}\bm{u}_{i}$
+\end_inset
+
+.
+ Equivalently, a real symmetric matrix 
+\begin_inset Formula $\bm{A}$
+\end_inset
+
+ enjoys the following spectral decomposition 
+\begin_inset Formula 
+\begin{equation}
+\bm{A}=\sum_{i=1}^{n}\lambda_{i}\bm{u}_{i}\bm{u}_{i}^{\top},\label{eq:spectral-decomposition-summation-form}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\{\lambda_{i}\}_{1\leq i\leq n}$
+\end_inset
+
+ are the real eigenvalues of 
+\begin_inset Formula $\bm{A}$
+\end_inset
+
+ and 
+\begin_inset Formula $\{\bm{u}_{i}\}_{1\leq i\leq n}$
+\end_inset
+
+ is an orthonormal basis of
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\mathbb{R}^{n}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{theorem}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Since the eigenvalues of real symmetric matrices are guaranteed to be real
+ numbers, we can therefore order them.
+ From now on, denote by 
+\begin_inset Formula $\lambda_{i}(\bm{A})$
+\end_inset
+
+ the 
+\begin_inset Formula $i$
+\end_inset
+
+th largest eigenvalue of a real symmetric matrix 
+\begin_inset Formula $\bm{A}\in\mathbb{R}^{n\times n}$
+\end_inset
+
+.
+ In addition, we define 
+\begin_inset Formula $\lambda_{\max}(\bm{A})\triangleq\lambda_{1}(\bm{A})$
+\end_inset
+
+ and 
+\begin_inset Formula $\lambda_{\min}(\bm{A})\triangleq\lambda_{n}(\bm{A})$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+To make the expression
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+(
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:spectral-decomposition-diagonalization-form"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) more compact, we denote 
+\begin_inset Formula 
+\[
+\bm{U}=\left[\begin{array}{ccc}
+\rvert &  & \rvert\\
+\bm{u}_{1} & \cdots & \bm{u}_{n}\\
+\rvert &  & \rvert
+\end{array}\right]\in\mathbb{R}^{n\times n}\qquad\text{and}\qquad\bm{\Lambda}=\left[\begin{array}{cccc}
+\lambda_{1} & 0 & \cdots & 0\\
+0 & \lambda_{2} & \cdots & 0\\
+\vdots & \cdots & \ddots & \vdots\\
+0 & 0 & \cdots & \lambda_{n}
+\end{array}\right]\in\mathbb{R}^{n\times n}.
+\]
+
+\end_inset
+
+As a result, the decomposition (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:spectral-decomposition-diagonalization-form"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) can be rewritten as 
+\begin_inset Formula 
+\begin{equation}
+\bm{A}=\bm{U}\bm{\Lambda}\bm{U}^{\top},\label{eq:spectral-decomposition-multiplication-form}
+\end{equation}
+
+\end_inset
+
+in which a real symmetric matrix is decomposed into the multiplications
+ of orthonormal matrices (i.e.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\bm{U}$
+\end_inset
+
+) and a real diagonal matrix (i.e.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\bm{\Lambda}$
+\end_inset
+
+).
+ Another useful way to interpret spectral decomposition is through the lens
+ of diagonalization.
+ Simple algebraic manipulation reveals an equivalent form of (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:spectral-decomposition-multiplication-form"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) 
+\begin_inset Formula 
+\begin{equation}
+\bm{U}^{\top}\bm{A}\bm{U}=\bm{\Lambda}.\label{eq:spectral-decomposition-diagonalization-form}
+\end{equation}
+
+\end_inset
+
+This essentially tells us that any real symmetric matrix 
+\begin_inset Formula $\bm{A}$
+\end_inset
+
+ can be 
+\emph on
+diagonalized 
+\emph default
+by an orthonormal matrix
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+(i.e.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\bm{U}$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Subsubsection
+Singular values and singular vectors
+\end_layout
+
+\begin_layout Standard
+As we have pointed out in the remarks following Definition
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "def:eigenpair"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, a rectangular matrix does 
+\emph on
+not
+\emph default
+ have well-defined eigenvalues and eigenvectors.
+ It is then natural to ask whether there is a similar decomposition of a
+ general matrix to that of a real symmetric matrix (cf.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+(
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:spectral-decomposition-multiplication-form"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+)).
+ Fortunately, a general matrix admits another useful representation, namely
+ the singular value decomposition (SVD).
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{definition}[
+\end_layout
+
+\end_inset
+
+Singular value decomposition
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+]
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "def:SVD"
+
+\end_inset
+
+Let 
+\begin_inset Formula $\bm{A}\in\mathbb{R}^{m\times n}$
+\end_inset
+
+ be a general matrix.
+ Without loss of generality, assume that 
+\begin_inset Formula $m\leq n$
+\end_inset
+
+.
+ There exists a pair of orthogonal matrices 
+\begin_inset Formula $\bm{U}\in\mathbb{R}^{m\times m}$
+\end_inset
+
+ and 
+\begin_inset Formula $\bm{V}\in\mathbb{R}^{n\times n}$
+\end_inset
+
+ such that 
+\begin_inset Formula 
+\begin{equation}
+\bm{A}=\bm{U}\bm{\Sigma}\bm{V}^{\top},\label{eq:SVD}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\bm{\Sigma}$
+\end_inset
+
+ is a rectangular diagonal matrix with 
+\begin_inset Formula 
+\[
+\bm{\Sigma}=\left[\begin{array}{cccccc}
+\sigma_{1} & 0 & \cdots & \cdots & 0 & 0\\
+0 & \sigma_{2} & \cdots & \cdots & 0 & 0\\
+\vdots & \vdots & \ddots & \vdots & \vdots & \vdots\\
+0 & 0 & \cdots & \sigma_{m} & 0 & 0
+\end{array}\right]\in\mathbb{R}^{m\times n}
+\]
+
+\end_inset
+
+and 
+\begin_inset Formula $\sigma_{1}\geq\sigma_{2}\geq\cdots\geq\sigma_{m}\geq0$
+\end_inset
+
+.
+ The decomposition (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:SVD"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) is called the singular value decomposition, where the nonnegative real
+ numbers 
+\begin_inset Formula $\{\sigma_{i}\}_{1\leq i\leq n}$
+\end_inset
+
+ are the singular values of 
+\begin_inset Formula $\bm{A}$
+\end_inset
+
+ and the columns in 
+\begin_inset Formula $\bm{U}$
+\end_inset
+
+ (resp.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\bm{V}$
+\end_inset
+
+) are the left (resp.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+right) singular vectors of 
+\begin_inset Formula $\bm{A}$
+\end_inset
+
+.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{definition}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Similar to the eigenvalues of real symmetric matrices, the singular values
+ of a general matrix are guaranteed to be real.
+ As a result, for any 
+\begin_inset Formula $1\leq i\leq\min\{m,n\}$
+\end_inset
+
+, we define 
+\begin_inset Formula $\sigma_{i}(\bm{A})$
+\end_inset
+
+ to be 
+\begin_inset Formula $i$
+\end_inset
+
+th largest singular value of 
+\begin_inset Formula $\bm{A}$
+\end_inset
+
+, and define 
+\begin_inset Formula $\sigma_{\max}(\bm{A})\triangleq\sigma_{1}(\bm{A})$
+\end_inset
+
+ (resp.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\sigma_{\min}(\bm{A})\triangleq\sigma_{\min\{m,n\}}(\bm{A})$
+\end_inset
+
+) to be the largest (resp.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+smallest) singular values of 
+\begin_inset Formula $\bm{A}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+It is straightforward to read the rank of a matrix from its singular values
+ in that the rank is equal to the number of nonzero singular values.
+ If the rank 
+\begin_inset Formula $r$
+\end_inset
+
+ of a matrix 
+\begin_inset Formula $\bm{A}\in\mathbb{R}^{m\times n}$
+\end_inset
+
+ is smaller than 
+\begin_inset Formula $\min\{m,n\}$
+\end_inset
+
+, it is often more economical to represent the matrix using the 
+\emph on
+compact SVD 
+\emph default
+
+\begin_inset Formula 
+\begin{equation}
+\bm{A}=\bm{U}_{r}\bm{\Sigma}_{r}\bm{V}_{r}^{\top},\label{eq:compact-SVD}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\bm{U}_{r}\in\mathbb{R}^{m\times r}$
+\end_inset
+
+ (resp.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\bm{V}_{r}\in\mathbb{R}^{n\times r}$
+\end_inset
+
+) is the first 
+\begin_inset Formula $r$
+\end_inset
+
+ columns of 
+\begin_inset Formula $\bm{U}$
+\end_inset
+
+ (resp.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\bm{V}$
+\end_inset
+
+) and 
+\begin_inset Formula $\bm{\Sigma}_{r}\in\mathbb{R}^{r\times r}$
+\end_inset
+
+ is the upper left block of 
+\begin_inset Formula $\bm{\Sigma}$
+\end_inset
+
+ of size 
+\begin_inset Formula $r$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Having introduced two matrix decompositions, it is instrumental to compare
+ the singular value decomposition of a general matrix (cf.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+Definition
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "def:SVD"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) with the spectral decomposition of a real symmetric matrix (cf.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+Theorem
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+(
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:spectral"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+)).
+ First, the eigenvalues of a real symmetric matrix are not necessarily nonnegati
+ve whereas singular values must be.
+ Second, as claimed in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:spectral-decomposition-diagonalization-form"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+), any real symmetric matrix can be diagonalized by a single orthonormal
+ matrix.
+ However, this may not hold true for a general matrix, nevertheless, SVD
+ points out a way to diagonalize a matrix using two orthonormal matrices.
+ To see this, one can equate (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:SVD"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) with
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\bm{U}^{\top}\bm{A}\bm{V}=\bm{\Sigma}.
+\]
+
+\end_inset
+
+Last but not least, the singular value decomposition and the spectral decomposit
+ion are inherently related.
+ It is an easy exercise to see that the columns of 
+\begin_inset Formula $\bm{U}$
+\end_inset
+
+ (resp.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\bm{V}$
+\end_inset
+
+) are eigenvectors of 
+\begin_inset Formula $\bm{A}\bm{A}^{\top}$
+\end_inset
+
+ (resp.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\bm{A}^{\top}\bm{A}$
+\end_inset
+
+).
+ In addition, the singular values of 
+\begin_inset Formula $\bm{A}$
+\end_inset
+
+ are nonnegative square roots of the eigenvalues of either 
+\begin_inset Formula $\bm{A}\bm{A}^{\top}$
+\end_inset
+
+ or 
+\begin_inset Formula $\bm{A}^{\top}\bm{A}$
+\end_inset
+
+ (modulo zero singular values).
+ This connection shall prove useful in later discussions.
+\end_layout
+
+\begin_layout Subsubsection
+Matrix norms
+\end_layout
+
+\begin_layout Standard
+To measure the size of the perturbation (e.g.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\bm{E}$
+\end_inset
+
+), we need to introduce appropriate metrics
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+/
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+norms on the space of matrices.
+ Among all matrix norms, unitarily invariant norms are of most interest
+ to us.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{definition}[
+\end_layout
+
+\end_inset
+
+Unitarily invariant norms
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+]
+\end_layout
+
+\end_inset
+
+A matrix norm 
+\begin_inset Formula $\vertiii{\cdot}$
+\end_inset
+
+ on 
+\begin_inset Formula $\mathbb{R}^{m\times n}$
+\end_inset
+
+ is unitarily invariant if
+\begin_inset Formula 
+\[
+\vertiii{\bm{A}}=\vertiii{\bm{U}^{\top}\bm{A}\bm{V}}
+\]
+
+\end_inset
+
+for any matrix 
+\begin_inset Formula $\bm{A}\in\mathbb{R}^{m\times n}$
+\end_inset
+
+ and any two orthogonal matrices 
+\begin_inset Formula $\bm{U}\in\mathbb{R}^{m\times m}$
+\end_inset
+
+ and 
+\begin_inset Formula $\bm{V}\in\mathbb{R}^{n\times n}$
+\end_inset
+
+.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{definition}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Two prominent examples include the Frobenius norm and the operator norm
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left\Vert \bm{A}\right\Vert _{\mathrm{F}}\triangleq\sqrt{\sum_{i,j}A_{ij}^{2}}\qquad\text{and}\qquad\left\Vert \bm{A}\right\Vert \triangleq\max_{\bm{x}\in\mathbb{R}^{n}:\bm{x}\neq\bm{0}}\frac{\left\Vert \bm{A}\bm{x}\right\Vert _{2}}{\left\Vert \bm{x}\right\Vert _{2}}.\label{eq:def-fro-op-norm}
+\end{equation}
+
+\end_inset
+
+To see why both 
+\begin_inset Formula $\|\cdot\|_{\mathrm{F}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\|\cdot\|$
+\end_inset
+
+ are unitarily invariant norms, we have the following important characterization
+s
+\begin_inset Formula 
+\[
+\left\Vert \bm{A}\right\Vert _{\mathrm{F}}=\sqrt{\sum_{i=1}^{\min\{m,n\}}\sigma_{i}^{2}\left(\bm{A}\right)}\qquad\text{and}\qquad\left\Vert \bm{A}\right\Vert =\sigma_{1}\left(\bm{A}\right),
+\]
+
+\end_inset
+
+where we recall that 
+\begin_inset Formula $\sigma_{1}(\bm{A})\geq\sigma_{2}(\bm{A})\geq\cdots\geq\sigma_{\min\{m,n\}}(\bm{A})\geq0$
+\end_inset
+
+ are the singular values of 
+\begin_inset Formula $\bm{A}$
+\end_inset
+
+ in descending order.
+\end_layout
+
+\begin_layout Standard
+Last but not least, unitarily invariant norms enjoy the following nice propertie
+s.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{prop}
+\end_layout
+
+\end_inset
+
+Let 
+\begin_inset Formula $\vertiii{\cdot}$
+\end_inset
+
+ be any unitarily invariant norm.
+ One has 
+\begin_inset Formula 
+\begin{alignat*}{2}
+\vertiii{\bm{A}\bm{B}} & \leq\vertiii{\bm{A}}\left\Vert \bm{B}\right\Vert _{2}, & \vertiii{\bm{A}\bm{B}}\leq\vertiii{\bm{B}}\left\Vert \bm{A}\right\Vert _{2}\\
+\vertiii{\bm{A}\bm{B}} & \geq\vertiii{\bm{A}}\sigma_{\min}\left(\bm{B}\right), & \vertiii{\bm{A}\bm{B}}\geq\vertiii{\bm{B}}\sigma_{\min}\left(\bm{A}\right)
+\end{alignat*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\vertiii{\bm{A}\bm{B}} & \leq\vertiii{\bm{A}}\left\Vert \bm{B}\right\Vert _{2}, &  & \vertiii{\bm{A}\bm{B}}\leq\vertiii{\bm{B}}\left\Vert \bm{A}\right\Vert _{2}\\
+\vertiii{\bm{A}\bm{B}} & \geq\vertiii{\bm{A}}\sigma_{\min}\left(\bm{B}\right), &  & \vertiii{\bm{A}\bm{B}}\geq\vertiii{\bm{B}}\sigma_{\min}\left(\bm{A}\right)
+\end{align*}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{prop}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Concentration inequalities
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cm{
+\end_layout
+
+\end_inset
+
+Need to motivate why we need these.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As we have mentioned in Section
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+XXX, we often observe
+\end_layout
+
+\begin_layout Standard
+One quantitative version of the central limit theorem 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cm{
+\end_layout
+
+\end_inset
+
+TODO
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{theorem}[
+\end_layout
+
+\end_inset
+
+Bernstein's inequality
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+]
+\end_layout
+
+\end_inset
+
+Let 
+\begin_inset Formula $\{x_{i}\}_{1\leq i\leq n}$
+\end_inset
+
+ be a sequence of independent random variables.
+ Suppose that for each 
+\begin_inset Formula $1\leq i\leq n$
+\end_inset
+
+, 
+\begin_inset Formula $\mathbb{E}[x_{i}]=0$
+\end_inset
+
+ and 
+\begin_inset Formula $|x_{i}|\leq B$
+\end_inset
+
+ almost surely.
+ Then we have for all 
+\begin_inset Formula $t\geq0$
+\end_inset
+
+ 
+\begin_inset Formula 
+\[
+\mathbb{P}\left(\left|\sum_{i=1}^{n}x_{i}\right|\geq t\right)\leq2\exp\left(\frac{-t^{2}/2}{V+Bt/3}\right),
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $V$
+\end_inset
+
+ is the variance statistic 
+\begin_inset Formula 
+\[
+V\triangleq\left|\sum_{i=1}^{n}\mathbb{E}\left[x_{i}^{2}\right]\right|.
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{theorem}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{theorem}[
+\end_layout
+
+\end_inset
+
+Matrix Bernstein's inequality
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+]
+\end_layout
+
+\end_inset
+
+Let 
+\begin_inset Formula $\{\bm{X}_{i}\}_{1\leq i\leq n}$
+\end_inset
+
+ be a sequence of independent real random matrices with dimension 
+\begin_inset Formula $d_{1}\times d_{2}$
+\end_inset
+
+.
+ Suppose that 
+\begin_inset Formula 
+\[
+\mathbb{E}\left[\bm{X}_{i}\right]=\bm{0},\qquad\left\Vert \bm{X}_{l}\right\Vert \leq B\qquad\text{for each }i.
+\]
+
+\end_inset
+
+Let 
+\begin_inset Formula $V$
+\end_inset
+
+ be the variance statistic
+\begin_inset Formula 
+\[
+V\triangleq\max\left\{ \left\Vert \sum_{i=1}^{n}\mathbb{E}\left[\bm{X}_{i}\bm{X}_{i}^{\top}\right]\right\Vert ,\left\Vert \sum_{i=1}^{n}\mathbb{E}\left[\bm{X}_{i}^{\top}\bm{X}_{i}\right]\right\Vert \right\} .
+\]
+
+\end_inset
+
+Then one has for all 
+\begin_inset Formula $t\geq0$
+\end_inset
+
+, 
+\begin_inset Formula 
+\[
+\mathbb{P}\left(\left\Vert \sum_{i=1}^{n}\bm{X}_{i}\right\Vert \geq t\right)\leq\left(d_{1}+d_{2}\right)\exp\left(\frac{-t^{2}/2}{V+Bt/3}\right).
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{theorem}
+\end_layout
+
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Section
+The classical 
+\begin_inset Formula $\ell_{2}$
+\end_inset
+
+ perturbation theory 
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:classical-perturbation"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now we are ready to present the classical matrix perturbation theory on
+ the eigenvalues (resp.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+singular values) and eigenvectors (resp.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+singular vectors).
+\end_layout
+
+\begin_layout Subsection
+Perturbation of real symmetric matrices 
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Perturbation-of-real-symmetric"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We start with a real symmetric matrix 
+\begin_inset Formula $\bm{A}\in\mathbb{R}^{n\times n}$
+\end_inset
+
+, where the focus is its eigenvalues and eigenvectors.
+ In light of Theorem
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:spectral"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, the matrix 
+\begin_inset Formula $\bm{A}$
+\end_inset
+
+ has the spectral decomposition 
+\begin_inset Formula 
+\[
+\bm{A}=\sum_{i=1}^{n}\lambda_{i}\bm{u}_{i}\bm{u}_{i}^{\top},
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\lambda_{1}\geq\lambda_{2}\geq\cdots\geq\lambda_{n}$
+\end_inset
+
+ are the eigenvalues and 
+\begin_inset Formula $\{\bm{u}_{i}\}$
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+--- 
+\end_layout
+
+\end_inset
+
+the set of eigenvectors
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+ --- 
+\end_layout
+
+\end_inset
+
+forms an orthonormal basis of 
+\begin_inset Formula $\mathbb{R}^{n}$
+\end_inset
+
+.
+ Suppose that 
+\begin_inset Formula $\bm{A}$
+\end_inset
+
+ is perturbed by a symmetric matrix 
+\begin_inset Formula $\bm{E}\in\mathbb{R}^{n\times n}$
+\end_inset
+
+ and we only get to observe 
+\begin_inset Formula $\hat{\bm{A}}=\bm{A}+\bm{E}.$
+\end_inset
+
+ Two important questions follow: 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cm{
+\end_layout
+
+\end_inset
+
+Need to motivate eigenspaces.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+How do the eigenvalues change when the matrix 
+\begin_inset Formula $\bm{A}$
+\end_inset
+
+ is perturbed by 
+\begin_inset Formula $\bm{E}$
+\end_inset
+
+?
+\end_layout
+
+\begin_layout Enumerate
+How do the eigenspaces change in response to the perturbation 
+\begin_inset Formula $\bm{E}$
+\end_inset
+
+?
+\end_layout
+
+\begin_layout Standard
+Before addressing these questions, we introduce some useful notation.
+ Denote the spectral decomposition of 
+\begin_inset Formula $\hat{\bm{A}}$
+\end_inset
+
+ by 
+\begin_inset Formula 
+\[
+\hat{\bm{A}}=\bm{A}+\bm{E}=\sum_{i=1}^{n}\hat{\lambda}_{i}\hat{\bm{u}}_{i}\hat{\bm{u}}_{i}^{\top},
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\hat{\lambda}_{1}\geq\hat{\lambda}_{2}\geq\cdots\geq\hat{\lambda}_{n}$
+\end_inset
+
+ are the eigenvalues of 
+\begin_inset Formula $\hat{\bm{A}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\{\hat{\bm{u}}_{i}\}$
+\end_inset
+
+ are the corresponding eigenvectors that are orthonormal.
+\end_layout
+
+\begin_layout Subsubsection
+The perturbation of eigenvalues
+\end_layout
+
+\begin_layout Standard
+With all the notation at hand, we are in position to present the perturbation
+ bounds for eigenvalues of symmetric matrices.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{lemma}[
+\end_layout
+
+\end_inset
+
+Weyls's inequality
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+]
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "lemma:weyl"
+
+\end_inset
+
+Instate the notation in Section
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Perturbation-of-real-symmetric"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ For every 
+\begin_inset Formula $1\leq i\leq n$
+\end_inset
+
+, we have 
+\begin_inset Formula 
+\begin{equation}
+\left|\lambda_{i}\left(\bm{A}+\bm{E}\right)-\lambda_{i}\left(\bm{A}\right)\right|=\left|\hat{\lambda}_{i}-\lambda_{i}\right|\leq\left\Vert \bm{E}\right\Vert .\label{eq:weyl}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{lemma}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+An immediate implication of Lemma
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lemma:weyl"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ is that the eigenvalues of a real symmetric matrix are stable against small
+ perturbations.
+\end_layout
+
+\begin_layout Subsubsection
+Distance between subspaces
+\end_layout
+
+\begin_layout Standard
+Moving on to the question of the perturbation of eigenvectors
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+/
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+eigenspaces, one clearly needs a distance metric on the space of linear
+ subspaces.
+ Let 
+\begin_inset Formula $\mathcal{X}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathcal{Y}$
+\end_inset
+
+ be two linear subspaces of 
+\begin_inset Formula $\mathbb{R}^{n}$
+\end_inset
+
+ with dimension 
+\begin_inset Formula $r$
+\end_inset
+
+ and let 
+\begin_inset Formula $\bm{U}_{0}\in\mathbb{R}^{n\times r}$
+\end_inset
+
+ (resp.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\hat{\bm{U}}_{0}\in\mathbb{R}^{n\times r}$
+\end_inset
+
+) be an orthonormal basis of 
+\begin_inset Formula $\mathcal{X}$
+\end_inset
+
+ (resp.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\mathcal{Y}$
+\end_inset
+
+).
+ This subsection is centered around quantifying the distance between 
+\begin_inset Formula $\mathcal{X}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathcal{Y}$
+\end_inset
+
+.
+ One naive idea is to use the 
+\begin_inset Quotes eld
+\end_inset
+
+metric
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset Formula $\vertiii{\bm{U}_{0}-\hat{\bm{U}}_{0}}$
+\end_inset
+
+, where 
+\begin_inset Formula $\vertiii{\cdot}$
+\end_inset
+
+ is any norm on 
+\begin_inset Formula $\mathbb{R}^{n\times r}$
+\end_inset
+
+.
+ However, an obvious drawback of this approach is that it does not take
+ into account the rotation ambiguity that is inherent in 
+\begin_inset Formula $\bm{U}_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $\hat{\bm{U}}_{0}$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+ --- 
+\end_layout
+
+\end_inset
+
+for any 
+\begin_inset Formula $\bm{R}\in\mathcal{O}^{r\times r}$
+\end_inset
+
+, the matrix 
+\begin_inset Formula $\bm{U}\bm{R}$
+\end_inset
+
+ is also an orthonormal basis of 
+\begin_inset Formula $\mathcal{X}$
+\end_inset
+
+.
+ Therefore, any reasonable distance metric should handle the rotation ambiguity
+ properly.
+ Below are two popular metrics to measure the distance between a pair of
+ subspaces.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+The algebraic construction of distance metrics
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+ --- 
+\end_layout
+
+\end_inset
+
+projection matrices.
+ 
+\emph default
+It is an established fact in linear algebra that the projection matrix 
+\begin_inset Formula $\bm{U}_{0}\bm{U}_{0}^{\top}$
+\end_inset
+
+ (resp.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\hat{\bm{U}}_{0}\hat{\bm{U}}_{0}^{\top}$
+\end_inset
+
+) onto the subspace 
+\begin_inset Formula $\mathcal{X}$
+\end_inset
+
+ (resp.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\mathcal{Y}$
+\end_inset
+
+) is unique.
+ Utilizing this fact, one can define the distance between 
+\begin_inset Formula $\mathcal{X}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathcal{Y}$
+\end_inset
+
+ to be 
+\begin_inset Formula 
+\begin{equation}
+\rho_{\vertiii{\cdot}}\left(\mathcal{X},\mathcal{Y}\right)\triangleq\vertiii{\bm{U}_{0}\bm{U}_{0}^{\top}-\hat{\bm{U}}_{0}\hat{\bm{U}}_{0}^{\top}},\label{eq:algebraic-dist}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\vertiii{\cdot}$
+\end_inset
+
+ is some norm on 
+\begin_inset Formula $\mathbb{R}^{n\times n}$
+\end_inset
+
+.
+ It is an exercise for the readers to prove that this is indeed a valid
+ distance metric on the space of linear subspaces.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\emph on
+The geometric construction of distance metrics
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+ --- 
+\end_layout
+
+\end_inset
+
+canonical angles
+\emph default
+.
+ Let 
+\begin_inset Formula $\bm{X}\bm{\Sigma}\bm{Y}^{\top}$
+\end_inset
+
+ be the SVD of 
+\begin_inset Formula $\bm{U}_{0}^{\top}\hat{\bm{U}}_{0}$
+\end_inset
+
+, where 
+\begin_inset Formula $\bm{X},\bm{Y}\in\mathcal{O}^{r\times r}$
+\end_inset
+
+ are orthonormal matrices and 
+\begin_inset Formula $\bm{\Sigma}=\mathsf{diag}(\sigma_{1},\sigma_{2},\cdots,\sigma_{r})$
+\end_inset
+
+ consisting of the singular values of 
+\begin_inset Formula $\bm{U}_{0}^{\top}\hat{\bm{U}}_{0}$
+\end_inset
+
+ in a descending order.
+ It is easy to check that all the singular values 
+\begin_inset Formula $\{\sigma_{i}\}$
+\end_inset
+
+ are contained in the interval 
+\begin_inset Formula $[0,1]$
+\end_inset
+
+.
+ Therefore, one can define the 
+\emph on
+canonical angles
+\emph default
+ between two subspaces spanned by 
+\begin_inset Formula $\bm{U}_{0}$
+\end_inset
+
+ (i.e.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\mathcal{X}$
+\end_inset
+
+) and 
+\begin_inset Formula $\hat{\bm{U}}_{0}$
+\end_inset
+
+ (i.e.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\mathcal{Y}$
+\end_inset
+
+) to be 
+\begin_inset Formula 
+\[
+\theta_{i}\triangleq\cos^{-1}\left(\sigma_{i}\right)\in\left[0,\pi/2\right],\qquad\text{for all}\quad1\leq i\leq r.
+\]
+
+\end_inset
+
+Note that 
+\begin_inset Formula $0\leq\theta_{1}\leq\theta_{2}\leq\cdots\leq\theta_{r}\leq\pi/2$
+\end_inset
+
+.
+ To see why this definition makes sense, let us consider the simplest case
+ where 
+\begin_inset Formula $r=1$
+\end_inset
+
+ and hence 
+\begin_inset Formula $\bm{U}$
+\end_inset
+
+ and 
+\begin_inset Formula $\hat{\bm{U}}$
+\end_inset
+
+ are two unit vectors.
+ In this case, the canonical angle 
+\begin_inset Formula $\theta_{1}$
+\end_inset
+
+ is exactly the angle between the two unit vectors 
+\begin_inset Formula $\bm{U}$
+\end_inset
+
+ and 
+\begin_inset Formula $\hat{\bm{U}}$
+\end_inset
+
+: when 
+\begin_inset Formula $\theta_{1}=0$
+\end_inset
+
+, the two subspaces coincide with each other and when 
+\begin_inset Formula $\theta_{1}=\pi/2$
+\end_inset
+
+, they are far way from each other.
+ Based on this observation, the set of canonical angles 
+\begin_inset Formula $\{\theta_{i}\}$
+\end_inset
+
+ forms a good basis to measure the distance between two subspaces.
+ To formalize this idea, we arrange the canonical angles into a diagonal
+ matrix 
+\begin_inset Formula 
+\[
+\bm{\Theta}\triangleq\mathsf{diag}\left(\theta_{1},\theta_{2},\cdots,\theta_{r}\right)\in\mathbb{R}^{r\times r},
+\]
+
+\end_inset
+
+and correspondingly define 
+\begin_inset Formula 
+\begin{align*}
+\sin\bm{\Theta} & \triangleq\mathsf{diag}\left(\sin\theta_{1},\sin\theta_{2},\cdots,\sin\theta_{r}\right)\in\mathbb{R}^{r\times r}.
+\end{align*}
+
+\end_inset
+
+With this notation in place, one can measure the distance between 
+\begin_inset Formula $\mathcal{X}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathcal{Y}$
+\end_inset
+
+ through 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cm{
+\end_layout
+
+\end_inset
+
+May not be a good notation to use due to the ignorance of the norm.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\rho_{\sin}\left(\mathcal{X},\mathcal{Y}\right)=\vertiii{\sin\bm{\Theta}},\label{eq:geometric-dist}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\vertiii{\cdot}$
+\end_inset
+
+ is some norm on 
+\begin_inset Formula $\mathbb{R}^{r\times r}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+As we will soon see, the algebraic distance (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:algebraic-dist"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) and the geometric distance (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:geometric-dist"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) are closely related.
+ This connection is best illustrated via the following lemma.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{lemma}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "lemma:connection-algebraic-geometric"
+
+\end_inset
+
+Denote
+\begin_inset Formula 
+\[
+k=\begin{cases}
+r, & \text{if }2r\leq n,\\
+n-r, & \text{if }2r>n.
+\end{cases}
+\]
+
+\end_inset
+
+Then the singular values of 
+\begin_inset Formula $\bm{U}_{0}\bm{U}_{0}^{\top}-\hat{\bm{U}}_{0}\hat{\bm{U}}_{0}^{\top}$
+\end_inset
+
+ are given by
+\begin_inset Formula 
+\[
+\underbrace{\sin\theta_{r},\sin\theta_{r},\sin\theta_{r-1},\sin\theta_{r-1},\cdots,\sin\theta_{r+1-k},\sin\theta_{r+1-k}}_{2k},\;\underbrace{0,0,\cdots,0}_{n-2k}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Suppose that 
+\begin_inset Formula $2r\leq n$
+\end_inset
+
+.
+ Then the singular values of 
+\begin_inset Formula $\bm{U}_{0}\bm{U}_{0}^{\top}-\hat{\bm{U}}_{0}\hat{\bm{U}}_{0}^{\top}$
+\end_inset
+
+ are given by
+\begin_inset Formula 
+\[
+\underbrace{\sin\theta_{r},\sin\theta_{r},\sin\theta_{r-1},\sin\theta_{r-1},\cdots,\sin\theta_{1},\sin\theta_{1}}_{2r},\;\underbrace{0,0,\cdots,0}_{n-2r}.
+\]
+
+\end_inset
+
+Similarly, when 
+\begin_inset Formula $2r>n$
+\end_inset
+
+, the singular values of 
+\begin_inset Formula $\bm{U}_{0}\bm{U}_{0}^{\top}-\hat{\bm{U}}_{0}\hat{\bm{U}}_{0}^{\top}$
+\end_inset
+
+ are 
+\begin_inset Formula 
+\[
+\underbrace{\sin\theta_{r},\sin\theta_{r},\sin\theta_{r-1},\sin\theta_{r-1},\cdots,\sin\theta_{2r+1-n},\sin\theta_{2r+1-n}}_{2(n-r)},\;\underbrace{0,0,\cdots,0}_{2r-n}.
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{lemma}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+Let 
+\begin_inset Formula $\bm{U}_{1}\in\mathbb{R}^{n\times(n-r)}$
+\end_inset
+
+ (resp.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\hat{\bm{U}}_{1}\in\mathbb{R}^{n\times(n-r)}$
+\end_inset
+
+) be an orthonormal basis for the orthogonal complement to 
+\begin_inset Formula $\bm{U}_{0}$
+\end_inset
+
+ (reps.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\hat{\bm{U}}_{0}$
+\end_inset
+
+).
+ Since singular values are unitarily invariant, we turn to investigating
+ the singlur values of 
+\begin_inset Formula 
+\[
+\left[\begin{array}{c}
+\bm{U}_{0}^{\top}\\
+\bm{U}_{1}^{\top}
+\end{array}\right]\left(\bm{U}_{0}\bm{U}_{0}^{\top}-\hat{\bm{U}}_{0}\hat{\bm{U}}_{0}^{\top}\right)\left[\begin{array}{cc}
+\hat{\bm{U}}_{1} & \hat{\bm{U}}_{0}\end{array}\right]=\left[\begin{array}{cc}
+\bm{U}_{0}^{\top}\hat{\bm{U}}_{1} & \bm{0}\\
+\bm{0} & -\bm{U}_{1}^{\top}\hat{\bm{U}}_{0}
+\end{array}\right].
+\]
+
+\end_inset
+
+As result, the singular values of 
+\begin_inset Formula $\bm{U}_{0}\bm{U}_{0}^{\top}-\hat{\bm{U}}_{0}\hat{\bm{U}}_{0}^{\top}$
+\end_inset
+
+ are composed of those of 
+\begin_inset Formula $\bm{U}_{0}^{\top}\hat{\bm{U}}_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $-\bm{U}_{1}^{\top}\hat{\bm{U}}_{0}$
+\end_inset
+
+.
+ Recall from our discussion on the relationship between eigenvalues and
+ singular values.
+ We turn to studying the eigenvalues of 
+\begin_inset Formula $\bm{U}_{0}^{\top}\hat{\bm{U}}_{1}\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}$
+\end_inset
+
+.
+ Note that 
+\begin_inset Formula 
+\[
+\bm{U}_{0}^{\top}\hat{\bm{U}}_{1}\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}=\bm{U}_{0}^{\top}\left(\bm{I}_{n}-\hat{\bm{U}}_{0}\hat{\bm{U}}_{0}^{\top}\right)\bm{U}_{0}=\bm{I}_{r}-\bm{U}_{0}^{\top}\hat{\bm{U}}_{0}\hat{\bm{U}}_{0}^{\top}\bm{U}_{0}=\bm{X}\left(\bm{I}_{r}-\bm{\Sigma}^{2}\right)\bm{X}^{\top},
+\]
+
+\end_inset
+
+where the last relation uses the SVD 
+\begin_inset Formula $\bm{X}\bm{\Sigma}\bm{Y}^{\top}$
+\end_inset
+
+ of 
+\begin_inset Formula $\bm{U}_{0}^{\top}\hat{\bm{U}}_{0}$
+\end_inset
+
+.
+ It is then easy to check that 
+\begin_inset Formula 
+\[
+\sigma_{i}(\bm{U}_{0}^{\top}\hat{\bm{U}}_{1})=\sqrt{\lambda_{i}(\bm{U}_{0}^{\top}\hat{\bm{U}}_{1}\hat{\bm{U}}_{1}^{\top}\bm{U}_{0})}=\sqrt{1-\cos^{2}\theta_{r+1-i}}=\sin\theta_{r+1-i}.
+\]
+
+\end_inset
+
+Similaly, the singular values of 
+\begin_inset Formula $-\bm{U}_{1}^{\top}\hat{\bm{U}}_{0}$
+\end_inset
+
+ are given by 
+\begin_inset Formula $\{\sin\theta_{i}\}_{1\leq i\leq r}$
+\end_inset
+
+.
+ Combine these two observations to complete the proof.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Lemma
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lemma:connection-algebraic-geometric"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ connects the singular values of the difference of projection matrices with
+ the sines of canonical angles between subspaces.
+ With the help of Lemma
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lemma:connection-algebraic-geometric"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, one can easily obtain the following corollary.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{corollary}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "prop:unitary-norm-property"
+
+\end_inset
+
+One has 
+\begin_inset Formula 
+\begin{align*}
+\left\Vert \bm{U}_{0}\bm{U}_{0}^{\top}-\hat{\bm{U}}_{0}\hat{\bm{U}}_{0}^{\top}\right\Vert  & =\left\Vert \sin\bm{\Theta}\right\Vert \qquad\text{and}\qquad\left\Vert \bm{U}_{0}\bm{U}_{0}^{\top}-\hat{\bm{U}}_{0}\hat{\bm{U}}_{0}^{\top}\right\Vert _{\mathrm{F}}=\sqrt{2}\left\Vert \sin\bm{\Theta}\right\Vert _{\mathrm{F}}.
+\end{align*}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{corollary}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Perturbation of eigenspaces: Davis-Kahan's sin-
+\begin_inset Formula $\Theta$
+\end_inset
+
+ theorem
+\end_layout
+
+\begin_layout Standard
+We now proceed to the perturbation bounds for eigenspaces.
+ Unlike eigenvalues, which are stable against small perturbations, the eigenspac
+e of a real symmetric matrix can change drastically even under a small perturbat
+ion.
+ For instance, take
+\begin_inset Formula 
+\[
+\bm{A}=\left[\begin{array}{cc}
+1+\epsilon & 0\\
+0 & 1-\epsilon
+\end{array}\right],\quad\bm{E}=\left[\begin{array}{cc}
+-\epsilon & \epsilon\\
+\epsilon & \epsilon
+\end{array}\right],\quad\text{and}\quad\hat{\bm{A}}=\bm{A}+\bm{E}=\left[\begin{array}{cc}
+1 & \epsilon\\
+\epsilon & 1
+\end{array}\right],
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ is a small positive constant.
+ It is straightforward to compute that the leading eigenvector of 
+\begin_inset Formula $\bm{A}$
+\end_inset
+
+ (reps.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\hat{\bm{A}}$
+\end_inset
+
+) is 
+\begin_inset Formula $\bm{u}_{1}=(1,0)^{\top}$
+\end_inset
+
+ (resp.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\hat{\bm{u}}_{1}=(1/\sqrt{2},1/\sqrt{2})^{\top}$
+\end_inset
+
+).
+ As a result, the sin
+\begin_inset Formula $\bm{\Theta}$
+\end_inset
+
+ distance between the subspaces spanned by 
+\begin_inset Formula $\bm{u}_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\hat{\bm{u}}_{1}$
+\end_inset
+
+ is 
+\begin_inset Formula $1/\sqrt{2}$
+\end_inset
+
+, which can be arbitrarily large compared with the small perturbation 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+.
+ On closer inspection, this pathological behavior exists due to the fact
+ that size 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ of the perturbation is comparable to the eigengap of 
+\begin_inset Formula $\bm{A}$
+\end_inset
+
+, i.e.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\lambda_{1}(\bm{A})-\lambda_{2}(\bm{A})=2\epsilon$
+\end_inset
+
+.
+ This motivates us to impose conditions on the eigengap such that the eigenspace
+ could be stable against perturbations.
+ The stability of eigenspaces is formally stated in Theorem
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:davis-kahan"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{theorem}[
+\end_layout
+
+\end_inset
+
+Davis-Kahan sin-
+\begin_inset Formula $\Theta$
+\end_inset
+
+ theorem
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+]
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:davis-kahan"
+
+\end_inset
+
+Let 
+\begin_inset Formula $\bm{A}$
+\end_inset
+
+ and 
+\begin_inset Formula $\hat{\bm{A}}=\bm{A}+\bm{E}$
+\end_inset
+
+ be two symmetric matrices in 
+\begin_inset Formula $\mathbb{R}^{n\times n}$
+\end_inset
+
+ with the spectral decomposition
+\begin_inset Formula 
+\begin{align*}
+\bm{A} & =\bm{U}\bm{\Lambda}\bm{U}^{\top}=\left[\begin{array}{cc}
+\bm{U}_{0} & \bm{U}_{1}\end{array}\right]\left[\begin{array}{cc}
+\bm{\Lambda}_{0} & \bm{0}\\
+\bm{0} & \bm{\Lambda}_{1}
+\end{array}\right]\left[\begin{array}{c}
+\bm{U}_{0}^{\top}\\
+\bm{U}_{1}^{\top}
+\end{array}\right];\\
+\hat{\bm{A}} & =\hat{\bm{U}}\hat{\bm{\Lambda}}\hat{\bm{U}}=\left[\begin{array}{cc}
+\hat{\bm{U}}_{0} & \hat{\bm{U}}_{1}\end{array}\right]\left[\begin{array}{cc}
+\hat{\bm{\Lambda}}_{0} & \bm{0}\\
+\bm{0} & \hat{\bm{\Lambda}}_{1}
+\end{array}\right]\left[\begin{array}{c}
+\hat{\bm{U}}_{0}^{\top}\\
+\hat{\bm{U}}_{1}^{\top}
+\end{array}\right],
+\end{align*}
+
+\end_inset
+
+respectively.
+ Here 
+\begin_inset Formula 
+\begin{align*}
+\bm{\Lambda}_{0} & =\mathsf{diag}\left(\lambda_{1},\lambda_{2},\cdots\lambda_{r}\right),\qquad\bm{\Lambda}_{1}=\mathsf{diag}\left(\lambda_{r+1},\lambda_{r+2},\cdots\lambda_{n}\right),\\
+\hat{\bm{\Lambda}}_{0} & =\mathsf{diag}\big(\hat{\lambda}_{1},\hat{\lambda}_{2},\cdots\hat{\lambda}_{r}\big),\qquad\hat{\bm{\Lambda}}_{1}=\mathsf{diag}\big(\hat{\lambda}_{r+1},\hat{\lambda}_{r+2},\cdots\hat{\lambda}_{n}\big),
+\end{align*}
+
+\end_inset
+
+ and 
+\begin_inset Formula $\lambda_{1}\geq\lambda_{2}\geq\cdots\geq\lambda_{r}>\lambda_{r+1}\geq\cdots\geq\lambda_{n}$
+\end_inset
+
+, 
+\begin_inset Formula $\hat{\lambda}_{1}\geq\hat{\lambda}_{2}\geq\cdots\geq\hat{\lambda}_{n}$
+\end_inset
+
+.
+ Suppose that the perturbation is not too large in the sense that 
+\begin_inset Formula $\|\bm{E}\|<\lambda_{r}-\lambda_{r+1}$
+\end_inset
+
+.
+ Then we have for any unitarily invariant norm 
+\begin_inset Formula $\vertiii{\cdot}$
+\end_inset
+
+, 
+\begin_inset Formula 
+\[
+\vertiii{\sin\bm{\Theta}\big(\bm{U}_{0},\hat{\bm{U}}_{0}\big)}\leq\frac{\vertiii{\bm{E}\bm{U}_{0}}}{\lambda_{r}-\left(\lambda_{r+1}+\left\Vert \bm{E}\right\Vert \right)}.
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{theorem}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{theorem}
+\end_layout
+
+\end_inset
+
+Consider the settings in Section 2.2.1.
+ Assume that all the eigenvalues of 
+\begin_inset Formula $\bm{\Lambda}^{\star}$
+\end_inset
+
+ lie in the interval 
+\begin_inset Formula $[\alpha,\beta]$
+\end_inset
+
+ and those of 
+\begin_inset Formula $\bm{\Lambda}_{\perp}$
+\end_inset
+
+ lie outside of 
+\begin_inset Formula $(\alpha-\Delta,\beta+\Delta)$
+\end_inset
+
+ for some 
+\begin_inset Formula $\Delta>0$
+\end_inset
+
+.
+ Then one has 
+\begin_inset Formula 
+\[
+\vertiii{\sin\bm{\Theta}}\leq\frac{\vertiii{\bm{E}\bm{U}^{\star}}}{\Delta}.
+\]
+
+\end_inset
+
+The same conclusion holds true if the roles of 
+\begin_inset Formula $\bm{\Lambda}^{\star}$
+\end_inset
+
+ and 
+\begin_inset Formula $\bm{\Lambda}_{\perp}$
+\end_inset
+
+ are switched.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{theorem}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+Without loss of generality, we assume that 
+\begin_inset Formula $\alpha=-\beta$
+\end_inset
+
+ for some 
+\begin_inset Formula $\beta\geq0$
+\end_inset
+
+.
+ Two immediate consequences are 
+\begin_inset Formula 
+\[
+\|\bm{\Lambda}^{\star}\|\leq\beta,\qquad\text{and}\qquad\|\bm{\Lambda}_{\perp}^{-1}\|\leq(\beta+\delta)^{-1}.
+\]
+
+\end_inset
+
+Define the residual matrix 
+\begin_inset Formula 
+\[
+\bm{R}\coloneqq\left(\bm{M}-\bm{M}^{\star}\right)\bm{U}^{\star}=\bm{M}\bm{U}^{\star}-\bm{U}^{\star}\bm{\Lambda}^{\star}.
+\]
+
+\end_inset
+
+Multiply both sides by 
+\begin_inset Formula $\bm{U}_{\perp}^{\top}$
+\end_inset
+
+ to obtain 
+\begin_inset Formula 
+\[
+\bm{U}_{\perp}^{\top}\bm{R}=\bm{\Lambda}_{\perp}\bm{U}_{\perp}^{\top}\bm{U}^{\star}-\bm{U}_{\perp}^{\top}\bm{U}^{\star}\bm{\Lambda}^{\star}.
+\]
+
+\end_inset
+
+Invoke the triangle inequality to see that 
+\begin_inset Formula 
+\begin{align*}
+\vertiii{\bm{U}_{\perp}^{\top}\bm{R}} & \geq\vertiii{\bm{\Lambda}_{\perp}\bm{U}_{\perp}^{\top}\bm{U}^{\star}}-\vertiii{\bm{U}_{\perp}^{\top}\bm{U}^{\star}\bm{\Lambda}^{\star}}\\
+ & \geq\frac{1}{\|\bm{\Lambda}_{\perp}^{-1}\|}\vertiii{\bm{U}_{\perp}^{\top}\bm{U}^{\star}}-\vertiii{\bm{U}_{\perp}^{\top}\bm{U}^{\star}}\|\bm{\Lambda}^{\star}\|\\
+ & \geq(\beta+\delta)\vertiii{\bm{U}_{\perp}^{\top}\bm{U}^{\star}}-\beta\vertiii{\bm{U}_{\perp}^{\top}\bm{U}^{\star}}=\delta\vertiii{\bm{U}_{\perp}^{\top}\bm{U}^{\star}}.
+\end{align*}
+
+\end_inset
+
+Here the middle line uses the facts that 
+\begin_inset Formula $\vertiii{\bm{U}_{\perp}^{\top}\bm{U}^{\star}}=\vertiii{\bm{\Lambda}_{\perp}^{-1}\bm{\Lambda}_{\perp}\bm{U}_{\perp}^{\top}\bm{U}^{\star}}\leq\|\bm{\Lambda}_{\perp}^{-1}\|\vertiii{\bm{\Lambda}_{\perp}\bm{U}_{\perp}^{\top}\bm{U}^{\star}}$
+\end_inset
+
+ and that 
+\begin_inset Formula $\vertiii{\bm{U}_{\perp}^{\top}\bm{U}^{\star}\bm{\Lambda}^{\star}}\leq\vertiii{\bm{U}_{\perp}^{\top}\bm{U}^{\star}}\|\bm{\Lambda}^{\star}\|$
+\end_inset
+
+; see Prop XXX.
+ The last inequality arises from the estimates (XXX).
+ As a consequence, we arrive at the conclusion that 
+\begin_inset Formula 
+\[
+\vertiii{\bm{U}_{\perp}^{\top}\bm{U}^{\star}}\leq\frac{\vertiii{\bm{U}_{\perp}^{\top}\bm{R}}}{\delta}\leq\frac{\vertiii{\bm{R}}}{\delta}=\frac{\vertiii{\bm{E}\bm{U}^{\star}}}{\delta}.
+\]
+
+\end_inset
+
+Identifying 
+\begin_inset Formula $\vertiii{\bm{U}_{\perp}^{\top}\bm{U}^{\star}}$
+\end_inset
+
+ with 
+\begin_inset Formula $\vertiii{\sin\bm{\Theta}}$
+\end_inset
+
+ concludes the proof.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{corollary}
+\end_layout
+
+\end_inset
+
+Consider the setting where 
+\begin_inset Formula $\bm{\Lambda}^{\star}$
+\end_inset
+
+ contains all nonzero eigenvalues of 
+\begin_inset Formula $\bm{M}^{\star}$
+\end_inset
+
+.
+ Accordingly, assume that 
+\begin_inset Formula $\bm{\Lambda}$
+\end_inset
+
+ contains the 
+\begin_inset Formula $k$
+\end_inset
+
+ largest eigenvalues of 
+\begin_inset Formula $\bm{M}$
+\end_inset
+
+ in the absolute value sense.
+ Then if 
+\begin_inset Formula $\|\bm{E}\|\leq1/2\min_{1\leq i\leq k}|\lambda_{i}^{\star}|$
+\end_inset
+
+, one has 
+\begin_inset Formula 
+\[
+\vertiii{\sin\bm{\Theta}\big(\bm{U}^{\star},\bm{U}\big)}\leq\frac{\vertiii{\bm{E}\bm{U}^{\star}}}{\min_{1\leq i\leq k}|\lambda_{i}^{\star}|-\|\bm{E}\|}.
+\]
+
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{corollary}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+In view of Weyl's inequality, we know that for 
+\begin_inset Formula $i=1,2,\cdots,n$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+|\lambda_{i}(\bm{M})-\lambda_{i}(\bm{M}^{\star})|\leq\|\bm{E}\|\leq\frac{1}{2}\min_{1\leq i\leq k}|\lambda_{i}^{\star}|,
+\]
+
+\end_inset
+
+which immediately implies that all the eigenvalues of 
+\begin_inset Formula $\bm{\Lambda}_{\perp}$
+\end_inset
+
+ lie within the interval 
+\begin_inset Formula $[-\|\bm{E}\|,\|\bm{E}\|]$
+\end_inset
+
+.
+ This together with the assumption that all the eigenvalues of 
+\begin_inset Formula $\bm{\Lambda}^{\star}$
+\end_inset
+
+ are in 
+\begin_inset Formula $\mathbb{R}\backslash(-\min_{1\leq i\leq k}|\lambda_{i}^{\star}|,\min_{1\leq i\leq k}|\lambda_{i}^{\star}|)$
+\end_inset
+
+ allows us to invoke Theorem XXX to obtain
+\begin_inset Formula 
+\[
+\vertiii{\sin\bm{\Theta}}\leq\frac{\vertiii{\bm{E}\bm{U}^{\star}}}{\min_{1\leq i\leq k}|\lambda_{i}^{\star}|-\|\bm{E}\|}.
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+In view of the decomposition 
+\begin_inset Formula $\bm{A}=\bm{U}_{0}\bm{\Lambda}_{0}\bm{U}_{0}^{\top}+\bm{U}_{1}\bm{\Lambda}_{1}\bm{U}_{1}^{\top}$
+\end_inset
+
+ and the fact that 
+\begin_inset Formula $\bm{U}_{1}^{\top}\bm{U}_{0}=\bm{0}$
+\end_inset
+
+, we have 
+\begin_inset Formula 
+\[
+\bm{A}\bm{U}_{0}=\bm{U}_{0}\bm{\Lambda}_{0},
+\]
+
+\end_inset
+
+which further implies 
+\begin_inset Formula 
+\begin{equation}
+\hat{\bm{U}}_{1}^{\top}\bm{A}\bm{U}_{0}=\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}\bm{\Lambda}_{0}.\label{eq:dk-identity-1}
+\end{equation}
+
+\end_inset
+
+In addition, the similar decomposition 
+\begin_inset Formula $\bm{A}+\bm{E}=\hat{\bm{U}}_{0}\hat{\bm{\Lambda}}_{0}\hat{\bm{U}}_{0}^{\top}+\hat{\bm{U}}_{1}\hat{\bm{\Lambda}}_{1}\hat{\bm{U}}_{1}^{\top}$
+\end_inset
+
+ and the fact that 
+\begin_inset Formula $\hat{\bm{U}}_{0}^{\top}\hat{\bm{U}}_{1}=\bm{0}$
+\end_inset
+
+ tell us that 
+\begin_inset Formula $(\bm{A}+\bm{E})\hat{\bm{U}}_{1}=\hat{\bm{U}}_{1}\hat{\bm{\Lambda}}_{1}$
+\end_inset
+
+ and hence 
+\begin_inset Formula 
+\begin{equation}
+\bm{U}_{0}^{\top}\left(\bm{A}+\bm{E}\right)\hat{\bm{U}}_{1}=\bm{U}_{0}^{\top}\hat{\bm{U}}_{1}\hat{\bm{\Lambda}}_{1}.\label{eq:dk-identity-2}
+\end{equation}
+
+\end_inset
+
+Combine the two identities (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:dk-identity-1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) and (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:dk-identity-2"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) to reach 
+\begin_inset Formula 
+\begin{align}
+\hat{\bm{U}}_{1}^{\top}\bm{E}\bm{U}_{0} & =\hat{\bm{\Lambda}}_{1}\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}-\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}\bm{\Lambda}_{0}\nonumber \\
+ & =\big(\hat{\bm{\Lambda}}_{1}-c\bm{I}_{n-r}\big)\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}-\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}\left(\bm{\Lambda}_{0}-c\bm{I}_{r}\right),\label{eq:dk-identity-main}
+\end{align}
+
+\end_inset
+
+where the last line holds for any 
+\begin_inset Formula $c\in\mathbb{R}$
+\end_inset
+
+.
+ In particular, we can take 
+\begin_inset Formula $c\triangleq(\lambda_{1}+\lambda_{r})/2$
+\end_inset
+
+ and denote 
+\begin_inset Formula $\rho\triangleq(\lambda_{1}-\lambda_{r})/2\geq0$
+\end_inset
+
+.
+ As a result, all the eigenvalues of 
+\begin_inset Formula $\bm{\Lambda}_{0}-c\bm{I}_{r}$
+\end_inset
+
+ are contained in the range 
+\begin_inset Formula $[-\rho,\rho]$
+\end_inset
+
+ whereas all the eigenvalues of 
+\begin_inset Formula $\hat{\bm{\Lambda}}_{1}-c\bm{I}_{n-r}$
+\end_inset
+
+ are smaller than 
+\begin_inset Formula $\hat{\lambda}_{r+1}-c$
+\end_inset
+
+.
+ Apply Weyl's inequality (see Lemma
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lemma:weyl"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) to see that 
+\begin_inset Formula $\hat{\lambda}_{r+1}\leq\lambda_{r+1}+\|\bm{E}\|$
+\end_inset
+
+.
+ This combined with relation 
+\begin_inset Formula $\lambda_{r+1}-c=\lambda_{r+1}-\lambda_{r}-\rho$
+\end_inset
+
+ reveals that all the eigenvalues of 
+\begin_inset Formula $\hat{\bm{\Lambda}}_{1}-c\bm{I}_{n-r}$
+\end_inset
+
+ are within 
+\begin_inset Formula $(-\infty,\lambda_{r+1}-\lambda_{r}+\|\bm{E}\|-\rho)$
+\end_inset
+
+.
+ Two immediate consequences are that 
+\begin_inset Formula 
+\begin{equation}
+\left\Vert \bm{\Lambda}_{0}-c\bm{I}_{r}\right\Vert \le\rho,\qquad\text{and}\qquad\sigma_{\min}\big(\hat{\bm{\Lambda}}_{1}-c\bm{I}_{n-r}\big)\geq\rho+\lambda_{r}-\lambda_{r+1}-\left\Vert \bm{E}\right\Vert .\label{eq:dk-relation-main}
+\end{equation}
+
+\end_inset
+
+Continue the derivation in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:dk-identity-main"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) to obtain 
+\begin_inset Formula 
+\begin{align*}
+\vertiii{\hat{\bm{U}}_{1}^{\top}\bm{E}\bm{U}_{0}} & \overset{(\text{i})}{\geq}\vertiii{\left(\hat{\bm{\Lambda}}_{1}-c\bm{I}_{n-r}\right)\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}}-\vertiii{\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}\left(\bm{\Lambda}_{0}-c\bm{I}_{r}\right)}\\
+ & \overset{(\text{ii})}{\geq}\left(\rho+\lambda_{r}-\lambda_{r+1}-\left\Vert \bm{E}\right\Vert _{\mathsf{}}\right)\vertiii{\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}}-\rho\vertiii{\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}}\\
+ & =\left(\lambda_{r}-\lambda_{r+1}-\left\Vert \bm{E}\right\Vert _{\mathsf{}}\right)\vertiii{\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}},
+\end{align*}
+
+\end_inset
+
+where (i) follows from the triangle inequality and (ii) holds because of
+ Proposition
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "prop:unitary-norm-property"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ and the conditions (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:dk-relation-main"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+ Clearly, the above inequality is equivalent to 
+\begin_inset Formula 
+\[
+\vertiii{\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}}\leq\frac{\vertiii{\hat{\bm{U}}_{1}^{\top}\bm{E}\bm{U}_{0}}}{\lambda_{r}-\lambda_{r+1}-\left\Vert \bm{E}\right\Vert }\leq\frac{\vertiii{\bm{E}\bm{U}_{0}}}{\lambda_{r}-\left(\lambda_{r+1}+\left\Vert \bm{E}\right\Vert \right)}.
+\]
+
+\end_inset
+
+The proof is then completed via observing Lemma
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lemma:sin-theta-equivalence"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{lemma}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "lemma:sin-theta-equivalence"
+
+\end_inset
+
+Suppose that 
+\begin_inset Formula $[\bm{U}_{0},\bm{U}_{1}]$
+\end_inset
+
+ and 
+\begin_inset Formula $[\hat{\bm{U}}_{0},\hat{\bm{U}}_{1}]$
+\end_inset
+
+ are orthonormal matrices.
+ Let 
+\begin_inset Formula $\{\theta_{i}\}_{1\leq i\leq r}$
+\end_inset
+
+ be the canonical angles between the space spanned by 
+\begin_inset Formula $\bm{U}_{0}$
+\end_inset
+
+ and that by 
+\begin_inset Formula $\hat{\bm{U}}_{0}$
+\end_inset
+
+.
+ Then the singular values of 
+\begin_inset Formula $\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}$
+\end_inset
+
+ are given by 
+\begin_inset Formula 
+\[
+\sin\theta_{r},\sin\theta_{r-1},\cdots\sin\theta_{1},\;0,0,\cdots0.
+\]
+
+\end_inset
+
+Consequently, one has 
+\begin_inset Formula 
+\begin{equation}
+\left\Vert \sin\bm{\Theta}\left(\bm{U}_{0},\hat{\bm{U}}_{0}\right)\right\Vert =\left\Vert \hat{\bm{U}}_{1}^{\top}\bm{U}_{0}\right\Vert \qquad\text{and}\qquad\left\Vert \sin\bm{\Theta}\left(\bm{U}_{0},\hat{\bm{U}}_{0}\right)\right\Vert _{\mathrm{F}}=\left\Vert \hat{\bm{U}}_{1}^{\top}\bm{U}_{0}\right\Vert _{\mathrm{F}}.\label{eq:sin-theta-equivalence}
+\end{equation}
+
+\end_inset
+
+Moreover, for any unitarily invariant norm 
+\begin_inset Formula $\vertiii{\cdot}$
+\end_inset
+
+, we have 
+\begin_inset Formula 
+\[
+\vertiii{\sin\bm{\Theta}\left(\bm{U}_{0},\hat{\bm{U}}_{0}\right)}=\vertiii{\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}}.
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{lemma}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+Consider the matrix 
+\begin_inset Formula 
+\[
+\bm{U}_{0}^{\top}\hat{\bm{U}}_{1}\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}=\bm{U}_{0}^{\top}\big(\bm{I}_{n}-\hat{\bm{U}}_{0}\hat{\bm{U}}_{0}^{\top}\big)\bm{U}_{0}=\bm{I}_{r}-\bm{U}_{0}^{\top}\hat{\bm{U}}_{0}\hat{\bm{U}}_{0}^{\top}\bm{U}_{0}.
+\]
+
+\end_inset
+
+Let 
+\begin_inset Formula $\bm{X}\bm{\Sigma}\bm{Y}^{\top}$
+\end_inset
+
+ be the SVD of 
+\begin_inset Formula $\bm{U}_{0}^{\top}\hat{\bm{U}}_{0}$
+\end_inset
+
+.
+ By definition, one has 
+\begin_inset Formula $\bm{\Sigma}=\mathsf{diag}(\cos\theta_{1},\cos\theta_{2},\cdots,\cos\theta_{r})$
+\end_inset
+
+.
+ Continue the derivation above to obtain 
+\begin_inset Formula 
+\[
+\bm{U}_{0}^{\top}\hat{\bm{U}}_{1}\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}=\bm{I}_{r}-\bm{X}\bm{\Sigma}^{2}\bm{X}^{\top}=\bm{X}\left(\bm{I}_{r}-\bm{\Sigma}^{2}\right)\bm{X}^{\top}.
+\]
+
+\end_inset
+
+Utilizing the relationship between singular values and eigenvalues, one
+ sees that for 
+\begin_inset Formula $1\leq i\leq r$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\sigma_{i}\big(\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}\big)=\sqrt{\lambda_{i}\left(\bm{I}_{r}-\bm{\Sigma}^{2}\right)}=\sqrt{\lambda_{i}\left(1-\cos^{2}\theta_{r-i+1}\right)}=\sin\theta_{r-i+1}.
+\]
+
+\end_inset
+
+This finishes the first part.
+ The consequences in (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:sin-theta-equivalence"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) follow immediately.
+ The last relation needs more care.
+ XXX 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cm{
+\end_layout
+
+\end_inset
+
+TODO
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Perturbation of general matrices
+\end_layout
+
+\begin_layout Standard
+Moving beyond real symmetric matrices, we have similar perturbation bounds
+ on singular values and singular subspaces, parallel to Lemma
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lemma:weyl"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ and Theorem
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:davis-kahan"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Perturbation of singular values
+\end_layout
+
+\begin_layout Standard
+We begin with the perturbation bounds for singular values.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{lemma}[
+\end_layout
+
+\end_inset
+
+Wely's inequality for singular values
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+]
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "lemma:weyls-singular-value"
+
+\end_inset
+
+Let 
+\begin_inset Formula $\bm{A},\bm{E}\in\mathbb{R}^{m\times n}$
+\end_inset
+
+ be two general matrices.
+ Without loss of generality, assume that 
+\begin_inset Formula $m\leq n$
+\end_inset
+
+.
+ Then for every 
+\begin_inset Formula $1\leq i\leq m$
+\end_inset
+
+, one has 
+\begin_inset Formula 
+\[
+\left|\sigma_{i}\left(\bm{A}+\bm{E}\right)-\sigma_{i}\left(\bm{A}\right)\right|\leq\left\Vert \bm{E}\right\Vert .
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{lemma}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Again, Lemma
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lemma:weyls-singular-value"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ reveals that singular values are 
+\emph on
+stable 
+\emph default
+with respect to small perturbations.
+\end_layout
+
+\begin_layout Subsubsection
+Perturbation of singular subspaces: Wedin's sin-
+\begin_inset Formula $\Theta$
+\end_inset
+
+ theorem
+\end_layout
+
+\begin_layout Standard
+One has similar perturbation bounds for singular subspaces, as proposed
+ by Wedin.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cm{
+\end_layout
+
+\end_inset
+
+Add citations.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{theorem}[
+\end_layout
+
+\end_inset
+
+Wedin's sin-
+\begin_inset Formula $\Theta$
+\end_inset
+
+ theorem
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+]
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:wedin"
+
+\end_inset
+
+Let 
+\begin_inset Formula $\bm{A}$
+\end_inset
+
+ and 
+\begin_inset Formula $\hat{\bm{A}}=\bm{A}+\bm{E}$
+\end_inset
+
+ be two matrices in 
+\begin_inset Formula $\mathbb{R}^{m\times n}$
+\end_inset
+
+ 
+\begin_inset Formula $(m\leq n)$
+\end_inset
+
+ with the singular value decomposition
+\begin_inset Formula 
+\begin{align*}
+\bm{A} & =\bm{U}\bm{\Sigma}\bm{V}^{\top}=\left[\begin{array}{cc}
+\bm{U}_{0} & \bm{U}_{1}\end{array}\right]\left[\begin{array}{ccc}
+\bm{\Sigma}_{0} & \bm{0} & \bm{0}\\
+\bm{0} & \bm{\Sigma}_{1} & \bm{0}
+\end{array}\right]\left[\begin{array}{c}
+\bm{V}_{0}^{\top}\\
+\bm{V}_{1}^{\top}
+\end{array}\right];\\
+\hat{\bm{A}} & =\hat{\bm{U}}\hat{\bm{\Sigma}}\hat{\bm{V}}^{\top}=\left[\begin{array}{cc}
+\hat{\bm{U}}_{0} & \hat{\bm{U}}_{1}\end{array}\right]\left[\begin{array}{ccc}
+\hat{\bm{\Sigma}}_{0} & \bm{0} & \bm{0}\\
+\bm{0} & \hat{\bm{\Sigma}}_{1} & \bm{0}
+\end{array}\right]\left[\begin{array}{c}
+\hat{\bm{V}}_{0}^{\top}\\
+\hat{\bm{V}}_{1}^{\top}
+\end{array}\right],
+\end{align*}
+
+\end_inset
+
+respectively.
+ Here 
+\begin_inset Formula 
+\begin{align*}
+\bm{\Sigma}_{0} & =\mathsf{diag}\left(\sigma_{1}\left(\bm{A}\right),\sigma_{2}\left(\bm{A}\right),\cdots,\sigma_{r}\left(\bm{A}\right)\right),\qquad\bm{\Sigma}_{1}=\mathsf{diag}\left(\sigma_{r+1}\left(\bm{A}\right),\sigma_{r+2}\left(\bm{A}\right),\cdots,\sigma_{n}\left(\bm{A}\right)\right),\\
+\hat{\bm{\Sigma}}_{0} & =\mathsf{diag}\big(\sigma_{1}\big(\hat{\bm{A}}\big),\sigma_{2}\big(\hat{\bm{A}}\big),\cdots,\sigma_{r}\big(\hat{\bm{A}}\big)\big),\qquad\hat{\bm{\Sigma}}_{1}=\mathsf{diag}\big(\sigma_{r+1}\big(\hat{\bm{A}}\big),\sigma_{r+2}\big(\hat{\bm{A}}\big),\cdots,\sigma_{n}\big(\hat{\bm{A}}\big)\big).
+\end{align*}
+
+\end_inset
+
+ Suppose that the perturbation is not too large in the sense that 
+\begin_inset Formula $\|\bm{E}\|<\sigma_{r}(\bm{A})-\sigma_{r+1}(\bm{A})$
+\end_inset
+
+.
+ Then one has for any unitarily invariant norm 
+\begin_inset Formula $\vertiii{\cdot}$
+\end_inset
+
+, 
+\begin_inset Formula 
+\[
+\max\left\{ \vertiii{\sin\bm{\Theta}\left(\bm{U}_{0},\hat{\bm{U}}_{0}\right)},\vertiii{\sin\bm{\Theta}\left(\bm{V}_{0},\hat{\bm{V}}_{0}\right)}\right\} \leq\frac{\max\left\{ \vertiii{\bm{E}^{\top}\bm{U}_{0}},\vertiii{\bm{E}\bm{V}_{0}}\right\} }{\sigma_{r}\left(\bm{A}\right)-\left(\sigma_{r+1}\left(\bm{A}\right)+\|\bm{E}\|\right)}.
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{theorem}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cm{
+\end_layout
+
+\end_inset
+
+Leave it to the reader since its very similar to the proof of the Davis-Kahan
+ theorem.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Notes
+\end_layout
+
+\begin_layout Standard
+In this chapter, we have reviewed classical matrix perturbation theory that
+ are useful for our subsequent developments on spectral methods.
+ We conclude this chapter with additional references on this subject.
+ 
+\end_layout
+
+\begin_layout Standard
+Our exposition largely follows the excellent book by Stewart 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "stewart1990matrix"
+literal "false"
+
+\end_inset
+
+.
+ Two other classical references are 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bhatia2013matrix,horn2012matrix"
+literal "false"
+
+\end_inset
+
+, which go beyond matrix perturbation theory and deal with general matrix
+ analysis.
+ More broadly, matrices can be viewed as linear operators on the finite
+ dimensional Euclidean space; the general treatment of perturbation theory
+ for linear operators can be found in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kato2013perturbation"
+literal "false"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Recall that in Lemma 2.2 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cm{
+\end_layout
+
+\end_inset
+
+Need to change later
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ we have stated the equivalence between 
+\begin_inset Formula $\|\bm{U}_{\perp}^{\top}\bm{U}^{\star}\|$
+\end_inset
+
+ (resp.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\|\bm{U}_{\perp}^{\top}\bm{U}^{\star}\|_{\mathrm{F}}$
+\end_inset
+
+) and 
+\begin_inset Formula $\|\sin\bm{\Theta}\|$
+\end_inset
+
+ (resp.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\|\sin\bm{\Theta}\|_{\mathrm{F}}$
+\end_inset
+
+).
+ It turns out that 
+\begin_inset Formula $\vertiii{\bm{U}_{\perp}^{\top}\bm{U}^{\star}}=\vertiii{\sin\bm{\Theta}}$
+\end_inset
+
+ holds for any unitarily invariant norm; see 
+\begin_inset CommandInset citation
+LatexCommand cite
+after "Lemma 2.2"
+key "li1998relative"
+literal "false"
+
+\end_inset
+
+.
+ In addition, 
+\begin_inset CommandInset citation
+LatexCommand cite
+after "Theorems 3.2 and 3.4"
+key "li1998relative"
+literal "false"
+
+\end_inset
+
+ offer general versions of Davis-Kahan's and Wedin's theorems, which do
+ not restrict attention to the top eigenspaces or singular subspaces.
+ A user-friendly version of the Davis-Kahan theorem was provided in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "MR3371006"
+literal "false"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Consider the Procrustes problem 
+\begin_inset Formula 
+\[
+\mathsf{minimize}_{\bm{R}\in\mathcal{O}^{r\times r}}\quad\left\Vert \hat{\bm{U}}\bm{R}-\bm{U}\right\Vert _{\mathrm{F}}^{2},
+\]
+
+\end_inset
+
+whose solution is revealed in the SVD of 
+\begin_inset Formula $\hat{\bm{U}}^{\top}\bm{U}$
+\end_inset
+
+.
+ More specifically, let 
+\begin_inset Formula $\bm{X}\bm{\Sigma}\bm{Y}^{\top}$
+\end_inset
+
+ be the SVD of 
+\begin_inset Formula $\hat{\bm{U}}^{\top}\bm{U}$
+\end_inset
+
+, then one has 
+\begin_inset Formula 
+\[
+\bm{X}\bm{Y}^{\top}=\arg\min_{\bm{R}\in\mathcal{O}^{r\times r}}\quad\left\Vert \hat{\bm{U}}\bm{R}-\bm{U}\right\Vert _{\mathrm{F}}^{2}.
+\]
+
+\end_inset
+
+Denote by 
+\begin_inset Formula $(\sigma_{1},\sigma_{2},\cdots\sigma_{r})$
+\end_inset
+
+ the entries in 
+\begin_inset Formula $\bm{\Sigma}$
+\end_inset
+
+ in decreasing order.
+ It is easy to check that they are contained in 
+\begin_inset Formula $[0,1]$
+\end_inset
+
+.
+ As a result, we define the principal angles between two subspaces spaned
+ by 
+\begin_inset Formula $\bm{U}$
+\end_inset
+
+ and 
+\begin_inset Formula $\hat{\bm{U}}$
+\end_inset
+
+ to be 
+\begin_inset Formula 
+\[
+\theta_{i}\triangleq\cos^{-1}\left(\sigma_{i}\right),\qquad\text{for all}\qquad1\leq i\leq r
+\]
+
+\end_inset
+
+and arrange them into a diagonal matrix 
+\begin_inset Formula 
+\[
+\bm{\Theta}\triangleq\mathsf{diag}\left(\theta_{1},\theta_{2},\cdots,\theta_{r}\right)\in\mathbb{R}^{r\times r}.
+\]
+
+\end_inset
+
+With 
+\begin_inset Formula $\bm{\Theta}$
+\end_inset
+
+ in place, we can define 
+\begin_inset Formula 
+\begin{align*}
+\cos\bm{\Theta} & =\mathsf{diag}\left(\cos\theta_{1},\cos\theta_{2},\cdots,\cos\theta_{r}\right)=\bm{\Sigma};\\
+\sin\bm{\Theta} & =\mathsf{diag}\left(\sin\theta_{1},\sin\theta_{2},\cdots,\sin\theta_{r}\right).
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Several immediate facts are in order.
+ First 
+\begin_inset Formula 
+\[
+\left\Vert \sin\bm{\Theta}\right\Vert _{\mathrm{F}}^{2}=\sum_{i=1}^{r}\left(\sin\theta_{r}\right)^{2}=\sum_{i=1}^{r}\left[1-\left(\cos\theta_{r}\right)^{2}\right]=r-\left\Vert \bm{\Sigma}\right\Vert _{\mathrm{F}}^{2}.
+\]
+
+\end_inset
+
+Second, one has 
+\begin_inset Formula 
+\begin{align*}
+\left\Vert \hat{\bm{U}}\bm{X}\bm{Y}^{\top}-\bm{U}\right\Vert _{\mathrm{F}}^{2} & =\left\Vert \hat{\bm{U}}\right\Vert _{\mathrm{F}}^{2}+\left\Vert \bm{U}\right\Vert _{\mathrm{F}}^{2}-2\mathsf{Tr}\left(\bm{Y}\bm{X}^{\top}\hat{\bm{U}}^{\top}\bm{U}\right)\\
+ & =2r-2\mathsf{Tr}\left(\bm{Y}\bm{X}^{\top}\bm{X}\bm{\Sigma}\bm{Y}^{\top}\right)\\
+ & =2r-2\mathsf{Tr}\left(\bm{\Sigma}\right)\\
+ & \leq2r-2\sum_{i=1}^{r}\sigma_{i}^{2}\\
+ & =2\left\Vert \sin\bm{\Theta}\right\Vert _{\mathrm{F}}^{2}.
+\end{align*}
+
+\end_inset
+
+Last but not least, the distance between projection matrices satisfy 
+\begin_inset Formula 
+\begin{align*}
+\left\Vert \hat{\bm{U}}\hat{\bm{U}}^{\top}-\bm{U}\bm{U}^{\top}\right\Vert _{\mathrm{F}}^{2} & =\left\Vert \hat{\bm{U}}\hat{\bm{U}}^{\top}\right\Vert _{\mathrm{F}}^{2}+\left\Vert \hat{\bm{U}}\hat{\bm{U}}^{\top}\right\Vert _{\mathrm{F}}^{2}-2\mathsf{Tr}\left(\hat{\bm{U}}\hat{\bm{U}}^{\top}\bm{U}\bm{U}^{\top}\right)\\
+ & =2r-2\left\Vert \hat{\bm{U}}^{\top}\bm{U}\right\Vert _{\mathrm{F}}^{2}\\
+ & =2r-2\left\Vert \bm{\Sigma}\right\Vert _{\mathrm{F}}^{2}\\
+ & =2\left\Vert \sin\bm{\Theta}\right\Vert _{\mathrm{F}}^{2}.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Matrix completion
+\end_layout
+
+\begin_layout Standard
+Imagine that one observes a small subset of the entries of a matrix and
+ seeks to recover the full matrix.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cm{
+\end_layout
+
+\end_inset
+
+Add a few words on applications.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Setup
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $\bm{M}^{\star}\in\mathbb{R}^{n_{1}\times n_{2}}$
+\end_inset
+
+ be the rank-
+\begin_inset Formula $r$
+\end_inset
+
+ matrix we hope to recover.
+ Without loss of generality, we assume that 
+\begin_inset Formula $n_{1}\leq n_{2}$
+\end_inset
+
+.
+ Denote by 
+\begin_inset Formula $\Omega\subseteq\{1,2\cdots n_{1}\}]\times\{1,2,\cdots,n_{2}\}$
+\end_inset
+
+ the index set for the observed entries, and correpondingly define the projectio
+n operator 
+\begin_inset Formula $\mathcal{P}_{\Omega}:\mathbb{R}^{n_{1}\times n_{2}}\mapsto\mathbb{R}^{n_{1}\times n_{2}}$
+\end_inset
+
+ to be 
+\begin_inset Formula 
+\[
+[\mathcal{P}_{\Omega}(\bm{A})]_{i,j}=\begin{cases}
+A_{i,j}, & \text{if }(i,j)\in\Omega,\\
+0, & \text{else},
+\end{cases}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\bm{A}\in\mathbb{R}^{n_{1}\times n_{2}}$
+\end_inset
+
+ denotes the input matrix.
+ With this notation in place, matrix completion amounts to recovering 
+\begin_inset Formula $\bm{M}^{\star}$
+\end_inset
+
+ from its partial entries 
+\begin_inset Formula $\mathcal{P}_{\Omega}(\bm{M}^{\star})$
+\end_inset
+
+.
+ Throughout this paper, we impose the Bernoulli observation model detailed
+ in the following assumption.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{assumption}[
+\end_layout
+
+\end_inset
+
+Bernoulli observation model for matrix completion
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+]
+\end_layout
+
+\end_inset
+
+We assume that each entry in 
+\begin_inset Formula $\bm{M}^{\star}$
+\end_inset
+
+ is observed independentlywith probability 
+\begin_inset Formula $0<p\leq1$
+\end_inset
+
+, i.e.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $(i,j)\in\Omega$
+\end_inset
+
+ independently with probability 
+\begin_inset Formula $p$
+\end_inset
+
+ for each 
+\begin_inset Formula $1\leq i\leq n_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $1\leq j\leq n_{2}$
+\end_inset
+
+.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{assumption}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The random observation model alone does not guarantee effective recovery
+ of the underlying matrix 
+\begin_inset Formula $\bm{M}^{\star}$
+\end_inset
+
+.
+ It turns out the following incoherence property of 
+\begin_inset Formula $\bm{M}^{\star}$
+\end_inset
+
+ plays a crutial role in recovering low-rank matrices from partial observations.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{definition}[
+\end_layout
+
+\end_inset
+
+Incoherence for matrix completion
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+]
+\end_layout
+
+\end_inset
+
+A rank-
+\begin_inset Formula $r$
+\end_inset
+
+ matrix 
+\begin_inset Formula $\bm{M}^{\star}\in\mathbb{R}^{n_{1}\times n_{2}}$
+\end_inset
+
+ with compact SVD 
+\begin_inset Formula $\bm{M}^{\star}=\bm{U}^{\star}\bm{\Sigma}^{\star}\bm{V}^{\star}$
+\end_inset
+
+ is said to be 
+\begin_inset Formula $\mu$
+\end_inset
+
+-incoherent for some 
+\begin_inset Formula $\mu\geq1$
+\end_inset
+
+ if 
+\begin_inset Formula 
+\[
+\|\bm{U}^{\star}\|_{2,\infty}\leq\sqrt{\frac{\mu}{n_{1}}}\|\bm{U}^{\star}\|_{\mathrm{F}}=\sqrt{\frac{\mu r}{n_{1}}},\quad\text{and}\quad\|\bm{V}^{\star}\|_{2,\infty}\leq\sqrt{\frac{\mu}{n_{2}}}\|\bm{V}^{\star}\|_{\mathrm{F}}=\sqrt{\frac{\mu r}{n_{2}}}.
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{definition}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Before introducing the spectral method for matrix completion, we single
+ out a few immediate consequences of 
+\begin_inset Formula $\mu$
+\end_inset
+
+-incoherence.
+ First, the maximum row norm 
+\begin_inset Formula $\|\bm{M}^{\star}\|_{2,\infty}$
+\end_inset
+
+ of 
+\begin_inset Formula $\bm{M}^{\star}$
+\end_inset
+
+ cannot be two large, i.e.
+ 
+\begin_inset Formula 
+\begin{equation}
+\|\bm{M}^{\star}\|_{2,\infty}=\|\bm{U}^{\star}\bm{\Sigma}^{\star}\bm{V}^{\star\top}\|_{2,\infty}\leq\|\bm{U}^{\star}\|_{2,\infty}\|\bm{\Sigma}^{\star}\|\|\bm{V}^{\star}\|\leq\sqrt{\frac{\mu r}{n_{1}}}\sigma_{1}(\bm{M}^{\star}),\label{eq:mc-row-norm-upper}
+\end{equation}
+
+\end_inset
+
+where the first inequality arises from the elementary inequalities 
+\begin_inset Formula $\|\bm{A}\bm{B}\|_{2,\infty}\leq\|\bm{A}\|_{2,\infty}\|\bm{B}\|$
+\end_inset
+
+ and 
+\begin_inset Formula $\|\bm{A}\bm{B}\|\leq\|\bm{A}\|\|\bm{B}\|$
+\end_inset
+
+.
+ The last relation uses the incoherence assumption on 
+\begin_inset Formula $\bm{M}^{\star}$
+\end_inset
+
+, the orthogonality of 
+\begin_inset Formula $\bm{V}^{\star}$
+\end_inset
+
+, and identifies 
+\begin_inset Formula $\|\bm{\Sigma}^{\star}\|$
+\end_inset
+
+ with 
+\begin_inset Formula $\sigma_{1}(\bm{M}^{\star})$
+\end_inset
+
+.
+ An analogous upper bound holds for 
+\begin_inset Formula $\|\bm{M}^{\star\top}\|_{2,\infty}$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{equation}
+\|\bm{M}^{\star\top}\|_{2,\infty}\|\bm{V}^{\star}\bm{\Sigma}^{\star}\bm{U}^{\star\top}\|_{2,\infty}\leq\|\bm{V}^{\star}\|_{2,\infty}\|\bm{\Sigma}^{\star}\|\|\bm{U}^{\star}\|\leq\sqrt{\frac{\mu r}{n_{2}}}\sigma_{1}(\bm{M}^{\star}).\label{eq:mc-column-norm-upper}
+\end{equation}
+
+\end_inset
+
+In addition, the matrix 
+\begin_inset Formula $\bm{M}^{\star}$
+\end_inset
+
+ is element-wise bounded in the sense that 
+\begin_inset Formula 
+\begin{equation}
+\|\bm{M}^{\star}\|_{\infty}=\|\bm{U}^{\star}\bm{\Sigma}^{\star}\bm{V}^{\star\top}\|_{\infty}\leq\|\bm{U}^{\star}\|_{2,\infty}\|\bm{\Sigma}^{\star}\|\|\bm{V}^{\star}\|_{2,\infty}\leq\frac{\mu r}{\sqrt{n_{1}n_{2}}}\sigma_{1}(\bm{M}^{\star}).\label{eq:mc-entry-upper}
+\end{equation}
+
+\end_inset
+
+Here, the first inequality follows from the relation 
+\begin_inset Formula $\|\bm{A}\bm{B}^{\top}\|_{\infty}\leq\|\bm{A}\|_{2,\infty}\|\bm{B}\|_{2,\infty}$
+\end_inset
+
+ and the aforementioned 
+\begin_inset Formula $\|\bm{A}\bm{B}\|_{2,\infty}\leq\|\bm{A}\|_{2,\infty}\|\bm{B}\|$
+\end_inset
+
+, while the last one again utilizes the incoherence assumption.
+ 
+\end_layout
+
+\begin_layout Subsection
+Spectral method for matrix completion
+\end_layout
+
+\begin_layout Standard
+Recall that the idea of spectral method is to first form a good approximation
+ 
+\begin_inset Formula $\bm{M}$
+\end_inset
+
+ to the unknown matrix 
+\begin_inset Formula $\bm{M}^{\star}$
+\end_inset
+
+ we care about, and then perform spectral decomposition on 
+\begin_inset Formula $\bm{M}$
+\end_inset
+
+ to approximately recover the singular spaces (spectral properties) of 
+\begin_inset Formula $\bm{M}^{\star}$
+\end_inset
+
+.
+ Given our random sampling model, such a good approximation is readily available
+: 
+\begin_inset Formula 
+\[
+\bm{M}\coloneqq p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star}).
+\]
+
+\end_inset
+
+Indeed, one can check that 
+\begin_inset Formula $\mathbb{E}[\bm{M}]=\bm{M}^{\star}$
+\end_inset
+
+ where the expectation is taken over the randomness in 
+\begin_inset Formula $\Omega$
+\end_inset
+
+.
+ As a result, it is reasonble to use 
+\begin_inset Formula $\bm{U}\bm{\Sigma}\bm{V}^{\top}$
+\end_inset
+
+, the top-
+\begin_inset Formula $r$
+\end_inset
+
+ SVD of 
+\begin_inset Formula $p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})$
+\end_inset
+
+ as an approximation to the groundtruth 
+\begin_inset Formula $\bm{M}^{\star}$
+\end_inset
+
+.
+ We learned from Wedin's 
+\begin_inset Formula $\sin\Theta$
+\end_inset
+
+ theorem that whether or not 
+\begin_inset Formula $\bm{U}$
+\end_inset
+
+ (resp.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\bm{V}$
+\end_inset
+
+) is close to 
+\begin_inset Formula $\bm{U}^{\star}$
+\end_inset
+
+ (resp.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\bm{V}^{\star}$
+\end_inset
+
+) relies crutially on the size of the perturbation 
+\begin_inset Formula $\|p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}\|$
+\end_inset
+
+.
+ Therefore we begin with offering an upper bound on 
+\begin_inset Formula $\|p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}\|$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{lemma}
+\end_layout
+
+\end_inset
+
+Suppose that 
+\begin_inset Formula $n_{2}p\geq C\mu r\log n_{2}$
+\end_inset
+
+ for some sufficiently large constant 
+\begin_inset Formula $C>0$
+\end_inset
+
+.
+ Then with probability at least 
+\begin_inset Formula $1-O(n_{2}^{-10})$
+\end_inset
+
+, one has 
+\begin_inset Formula 
+\[
+\|p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}\|\lesssim\sqrt{\frac{\mu r}{n_{1}p}\log n_{2}}\,\sigma_{1}(\bm{M}^{\star}).
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{lemma}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+Note that the term 
+\begin_inset Formula $p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}$
+\end_inset
+
+ can be expressed as the sum of 
+\begin_inset Formula $n_{1}n_{2}$
+\end_inset
+
+ i.i.d.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+random matrices:
+\begin_inset Formula 
+\[
+p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}=\sum_{i=1}^{n_{1}}\sum_{j=1}^{n_{2}}\underbrace{(p^{-1}\mathbbm{1}\{\delta_{ij}=1\}-1)M_{ij}^{\star}\bm{e}_{i}\bm{e}_{j}^{\top}}_{\eqqcolon\bm{X}_{ij}},
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\delta_{ij}$
+\end_inset
+
+ follows an independent Bernoulli distribution with parameter 
+\begin_inset Formula $p$
+\end_inset
+
+, and 
+\begin_inset Formula $\bm{e}_{i}$
+\end_inset
+
+ stands for the 
+\begin_inset Formula $i$
+\end_inset
+
+-th standard basis vector.
+ It is easily seen that for each 
+\begin_inset Formula $i,j$
+\end_inset
+
+ 
+\begin_inset Formula 
+\[
+\mathbb{E}[\bm{X}_{ij}]=\bm{0},\quad\text{and}\quad\|\bm{X}_{ij}\|\leq p^{-1}\|\bm{M}^{\star}\|_{\infty}\leq\frac{\mu r}{p\sqrt{n_{1}n_{2}}}\sigma_{1}(\bm{M}^{\star}),
+\]
+
+\end_inset
+
+where the last relation uses the entrywise upper bound (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:mc-entry-upper"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) on 
+\begin_inset Formula $\bm{M}^{\star}$
+\end_inset
+
+.
+ In order to apply the matrix Bernstein inequality, we need to control the
+ variance statistics
+\begin_inset Formula 
+\[
+v\coloneqq\max\left\{ \left\Vert \sum_{i=1}^{n_{1}}\sum_{j=1}^{n_{2}}\mathbb{E}\left[\bm{X}_{ij}\bm{X}_{ij}^{\top}\right]\right\Vert ,\left\Vert \sum_{i=1}^{n_{1}}\sum_{j=1}^{n_{2}}\mathbb{E}\left[\bm{X}_{ij}^{\top}\bm{X}_{ij}\right]\right\Vert \right\} .
+\]
+
+\end_inset
+
+Regarding the first variance term, we have 
+\begin_inset Formula 
+\begin{align*}
+\sum_{i=1}^{n_{1}}\sum_{j=1}^{n_{2}}\mathbb{E}\left[\bm{X}_{ij}\bm{X}_{ij}^{\top}\right] & =\sum_{i=1}^{n_{1}}\sum_{j=1}^{n_{2}}\mathbb{E}\left[(p^{-1}\mathbbm{1}\{\delta_{ij}=1\}-1)^{2}(M_{ij}^{\star})^{2}\bm{e}_{i}\bm{e}_{j}^{\top}\bm{e}_{j}\bm{e}_{i}^{\top}\right]\\
+ & =\frac{1-p}{p}\sum_{i=1}^{n_{1}}\sum_{j=1}^{n_{2}}(M_{ij}^{\star})^{2}\bm{e}_{i}\bm{e}_{i}^{\top}=\frac{1-p}{p}\sum_{i=1}^{n_{1}}\|\bm{M}_{i,\cdot}^{\star}\|_{2}^{2}\bm{e}_{i}\bm{e}_{i}^{\top}.
+\end{align*}
+
+\end_inset
+
+Here, the first identity arises from the definition of 
+\begin_inset Formula $\bm{X}_{ij}$
+\end_inset
+
+, the second one calculated the variance of a Bernoulli random variable,
+ and the last equation follows from a direct calculation.
+ Similarly, the second term in the variance statistics enjoys the following
+ characterization:
+\begin_inset Formula 
+\[
+\sum_{i=1}^{n_{1}}\sum_{j=1}^{n_{2}}\mathbb{E}\left[\bm{X}_{ij}^{\top}\bm{X}_{ij}\right]=\frac{1-p}{p}\sum_{j=1}^{n_{2}}\|\bm{M}_{\cdot,j}^{\star}\|_{2}^{2}\bm{e}_{j}\bm{e}_{j}^{\top}.
+\]
+
+\end_inset
+
+Taking the above two relations together, we obtain the following upper bound
+ 
+\begin_inset Formula 
+\begin{align*}
+v & \leq\frac{1}{p}\max\left\{ \|\bm{M}^{\star}\|_{2,\infty}^{2},\|\bm{M}^{\star\top}\|_{2,\infty}^{2}\right\} \leq\frac{1}{p}\left\{ \frac{\mu r}{n_{1}}\sigma_{1}^{2}(\bm{M}^{\star}),\frac{\mu r}{n_{2}}\sigma_{1}^{2}(\bm{M}^{\star})\right\} \leq\frac{\mu r}{n_{1}p}\sigma_{1}^{2}(\bm{M}^{\star}),
+\end{align*}
+
+\end_inset
+
+where the middle relation stems from the upper bounds (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:mc-row-norm-upper"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) and (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:mc-column-norm-upper"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) and the last inequality uses the assumption 
+\begin_inset Formula $n_{1}\leq n_{2}$
+\end_inset
+
+.
+ Now we are in position to invoke the matrix Bernstein inequality and arrive
+ at the conclusion that 
+\begin_inset Formula 
+\[
+\|p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}\|\lesssim\sqrt{\frac{\mu r}{n_{1}p}\sigma_{1}^{2}(\bm{M}^{\star})\log n_{2}}+\frac{\mu r}{p\sqrt{n_{1}n_{2}}}\sigma_{1}(\bm{M}^{\star})\log n_{2}
+\]
+
+\end_inset
+
+holds with probability at least 
+\begin_inset Formula $1-O(n^{-10})$
+\end_inset
+
+.
+ To further simplify the matter, note that when 
+\begin_inset Formula $n_{2}p\geq C\mu r\log n_{2}$
+\end_inset
+
+ for some sufficiently large constant 
+\begin_inset Formula $C>0$
+\end_inset
+
+, one has 
+\begin_inset Formula 
+\[
+\frac{\mu r}{p\sqrt{n_{1}n_{2}}}\sigma_{1}(\bm{M}^{\star})\log n_{2}\leq\sqrt{\frac{\mu r}{n_{1}p}\sigma_{1}^{2}(\bm{M}^{\star})\log n_{2}},
+\]
+
+\end_inset
+
+which further implies the desired claim.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As a consequence of Lemma XXX, one has 
+\begin_inset Formula 
+\[
+\|p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}\|\lesssim\sqrt{\frac{\mu r}{n_{1}p}\log n_{2}}\sigma_{1}(\bm{M}^{\star})\le\frac{1}{2}\sigma_{r}(\bm{M}^{\star}),
+\]
+
+\end_inset
+
+as long as 
+\begin_inset Formula $n_{1}p\geq C_{1}\kappa^{2}\mu r\log n_{2}$
+\end_inset
+
+ for some sufficiently large constant 
+\begin_inset Formula $C_{1}>0$
+\end_inset
+
+.
+ We are now prepared to apply Wedin's 
+\begin_inset Formula $\sin\Theta$
+\end_inset
+
+ theorem to obtain the following upper bounds on the singular space variations.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{theorem}[
+\end_layout
+
+\end_inset
+
+Spectral method for matrix completion
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+]
+\end_layout
+
+\end_inset
+
+Suppose that 
+\begin_inset Formula $n_{1}p\geq C_{1}\kappa^{2}\mu r\log n_{2}$
+\end_inset
+
+ for some sufficiently large constant 
+\begin_inset Formula $C_{1}>0$
+\end_inset
+
+.
+ Then with probability exceeding 
+\begin_inset Formula $1-O(n^{-10})$
+\end_inset
+
+, 
+\begin_inset Formula 
+\begin{align*}
+\max\left\{ \mathsf{dist}\left(\bm{U},\bm{U}^{\star}\right),\mathsf{dist}\left(\bm{V},\bm{V}^{\star}\right)\right\}  & \lesssim\kappa\sqrt{\frac{\mu r}{n_{1}p}\log n_{2}};\\
+\max\left\{ \mathsf{dist}_{\mathrm{F}}\left(\bm{U},\bm{U}^{\star}\right),\mathsf{dist}_{\mathrm{F}}\left(\bm{V},\bm{V}^{\star}\right)\right\}  & \lesssim\kappa\sqrt{\frac{\mu r^{2}}{n_{1}p}\log n_{2}}.
+\end{align*}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{theorem}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{theorem}[
+\end_layout
+
+\end_inset
+
+Matrix completion: recovered matrix
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+]
+\end_layout
+
+\end_inset
+
+Suppose that 
+\begin_inset Formula $n_{2}p\geq C\mu r\log n_{2}$
+\end_inset
+
+ for some sufficiently large constant 
+\begin_inset Formula $C>0$
+\end_inset
+
+.
+ Then with probability at least 
+\begin_inset Formula $1-O(n_{2}^{-10})$
+\end_inset
+
+, one has 
+\begin_inset Formula 
+\begin{align*}
+\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star}\| & \lesssim\sqrt{\frac{\mu r}{n_{1}p}\log n_{2}}\,\sigma_{1}(\bm{M}^{\star}),\quad\text{and}\quad\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star}\|_{\mathrm{F}}\lesssim\sqrt{\frac{\mu r^{2}}{n_{1}p}\log n_{2}}\,\sigma_{1}(\bm{M}^{\star}).
+\end{align*}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{theorem}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+By definition, 
+\begin_inset Formula $\bm{U}\bm{\Sigma}\bm{V}^{\top}$
+\end_inset
+
+ is the best rank-
+\begin_inset Formula $r$
+\end_inset
+
+ approximation to 
+\begin_inset Formula $p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})$
+\end_inset
+
+, i.e.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})\|=\min_{\bm{A}:\mathsf{rank}(\bm{A})\leq r}\|\bm{A}-p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})\|$
+\end_inset
+
+.
+ As a consequence, 
+\begin_inset Formula 
+\[
+\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star}\|\leq\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})\|+\|p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}\|\leq2\|p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}\|,
+\]
+
+\end_inset
+
+where the first relation is the triangle inequality.
+ This combined with Lemma XXX finishes the proof of the first part.
+ Regarding the second part, i.e.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+the bound on the Frobenius norm, we make the observation that 
+\begin_inset Formula $\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star}$
+\end_inset
+
+ has rank at most 
+\begin_inset Formula $2r$
+\end_inset
+
+, which immediately implies 
+\begin_inset Formula 
+\[
+\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star}\|_{\mathrm{F}}\leq\sqrt{2r}\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star}\|\lesssim\sqrt{\frac{\mu r^{2}}{n_{1}p}\log n_{2}}\sigma_{1}(\bm{M}^{\star}).
+\]
+
+\end_inset
+
+This completes the proof of the second part.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "/Users/congma/Dropbox (Princeton)/Research/SpectralMethod_tutorial/FnT/bibfile_Spectral"
+options "plain"
+
+\end_inset
+
+
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{theorem}[
+\end_layout
+
+\end_inset
+
+Bauer-Fike Theorem
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+]
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{theorem}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cm{
+\end_layout
+
+\end_inset
+
+Leave it to later sections where we introduce the eigen analysis for asymmetric
+ matrices.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Another way to take care of the rotation ambiguity is to consider the Procrustes
+ problem 
+\begin_inset Formula 
+\[
+\mathsf{minimize}_{\bm{R}\in\mathcal{O}^{r\times r}}\quad\left\Vert \bm{U}\bm{R}-\bm{V}\right\Vert _{\mathrm{F}}^{2},
+\]
+
+\end_inset
+
+whose solution is revealed in the SVD of 
+\begin_inset Formula $\bm{U}^{\top}\bm{V}$
+\end_inset
+
+.
+ More precisely, let 
+\begin_inset Formula $\bm{X}\bm{\Sigma}\bm{Y}^{\top}$
+\end_inset
+
+ be the SVD of 
+\begin_inset Formula $\bm{U}^{\top}\bm{V}$
+\end_inset
+
+, then one has 
+\begin_inset Formula 
+\[
+\bm{X}\bm{Y}^{\top}=\arg\min_{\bm{R}\in\mathcal{O}^{r\times r}}\quad\left\Vert \bm{U}\bm{R}-\bm{V}\right\Vert _{\mathrm{F}}^{2}.
+\]
+
+\end_inset
+
+The quantity of interest to us is 
+\begin_inset Formula $\bm{\Sigma}$
+\end_inset
+
+.
+ Denote by 
+\begin_inset Formula $(\sigma_{1},\sigma_{2},\cdots\sigma_{r})$
+\end_inset
+
+ the entries in 
+\begin_inset Formula $\bm{\Sigma}$
+\end_inset
+
+ in decreasing order.
+ As a result, we define and arrange them into
+\end_layout
+
+\begin_deeper
+\begin_layout Plain Layout
+Several immediate facts are in order.
+ First 
+\begin_inset Formula 
+\[
+\left\Vert \bm{U}\bm{R}-\bm{V}\right\Vert =\bm{U}\bm{X}\bm{Y}^{\top}-\bm{V}
+\]
+
+\end_inset
+
+First 
+\begin_inset Formula 
+\[
+\left\Vert \sin\bm{\Theta}\right\Vert _{\mathrm{F}}^{2}=\sum_{i=1}^{r}\left(\sin\theta_{r}\right)^{2}=\sum_{i=1}^{r}\left[1-\left(\cos\theta_{r}\right)^{2}\right]=r-\left\Vert \bm{\Sigma}\right\Vert _{\mathrm{F}}^{2}.
+\]
+
+\end_inset
+
+Second, one has 
+\begin_inset Formula 
+\begin{align*}
+\left\Vert \bm{U}\bm{X}\bm{Y}^{\top}-\bm{V}\right\Vert _{\mathrm{F}}^{2} & =\left\Vert \bm{U}\right\Vert _{\mathrm{F}}^{2}+\left\Vert \bm{V}\right\Vert _{\mathrm{F}}^{2}-2\mathsf{Tr}\left(\bm{Y}\bm{X}^{\top}\bm{U}^{\top}\bm{V}\right)\\
+ & =2r-2\mathsf{Tr}\left(\bm{Y}\bm{X}^{\top}\bm{X}\bm{\Sigma}\bm{Y}^{\top}\right)\\
+ & =2r-2\mathsf{Tr}\left(\bm{\Sigma}\right)\\
+ & \leq2r-2\sum_{i=1}^{r}\sigma_{i}^{2}\\
+ & =2\left\Vert \sin\bm{\Theta}\right\Vert _{\mathrm{F}}^{2}.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

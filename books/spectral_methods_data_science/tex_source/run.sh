@@ -1,0 +1,6 @@
+rm SpectralMethods_FnTarticle.aux SpectralMethods_FnTarticle.bcf SpectralMethods_FnTarticle.log SpectralMethods_FnTarticle.synctex SpectralMethods_FnTarticle.bbl SpectralMethods_FnTarticle.blg SpectralMethods_FnTarticle.toc SpectralMethods_FnTarticle.run.xml;
+pdflatex SpectralMethods_FnTarticle;
+biber SpectralMethods_FnTarticle;
+pdflatex SpectralMethods_FnTarticle;
+open -a Preview.app SpectralMethods_FnTarticle.pdf
+rm SpectralMethods_FnTarticle.aux SpectralMethods_FnTarticle.bcf SpectralMethods_FnTarticle.log SpectralMethods_FnTarticle.synctex SpectralMethods_FnTarticle.bbl SpectralMethods_FnTarticle.blg SpectralMethods_FnTarticle.toc SpectralMethods_FnTarticle.run.xml;

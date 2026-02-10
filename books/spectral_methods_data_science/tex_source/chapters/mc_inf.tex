@@ -1,0 +1,80 @@
+\section{Application: Entrywise guarantees for matrix completion}
+
+To illustrate the utility of the fine-grained perturbation theory presented in previous sections, let us revisit the problem of matrix completion introduced in Section~\ref{sec:mc-l2} and apply our refined theory.
+
+
+As a recap, the spectral method proposed for matrix completion proceeds by computing the best rank-$r$ approximation $\bm{U}\bm{\Sigma}\bm{V}^{\top}$ of the rescaled data matrix $\bm{M}=p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})$, where $p$ is the probability of each entry being observed, and $\mathcal{P}_{\Omega}(\cdot)$ denotes the Euclidean projection onto the set of matrices supported on the sampling set $\Omega$.
+This time, we seek to characterize the $\ell_{2,\infty}$ error when estimating the true singular subspaces $\bm{U}^{\star}$ and $\bm{V}^{\star}$,
+as well as the $\ell_{\infty}$ error when estimating the unknown matrix $\bm{M}^{\star}$, as stated below. As before, we set $n \coloneqq n_1 + n_2$.
+
+
+
+
+\begin{theorem}
+\label{thm:mc-inf}
+%
+Consider the settings and assumptions in Section~\ref{sec:problem-formulation-MC}, and
+define $\bm{H}_{\bm{U}}\coloneqq\bm{U}^{\top}\bm{U}^{\star}$ and
+$\bm{H}_{\bm{V}}\coloneqq\bm{V}^{\top}\bm{V}^{\star}$.
+Suppose that $n_1\leq n_2$ and $n_{1}p\geq C\kappa^{4}\mu^{2}r^{2}\log n$ for some
+sufficiently large constant $C>0$. Then with probability greater
+than $1-O(n^{-5})$, we have
+%
+\begin{subequations}
+%
+\begin{align}
+\max\{\|\bm{U}\mathsf{sgn}(\bm{H}_{\bm{U}})-\bm{U}^{\star}\|_{2,\infty},\,\,&\|\bm{V}\mathsf{sgn}(\bm{H}_{\bm{V}})-\bm{V}^{\star}\|_{2,\infty}\} \nonumber\\& \leq\kappa^{2}\sqrt{\frac{\mu^{3}r^{3}\log n}{n_{1}^{2}p}};
+\label{eq:mc-inf-claim-1}\\
+\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star}\|_{\infty} & \lesssim\kappa^{2}\mu^{2}r^{2}\sqrt{\frac{\log n}{n_{1}^{3}p}}\|\bm{M}^{\star}\|.
+\label{eq:mc-inf-claim-2}
+\end{align}
+%
+\end{subequations}
+%
+\end{theorem}
+%
+\begin{proof}
+	Recall our notation $\bm{E}= \bm{M}  -\bm{M}^{\star}= p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}$.
+ It is straightforward to check
+that $\bm{E}$ satisfies Assumption~\ref{assump:noise-general-rect} with
+%
+\begin{equation}
+\sigma^{2}\coloneqq\frac{\|\bm{M}^{\star}\|_{\infty}^{2}}{p},\qquad\text{and}\qquad B\coloneqq\frac{\|\bm{M}^{\star}\|_{\infty}}{p}. \label{eq:mc-inf-noise}
+\end{equation}
+%
+In addition, from the relation $B= c_{\mathsf{b}}\sigma\sqrt{n_1/({\mu}\log n)}$, it is seen that $c_{\mathsf{b}}= O(1)$
+holds as long as $n_{1}p\gtrsim\mu\log n$.
+With these preparations in place, the claims in Theorem~\ref{thm:mc-inf} follow
+directly from Theorem~\ref{thm:2-inf-asymm} and the bound (\ref{eq:mc-entry-upper}) on $\|\bm{M}^{\star}\|_{\infty}$
+(and hence on $\sigma$).
+%
+\end{proof}
+
+%\begin{figure}
+%\begin{center}
+%	\includegraphics[width=0.55\textwidth]{figures/mc_inf_new.pdf} 
+%\end{center}	
+%	\caption{Numerical performance of spectral methods for matrix completion. Set $n=500$, $r=10$, and the underlying low-rank matrix $\bm{M}^{\star}$ as a product of two random orthonormal matrices. We vary the sampling probability $p$ from 0.25 to 0.9 with an equal space of 0.05. For each $p$, we draw 20 independent observation patterns and run the spectral method to recover the data matrix. The Euclidean error $\|\widehat{\bm{M}}-\bm{M}^{\star}\|_{\mathrm{F}}/\|\bm{M}^{\star}\|_{\mathrm{F}}$, the spectral norm error $\|\widehat{\bm{M}}-\bm{M}^{\star}\|/\|\bm{M}^{\star}\|$, and the $\ell_{\infty}$ norm error $\|\widehat{\bm{M}}-\bm{M}^{\star}\|_{\infty}/\|\bm{M}^{\star}\|_{\infty}$ are reported when averaged over 20 independent trials, where $\widehat{\bm{M}}=\bm{U}\bm{\Sigma}\bm{V}^{\top}$. 
+%	\label{fig:mc-inf}}
+%\end{figure}
+
+
+In what follows, we compare the $\ell_{2,\infty}$ and $\ell_{2}$ performance
+guarantees derived in the above theorem with those $\ell_{2}$ guarantees presented
+in Section~\ref{sec:mc-l2-theory}; see Figure~\ref{fig:matrix-completion-motivation} in Section~\ref{sec:motivating_examples} for empirical performances. For the sake of brevity, we shall concentrate on the case where $\mu,\kappa,r=O(1)$.
+
+
+
+
+\begin{itemize}
+
+\item {\em $\ell_{2,\infty}$ singular space perturbation bounds. }
+Comparing the $\ell_{2,\infty}$ performance guarantee (\ref{eq:mc-inf-claim-1}) with  Theorem~\ref{thm:mc-l2-subspace}, one sees that the $\ell_{2,\infty}$ perturbation bounds could be an order of $\sqrt{n_1}$ times smaller than the $\ell_{2}$ counterpart, showcasing the de-localization effect of the errors of the spectral estimates $\bm{U}$ and $\bm{V}$.
+
+\item {\em Entrywise matrix estimation bounds. }
+Furthermore, the entrywise error (\ref{eq:mc-inf-claim-2}) is about an order of $n_1$ times smaller than the corresponding Euclidean error predicted  in Theorem~\ref{thm:mc-l2-matrix}. This indicates that no entry in the resulting matrix estimate suffers from an error significantly higher than the average entrywise error.
+
+\end{itemize}
+
+
+

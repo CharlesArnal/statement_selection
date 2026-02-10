@@ -1,0 +1,172 @@
+
+\section{Low-rank matrix denoising}
+\label{sec:matrix-denoising-L2}
+
+To catch a glimpse of the effectiveness of the approach we have introduced,
+let us start by trying it out on a warm-up example: low-rank matrix denoising.
+
+\subsection{Problem formulation and algorithm}\label{sec:matrix-denoising-setup}  Consider an unknown rank-$r$ symmetric matrix $\bm{M}^{\star} \in \mathbb{R}^{n\times n}$ with eigendecomposition $\bm{M}^{\star}=\bm{U}^{\star}\bm{\Lambda}^{\star}\bm{U}^{\star\top}$, where the columns of $\bm{U}^{\star}\in \mathbb{R}^{n\times r}$ are orthonormal, and $\bm{\Lambda}^{\star}\in \mathbb{R}^{r\times r}$ is a diagonal matrix containing the nonzero eigenvalues $\{\lambda_{i}^{\star}\}$ of $\bm{M}^{\star}$. Assume that $|\lambda_1^{\star}|\geq |\lambda_2^{\star}|\geq \cdots \geq |\lambda_r^{\star}|>0$.  Suppose that  we observe a noisy copy
+\[
+\bm{M}=\bm{M}^{\star}+\bm{E},
+\]
+ where $\bm{E}=[E_{i,j}]_{1\leq i,j\leq n}$ is a symmetric noise matrix. It is assumed that the entries $\{{E}_{i,j}\}_{i\geq j}$ are independently generated obeying
+%
+\begin{align}
+	E_{i,j} \overset{\mathrm{i.i.d.}}{\sim} \mathcal{N}(0,\sigma^2) , \qquad i\geq j.
+\end{align}
+%
+The aim is to estimate the eigenspace $\bm{U}^{\star}$ from the data matrix $\bm{M}$. Despite its simplicity, this problem  has been extensively studied in the literature \citep{koltchinskii2016perturbation,bao2018singular,ding2020high,xia2019normal,li2021minimax}. It also  bears close relevance to the famous angular/phase synchronization problem \citep{singer2011angular,bandeira2017tightness}.
+
+
+In order to estimate the low-rank factors specified by $\bm{U}^{\star}$, a natural scheme is to resort to the rank-$r$ leading eigenspace of the data matrix $\bm{M}$.  More precisely, denote by $\lambda_1,\cdots,\lambda_n$ the eigenvalues of $\bm{M}$ sorted by their magnitudes, i.e.,
+%
+\begin{align}
+	|\lambda_1| \geq |\lambda_2| \geq \cdots \geq |\lambda_n|,
+\end{align}
+%
+and let $\bm{u}_1$, $\cdots$, $\bm{u}_n$ represent the associated eigenvectors.
+This spectral method returns  $\bm{U} = [\bm{u}_1,\cdots,\bm{u}_r]\in \mathbb{R}^{n\times r}$ as an estimate of $\bm{U}^{\star}$.
+
+
+\subsection{Performance guarantees}
+\label{sec:performance-denoising-L2}
+
+\paragraph{Statistical accuracy of the spectral estimate.}
+
+We now examine the accuracy of the above spectral estimate. Towards this,
+a key step lies in bounding the spectral norm of the noise matrix
+$\bm{E}$. We claim for the moment that (which will be established in Section~\ref{sec:proof-eqn-noise-matrix-E-bound-denoising})
+%
+\begin{align}
+	\|\bm{E}\| \leq 5\sigma\sqrt{n}
+	\label{eq:noise-matrix-E-bound-denoising}
+\end{align}
+%
+with probability at least $1-O(n^{-8})$.
+Armed with this claim and the fact $\lambda_{r+1}^{\star}=0$,
+we are in a situation where it is quite easy to see how the Davis-Kahan theorem applies.
+According to Corollary \ref{cor:davis-kahan-conclusion-corollary}, with probability greater than $1-O(n^{-8})$ one has
+%
+\begin{align}
+	\mathsf{dist}\big(\bm{U},\bm{U}^{\star}\big)\leq\frac{2\|\bm{E}\|}{|\lambda_{r}^{\star}|}\leq\frac{10\sigma\sqrt{n}}{|\lambda_{r}^{\star}|} ,
+	\label{eq:dist-U-Ustar-denoising-L2}
+\end{align}
+%
+provided that the noise variance is sufficiently small obeying $ \sigma \sqrt{n} \leq \frac{1-1/\sqrt{2}}{5} |\lambda_r^{\star}|$ so that $\|\bm{E}\|\leq (1-1/\sqrt{2})|\lambda_r^{\star}|$.
+
+
+
+
+\paragraph{Tightness and optimality.}
+%
+The tightness of the statistical guarantee~\eqref{eq:dist-U-Ustar-denoising-L2} can be assessed when compared with the minimax lower bound. For instance, it is well-known in the literature (e.g., \citet[Theorem 3]{cheng2020tackling}) that: even for the case with $r=1$, one cannot hope to achieve $\mathsf{dist}\big(\widehat{\bm{U}},\bm{U}^{\star}\big)=o(\sigma \sqrt{n}/|\lambda_{r}^{\star}| )$---in a minimax sense---regardless of the estimator $\widehat{\bm{U}}$ in use. 
+Consequently, the spectral method turns out to be orderwise statistically optimal for low-rank matrix denoising.
+
+
+
+
+%(in addition to the proof of Corollary \ref{cor:davis-kahan-conclusion-corollary})
+
+\paragraph{Additional useful results: eigenvalue and matrix estimation.}
+	Before concluding, we record several immediate consequences of the above analysis that will be useful later on. Specifically, assuming that $ \sigma \sqrt{n} \leq \frac{1-1/\sqrt{2}}{5} |\lambda_r^{\star}|$, we see from Weyl's inequality (cf.~Lemma \ref{lemma:weyl}) that
+	%
+	\begin{align}
+		|\lambda_{i}| & \leq\|\bm{E}\|\leq5\sigma\sqrt{n},
+		\qquad
+		\text{for all }i\geq r+1
+		\label{eq:lambda-i-bound-E-denoising}
+	\end{align}
+	%
+	% and \cm{This is wrong.}
+	% %
+	% \begin{align}
+	% 	|\lambda_{i} - \lambda_i^{\star}| & \leq\|\bm{E}\|\leq5\sigma\sqrt{n}, \qquad
+	% 	\text{for all }i\leq r
+	% 	\label{eq:lambda-1-bound-E-denoising}
+	% \end{align}
+	%
+with probability $1-O(n^{-8})$.
+
+We further remark on the Euclidean statistical accuracy when estimating the unknown matrix $\bm{M}^{\star}$ using $\widehat{\bm{M}} \coloneqq \bm{U}\bm{\Lambda}\bm{U}^{\top}$, where $\bm{\Lambda} \coloneqq \mathsf{diag}\big([\lambda_{1},\cdots,\lambda_{r}]\big)$.
+It is seen from the triangle inequality that
+%
+\begin{align}
+\big\|\bm{U}\bm{\Lambda}\bm{U}^{\top}-\bm{M}^{\star}\big\| & \leq\big\|\bm{M}-\bm{M}^{\star}\big\|+\big\|\bm{U}\bm{\Lambda}\bm{U}^{\top}-\bm{M}\big\|\nonumber \\
+ & =\big\|\bm{E}\big\|+\big|\lambda_{r+1}\big|\leq2\big\|\bm{E}\big\|,
+	\label{eq:ULambdaU-Mstar-norm-denoising}
+\end{align}
+%
+where the last inequality relies on \eqref{eq:lambda-i-bound-E-denoising}.
+Since the rank of $\bm{U}\bm{\Lambda}\bm{U}^{\top}-\bm{M}^{\star}$ is at most $2r$,
+with probability at least $1-O(n^{-8})$ one has
+%
+\begin{align}
+	\big\|\bm{U}\bm{\Lambda}\bm{U}^{\top}-\bm{M}^{\star}\big\|_{\mathrm{F}}
+	& \leq\sqrt{2r} \, \big\|\bm{U}\bm{\Lambda}\bm{U}^{\top}-\bm{M}^{\star}\big\|  \leq 2\sqrt{2r}\, \|\bm{E}\| \nonumber \\
+	& \leq 10 \sigma\sqrt{2nr}.
+	\label{eq:top-r-approx-Fro-bound}
+\end{align}
+
+
+\subsection{Proof of the inequality \eqref{eq:noise-matrix-E-bound-denoising} on $\|\bm{E}\|$}
+\label{sec:proof-eqn-noise-matrix-E-bound-denoising}
+
+We plan to employ Theorem~\ref{thm:tighter-spectral-normal-ramon}.
+Given that Gaussian entries are unbounded, we introduce a truncated copy $\widetilde{\bm{E}}=[\widetilde{E}_{i,j}]_{1\leq i,j\leq n}$ defined as follows
+%
+\begin{equation}
+	\widetilde{E}_{i,j}\coloneqq E_{i,j} \mathbbm{1}\big\{|E_{i,j}|\leq 5\sigma\sqrt{\log n}\big\}, \quad 1\leq i,j\leq n.
+	\label{eq:defn-Eij-truncated-denoising}
+\end{equation}
+%
+Two properties are in place.
+\begin{itemize}
+\item It is readily seen from the property of Gaussian distributions
+that
+\[
+\mathbb{P}\big\{ E_{i,j}=\widetilde{E}_{i,j}\big\}\geq1-n^{-12},\qquad1\leq i,j\leq n,
+\]
+which combined with the union bound leads to
+\begin{equation}
+\mathbb{P}\big\{\bm{E}=\widetilde{\bm{E}}\big\}\geq1-n^{-10}.\label{eq:prob-E-Etilde-equivalence-denoising}
+\end{equation}
+\item Given that $B\coloneqq\max_{i,j}|\widetilde{E}_{i,j}|\leq 5\sigma\sqrt{\log n}$,
+we can invoke Theorem~\ref{thm:tighter-spectral-normal-ramon} (or more directly,
+(\ref{eq:X-spectral-norm-iid-special-ramon})) to demonstrate that
+\[
+\|\widetilde{\bm{E}}\|\leq4\sigma\sqrt{n}+O(B\log n)\leq5\sigma\sqrt{n}
+\]
+for sufficiently large $n$, 
+with probability exceeding $1-O(n^{-8})$. Here, we implicitly use the fact that $\mathbb{E}[\widetilde{{E}}_{i,j}^2] \leq \mathbb{E}[E_{i,j}^2 ] = \sigma^2$.
+\end{itemize}
+Combining the above two observations implies that
+%
+\[
+\|\bm{E}\|=\|\widetilde{\bm{E}}\|\leq5\sigma\sqrt{n}
+\]
+%
+ with probability exceeding $1-O(n^{-8})$, as claimed.
+ %\end{proof}
+
+
+
+%\begin{remark}
+%	Before concluding, we record several immediate consequences of the above analysis (in addition to the proof of Corollary \ref{cor:davis-kahan-conclusion-corollary}) that will prove useful later on. Specifically, assuming that $ \sigma \sqrt{n} \leq \frac{1-1/\sqrt{2}}{5} |\lambda_r^{\star}|$ , we have --- with probability $1-O(n^{-8})$ --- that
+%	%
+%	\begin{align}
+%		|\lambda_{i}| & \leq\|\bm{E}\|\leq5\sigma\sqrt{\log n},
+%		\qquad
+%		\text{for all }i\geq r+1.
+%		\label{eq:lambda-i-bound-E-denoising}
+%	\end{align}
+%	%
+%	In the special case where $r=1$, with probability $1-O(n^{-8})$ one has
+%	%
+%	\begin{align}
+%		|\lambda_{1} - \lambda_1^{\star}| & \leq\|\bm{E}\|\leq5\sigma\sqrt{\log n}.
+%		\label{eq:lambda-1-bound-E-denoising}
+%	\end{align}
+%	%
+%\end{remark}
+
+

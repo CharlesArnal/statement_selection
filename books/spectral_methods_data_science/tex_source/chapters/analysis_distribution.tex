@@ -1,0 +1,738 @@
+\section{Appendix D: Proof of Theorem~\ref{thm:matrix-distribution-complete}}
+\label{sec:proof-thm:matrix-distribution-complete}
+
+
+
+
+As before (see \eqref{eq:assumption-lambda-r-positive}), we assume throughout the proof that $\lambda_r^{\star}>0$ for the purpose of simplifying notation. 
+
+
+
+
+\subsection{Proof outline}
+
+
+We now outline the proof of our distributional guarantees in Theorem~\ref{thm:matrix-distribution-complete}. 
+The first step consists of justifying the heuristic first-order approximation in \eqref{eq:approx-ULambdaU-Mstar-discuss}. This is stated in the lemma below, with the proof deferred to Section~\ref{sec:sub-proof-thm:matrix-distribution}. 
+%
+\begin{lemma}[First-order approximation]
+\label{thm:matrix-distribution}
+%
+Suppose that the assumptions of Theorem~\ref{thm:UsgnH-Ustar-MUstar-general} hold. Then with probability at least $1-O(n^{-5})$, one can write
+%
+\begin{subequations}
+\label{eq:U-M-decomposition-thm}
+\begin{align}
+\bm{U}\mathsf{sgn}(\bm{H})-\bm{U}^{\star} & =\underset{\eqqcolon\,\bm{Z}}{\underbrace{\bm{E}\bm{U}^{\star}\big(\bm{\Lambda}^{\star}\big)^{-1}}}+\bm{\Psi},
+	\label{eq:U-Ustar-decomposition-Z-Psi-thm}\\
+\bm{M}-\bm{M}^{\star} & =\underset{\eqqcolon\,\bm{W}}{\underbrace{\bm{E}\bm{U}^{\star}\bm{U}^{\star\top}+\bm{U}^{\star}\bm{U}^{\star\top}\bm{E}}}+\bm{\Phi}
+	\label{eq:M-Mstar-diff-decomposition-thm}
+\end{align}
+\end{subequations}
+%
+for some matrices $\bm{\Psi}$ and $\bm{\Phi}$ obeying
+%
+\begin{subequations}
+\label{eq:Psi-Phi-bound-thm}
+\begin{align}
+\|\bm{\Psi}\|_{2,\infty} & \lesssim\frac{\sigma^{2}\kappa\sqrt{\mu rn\log^{2}n}}{(\lambda_{r}^{\star})^{2}}+\frac{\kappa\sigma^{2}\sqrt{\mu rn}}{(\lambda_{r}^{\star})^{2}}+\frac{\sigma}{\lambda_{r}^{\star}}\sqrt{\frac{\mu r^{2}\log n}{n}},\\
+\big\|\bm{\Phi}\big\|_{\infty} & \lesssim\frac{\sigma^{2}\mu r\kappa^{2}\log n}{\lambda_{r}^{\star}}+\frac{\sigma\kappa\mu\sqrt{r^{3}\log n}}{n}.
+\end{align}
+\end{subequations}
+%
+\end{lemma}
+%
+\begin{remark}
+	In addition to quantifying the goodness of the approximation \eqref{eq:M-Mstar-diff-decomposition-thm}, Lemma~\ref{thm:matrix-distribution} also delivers a more refined characterization for the first-order approximation $\bm{U}\mathsf{sgn}(\bm{H})-\bm{U}^{\star}\approx \bm{E}\bm{U}^{\star}\big(\bm{\Lambda}^{\star}\big)^{-1}$ in comparison to Theorem~\ref{thm:UsgnH-Ustar-MUstar-general}.  As it turns out, this result \eqref{eq:U-Ustar-decomposition-Z-Psi-thm} also assists in performing statistical inference on the low-rank factors $\bm{U}^{\star}$. The interested reader is referred  to \citet{yan2021inference} for details. 
+\end{remark}
+
+
+In turn, Lemma~\ref{thm:matrix-distribution} motivates one to pin down the distribution of the matrix $\bm{W}$ in \eqref{eq:M-Mstar-diff-decomposition-thm}. This can be accomplished by invoking the Berry-Esseen Theorem (e.g., \citet[Theorem 3.7]{chen2010normal}), which gives rise to the following distributional characterization. The proof of this lemma can be found in Section~\ref{sec:proof-lem:normality-spectral}. 
+%
+\begin{lemma}[Gaussian approximation]
+	\label{lem:normality-spectral}
+	Suppose that the assumptions of Theorem~\ref{thm:UsgnH-Ustar-MUstar-general} hold, and that 
+	%
+	%assume that
+%
+\begin{align}
+	\label{eq:Uj-Ui-lower-bound-lem-2}
+	\frac{\big\|\bm{U}_{j,\cdot}^{\star}\big\|_{2}^{2}+\big\|\bm{U}_{i,\cdot}^{\star}\big\|_{2}^{2}}{\big\|\bm{U}^{\star}\big\|_{\mathrm{F}}^{2}}
+	& \gtrsim \frac{B^{2}\kappa^2 \mu^{2}r^2\log ^2 n}{\sigma_{\min}^{2}n^{2}}
+	+ \frac{\sigma^{4}\mu^{2}r\kappa^{4}\log^{3}n}{\sigma_{\min}^{2}(\lambda_{r}^{\star})^{2}} .
+\end{align}
+%
+%Condition~\ref{eq:Uj-Ui-lower-bound-lem-2} holds. 
+%
+	Let $\bm{W}=\bm{E}\bm{U}^{\star}\bm{U}^{\star\top} + \bm{U}^{\star}\bm{U}^{\star\top}\bm{E}$. For any $1\leq i,j\leq n$, one has
+	%
+	\begin{subequations}
+	\begin{align}
+		\sup_{z\in\mathbb{R}}\left|\mathbb{P}\left( W_{i,j}\leq z \sqrt{v_{i,j}^{\star}}\right) -\Phi(z)\right| &=o(1) , \label{eq:eqn-normality-spectral}\\
+		\big\|\bm{\Phi}\big\|_{\infty} &= o\left( \sqrt{ v_{i,j}^{\star} } \right), 
+		\label{eq:Phi-inf-norm-o-vij}
+	\end{align}
+	\end{subequations}
+	%
+	where $v_{i,j}^{\star}$ is defined in \eqref{eq:variance-formula-Mij-lem}, and $\Phi(\cdot)$ denotes the CDF of the standard Gaussian distribution.  
+\end{lemma}
+%
+
+
+
+To finish up, invoke Lemma~\ref{thm:matrix-distribution} and \eqref{eq:Phi-inf-norm-o-vij} to yield
+%
+\[
+	M_{i,j}-M_{i,j}^{\star}=W_{i,j}+\delta_{\phi}\sqrt{v_{i,j}^{\star}}\qquad\text{with }\delta_{\phi}=o(1).
+\]
+%
+A little algebra further gives
+%
+\begin{align*}
+ & \left|\mathbb{P}\left( M_{i,j}-M_{i,j}^{\star}\leq z\sqrt{v_{i,j}^{\star}}\right) -\Phi(z)\right|=\left|\mathbb{P}\left( W_{i,j}\leq\left(z-\delta_{\phi}\right)\sqrt{v_{i,j}^{\star}}\right) -\Phi(z)\right|\\
+ & \qquad \leq \left|\mathbb{P}\left( W_{i,j}\leq\left(z-\delta_{\phi}\right)\sqrt{v_{i,j}^{\star}}\right)  -\Phi(z-\delta_{\phi})\right|+\left|\Phi(z-\delta_{\phi})-\Phi(z)\right|\\
+ & \qquad\leq o(1)+\delta_{\phi}=o(1),
+\end{align*}
+%
+where the last line invokes Lemma~\ref{lem:normality-spectral} and the fact that $|\Phi(u)-\Phi(v)|\leq |u-v|$ for any $u,v\in \mathbb{R}$. 
+This completes the proof of  Theorem~\ref{thm:matrix-distribution-complete}, as long as Lemmas~\ref{thm:matrix-distribution} and \ref{lem:normality-spectral} can be established. 
+The rest of this section is thus devoted to proving Lemmas~\ref{thm:matrix-distribution} and \ref{lem:normality-spectral}. 
+
+
+
+
+
+
+\subsection{Proof of Lemma~\ref{thm:matrix-distribution}}
+\label{sec:sub-proof-thm:matrix-distribution}
+
+
+
+Before proceeding to the proof, we make note of several preliminary facts that are all direct consequences of the analysis of Theorem~\ref{thm:UsgnH-Ustar-MUstar-general} and Corollary~\ref{cor:entrywise-error-general}. The proof of these preliminary results can be found in Section~\ref{sec:proof-auxiliary-distribution}.
+%
+\begin{lemma}
+\label{lem:bound-Delta1-Delta2}
+%
+With probability exceeding $1-O(n^{-5})$, one can write
+%
+\begin{subequations}\label{eq:decomp_soda}
+\begin{align}
+\bm{U}\bm{\Lambda}\mathsf{sgn}(\bm{H}) & =\bm{M}\bm{U}^{\star}+\bm{\Delta}_{1} ,
+			\label{eq:U-Lambda-sgnH-decompose}\\
+\mathsf{sgn}(\bm{H})\bm{\Lambda}^{\star}\mathsf{sgn}(\bm{H})^{\top} & =\bm{\Lambda}+\bm{\Delta}_{2}
+			\label{eq:sgnH-Lambdastar-decompose}
+\end{align}
+\end{subequations}
+%
+for some matrices $\bm{\Delta}_{1}$ and $\bm{\Delta}_{2}$ obeying
+%
+\begin{subequations}
+\begin{align}
+  \big\| \bm{\Delta}_1 \big\|_{2,\infty} & \lesssim 
+\frac{\sigma^{2}\kappa\sqrt{\mu rn\log^{2}n}}{\lambda_{r}^{\star}}, \label{eq:Delta-1-U-R-Lambda}\\
+  \big\|\bm{\Delta}_2\big\|
+%\\
+% & \qquad\leq\big\|\mathsf{sgn}(\bm{H})\bm{\Lambda}^{\star}\mathsf{sgn}(\bm{H})^{\top}-\bm{H}\bm{\Lambda}^{\star}\bm{H}^{\top}\big\|+\big\|\bm{H}\bm{\Lambda}^{\star}\bm{H}^{\top}-\bm{\Lambda}\big\|\\
+ %& \qquad
+  &\lesssim\frac{\kappa\sigma^{2}n}{\lambda_{r}^{\star}}+\sigma\sqrt{r\log n}.
+   \label{eq:sgn-H-Lambdastar-sgn-H-Lambda}
+\end{align}
+\end{subequations}
+%
+\end{lemma}
+%
+
+
+
+We are now ready to embark on the proof of Lemma~\ref{thm:matrix-distribution}. 
+In order to analyze the behavior of $\bm{U}\mathsf{sgn}(\bm{H})$, 
+we first point out the following decomposition: 
+%
+\begin{align*}
+\bm{U}\mathsf{sgn}(\bm{H})\bm{\Lambda}^{\star} & =\bm{U}\bm{\Lambda}\mathsf{sgn}(\bm{H})+\bm{U}\big(\mathsf{sgn}(\bm{H})\bm{\Lambda}^{\star}-\bm{\Lambda}\mathsf{sgn}(\bm{H})\big)\\
+ & =\bm{M}\bm{U}^{\star}+\bm{\Delta}_{1}+\bm{U}\big(\mathsf{sgn}(\bm{H})\bm{\Lambda}^{\star}\mathsf{sgn}(\bm{H})^{\top}-\bm{\Lambda}\big)\mathsf{sgn}(\bm{H})\\
+ & =\bm{M}^{\star}\bm{U}^{\star}+\bm{E}\bm{U}^{\star}+\bm{\Delta}_{1}+\bm{U}\bm{\Delta}_{2} \, \mathsf{sgn}(\bm{H})\\
+ & =\bm{U}^{\star}\bm{\Lambda}^{\star}+\bm{E}\bm{U}^{\star}+\bm{\Delta}_{1}+\bm{U}\bm{\Delta}_{2}\, \mathsf{sgn}(\bm{H}),
+\end{align*}
+%
+where the second and the third identities result from Lemma~\ref{lem:bound-Delta1-Delta2} (cf.~\eqref{eq:decomp_soda}). 
+The key point of this decomposition is to establish a connection between $\bm{U}\mathsf{sgn}(\bm{H})\bm{\Lambda}^{\star}$ and $\bm{U}^{\star}\bm{\Lambda}^{\star} + \bm{E}\bm{U}^{\star}$, with the assistance of the matrices $\bm{\Delta}_1$ and $\bm{\Delta}_2$ studied in Lemma~\ref{lem:bound-Delta1-Delta2}. 
+A little algebra then yields
+%
+\begin{align}
+\bm{U}\mathsf{sgn}(\bm{H})-\bm{U}^{\star}=\underset{\eqqcolon\,\bm{Z}}{\underbrace{\bm{E}\bm{U}^{\star}\big(\bm{\Lambda}^{\star}\big)^{-1}}} & +\underset{\eqqcolon\,\bm{\Psi}}{\underbrace{\bm{\Delta}_{1}\big(\bm{\Lambda}^{\star}\big)^{-1}+\bm{U}\bm{\Delta}_{2}\,\mathsf{sgn}(\bm{H})\big(\bm{\Lambda}^{\star}\big)^{-1}}}.
+\label{eq:U-Ustar-decomposition-Z-Psi}
+\end{align}
+%
+In view of Lemma~\ref{lem:bound-Delta1-Delta2}, the residual matrix
+$\bm{\Psi}$ obeys
+%
+\begin{align}
+\|\bm{\Psi}\|_{2,\infty} & \leq\big\|\bm{\Delta}_{1}\big\|_{2,\infty}\big\|\big(\bm{\Lambda}^{\star}\big)^{-1}\big\|+\big\|\bm{U}\big\|_{2,\infty}\big\|\bm{\Delta}_{2}\big\|\,\big\|\mathsf{sgn}(\bm{H})\big\|\,\big\|\big(\bm{\Lambda}^{\star}\big)^{-1}\big\|\nonumber \\
+ & \lesssim\frac{1}{\lambda_{r}^{\star}}\big\|\bm{\Delta}_{1}\big\|_{2,\infty}+\frac{1}{\lambda_{r}^{\star}}\sqrt{\frac{\mu r}{n}}\big\|\bm{\Delta}_{2}\big\|\nonumber \\
+ & \lesssim\frac{\sigma^{2}\kappa\sqrt{\mu rn\log^{2}n}}{(\lambda_{r}^{\star})^{2}}+\frac{\kappa\sigma^{2}\sqrt{\mu rn}}{(\lambda_{r}^{\star})^{2}}+\frac{\sigma}{\lambda_{r}^{\star}}\sqrt{\frac{\mu r^{2}\log n}{n}}
+\label{eq:Psi-two-inf-norm-bound}
+\end{align}
+%
+as claimed. 
+
+
+
+The next step lies in analyzing the matrix estimator $\bm{M}=\bm{U}\bm{\Lambda}\bm{U}^{\top}$.
+Towards this, we make the observation that
+%
+\begin{align}
+\bm{M}-\bm{M}^{\star} & =\bm{U}\bm{\Lambda}\bm{U}^{\top}-\bm{M}^{\star}\nonumber \\
+ & =\bm{U}\big(\mathsf{sgn}(\bm{H})\bm{\Lambda}^{\star}\mathsf{sgn}(\bm{H})^{\top}\big)\bm{U}^{\top}-\bm{U}\bm{\Delta}_{2}\bm{U}^{\top}-\bm{M}^{\star}\nonumber \\
+ & =(\bm{U}^{\star}+\bm{Z}+\bm{\Psi})\bm{\Lambda}^{\star}(\bm{U}^{\star}+\bm{Z}+\bm{\Psi})^{\top}-\bm{U}\bm{\Delta}_{2}\bm{U}^{\top}-\bm{U}^{\star}\bm{\Lambda}^{\star}\bm{U}^{\star\top}\nonumber \\
+ & =\bm{Z}\bm{\Lambda}^{\star}\bm{U}^{\star\top}+\bm{U}^{\star}\bm{\Lambda}^{\star}\bm{Z}^{\top}+\bm{\Phi}\nonumber \\
+ & =\bm{E}\bm{U}^{\star}\bm{U}^{\star\top}+\bm{U}^{\star}\bm{U}^{\star\top}\bm{E}+\bm{\Phi},\label{eq:M-Mstar-diff-decomposition}
+\end{align}
+%
+where the second line relies on Lemma~\ref{lem:bound-Delta1-Delta2} (cf.~\eqref{eq:sgnH-Lambdastar-decompose}),
+the third identity makes use of (\ref{eq:U-Ustar-decomposition-Z-Psi}),
+and the residual matrix $\bm{\Phi}$ is defined as
+%
+\begin{equation}
+\bm{\Phi}\coloneqq\bm{\Psi}\bm{\Lambda}^{\star}\big(\bm{U}\mathsf{sgn}(\bm{H})\big)^{\top}+\bm{U}^{\star}\bm{\Lambda}^{\star}\bm{\Psi}^{\top}+\bm{Z}\bm{\Lambda}^{\star}\big(\bm{U}\mathsf{sgn}(\bm{H})-\bm{U}^{\star}\big)^{\top}-\bm{U}\bm{\Delta}_{2}\bm{U}^{\top}.\label{eq:defn-Phi-residual}
+\end{equation}
+%
+In addition, it is seen from (\ref{eq:EU-2-inf-bound-general}) that
+%
+\begin{equation}
+\|\bm{Z}\|_{2,\infty}\leq\big\|\bm{E}\bm{U}^{\star}\big(\bm{\Lambda}^{\star}\big)^{-1}\big\|_{2,\infty}\leq\frac{1}{\lambda_{r}^{\star}}\big\|\bm{E}\bm{U}^{\star}\big\|_{2,\infty}\lesssim\frac{\sigma\sqrt{r\log n}}{\lambda_{r}^{\star}}.\label{eq:Z-two-inf-norm-bound}
+\end{equation}
+%
+Consequently, one can deduce that
+%
+\begin{align*}
+\big\|\bm{\Phi}\big\|_{\infty} & \leq\big\|\bm{\Lambda}^{\star}\big\|\left\{ \|\bm{Z}\|_{2,\infty}^{2}+\|\bm{Z}\|_{2,\infty}\big\|\bm{U}\mathsf{sgn}(\bm{H})-\bm{U}^{\star}\big\|_{2,\infty}\right\} \\
+ & \quad+\big\|\bm{\Lambda}^{\star}\big\|\|\bm{\Psi}\|_{2,\infty}\left(\big\|\bm{U}\big\|_{2,\infty}+\|\bm{U}^{\star}\|_{2,\infty}\right)+\|\bm{U}\|_{2,\infty}^{2}\|\bm{\Delta}_{2}\|\\
+ & \lesssim\big|\lambda_{1}^{\star}\big|\left\{ \frac{\sigma^{2}r\log n}{(\lambda_{r}^{\star})^{2}}+\frac{\sigma\sqrt{r\log n}}{\lambda_{r}^{\star}}\cdot\frac{\sigma\kappa\sqrt{\mu r\log n}}{\lambda_{r}^{\star}}\right\} \\
+ & \quad+\big|\lambda_{1}^{\star}\big|\sqrt{\frac{\mu r}{n}}\left\{ \frac{\sigma^{2}\kappa\sqrt{\mu rn\log^{2}n}}{(\lambda_{r}^{\star})^{2}}+\frac{\kappa\sigma^{2}\sqrt{\mu rn}}{(\lambda_{r}^{\star})^{2}}+\frac{\sigma}{\lambda_{r}^{\star}}\sqrt{\frac{\mu r^{2}\log n}{n}}\right\} \\
+ & \quad+\frac{\mu r}{n}\left\{ \frac{\kappa\sigma^{2}n}{\lambda_{r}^{\star}}+\sigma\sqrt{r\log n}\right\} \\
+ & \lesssim\frac{\sigma^{2}\mu r\kappa^{2}\log n}{\lambda_{r}^{\star}}+\frac{\sigma\kappa\mu\sqrt{r^{3}\log n}}{n},
+\end{align*}
+%
+where the second inequality follows from (\ref{eq:Psi-two-inf-norm-bound}),
+(\ref{eq:Z-two-inf-norm-bound}), \eqref{eq:incoherence-U-estimate}, Theorem~\ref{thm:UsgnH-Ustar-MUstar-general}, and Lemma~\ref{lem:bound-Delta1-Delta2}. 
+
+%
+
+
+
+
+
+
+\subsection{Proof of Lemma~\ref{lem:normality-spectral}}
+\label{sec:proof-lem:normality-spectral}
+
+In what follows, we shall only focus on the case with $i\neq j$. The case with $i=j$ can be analyzed in an analogous manner; we omit it for the sake of brevity.
+Before proceeding to the proof, we make note of a couple of basic facts about $\bm{P}^{\star}$ that will prove useful.  
+The first property asserts that, for any $1\leq j\leq n$, 
+%
+\begin{align}
+\sum_{l=1}^{n}P_{j,l}^{\star2} & =\sum_{l=1}^{n}P_{l,j}^{\star2}=\big\|\big(\bm{U}^{\star}\bm{U}^{\star\top}\big)_{\cdot,j}\big\|_{2}^{2}=\big\|\bm{U}^{\star}\big(\bm{U}_{j,\cdot}^{\star}\big)^{\top}\big\|_{2}^{2}=\bm{U}_{j,\cdot}^{\star}\bm{U}^{\star\top}\bm{U}^{\star}\big(\bm{U}_{j,\cdot}^{\star}\big)^{\top}\nonumber \\
+ & =\big\|\bm{U}_{j,\cdot}^{\star}\big\|_{2}^{2}=P_{j,j}^{\star}.
+	\label{eq:P-jl-square-sum}
+\end{align}
+%
+The second property is concerned with the term $\|\bm{P}^{\star}\|_{\infty}$:  
+%
+\begin{equation}
+	\|\bm{P}^{\star}\|_{\infty}=\|\bm{U}^{\star}\bm{U}^{\star\top}\|_{\infty}\leq\|\bm{U}^{\star}\|_{2,\infty}^{2}\leq\frac{\mu r}{n},
+	\label{eq:P-inf-norm-UB}
+\end{equation}
+%
+where the last inequality follows from the incoherence assumption. 
+
+
+
+
+In view of the definition \eqref{eq:defn-P-UU-T} of $\bm{P}^{\star}$, we can express $\bm{W}=\bm{E}\bm{P}^{\star}+\bm{P}^{\star}\bm{E}$, which reveals that 
+%
+\begin{equation}
+	W_{i,j}
+	%=\sum_{l=1}^{n}E_{i,l}P_{l,j}+\sum_{l=1}^{n}P_{i,l}E_{l,j}
+	=\sum_{l:\,l\neq j}E_{i,l}P^{\star}_{l,j}+\sum_{l:\,l\neq i}P^{\star}_{i,l}E_{l,j}+E_{i,j}(P^{\star}_{i,i}+P^{\star}_{j,j}).
+\end{equation}
+%
+In other words,  $W_{i,j}$ can be viewed as a weighted sum of independent random variables $\{E_{i,l}\mid l\neq j\} \cup \{E_{l,j}\mid l\neq i\} \cup \{E_{i,j}\}$. 
+To pin down the distribution of $W_{i,j}$, we resort to a non-asymptotic
+version of the celebrated Berry-Esseen Theorem; 
+see \citet[Theorem 3.7]{chen2010normal} for a proof using Stein's method.
+%
+\begin{theorem}[The Berry-Esseen bound]\label{thm:berry-esseen}
+Let $\xi_{1},\ldots,\xi_{n}$ be independent zero-mean random variables satisfying $\sum_{i=1}^{n}\mathsf{Var}(\xi_{i})= v$.
+Then the quantity $S= \frac{1}{\sqrt{v}} \sum_{i=1}^{n}\xi_{i}$ satisfies 
+%
+\[
+	\sup_{z\in\mathbb{R}}\big|\,\mathbb{P}\left(S\leq z\right)-\Phi\left(z\right)\big|\leq10\gamma,\qquad\text{where}\ \gamma
+	=\sum_{i=1}^{n} \frac{\mathbb{E}\big[|\xi_{i}|^{3}\big] }{ v^{3/2} }.
+\]
+%
+%where $\Phi(\cdot)$ represents the CDF of a standard Gaussian distribution. 
+\end{theorem}
+
+
+
+
+
+According to the Berry-Esseen bound (cf.~Theorem~\ref{thm:berry-esseen}), 
+proving the approximate Gaussianity of $W_{i,j}$ boils down to characterizing the second and the third moments of these random variables under consideration. 
+
+
+
+
+Let us start with the variance statistics. 
+Given that $\{E_{i,j}\mid i\geq j\}$ are independently generated, 
+%the variance  $v_{i,j}^{\star}  \coloneqq\mathsf{Var}(W_{i,j}) $ 
+we can straightforwardly see that
+%
+\begin{align}
+	v_{i,j}^{\star}   %\coloneqq\mathsf{Var}(W_{i,j})
+	&=\sum_{l:\,l\neq j}\sigma_{i,l}^{2}P_{l,j}^{\star 2}+\sum_{l:\,l\neq i}P_{i,l}^{\star 2}\sigma_{l,j}^{2}+\sigma_{i,j}^{2}(P_{i,i}^{\star}+P_{j,j}^{\star})^{2} \notag\\
+	&= \mathsf{Var}(W_{i,j}).
+	\label{eq:variance-formula-Mij}
+\end{align}
+%
+We now develop a lower bound on this variance term.  Given
+that $\bm{P}^{\star} \succeq \bm{0}$, one has $P_{i,i}^{\star},P_{j,j}^{\star}\geq0$,
+%and $(P^{\star}_{i,i}+P^{\star}_{j,j})^{2}\geq P_{i,i}^{\star 2}+P_{j,j}^{\star 2}$,
+which combined with \eqref{eq:P-jl-square-sum} reveals that
+%
+\begin{align}
+v_{i,j}^{\star} & 
+%\geq\sigma_{\min}^{2}\Bigg\{\sum_{l:\,l\neq i}P_{l,j}^{\star 2}+\sum_{l:\,l\neq j}P_{i,l}^{\star 2}+P_{i,i}^{\star 2}+P_{j,j}^{\star 2}\Bigg\}
+\geq \sigma_{\min}^{2}\Bigg\{\sum_{l=1}^{n}P_{l,j}^{\star 2}+\sum_{l=1}^{n}P_{i,l}^{\star 2}\Bigg\} 
+%\notag\\
+% & =\sigma_{\min}^{2}\Big\{\big\|\big(\bm{U}^{\star}\bm{U}^{\star\top}\big)_{\cdot,j}\big\|_{2}^{2}+\big\|\big(\bm{U}^{\star}\bm{U}^{\star\top}\big)_{i,\cdot}\big\|_{2}^{2}\Big\} \notag\\
+% & =\sigma_{\min}^{2}\Big\{\big\|\bm{U}^{\star}\big(\bm{U}_{j,\cdot}^{\star}\big)^{\top}\big\|_{2}^{2}+\big\|\bm{U}_{i,\cdot}^{\star}\bm{U}^{\star\top}\big\|_{2}^{2}\big\} \notag\\
+% & 
+=\sigma_{\min}^{2}\Big\{\big\|\bm{U}_{j,\cdot}^{\star}\big\|_{2}^{2}+\big\|\bm{U}_{i,\cdot}^{\star}\big\|_{2}^{2}\Big\}.
+	\label{eq:vij-lower-bound-12}
+\end{align}
+%
+
+Next, we move on to bound the third moments. 
+Utilizing the independence of $\{E_{i,j}\mid i\geq j\}$ once again gives
+%
+\begin{align}
+	\gamma & \coloneqq\frac{\sum_{l:\,l\neq j}\mathbb{E}\big[\big|E_{i,l}\big|^{3}\big]\big|P_{l,j}^{\star} \big|^{3}+\sum_{l:\,l\neq i}\big|P_{i,l}\big|^{3}\mathbb{E}\big[\big|E_{l,j}\big|^{3}\big]+\mathbb{E}\big[\big|E_{i,j}\big|^{3}\big]\big|P_{i,i}^{\star} +P_{j,j}^{\star} \big|^{3}}{\big(v_{i,j}^{\star}\big)^{3/2}} \notag\\
+ & \leq\frac{2B\|\bm{P}^{\star} \|_{\infty}}{\big(v_{i,j}^{\star}\big)^{3/2}}\left\{ \sum_{l:\,l\neq j}\mathbb{E}\big[E_{i,l}^{2}\big] P_{l,j}^{\star 2}+\sum_{l:\,l\neq i} P_{i,l}^{\star 2}\mathbb{E}\big[E_{l,j}^{2}\big]+\mathbb{E}\big[E_{i,j}^{2}\big]\big|P_{i,i}^{\star} +P_{j,j}^{\star} \big|^{2}\right\} \notag\\
+ & =\frac{2B\|\bm{P}^{\star} \|_{\infty}}{\big(v_{i,j}^{\star}\big)^{3/2}}\cdot v_{i,j}^{\star}=\frac{2B\|\bm{P}^{\star} \|_{\infty}}{\big(v_{i,j}^{\star}\big)^{1/2}}, 
+	\label{eq:gamma-UB-123}
+\end{align}
+% 
+where we have used the assumption that $|E_{i,j}|\leq B$, and the last line arises from the expression \eqref{eq:variance-formula-Mij}. 
+Substituting \eqref{eq:P-inf-norm-UB} and \eqref{eq:vij-lower-bound-12} into \eqref{eq:gamma-UB-123} and invoking the elementary identity $\|\bm{U}^{\star} \|_{\mathrm{F}}^2=r$, 
+we arrive at
+%
+\begin{align*}
+\gamma & \leq\frac{2B\mu r}{n\sigma_{\min}\sqrt{\big\|\bm{U}_{j,\cdot}^{\star}\big\|_{2}^{2}+\big\|\bm{U}_{i,\cdot}^{\star}\big\|_{2}^{2}}}=\frac{2B\mu\sqrt{r}\,\big\|\bm{U}^{\star}\big\|_{\mathrm{F}}}{n\sigma_{\min}\sqrt{\big\|\bm{U}_{j,\cdot}^{\star}\big\|_{2}^{2}+\big\|\bm{U}_{i,\cdot}^{\star}\big\|_{2}^{2}}}
+	= o(1),
+\end{align*}
+%
+provided that Condition~\eqref{eq:Uj-Ui-lower-bound-lem-2} holds. 
+
+
+With the above calculations in place, invoking Theorem~\ref{thm:berry-esseen} immediately leads to 
+%
+\[
+\sup_{z\in\mathbb{R}}\left|\mathbb{P}\left( W_{i,j}\leq\sqrt{v_{i,j}^{\star}}z\right) -\Phi(z)\right|\leq10\gamma=o(1). 
+\]
+%
+as claimed in \eqref{eq:eqn-normality-spectral}. 
+
+
+
+Finally, we turn to proving the bound \eqref{eq:Phi-inf-norm-o-vij}. 
+By virtue of Lemma~\ref{thm:matrix-distribution} and \eqref{eq:vij-lower-bound-12}, we know that 
+%
+\begin{align*}
+\big\|\bm{\Phi}\big\|_{\infty} & \lesssim\frac{\sigma^{2}\mu r\kappa^{2}\log n}{\lambda_{r}^{\star}}+\frac{\sigma\kappa\mu\sqrt{r^{3}\log n}}{n}\\
+ & =o\left(\sigma_{\min}\sqrt{\big\|\bm{U}_{j,\cdot}^{\star}\big\|_{2}^{2}+\big\|\bm{U}_{i,\cdot}^{\star}\big\|_{2}^{2}}\right)\leq o\big(\sqrt{v_{i,j}^{\star}}\big) , 
+\end{align*}
+%
+with the proviso that
+%
+\begin{align}
+	& \sqrt{\big\|\bm{U}_{j,\cdot}^{\star}\big\|_{2}^{2}+\big\|\bm{U}_{i,\cdot}^{\star}\big\|_{2}^{2}}  \gtrsim\frac{\sigma^{2}\mu r\kappa^{2}\log^{3/2}n}{\sigma_{\min}\lambda_{r}^{\star}}+\frac{\sigma\kappa\mu\sqrt{r^{3}}\log n}{\sigma_{\min}n} \notag\\
+ & \qquad =\left(\frac{\sigma^{2}\mu\sqrt{r}\kappa^{2}\log^{3/2}n}{\sigma_{\min}\lambda_{r}^{\star}}+\frac{\sigma\kappa\mu r\log n}{\sigma_{\min}n}\right)\big\|\bm{U}^{\star}\big\|_{\mathrm{F}}. 
+	\label{eq:condition-7878}
+\end{align}
+%
+Recognizing the trivial bound $\sigma^2 = \max_{i,j}\mathbb{E}[E_{i,j}^2]\leq B^2$, we know that Condition~\eqref{eq:condition-7878} holds as long as
+%
+\begin{align}
+	\frac{\big\|\bm{U}_{j,\cdot}^{\star}\big\|_{2}^{2}+\big\|\bm{U}_{i,\cdot}^{\star}\big\|_{2}^{2}}{\big\|\bm{U}^{\star}\big\|_{\mathrm{F}}^{2}}
+	& \gtrsim \frac{\sigma^{4}\mu^{2}r\kappa^{4}\log^{3}n}{\sigma_{\min}^{2}(\lambda_{r}^{\star})^{2}} + \frac{B^{2}\kappa^2 \mu^{2}r^2\log ^2 n}{\sigma_{\min}^{2}n^{2}}, 
+	%+\frac{\sigma^{2}\kappa^{2}\mu^{2}r^{2}\log^{2}n}{\sigma_{\min}^{2}n^{2}}.
+	%\label{eq:Uj-Ui-lower-bound-lem-2}
+\end{align}
+%
+which is precisely Condition~\eqref{eq:Uj-Ui-lower-bound-lem-2}. This concludes the proof of Lemma~\ref{lem:normality-spectral}. 
+
+%as claimed. 
+
+
+%
+%\[
+%\frac{B\|\bm{P}\|_{\infty}}{\big(v_{i,j}^{\star}\big)^{1/2}}\lesssim\frac{\sigma_{\max}\sqrt{n/(\mu^{2}\log n)}\cdot\frac{\mu r}{n}}{\sigma_{\min}\Big\{\Big\|\bm{U}_{j,\cdot}^{\star}\Big\|_{2}+\Big\|\bm{U}_{i,\cdot}^{\star}\Big\|_{2}\Big\}}\asymp\frac{1}{\sqrt{\log n}}\frac{\|\bm{U}^{\star}\|_{\mathrm{F}}}{\sqrt{n}\Big\{\big\|\bm{U}_{j,\cdot}^{\star}\big\|_{2}+\big\|\bm{U}_{i,\cdot}^{\star}\big\|_{2}\Big\}}
+%\]
+%
+
+
+%And we know that 
+%\[
+%B\lesssim\sigma_{\max}\sqrt{n/(\mu^{2}\log n)}.
+%\]
+
+
+
+
+
+
+\subsection{Proof of Lemma~\ref{lem:bound-Delta1-Delta2}}
+\label{sec:proof-auxiliary-distribution}
+
+
+
+%\paragraph{Proof of Lemma~\ref{lem:bound-Delta1-Delta2}.}
+To begin with, let us begin by proving \eqref{eq:Delta-1-U-R-Lambda}. 
+From the definition of the quantity $\mathcal{E}_{1}$ (see Lemma~\ref{lem:UH-MUstar-diff-decompose}), we have
+%
+\begin{align*}
+ & \big\|\bm{M}(\bm{U}\bm{H}-\bm{U}^{\star})\big\|_{2,\infty}=\lambda_{r}^{\star}\mathcal{E}_{1}/2\\
+ & \qquad\lesssim\left(\alpha_{0}+\alpha_{1}+\alpha_{2}\right)+\left(\sigma\sqrt{n}+B\log n\right)\big\|\bm{U}\bm{H}-\bm{U}^{\star}\big\|_{2,\infty}\\
+ & \qquad\lesssim\left(\alpha_{0}+\alpha_{1}+\alpha_{2}\right)+\left(\sigma\sqrt{n}+B\log n\right)\frac{\sigma\kappa\sqrt{\mu r\log n}}{\lambda_{r}^{\star}}\\
+ & \qquad\asymp\frac{\sigma^{2}\kappa\sqrt{\mu rn\log^{2}n}}{\lambda_{r}^{\star}},
+\end{align*}
+%
+where the first inequality comes from \eqref{eq:E1-UB-general-1} and \eqref{eq:defn-E1-rho1},
+the second inequality is a consequence of Theorem~\ref{thm:UsgnH-Ustar-MUstar-general}, and 
+the last line relies on our previous bounds on $\alpha_0,\alpha_1,\alpha_2$ (see \eqref{eq:defn-alpha-0-general}, \eqref{eq:alpha1-bound-1234} and \eqref{eq:Mstar-UH-Ustar-2inf}) and holds as long as $B\lesssim\sigma\sqrt{n/(\mu\log n)}$. 
+%
+Additionally, from the elementary identity $\bm{M}\bm{U}\bm{H}=\bm{U}\bm{\Lambda}\bm{H}$, we obtain
+%
+\begin{align*}
+\big\|\bm{U}\bm{\Lambda}\mathsf{sgn}(\bm{H})-\bm{M}\bm{U}\bm{H}\big\|_{2,\infty} & =\big\|\bm{U}\bm{\Lambda}\mathsf{sgn}(\bm{H})-\bm{U}\bm{\Lambda}\bm{H}\big\|_{2,\infty}\\
+ & \leq\big\|\bm{U}\big\|_{2,\infty}\big\|\bm{\Lambda}\big\|\,\big\|\mathsf{sgn}(\bm{H})-\bm{H}\big\|\\
+ & \lesssim\sqrt{\frac{\mu r}{n}} |\lambda_{1}^{\star} | \cdot\frac{\sigma^{2}n}{(\lambda_{r}^{\star})^{2}}=\frac{\kappa\sigma^{2}\sqrt{\mu rn}}{\lambda_{r}^{\star}},
+\end{align*}
+%
+where the last line results from Lemma~\ref{lem:H-property-summary-general}, the fact \eqref{eq:incoherence-U-estimate}, and the following inequality
+%
+\begin{equation}
+	\|\bm{\Lambda}\| \leq \|\bm{\Lambda}^{\star}\| + \|\bm{E}\|\leq |\lambda_1^{\star}| + O(\sigma\sqrt{n}) \leq 2|\lambda_1^{\star}|. 
+	\label{eq:Lambda-norm-upper-bound}
+\end{equation}
+%
+Taking together the above bounds and applying the triangle inequality 
+immediately establish~\eqref{eq:Delta-1-U-R-Lambda}. 
+
+
+
+
+
+
+
+Next, we turn to the proof of the bound \eqref{eq:sgn-H-Lambdastar-sgn-H-Lambda}. 
+Note that it has been shown in (\ref{eq:H-Lambda-star-H-Lambda-dist}) that
+%
+\[
+\big\|\bm{H}\bm{\Lambda}^{\star}\bm{H}^{\top}-\bm{\Lambda}\big\|\lesssim\frac{\kappa\sigma^{2}n}{\lambda_{r}^{\star}}+\sigma\sqrt{r\log n}.
+\]
+%
+In addition, the triangle inequality leads to
+%
+\begin{align*}
+ & \big\|\mathsf{sgn}(\bm{H})\bm{\Lambda}^{\star}\mathsf{sgn}(\bm{H})^{\top}-\bm{H}\bm{\Lambda}^{\star}\bm{H}^{\top}\big\|\\
+ & \qquad\leq\big\|\mathsf{sgn}(\bm{H})\bm{\Lambda}^{\star}\big(\mathsf{sgn}(\bm{H})-\bm{H}\big)^{\top}\big\|+\big\|\big(\mathsf{sgn}(\bm{H})-\bm{H}\big)\bm{\Lambda}^{\star}\bm{H}^{\top}\big\|\\
+ & \qquad\leq\left(\big\|\mathsf{sgn}(\bm{H})\big\|+\big\|\bm{H}\big\|\right)\,\big\|\bm{\Lambda}^{\star}\big\|\,\big\|\mathsf{sgn}(\bm{H})-\bm{H}\big\|\\
+ & \qquad\leq  2 |\lambda_{1}^{\star}| \, \big\|\mathsf{sgn}(\bm{H})-\bm{H}\big\|\\
+ & \qquad\lesssim |\lambda_{1}^{\star}| \frac{\sigma^{2}n}{\big(\lambda_{r}^{\star}\big)^{2}}=\frac{\kappa\sigma^{2}n}{\lambda_{r}^{\star}},
+\end{align*}
+%
+where the third line follows since $\big\|\mathsf{sgn}(\bm{H})\big\|=1$
+and $\|\bm{H}\|\leq\|\bm{U}\|\|\bm{U}^{\star}\|=1$, and the last
+inequality comes from (\ref{eq:H-sgnH-diff-UB-123}). Combining
+the above two results and invoking the triangle inequality lead to
+the advertised bound \eqref{eq:sgn-H-Lambdastar-sgn-H-Lambda}. 
+
+
+
+
+
+\section{Appendix E: Proof of Theorem~\ref{thm:CI-general}} 
+\label{sec:proof-thm:CI-general}
+
+
+With the distributional guarantees in Theorem~\ref{thm:matrix-distribution-complete} in place, 
+the only remaining task boils down to verifying the statistical accuracy of the variance estimator $\widehat{v}_{i,j}$. 
+This can be achieved via the following lemma, whose proof is provided in Section~\ref{sec:proof-lem:variance-estimation-guarantee}.  
+%
+\begin{lemma}
+	\label{lem:variance-estimation-guarantee}
+	%
+	Suppose that the assumptions of Theorem~\ref{thm:UsgnH-Ustar-MUstar-general} hold. In addition, assume that $\kappa^{4}\mu^{2}r^{2}\log n\leq n$, $\sigma\sqrt{n}\lesssim|\lambda_{r}^{\star}|/\kappa$ and
+	%
+	\begin{align}
+		\big\|\bm{U}_{j,\cdot}^{\star}\big\|_{2}^{2}+\big\|\bm{U}_{i,\cdot}^{\star}\big\|_{2}^{2}\gtrsim\frac{B\sigma\kappa^{2}\mu^{2}r^{2}\log n}{\sigma_{\min}^2 n^{3/2}}+\frac{\sigma^{3}\kappa\mu^{2}r^{2}\log n}{\sigma_{\min}^2|\lambda_{r}^{\star}|\sqrt{n}}. 
+		\label{eq:Uj-Ui-lower-bound-lem}
+	\end{align}
+	%
+	With probability exceeding $1-O(n^{-5})$, one has
+	%
+	\begin{align}
+		\big|\widehat{v}_{i,j}-v_{i,j}^{\star}\big| =o\big( v_{i,j}^{\star} \big). 
+	\end{align}
+	%
+\end{lemma}
+%
+
+Lemma~\ref{lem:variance-estimation-guarantee} essentially enables us to express
+%
+\[
+	\widehat{v}_{i,j} = (1 + \zeta_v)^2 v_{i,j}^{\star} \qquad \text{with } \zeta_v = o(1). 
+\]
+%
+As a consequence, we can further demonstrate that
+%
+\begin{align*}
+ & \left|\mathbb{P}\left( M_{i,j}^{\star}\in\mathsf{CI}_{i,j}^{1-\alpha}\right) -(1-\alpha)\right|=\left|\mathbb{P}\left( \big| \widehat{M}_{i,j}-M_{i,j}^{\star}\big|\leq z_{\alpha/2}\sqrt{\widehat{v}_{i,j}}\right) -(1-\alpha)\right|\\
+ & =\left|\mathbb{P}\left( \big| \widehat{M}_{i,j}-M_{i,j}^{\star}\big|\leq(1+\zeta_{v})z_{\alpha/2}\sqrt{v_{i,j}^{\star}}\right) -(1-\alpha)\right|\\
+ & \leq\left|\Phi\big((1+\zeta_{v})z_{\alpha/2}\big)-\Phi\big(-(1+\zeta_{v})z_{\alpha/2}\big)-(1-\alpha)\right|+o(1)\\
+ & \leq\left|\Phi\big(z_{\alpha/2}\big)-\Phi\big(-z_{\alpha/2}\big)-(1-\alpha)\right|+2\left|\Phi\big((1+\zeta_{v})z_{\alpha/2}\big)-\Phi\big(z_{\alpha/2}\big)\right|+o(1)\\
+ & \leq2\zeta_{v}z_{\alpha/2}=o(1),
+\end{align*}
+%
+where the first inequality follows from Theorem~\ref{thm:matrix-distribution-complete} and $z_{\alpha/2}:= \Phi^{-1}(1-\alpha/2)$, the second inequality applies the triangle inequality, 
+and the validity of the last line can be seen from the basic fact $|\Phi(u)-\Phi(v)| \leq |u-v|$.   
+
+
+When $\sigma_{\min}\asymp \sigma$, Condition~\eqref{eq:Uj-Ui-lower-bound-lem} simplifies to
+%
+\begin{align}
+	\frac{\big\|\bm{U}_{j,\cdot}^{\star}\big\|_{2}^{2}+\big\|\bm{U}_{i,\cdot}^{\star}\big\|_{2}^{2}}{\big\|\bm{U}^{\star}\big\|_{\mathrm{F}}^{2}}
+	\gtrsim\frac{B\kappa^{2}\mu^{2}r\log n}{\sigma n^{3/2}}+\frac{\sigma\kappa\mu^{2}r\log n}{|\lambda_{r}^{\star}|\sqrt{n}}.		 
+		\label{eq:Uj-Ui-lower-bound-lem-31}
+\end{align}
+%
+We still need to ensure that Condition~\eqref{eq:Ui-Uj-condition-thm-distribution-1} is satisfied.  
+It is seen that 
+%
+\begin{align*}
+	\frac{B^{2}\kappa^{2}\mu^{2}r^{2}\log^{2}n}{\sigma^{2}n^{2}}+\frac{\sigma^{2}\mu^{2}r\kappa^{4}\log^{3}n}{(\lambda_{r}^{\star})^{2}}&\lesssim\frac{B\kappa^{2}\mu^{2}r^{2}\log^{2}n}{\sigma n^{3/2}}+\frac{\sigma\mu^{2}r\kappa^{3}\log^{3}n}{|\lambda_{r}^{\star}|\sqrt{n}},
+\end{align*}
+%
+%where the first inequality has made use of the fact that $B\geq \sigma$, and the second inequality 
+which holds if $\sigma\kappa \sqrt{n} \lesssim |\lambda_r^{\star}|$ and $B\lesssim \sigma\sqrt{n}$. 
+As a result, if Condition~\eqref{eq:Uj-Ui-lower-bound-thm} holds, then both \eqref{eq:Uj-Ui-lower-bound-lem-31} and \eqref{eq:Ui-Uj-condition-thm-distribution-1}
+are satisfied. 
+This finishes the proof, as long as  Lemma~\ref{lem:variance-estimation-guarantee} can be established. 
+
+
+
+%%
+%\begin{align*}
+% & \frac{B^{2}\mu^{2}r\log n}{n^{2}\sigma^{2}}+\frac{\sigma^{2}\mu^{2}r\kappa^{4}\log^{3}n}{(\lambda_{r}^{\star})^{2}}+\frac{\kappa^{2}\mu^{2}r^{2}\log^{2}n}{n^{2}}\\
+% & \lesssim\frac{B^{2}\kappa^{2}\mu^{2}r^{2}\log^{2}n}{n^{2}\sigma^{2}}+\frac{\sigma^{2}\mu^{2}r\kappa^{4}\log^{3}n}{(\lambda_{r}^{\star})^{2}}\lesssim\frac{B\kappa^{2}\mu^{2}r^{2}\log^{2}n}{\sigma n^{3/2}}+\frac{\sigma\mu^{2}r\kappa^{3}\log^{3}n}{|\lambda_{r}^{\star}|\sqrt{n}},
+%\end{align*}
+%%
+
+
+\subsection{Proof for Lemma~\ref{lem:variance-estimation-guarantee}}
+\label{sec:proof-lem:variance-estimation-guarantee}
+
+As before, we shall only present the proof for the case with $i\neq j$ for the sake of conciseness. 
+In order to justify the goodness of the estimator $\widehat{v}_{i,j}$, 
+we find it convenient to first look at the surrogate estimator introduced in \eqref{eq:v-ij-plugin-surrogate-123}, i.e., 
+%
+\begin{equation}
+	\widetilde{v}_{i,j}=\sum_{l=1}^{n}E_{i,l}^{2}P_{l,j}^{\star 2}+\sum_{l=1}^{n}P_{i,l}^{\star 2}E_{l,j}^{2}+2E_{i,j}^{2}P_{i,i}^{\star}P_{j,j}^{\star}, 
+	\label{eq:v-surrogate}
+\end{equation}
+%
+% which can also be viewed as a plug-in estimator if an oracle reveals all information about $\bm{E}$ and $\bm{P}^{\star}$. 
+In the sequel, our proof consists of two main steps: 
+%
+\begin{itemize}
+	\item Show that the surrogate $\widetilde{v}_{i,j}$ is a reliable estimate of the truth ${v}^{\star}_{i,j}$, namely, $\widetilde{v}_{i,j}\approx {v}^{\star}_{i,j}$. 
+	\item Show that the estimator in use and the surrogate estimator are sufficiently close, namely, $\widehat{v}_{i,j}\approx \widetilde{v}_{i,j}$.
+\end{itemize}
+
+
+\subsubsection{Step 1: show that $\widetilde{v}_{i,j}\approx {v}^{\star}_{i,j}$} 
+%
+Firstly, the fact that the $E_{i,j}$'s are zero-mean random variables
+immediately reveals that $\widetilde{v}_{i,j}$ is an unbiased estimate
+of $v_{i,j}^{\star}$, that is, 
+%
+\[
+\mathbb{E}\big[\widetilde{v}_{i,j}\big]=v_{i,j}^{\star}.
+\]
+%
+Secondly, given that the $E_{i,j}$'s are statistically independent,
+we intend to invoke the Bernstein inequality to control the difference $\widetilde{v}_{i,j}-v_{i,j}^{\star}=\widetilde{v}_{i,j}-\mathbb{E}\big[\widetilde{v}_{i,j}\big]$.
+To do so, one first calculates that
+%
+\begin{align*}
+L_{0} & \coloneqq\max\left\{ \max_{l}E_{i,l}^{2}P_{l,j}^{\star 2},\,\max_{l}E_{l,j}^{2}P_{i,l}^{\star 2},\,E_{i,j}^{2}(P_{i,i}^\star +P_{j,j}^\star )^{2}\right\} \leq4B^{2}\|\bm{P}^\star \|_{\infty}^{2}
+\end{align*}
+%
+and
+\begin{align*}
+V_{0} & \coloneqq\sum_{l:\,l\neq j}\mathsf{Var}\big(E_{i,l}^{2}\big)P_{l,j}^{\star 4}+\sum_{l:\,l\neq i}\mathsf{Var}\big(E_{l,j}^{2}\big)P_{i,l}^{\star 4}+\mathsf{Var}\big(E_{i,j}^{2}\big)(P_{i,i}^\star +P_{j,j}^\star )^{4}\\
+ & \lesssim\sum_{l=1}^{n}\mathbb{E}\big[E_{i,l}^{4}\big]P_{l,j}^{\star 4}+\sum_{l=1}^{n}\mathbb{E}\big[E_{l,j}^{4}\big]P_{i,l}^{\star 4}+\mathbb{E}\big[E_{i,j}^{4}\big]P_{i,i}^{\star 2}P_{j,j}^{\star 2}\\
+ & \lesssim B^{2}\|\bm{P}^\star \|_{\infty}^{2}\left\{ \sum_{l=1}^{n}\mathbb{E}\big[E_{i,l}^{2}\big]P_{l,j}^{2}+\sum_{l=1}^{n}\mathbb{E}\big[E_{l,j}^{2}\big]P_{i,l}^{\star 2}+\mathbb{E}\big[E_{i,j}^{2}\big]P_{i,i}^\star P_{j,j}^\star \right\} \\
+ & \lesssim \sigma^{2} B^{2} \|\bm{P}^\star \|_{\infty}^{2}\left\{ \sum_{l=1}^{n}P_{l,j}^{\star 2}+\sum_{l=1}^{n}P_{i,l}^{\star 2}\right\} \\
+ & \lesssim \sigma^{2} B^{2} \|\bm{P}^\star \|_{\infty}^{3},
+\end{align*}
+%
+where the last line follows from \eqref{eq:P-jl-square-sum}. 
+%since, for any $1\leq j\leq n$, 
+%%
+%\[
+%\sum_{l=1}^{n}P_{l,j}^{2}=\big\|\bm{U}^{\star}\big(\bm{U}_{j,\cdot}^{\star}\big)^{\top}\big\|_{2}^{2}=\big\|\bm{U}_{j,\cdot}^{\star}\big\|_{2}^{2}=P_{j,j}\leq\|\bm{P}\|_{\infty}.
+%\]
+%
+Invoking the Bernstein inequality (cf.~Corollary~\ref{thm:matrix-Bernstein-friendly}) reveals that with probability exceeding $1-O(n^{-5})$, 
+%
+\begin{align}
+\big|\widetilde{v}_{i,j}-v_{i,j}^{\star}\big| & =\left|\widetilde{v}_{i,j}-\mathbb{E}\left[\widetilde{v}_{i,j}\right]\right|\lesssim\sqrt{V_{0}\log n}+L_{0}\log n \notag\\
+ & \lesssim\sigma B\sqrt{\|\bm{P}^\star \|_{\infty}^{3}\log n}+B^{2}\|\bm{P}^\star \|_{\infty}^{2}\log n \notag\\
+ & \lesssim\frac{\sigma B\mu^{3/2}r^{3/2}\sqrt{\log n}}{n^{3/2}}+\frac{\mu^{2}r^{2}B^{2}\log n}{n^{2}} ,
+	\label{eq:tilde-v-star-v-diff}
+\end{align}
+%
+where the last inequality results from \eqref{eq:P-inf-norm-UB}. 
+
+
+
+\subsubsection{Step 2: show that $\widehat{v}_{i,j}\approx \widetilde{v}_{i,j}$} 
+%
+In order to accomplish this, we are in need of controlling the difference between $E_{i,j}$ (resp.~$P^\star_{i,j}$) and $\widehat{E}_{i,j}$ (resp.~$\widehat{P}_{i,j}$). 
+To this end, apply the entrywise estimation guarantees in Corollary~\ref{cor:entrywise-error-general} to yield
+%
+\begin{align}
+\big\|\widehat{\bm{E}}-\bm{E}\big\|_{\infty} & =\big\|\big(\bm{M}-\bm{U}\bm{\Lambda}\bm{U}^{\top}\big)-\big(\bm{M}-\bm{M}^{\star}\big)\big\|_{\infty} \notag\\
+ & =\big\|\bm{U}\bm{\Lambda}\bm{U}^{\top}-\bm{M}^{\star}\big\|_{\infty}\lesssim\sigma\kappa^{2}\mu r\sqrt{\frac{\log n}{n}},
+	\label{eq:entrywise-estimation-E}
+\end{align}
+%
+and as a result,
+%
+\begin{equation}
+\big\|\widehat{\bm{E}}\big\|_{\infty}\leq\big\|\bm{E}\big\|_{\infty}+\big\|\widehat{\bm{E}}-\bm{E}\big\|_{\infty}
+	\lesssim B+\sigma\kappa^{2}\mu r\sqrt{\frac{\log n}{n}}
+	\asymp B,
+	\label{eq:entrywise-estimation-E-1}
+\end{equation}
+%
+provided that $B\gtrsim \sigma\kappa^{2}\mu r\sqrt{\frac{\log n}{n}}$ (which is trivially satisfied if $\kappa^{2}\mu r\sqrt{\frac{\log n}{n}}\leq 1$). Moving on to the error term $\widehat{P}_{i,j}-P_{i,j}^\star $, we observe that
+%
+\begin{align*}
+ & \big\|\widehat{\bm{P}}-\bm{P}^\star \big\|_{\infty} =\big\|\bm{U}\bm{U}^{\top}-\bm{U}^{\star}\bm{U}^{\star\top}\big\|_{\infty}\\
+ & \qquad \leq\big\|\big(\bm{U}\mathsf{sgn}(\bm{H})-\bm{U}^{\star}\big)\bm{U}^{\star\top}\big\|_{\infty}+\big\|\bm{U}\mathsf{sgn}(\bm{H})\big(\bm{U}\mathsf{sgn}(\bm{H})-\bm{U}^{\star}\big)^{\top}\big\|_{\infty}\\
+ & \qquad \leq\big\|\bm{U}\mathsf{sgn}(\bm{H})-\bm{U}^{\star}\big\|_{2,\infty}\left\{ \big\|\bm{U}^{\star}\big\|_{2,\infty}+\big\|\bm{U}\mathsf{sgn}(\bm{H})\big\|_{2,\infty}\right\} \\	
+ & \qquad \leq\big\|\bm{U}\mathsf{sgn}(\bm{H})-\bm{U}^{\star}\big\|_{2,\infty}\left\{ \big\|\bm{U}^{\star}\big\|_{2,\infty}+\big\|\bm{U}\big\|_{2,\infty}\right\} .
+\end{align*}
+%
+Taking this  together with the bound \eqref{eq:UsgnH-Ustar-bound-theorem-general} in Theorem~\ref{thm:UsgnH-Ustar-MUstar-general}, 
+the incoherence assumption, and the inequality \eqref{eq:incoherence-U-estimate}, we arrive at
+%
+\begin{align}
+	\big\|\widehat{\bm{P}}-\bm{P}^\star \big\|_{\infty} & \lesssim \frac{(\sigma\kappa\sqrt{\mu r}+\sigma\sqrt{r\log n})}{|\lambda_{r}^{\star}|} \sqrt{\frac{\mu r}{n}}. \label{eq:P-hat-Linf-norm-diff}
+\end{align}
+%
+This taken together with \eqref{eq:P-inf-norm-UB} indicates that
+%
+\begin{align}
+\big\|\widehat{\bm{P}}\big\|_{\infty} & \leq\big\|\bm{P}^\star \big\|_{\infty}+\big\|\widehat{\bm{P}}-\bm{P}^\star \big\|_{\infty}\nonumber \\
+ & \lesssim \frac{\mu r}{n}+\frac{(\sigma\kappa\sqrt{\mu r}+\sigma\sqrt{r\log n})}{|\lambda_{r}^{\star}|}\sqrt{\frac{\mu r}{n}}\asymp\frac{\mu r}{n},\label{eq:P-hat-Linf-norm}
+\end{align}
+%
+with the proviso that $\sigma\sqrt{n}\lesssim|\lambda_{r}^{\star}|/\kappa$ and $\sigma\sqrt{n\log n}\lesssim|\lambda_{r}^{\star}|$. 
+
+
+
+Armed with the preceding bounds, we are now positioned to control $\widehat{v}_{i,j} - \widetilde{v}_{i,j}$. From the definition of $\widetilde{v}_{i,j}$ and $v_{i,j}^{\star}$, we recognize that
+%
+\begin{align}
+\big| \widehat{v}_{i,j} - \widetilde{v}_{i,j} \big| & \leq\underset{\eqqcolon\,\alpha_{1}}{\underbrace{\left|\sum_{l=1}^{n}\left(\widehat{E}_{i,l}^{2}\widehat{P}_{l,j}^{2}-E_{i,l}^{2}P_{l,j}^{\star 2}\right)\right|}}+\underset{\eqqcolon\,\alpha_{2}}{\underbrace{\left|\sum_{l=1}^{n}\left(\widehat{P}_{i,l}^{2}\widehat{E}_{l,j}^{2}-P_{i,l}^{\star 2}E_{l,j}^{2}\right)\right|}}\nonumber \\
+ & \qquad+2\, \underset{\eqqcolon\,\alpha_{3}}{\underbrace{\left|\widehat{E}_{i,j}^{2}\widehat{P}_{i,i}\widehat{P}_{j,j}-E_{i,j}^{2}P_{i,i}^\star P_{j,j}^\star \right|}},
+	\label{eq:v-tilde-bound-alpha-123}
+\end{align}
+%
+leaving us with three terms to cope with. 
+Regarding the first term $\alpha_1$ on the right-hand side of \eqref{eq:v-tilde-bound-alpha-123}, it can be easily verified that
+%
+\begin{align}
+\alpha_{1} & \leq
+\left|\sum_{l=1}^{n}\left(\widehat{E}_{i,l}^{2}\widehat{P}_{l,j}^{2}-E_{i,l}^{2}\widehat{P}_{l,j}^{2}\right)\right|+\left|\sum_{l=1}^{n}\left(E_{i,l}^{2}\widehat{P}_{l,j}^{2}-E_{i,l}^{2}P_{l,j}^{\star2}\right)\right| \notag\\
+ & \leq \left(\max_{l}\left|\widehat{E}_{i,l}^{2}-E_{i,l}^{2}\right|\right)\sum_{l=1}^{n}\widehat{P}_{l,j}^{2}+\left(\max_{l}\left| \widehat{P}_{l,j}^{2} - P_{l,j}^{\star 2} \right|\right)\sum_{l=1}^{n}E_{i,l}^{2} \notag\\
+	& \overset{\mathrm{(i)}}{\leq} \left(\|\bm{E}\|_{\infty}+\|\widehat{\bm{E}}\|_{\infty}\right)\big\|\widehat{\bm{E}}-\bm{E}\big\|_{\infty}\widehat{P}_{j,j} \notag\\
+	&\qquad +\left(\|\bm{P}^\star \|_{\infty}+\|\widehat{\bm{P}}\|_{\infty}\right)\big\|\widehat{\bm{P}}-\bm{P}^\star \big\|_{\infty}\|\bm{E}\|^{2} \notag\\
+	& \overset{\mathrm{(ii)}}{\lesssim} B\sigma\kappa^{2}\mu r\sqrt{\frac{\log n}{n}}\cdot\frac{\mu r}{n}+\frac{\mu r}{n}\cdot\frac{(\sigma\kappa\sqrt{\mu r}+\sigma\sqrt{r\log n})}{|\lambda_{r}^{\star}|}\sqrt{\frac{\mu r}{n}}\cdot\sigma^{2}n.  \notag
+	%\label{eq:alpha1-ii-UB}
+\end{align}
+%
+Here, (i) makes use of \eqref{eq:P-jl-square-sum} (with $\bm{P}^{\star}$ replaced by $\widehat{\bm{P}}$), 
+whereas (ii) holds true due to \eqref{eq:entrywise-estimation-E}, \eqref{eq:entrywise-estimation-E-1}, \eqref{eq:P-inf-norm-UB}, \eqref{eq:P-hat-Linf-norm-diff}, \eqref{eq:P-hat-Linf-norm}, and Lemma~\ref{lemma:general-noise-bound}.  
+The second term $\alpha_2$ on the right-hand side of \eqref{eq:v-tilde-bound-alpha-123} can be bounded in the same manner and we omit it here for brevity. 
+When it comes to the last term $\alpha_3$ on the right-hand side of \eqref{eq:v-tilde-bound-alpha-123}, one has
+%
+\begin{align*}
+\alpha_{3} & \leq\left|\widehat{E}_{i,j}^{2}-E_{i,j}^{2}\right|\left|\widehat{P}_{i,i}\widehat{P}_{j,j}\right|+ E_{i,j}^{2} \left|\widehat{P}_{i,i}\widehat{P}_{j,j}-P_{i,i}^\star P_{j,j}^\star \right|\\
+ & \lesssim\big\|\widehat{\bm{E}}-\bm{E}\big\|_{\infty}\left\{ \big\|\bm{E}\big\|_{\infty}+\big\|\widehat{\bm{E}}\big\|_{\infty}\right\} \big\|\widehat{\bm{P}}\big\|_{\infty}^{2} \notag\\
+	& \qquad +B^{2}\big\|\widehat{\bm{P}}- \bm{P}^{\star} \big\|_{\infty}\left\{ \big\|\bm{P}^\star \big\|_{\infty}+\big\|\widehat{\bm{P}}\big\|_{\infty}\right\} \\
+ & \lesssim\sigma\kappa^{2}\mu r\sqrt{\frac{\log n}{n}}\cdot B\cdot\left(\frac{\mu r}{n}\right)^{2}+B^{2}\cdot\frac{(\sigma\kappa\sqrt{\mu r}+\sigma\sqrt{r\log n})}{|\lambda_{r}^{\star}|}\sqrt{\frac{\mu r}{n}}\cdot\frac{\mu r}{n} \\
+ & \lesssim B\sigma\kappa^{2}\mu r\sqrt{\frac{\log n}{n}}\cdot\frac{\mu r}{n}+\frac{\mu r}{n}\cdot\frac{(\sigma\kappa\sqrt{\mu r}+\sigma\sqrt{r\log n})}{|\lambda_{r}^{\star}|}\sqrt{\frac{\mu r}{n}}\cdot\sigma^{2}n, 
+\end{align*}
+%
+where the penultimate inequality is a consequence of \eqref{eq:entrywise-estimation-E}, \eqref{eq:entrywise-estimation-E-1}, \eqref{eq:P-inf-norm-UB}, \eqref{eq:P-hat-Linf-norm-diff} and \eqref{eq:P-hat-Linf-norm},
+and the last line holds true as long as $\mu r \leq n$ (cf.~\eqref{eq:mu-constraint-general}) and $B\lesssim \sigma \sqrt{n}$. 
+Combining the above inequalities allows one to reach
+%
+\begin{align*}
+ & \big| \widehat{v}_{i,j} - \widetilde{v}_{i,j} \big|  \leq\alpha_{1}+\alpha_{2}+\alpha_{3}\\
+ & \qquad \lesssim  
+	 B\sigma\kappa^{2}\mu r\sqrt{\frac{\log n}{n}}\cdot\frac{\mu r}{n}+\frac{\mu r}{n}\cdot\frac{\sigma\kappa\sqrt{\mu r}+\sigma\sqrt{r\log n}}{|\lambda_{r}^{\star}|}\sqrt{\frac{\mu r}{n}}\cdot\sigma^{2}n \\
+ & \qquad \asymp \frac{B\sigma\kappa^{2}\mu^{2}r^{2}\sqrt{\log n}}{n^{3/2}}+\frac{\sigma^{3}\kappa\mu^{2}r^{2}+\sigma^{3}\mu^{3/2}r^{2}\sqrt{\log n}}{|\lambda_{r}^{\star}|\sqrt{n}}
+\end{align*}
+%
+with probability at least $1-O(n^{-5})$. 
+%provided that $\mu r\leq n$. 
+
+
+
+
+\subsubsection{Step 3: combining the above bounds} 
+
+Putting together the results in the previous steps, we can readily derive
+%
+\begin{align}
+\big|\widehat{v}_{i,j}-v_{i,j}^{\star}\big| & \leq\big|\widetilde{v}_{i,j}-v_{i,j}^{\star}\big|+ \big| \widehat{v}_{i,j} - \widetilde{v}_{i,j} \big|  \notag\\
+ & \lesssim\left(\frac{\sigma B\mu^{3/2}r^{3/2}\sqrt{\log n}}{n^{3/2}}+\frac{\mu^{2}r^{2}B^{2}\log n}{n^{2}}\right) \notag\\
+ & \qquad+\left(\frac{B\sigma\kappa^{2}\mu^{2}r^{2}\sqrt{\log n}}{n^{3/2}}+\frac{\sigma^{3}\kappa\mu^{2}r^{2}+\sigma^{3}\mu^{3/2}r^{2}\sqrt{\log n}}{|\lambda_{r}^{\star}|\sqrt{n}}\right) \notag\\
+	& \asymp \frac{B\sigma\kappa^{2}\mu^{2}r^{2}\sqrt{\log n}}{n^{3/2}}+\frac{\sigma^{3}\kappa\mu^{2}r^{2}\sqrt{\log n}}{|\lambda_{r}^{\star}|\sqrt{n}},  \label{eq:vij-vhat-ij-gap-bound}
+ %& \lesssim\frac{1}{\sqrt{\log n}}v_{i,j}^{\star},
+\end{align}
+%
+where the last relation is guaranteed as long as $B\lesssim \sigma \sqrt{n/\log n}$. 
+Consequently, if Condition~\eqref{eq:Uj-Ui-lower-bound-lem} holds, 
+%$\frac{B\sigma\kappa^{2}\mu^{2}r^{2}\log n}{n^{3/2}}+\frac{\sigma^{3}\kappa\mu^{2}r^{2}\log n}{|\lambda_{r}^{\star}|\sqrt{n}}
+%\lesssim\sigma_{\min} ^2 \big\{ \|\bm{U}_{j,\cdot}^{\star}\|_{2}^{2}+\|\bm{U}_{i,\cdot}^{\star}\|_{2}^{2} \big\} $, 
+then it follows from \eqref{eq:vij-vhat-ij-gap-bound} and the lower bound \eqref{eq:vij-lower-bound-12} that
+%
+\begin{align*}
+	\big|\widehat{v}_{i,j}-v_{i,j}^{\star}\big| \lesssim \frac{1}{\sqrt{\log n}} v_{i,j}^{\star}, 
+\end{align*}
+%
+thus concluding the proof. 
+
+
+
+
+

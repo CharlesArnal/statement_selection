@@ -1,0 +1,1064 @@
+%% LyX 2.3.3 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[english]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{geometry}
+\geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+
+
+\usepackage{amsthm} % for theorems
+
+\usepackage{hyperref} % hyperrefs
+
+
+\usepackage{amsmath,amssymb} % for \vertiii
+\newcommand{\vertiii}[1]{{\left\vert\kern-0.25ex\left\vert\kern-0.25ex\left\vert #1 
+    \right\vert\kern-0.25ex\right\vert\kern-0.25ex\right\vert}}
+
+\usepackage{bbm}
+
+
+\let\hat\widehat
+\let\tilde\widetilde
+\let\check\widecheck
+\let\epsilon\varepsilon
+
+
+
+\usepackage{color}
+\definecolor{cm}{RGB}{0,0,200}
+\newcommand{\cm}[1]{\textcolor{cm}{[CM: #1]}}
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+\theoremstyle{plain} \newtheorem{lemma}{\textbf{Lemma}} \newtheorem{prop}{\textbf{Proposition}}\newtheorem{theorem}{\textbf{Theorem}}\setcounter{theorem}{0}
+\newtheorem{corollary}{\textbf{Corollary}} \newtheorem{assumption}{\textbf{Assumption}}
+\newtheorem{example}{\textbf{Example}} \newtheorem{definition}{\textbf{Definition}}
+\newtheorem{fact}{\textbf{Fact}} \theoremstyle{definition}
+
+\theoremstyle{remark}\newtheorem{remark}{\textbf{Remark}}\newtheorem{condition}{Condition}\newtheorem{claim}{\textbf{Claim}}
+\title{Classical perturbation theory}
+
+\maketitle
+\tableofcontents{}
+
+\vspace{2.5em}
+
+Let $\bm{A}\in\mathbb{R}^{m\times n}$ be the matrix under study and
+$\hat{\bm{A}}=\bm{A}+\bm{E}$ be the perturbed matrix, where $\bm{E}\in\mathbb{R}^{m\times n}$
+represents the perturbation. The central question of the current monograph
+is: How does the eigenvalues (resp.~singular values) and eigenvectors
+(resp.~singular vectors) of $\bm{A}$ change in response to the perturbation~$\bm{E}$?
+
+\section{Mathematical backgrounds}
+
+Before presenting the classical matrix perturbation theory, we first
+review some basic facts in matrix analysis and probability theory
+that are used extensively in the coming sections. The readers familiar
+with these materials can proceed directly to Section~\ref{sec:classical-perturbation}.
+
+\subsection{Matrix analysis \label{subsec:Matrix-analysis}}
+
+\subsubsection{Eigenvalues and eigenvectors}
+
+We start with the definition of eigenvalues and eigenvectors of a
+square matrix.
+
+\begin{definition}[Eigenpair]\label{def:eigenpair} Fix a square
+matrix $\bm{A}\in\mathbb{C}^{n\times n}$. We say $(\lambda,\bm{v})\in\mathbb{C}\times\mathbb{C}^{n}$
+is an \emph{eigenpair} of $\bm{A}$ if $\bm{v}$ is nonzero and 
+\begin{equation}
+\bm{A}\bm{v}=\lambda\bm{v}.\label{eq:def-eigenpair}
+\end{equation}
+In particular, the scalar $\lambda$ is an eigenvalue of $\bm{A}$
+and $\bm{v}$ is the associated eigenvector. \end{definition}
+
+In words, an eigenvector $\bm{v}$ of $\bm{A}$ does not change its
+direction when multiplied by $\bm{A}$ and the eigenvalue $\lambda$
+measures the amount of expansion or shrinkage in this transformation.
+Several remarks regarding Definition~\ref{def:eigenpair} are in
+order.
+\begin{itemize}
+\item The eigenpair (i.e.~the eigenvalue and the eigenvector) is only defined
+for square matrices. This is implicitly assumed in the definition
+of the eigenpair~(see~(\ref{def:eigenpair})).
+\item Every $n\times n$ square matrix has exactly $n$ (complex) eigenvalues,
+possibly with repetitions. To see this, one can transform (\ref{def:eigenpair})
+into the identity
+\[
+\left(\lambda\bm{I}_{n}-\bm{A}\right)\bm{v}=\bm{0}.
+\]
+Consequently, the scalar $\lambda$ is an eigenvalue of $\bm{A}$
+if and only if 
+\[
+\mathsf{det}\left(\lambda\bm{I}_{n}-\bm{A}\right)=0.
+\]
+Notice that the above relation specifies a polynomial equation of
+degree $n$, which by the fundamental theorem of algebra, has exactly
+$n$ roots in the complex field (and hence $n$ complex eigenvalues
+of $\bm{A}$).
+\item A matrix consisting of real entries can have complex eigenvalues and
+complex eigenvectors. Take for instance the matrix
+\[
+\bm{A}=\left[\begin{array}{cc}
+3 & -2\\
+4 & -1
+\end{array}\right],
+\]
+where $1+2i$ and $1-2i$ are its two complex eigenvalues. Here $i$
+denotes the imaginary unit.
+\end{itemize}
+With the last remark being said, there exists one important set of
+matrices --- \emph{real symmetric matrices} --- of which the eigenvalues
+must be real. This claim is formalized in the following theorem.
+
+\begin{theorem}[Spectral theorem]\label{thm:spectral} Let $\bm{A}\in\mathbb{R}^{n\times n}$
+be a real symmetric matrix. Then there exist $n$ real eigenvalues
+$\lambda_{1},\cdots\lambda_{n}\in\mathbb{R}$ and an orthonormal basis
+$\{\bm{u}_{1},\bm{u}_{2},\cdots,\bm{u}_{n}\}\subset\mathbb{R}^{n}$
+such that $\bm{A}\bm{u}_{i}=\lambda_{i}\bm{u}_{i}$. Equivalently,
+a real symmetric matrix $\bm{A}$ enjoys the following spectral decomposition
+\begin{equation}
+\bm{A}=\sum_{i=1}^{n}\lambda_{i}\bm{u}_{i}\bm{u}_{i}^{\top},\label{eq:spectral-decomposition-summation-form}
+\end{equation}
+where $\{\lambda_{i}\}_{1\leq i\leq n}$ are the real eigenvalues
+of $\bm{A}$ and $\{\bm{u}_{i}\}_{1\leq i\leq n}$ is an orthonormal
+basis of~$\mathbb{R}^{n}$.
+
+\end{theorem}
+
+Since the eigenvalues of real symmetric matrices are guaranteed to
+be real numbers, we can therefore order them. From now on, denote
+by $\lambda_{i}(\bm{A})$ the $i$th largest eigenvalue of a real
+symmetric matrix $\bm{A}\in\mathbb{R}^{n\times n}$. In addition,
+we define $\lambda_{\max}(\bm{A})\triangleq\lambda_{1}(\bm{A})$ and
+$\lambda_{\min}(\bm{A})\triangleq\lambda_{n}(\bm{A})$.
+
+To make the expression~(\ref{eq:spectral-decomposition-diagonalization-form})
+more compact, we denote 
+\[
+\bm{U}=\left[\begin{array}{ccc}
+\rvert &  & \rvert\\
+\bm{u}_{1} & \cdots & \bm{u}_{n}\\
+\rvert &  & \rvert
+\end{array}\right]\in\mathbb{R}^{n\times n}\qquad\text{and}\qquad\bm{\Lambda}=\left[\begin{array}{cccc}
+\lambda_{1} & 0 & \cdots & 0\\
+0 & \lambda_{2} & \cdots & 0\\
+\vdots & \cdots & \ddots & \vdots\\
+0 & 0 & \cdots & \lambda_{n}
+\end{array}\right]\in\mathbb{R}^{n\times n}.
+\]
+As a result, the decomposition (\ref{eq:spectral-decomposition-diagonalization-form})
+can be rewritten as 
+\begin{equation}
+\bm{A}=\bm{U}\bm{\Lambda}\bm{U}^{\top},\label{eq:spectral-decomposition-multiplication-form}
+\end{equation}
+in which a real symmetric matrix is decomposed into the multiplications
+of orthonormal matrices (i.e.~$\bm{U}$) and a real diagonal matrix
+(i.e.~$\bm{\Lambda}$). Another useful way to interpret spectral
+decomposition is through the lens of diagonalization. Simple algebraic
+manipulation reveals an equivalent form of (\ref{eq:spectral-decomposition-multiplication-form})
+\begin{equation}
+\bm{U}^{\top}\bm{A}\bm{U}=\bm{\Lambda}.\label{eq:spectral-decomposition-diagonalization-form}
+\end{equation}
+This essentially tells us that any real symmetric matrix $\bm{A}$
+can be \emph{diagonalized }by an orthonormal matrix~(i.e.~$\bm{U}$).
+
+\subsubsection{Singular values and singular vectors}
+
+As we have pointed out in the remarks following Definition~\ref{def:eigenpair},
+a rectangular matrix does \emph{not} have well-defined eigenvalues
+and eigenvectors. It is then natural to ask whether there is a similar
+decomposition of a general matrix to that of a real symmetric matrix
+(cf.~(\ref{eq:spectral-decomposition-multiplication-form})). Fortunately,
+a general matrix admits another useful representation, namely the
+singular value decomposition (SVD).
+
+\begin{definition}[Singular value decomposition]\label{def:SVD}Let
+$\bm{A}\in\mathbb{R}^{m\times n}$ be a general matrix. Without loss
+of generality, assume that $m\leq n$. There exists a pair of orthogonal
+matrices $\bm{U}\in\mathbb{R}^{m\times m}$ and $\bm{V}\in\mathbb{R}^{n\times n}$
+such that 
+\begin{equation}
+\bm{A}=\bm{U}\bm{\Sigma}\bm{V}^{\top},\label{eq:SVD}
+\end{equation}
+where $\bm{\Sigma}$ is a rectangular diagonal matrix with 
+\[
+\bm{\Sigma}=\left[\begin{array}{cccccc}
+\sigma_{1} & 0 & \cdots & \cdots & 0 & 0\\
+0 & \sigma_{2} & \cdots & \cdots & 0 & 0\\
+\vdots & \vdots & \ddots & \vdots & \vdots & \vdots\\
+0 & 0 & \cdots & \sigma_{m} & 0 & 0
+\end{array}\right]\in\mathbb{R}^{m\times n}
+\]
+and $\sigma_{1}\geq\sigma_{2}\geq\cdots\geq\sigma_{m}\geq0$. The
+decomposition (\ref{eq:SVD}) is called the singular value decomposition,
+where the nonnegative real numbers $\{\sigma_{i}\}_{1\leq i\leq n}$
+are the singular values of $\bm{A}$ and the columns in $\bm{U}$
+(resp.~$\bm{V}$) are the left (resp.~right) singular vectors of
+$\bm{A}$. \end{definition}
+
+Similar to the eigenvalues of real symmetric matrices, the singular
+values of a general matrix are guaranteed to be real. As a result,
+for any $1\leq i\leq\min\{m,n\}$, we define $\sigma_{i}(\bm{A})$
+to be $i$th largest singular value of $\bm{A}$, and define $\sigma_{\max}(\bm{A})\triangleq\sigma_{1}(\bm{A})$
+(resp.~$\sigma_{\min}(\bm{A})\triangleq\sigma_{\min\{m,n\}}(\bm{A})$)
+to be the largest (resp.~smallest) singular values of $\bm{A}$.
+
+It is straightforward to read the rank of a matrix from its singular
+values in that the rank is equal to the number of nonzero singular
+values. If the rank $r$ of a matrix $\bm{A}\in\mathbb{R}^{m\times n}$
+is smaller than $\min\{m,n\}$, it is often more economical to represent
+the matrix using the \emph{compact SVD }
+\begin{equation}
+\bm{A}=\bm{U}_{r}\bm{\Sigma}_{r}\bm{V}_{r}^{\top},\label{eq:compact-SVD}
+\end{equation}
+where $\bm{U}_{r}\in\mathbb{R}^{m\times r}$ (resp.~$\bm{V}_{r}\in\mathbb{R}^{n\times r}$)
+is the first $r$ columns of $\bm{U}$ (resp.~$\bm{V}$) and $\bm{\Sigma}_{r}\in\mathbb{R}^{r\times r}$
+is the upper left block of $\bm{\Sigma}$ of size $r$.
+
+Having introduced two matrix decompositions, it is instrumental to
+compare the singular value decomposition of a general matrix (cf.~Definition~\ref{def:SVD})
+with the spectral decomposition of a real symmetric matrix (cf.~Theorem~(\ref{thm:spectral})).
+First, the eigenvalues of a real symmetric matrix are not necessarily
+nonnegative whereas singular values must be. Second, as claimed in
+(\ref{eq:spectral-decomposition-diagonalization-form}), any real
+symmetric matrix can be diagonalized by a single orthonormal matrix.
+However, this may not hold true for a general matrix, nevertheless,
+SVD points out a way to diagonalize a matrix using two orthonormal
+matrices. To see this, one can equate (\ref{eq:SVD}) with
+
+\[
+\bm{U}^{\top}\bm{A}\bm{V}=\bm{\Sigma}.
+\]
+Last but not least, the singular value decomposition and the spectral
+decomposition are inherently related. It is an easy exercise to see
+that the columns of $\bm{U}$ (resp.~$\bm{V}$) are eigenvectors
+of $\bm{A}\bm{A}^{\top}$ (resp.~$\bm{A}^{\top}\bm{A}$). In addition,
+the singular values of $\bm{A}$ are nonnegative square roots of the
+eigenvalues of either $\bm{A}\bm{A}^{\top}$ or $\bm{A}^{\top}\bm{A}$
+(modulo zero singular values). This connection shall prove useful
+in later discussions.
+
+\subsubsection{Matrix norms}
+
+To measure the size of the perturbation (e.g.~$\bm{E}$), we need
+to introduce appropriate metrics~/~norms on the space of matrices.
+Among all matrix norms, unitarily invariant norms are of most interest
+to us. \begin{definition}[Unitarily invariant norms]A matrix norm
+$\vertiii{\cdot}$ on $\mathbb{R}^{m\times n}$ is unitarily invariant
+if
+\[
+\vertiii{\bm{A}}=\vertiii{\bm{U}^{\top}\bm{A}\bm{V}}
+\]
+for any matrix $\bm{A}\in\mathbb{R}^{m\times n}$ and any two orthogonal
+matrices $\bm{U}\in\mathbb{R}^{m\times m}$ and $\bm{V}\in\mathbb{R}^{n\times n}$.
+\end{definition}
+
+Two prominent examples include the Frobenius norm and the operator
+norm
+
+\begin{equation}
+\left\Vert \bm{A}\right\Vert _{\mathrm{F}}\triangleq\sqrt{\sum_{i,j}A_{ij}^{2}}\qquad\text{and}\qquad\left\Vert \bm{A}\right\Vert \triangleq\max_{\bm{x}\in\mathbb{R}^{n}:\bm{x}\neq\bm{0}}\frac{\left\Vert \bm{A}\bm{x}\right\Vert _{2}}{\left\Vert \bm{x}\right\Vert _{2}}.\label{eq:def-fro-op-norm}
+\end{equation}
+To see why both $\|\cdot\|_{\mathrm{F}}$ and $\|\cdot\|$ are unitarily
+invariant norms, we have the following important characterizations
+\[
+\left\Vert \bm{A}\right\Vert _{\mathrm{F}}=\sqrt{\sum_{i=1}^{\min\{m,n\}}\sigma_{i}^{2}\left(\bm{A}\right)}\qquad\text{and}\qquad\left\Vert \bm{A}\right\Vert =\sigma_{1}\left(\bm{A}\right),
+\]
+where we recall that $\sigma_{1}(\bm{A})\geq\sigma_{2}(\bm{A})\geq\cdots\geq\sigma_{\min\{m,n\}}(\bm{A})\geq0$
+are the singular values of $\bm{A}$ in descending order.
+
+Last but not least, unitarily invariant norms enjoy the following
+nice properties.
+
+\begin{prop}Let $\vertiii{\cdot}$ be any unitarily invariant norm.
+One has 
+\begin{align*}
+\vertiii{\bm{A}\bm{B}} & \leq\vertiii{\bm{A}}\left\Vert \bm{B}\right\Vert _{2}\qquad\text{and}\qquad\vertiii{\bm{A}\bm{B}}\leq\vertiii{\bm{B}}\left\Vert \bm{A}\right\Vert _{2};\\
+\vertiii{\bm{A}\bm{B}} & \geq\vertiii{\bm{A}}\sigma_{\min}\left(\bm{B}\right)\qquad\text{and}\qquad\vertiii{\bm{A}\bm{B}}\leq\vertiii{\bm{B}}\sigma_{\min}\left(\bm{A}\right).
+\end{align*}
+\end{prop}
+
+\subsection{Concentration inequalities}
+
+\cm{Need to motivate why we need these. }
+
+As we have mentioned in Section~XXX, we often observe
+
+One quantitative version of the central limit theorem \cm{TODO}
+
+\begin{theorem}[Bernstein's inequality]Let $\{x_{i}\}_{1\leq i\leq n}$
+be a sequence of independent random variables. Suppose that for each
+$1\leq i\leq n$, $\mathbb{E}[x_{i}]=0$ and $|x_{i}|\leq B$ almost
+surely. Then we have for all $t\geq0$ 
+\[
+\mathbb{P}\left(\left|\sum_{i=1}^{n}x_{i}\right|\geq t\right)\leq2\exp\left(\frac{-t^{2}/2}{V+Bt/3}\right),
+\]
+where $V$ is the variance statistic 
+\[
+V\triangleq\left|\sum_{i=1}^{n}\mathbb{E}\left[x_{i}^{2}\right]\right|.
+\]
+\end{theorem}
+
+\begin{theorem}[Matrix Bernstein's inequality]Let $\{\bm{X}_{i}\}_{1\leq i\leq n}$
+be a sequence of independent real random matrices with dimension $d_{1}\times d_{2}$.
+Suppose that 
+\[
+\mathbb{E}\left[\bm{X}_{i}\right]=\bm{0},\qquad\left\Vert \bm{X}_{l}\right\Vert \leq B\qquad\text{for each }i.
+\]
+Let $V$ be the variance statistic
+\[
+V\triangleq\max\left\{ \left\Vert \sum_{i=1}^{n}\mathbb{E}\left[\bm{X}_{i}\bm{X}_{i}^{\top}\right]\right\Vert ,\left\Vert \sum_{i=1}^{n}\mathbb{E}\left[\bm{X}_{i}^{\top}\bm{X}_{i}\right]\right\Vert \right\} .
+\]
+Then one has for all $t\geq0$, 
+\[
+\mathbb{P}\left(\left\Vert \sum_{i=1}^{n}\bm{X}_{i}\right\Vert \geq t\right)\leq\left(d_{1}+d_{2}\right)\exp\left(\frac{-t^{2}/2}{V+Bt/3}\right).
+\]
+\end{theorem},
+
+\section{The classical $\ell_{2}$ perturbation theory \label{sec:classical-perturbation}}
+
+Now we are ready to present the classical matrix perturbation theory
+on the eigenvalues (resp.~singular values) and eigenvectors (resp.~singular
+vectors).
+
+\subsection{Perturbation of real symmetric matrices \label{subsec:Perturbation-of-real-symmetric}}
+
+We start with a real symmetric matrix $\bm{A}\in\mathbb{R}^{n\times n}$,
+where the focus is its eigenvalues and eigenvectors. In light of Theorem~\ref{thm:spectral},
+the matrix $\bm{A}$ has the spectral decomposition 
+\[
+\bm{A}=\sum_{i=1}^{n}\lambda_{i}\bm{u}_{i}\bm{u}_{i}^{\top},
+\]
+where $\lambda_{1}\geq\lambda_{2}\geq\cdots\geq\lambda_{n}$ are the
+eigenvalues and $\{\bm{u}_{i}\}$ --- the set of eigenvectors --- forms
+an orthonormal basis of $\mathbb{R}^{n}$. Suppose that $\bm{A}$
+is perturbed by a symmetric matrix $\bm{E}\in\mathbb{R}^{n\times n}$
+and we only get to observe $\hat{\bm{A}}=\bm{A}+\bm{E}.$ Two important
+questions follow: \cm{Need to motivate eigenspaces.}
+\begin{enumerate}
+\item How do the eigenvalues change when the matrix $\bm{A}$ is perturbed
+by $\bm{E}$?
+\item How do the eigenspaces change in response to the perturbation $\bm{E}$?
+\end{enumerate}
+Before addressing these questions, we introduce some useful notation.
+Denote the spectral decomposition of $\hat{\bm{A}}$ by 
+\[
+\hat{\bm{A}}=\bm{A}+\bm{E}=\sum_{i=1}^{n}\hat{\lambda}_{i}\hat{\bm{u}}_{i}\hat{\bm{u}}_{i}^{\top},
+\]
+where $\hat{\lambda}_{1}\geq\hat{\lambda}_{2}\geq\cdots\geq\hat{\lambda}_{n}$
+are the eigenvalues of $\hat{\bm{A}}$ and $\{\hat{\bm{u}}_{i}\}$
+are the corresponding eigenvectors that are orthonormal.
+
+\subsubsection{The perturbation of eigenvalues}
+
+With all the notation at hand, we are in position to present the perturbation
+bounds for eigenvalues of symmetric matrices.
+
+\begin{lemma}[Weyls's inequality]\label{lemma:weyl}Instate the
+notation in Section~\ref{subsec:Perturbation-of-real-symmetric}.
+For every $1\leq i\leq n$, we have 
+\begin{equation}
+\left|\lambda_{i}\left(\bm{A}+\bm{E}\right)-\lambda_{i}\left(\bm{A}\right)\right|=\left|\hat{\lambda}_{i}-\lambda_{i}\right|\leq\left\Vert \bm{E}\right\Vert .\label{eq:weyl}
+\end{equation}
+\end{lemma}
+
+An immediate implication of Lemma~\ref{lemma:weyl} is that the eigenvalues
+of a real symmetric matrix are stable against small perturbations.
+
+\subsubsection{Distance between subspaces}
+
+Moving on to the question of the perturbation of eigenvectors~/~eigenspaces,
+one clearly needs a distance metric on the space of linear subspaces.
+Let $\mathcal{X}$ and $\mathcal{Y}$ be two linear subspaces of $\mathbb{R}^{n}$
+with dimension $r$ and let $\bm{U}_{0}\in\mathbb{R}^{n\times r}$
+(resp.~$\hat{\bm{U}}_{0}\in\mathbb{R}^{n\times r}$) be an orthonormal
+basis of $\mathcal{X}$ (resp.~$\mathcal{Y}$). This subsection is
+centered around quantifying the distance between $\mathcal{X}$ and
+$\mathcal{Y}$. One naive idea is to use the ``metric'' $\vertiii{\bm{U}_{0}-\hat{\bm{U}}_{0}}$,
+where $\vertiii{\cdot}$ is any norm on $\mathbb{R}^{n\times r}$.
+However, an obvious drawback of this approach is that it does not
+take into account the rotation ambiguity that is inherent in $\bm{U}_{0}$
+and $\hat{\bm{U}}_{0}$ --- for any $\bm{R}\in\mathcal{O}^{r\times r}$,
+the matrix $\bm{U}\bm{R}$ is also an orthonormal basis of $\mathcal{X}$.
+Therefore, any reasonable distance metric should handle the rotation
+ambiguity properly. Below are two popular metrics to measure the distance
+between a pair of subspaces.
+\begin{enumerate}
+\item \emph{The algebraic construction of distance metrics --- projection
+matrices. }It is an established fact in linear algebra that the projection
+matrix $\bm{U}_{0}\bm{U}_{0}^{\top}$ (resp.~$\hat{\bm{U}}_{0}\hat{\bm{U}}_{0}^{\top}$)
+onto the subspace $\mathcal{X}$ (resp.~$\mathcal{Y}$) is unique.
+Utilizing this fact, one can define the distance between $\mathcal{X}$
+and $\mathcal{Y}$ to be 
+\begin{equation}
+\rho_{\vertiii{\cdot}}\left(\mathcal{X},\mathcal{Y}\right)\triangleq\vertiii{\bm{U}_{0}\bm{U}_{0}^{\top}-\hat{\bm{U}}_{0}\hat{\bm{U}}_{0}^{\top}},\label{eq:algebraic-dist}
+\end{equation}
+where $\vertiii{\cdot}$ is some norm on $\mathbb{R}^{n\times n}$.
+It is an exercise for the readers to prove that this is indeed a valid
+distance metric on the space of linear subspaces.
+\begin{enumerate}
+\item \emph{The geometric construction of distance metrics --- canonical
+angles}. Let $\bm{X}\bm{\Sigma}\bm{Y}^{\top}$ be the SVD of $\bm{U}_{0}^{\top}\hat{\bm{U}}_{0}$,
+where $\bm{X},\bm{Y}\in\mathcal{O}^{r\times r}$ are orthonormal matrices
+and $\bm{\Sigma}=\mathsf{diag}(\sigma_{1},\sigma_{2},\cdots,\sigma_{r})$
+consisting of the singular values of $\bm{U}_{0}^{\top}\hat{\bm{U}}_{0}$
+in a descending order. It is easy to check that all the singular values
+$\{\sigma_{i}\}$ are contained in the interval $[0,1]$. Therefore,
+one can define the \emph{canonical angles} between two subspaces spanned
+by $\bm{U}_{0}$ (i.e.~$\mathcal{X}$) and $\hat{\bm{U}}_{0}$ (i.e.~$\mathcal{Y}$)
+to be 
+\[
+\theta_{i}\triangleq\cos^{-1}\left(\sigma_{i}\right)\in\left[0,\pi/2\right],\qquad\text{for all}\quad1\leq i\leq r.
+\]
+Note that $0\leq\theta_{1}\leq\theta_{2}\leq\cdots\leq\theta_{r}\leq\pi/2$.
+To see why this definition makes sense, let us consider the simplest
+case where $r=1$ and hence $\bm{U}$ and $\hat{\bm{U}}$ are two
+unit vectors. In this case, the canonical angle $\theta_{1}$ is exactly
+the angle between the two unit vectors $\bm{U}$ and $\hat{\bm{U}}$:
+when $\theta_{1}=0$, the two subspaces coincide with each other and
+when $\theta_{1}=\pi/2$, they are far way from each other. Based
+on this observation, the set of canonical angles $\{\theta_{i}\}$
+forms a good basis to measure the distance between two subspaces.
+To formalize this idea, we arrange the canonical angles into a diagonal
+matrix 
+\[
+\bm{\Theta}\triangleq\mathsf{diag}\left(\theta_{1},\theta_{2},\cdots,\theta_{r}\right)\in\mathbb{R}^{r\times r},
+\]
+and correspondingly define 
+\begin{align*}
+\sin\bm{\Theta} & \triangleq\mathsf{diag}\left(\sin\theta_{1},\sin\theta_{2},\cdots,\sin\theta_{r}\right)\in\mathbb{R}^{r\times r}.
+\end{align*}
+With this notation in place, one can measure the distance between
+$\mathcal{X}$ and $\mathcal{Y}$ through \cm{May not be a good notation
+to use due to the ignorance of the norm. }
+\begin{equation}
+\rho_{\sin}\left(\mathcal{X},\mathcal{Y}\right)=\vertiii{\sin\bm{\Theta}},\label{eq:geometric-dist}
+\end{equation}
+where $\vertiii{\cdot}$ is some norm on $\mathbb{R}^{r\times r}$.
+\end{enumerate}
+\end{enumerate}
+As we will soon see, the algebraic distance (\ref{eq:algebraic-dist})
+and the geometric distance (\ref{eq:geometric-dist}) are closely
+related. This connection is best illustrated via the following lemma.
+
+\begin{lemma}\label{lemma:connection-algebraic-geometric}Denote
+\[
+k=\begin{cases}
+r, & \text{if }2r\leq n,\\
+n-r, & \text{if }2r>n.
+\end{cases}
+\]
+Then the singular values of $\bm{U}_{0}\bm{U}_{0}^{\top}-\hat{\bm{U}}_{0}\hat{\bm{U}}_{0}^{\top}$
+are given by
+\[
+\underbrace{\sin\theta_{r},\sin\theta_{r},\sin\theta_{r-1},\sin\theta_{r-1},\cdots,\sin\theta_{r+1-k},\sin\theta_{r+1-k}}_{2k},\;\underbrace{0,0,\cdots,0}_{n-2k}.
+\]
+
+Suppose that $2r\leq n$. Then the singular values of $\bm{U}_{0}\bm{U}_{0}^{\top}-\hat{\bm{U}}_{0}\hat{\bm{U}}_{0}^{\top}$
+are given by
+\[
+\underbrace{\sin\theta_{r},\sin\theta_{r},\sin\theta_{r-1},\sin\theta_{r-1},\cdots,\sin\theta_{1},\sin\theta_{1}}_{2r},\;\underbrace{0,0,\cdots,0}_{n-2r}.
+\]
+Similarly, when $2r>n$, the singular values of $\bm{U}_{0}\bm{U}_{0}^{\top}-\hat{\bm{U}}_{0}\hat{\bm{U}}_{0}^{\top}$
+are 
+\[
+\underbrace{\sin\theta_{r},\sin\theta_{r},\sin\theta_{r-1},\sin\theta_{r-1},\cdots,\sin\theta_{2r+1-n},\sin\theta_{2r+1-n}}_{2(n-r)},\;\underbrace{0,0,\cdots,0}_{2r-n}.
+\]
+\end{lemma}\begin{proof}Let $\bm{U}_{1}\in\mathbb{R}^{n\times(n-r)}$
+(resp.~$\hat{\bm{U}}_{1}\in\mathbb{R}^{n\times(n-r)}$) be an orthonormal
+basis for the orthogonal complement to $\bm{U}_{0}$ (reps.~$\hat{\bm{U}}_{0}$).
+Since singular values are unitarily invariant, we turn to investigating
+the singlur values of 
+\[
+\left[\begin{array}{c}
+\bm{U}_{0}^{\top}\\
+\bm{U}_{1}^{\top}
+\end{array}\right]\left(\bm{U}_{0}\bm{U}_{0}^{\top}-\hat{\bm{U}}_{0}\hat{\bm{U}}_{0}^{\top}\right)\left[\begin{array}{cc}
+\hat{\bm{U}}_{1} & \hat{\bm{U}}_{0}\end{array}\right]=\left[\begin{array}{cc}
+\bm{U}_{0}^{\top}\hat{\bm{U}}_{1} & \bm{0}\\
+\bm{0} & -\bm{U}_{1}^{\top}\hat{\bm{U}}_{0}
+\end{array}\right].
+\]
+As result, the singular values of $\bm{U}_{0}\bm{U}_{0}^{\top}-\hat{\bm{U}}_{0}\hat{\bm{U}}_{0}^{\top}$
+are composed of those of $\bm{U}_{0}^{\top}\hat{\bm{U}}_{1}$ and
+$-\bm{U}_{1}^{\top}\hat{\bm{U}}_{0}$. Recall from our discussion
+on the relationship between eigenvalues and singular values. We turn
+to studying the eigenvalues of $\bm{U}_{0}^{\top}\hat{\bm{U}}_{1}\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}$.
+Note that 
+\[
+\bm{U}_{0}^{\top}\hat{\bm{U}}_{1}\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}=\bm{U}_{0}^{\top}\left(\bm{I}_{n}-\hat{\bm{U}}_{0}\hat{\bm{U}}_{0}^{\top}\right)\bm{U}_{0}=\bm{I}_{r}-\bm{U}_{0}^{\top}\hat{\bm{U}}_{0}\hat{\bm{U}}_{0}^{\top}\bm{U}_{0}=\bm{X}\left(\bm{I}_{r}-\bm{\Sigma}^{2}\right)\bm{X}^{\top},
+\]
+where the last relation uses the SVD $\bm{X}\bm{\Sigma}\bm{Y}^{\top}$
+of $\bm{U}_{0}^{\top}\hat{\bm{U}}_{0}$. It is then easy to check
+that 
+\[
+\sigma_{i}(\bm{U}_{0}^{\top}\hat{\bm{U}}_{1})=\sqrt{\lambda_{i}(\bm{U}_{0}^{\top}\hat{\bm{U}}_{1}\hat{\bm{U}}_{1}^{\top}\bm{U}_{0})}=\sqrt{1-\cos^{2}\theta_{r+1-i}}=\sin\theta_{r+1-i}.
+\]
+Similaly, the singular values of $-\bm{U}_{1}^{\top}\hat{\bm{U}}_{0}$
+are given by $\{\sin\theta_{i}\}_{1\leq i\leq r}$. Combine these
+two observations to complete the proof. \end{proof}
+
+Lemma~\ref{lemma:connection-algebraic-geometric} connects the singular
+values of the difference of projection matrices with the sines of
+canonical angles between subspaces. With the help of Lemma~\ref{lemma:connection-algebraic-geometric},
+one can easily obtain the following corollary.
+
+\begin{corollary}\label{prop:unitary-norm-property}One has 
+\begin{align*}
+\left\Vert \bm{U}_{0}\bm{U}_{0}^{\top}-\hat{\bm{U}}_{0}\hat{\bm{U}}_{0}^{\top}\right\Vert  & =\left\Vert \sin\bm{\Theta}\right\Vert \qquad\text{and}\qquad\left\Vert \bm{U}_{0}\bm{U}_{0}^{\top}-\hat{\bm{U}}_{0}\hat{\bm{U}}_{0}^{\top}\right\Vert _{\mathrm{F}}=\sqrt{2}\left\Vert \sin\bm{\Theta}\right\Vert _{\mathrm{F}}.
+\end{align*}
+\end{corollary}
+
+\subsubsection{Perturbation of eigenspaces: Davis-Kahan's sin-$\Theta$ theorem}
+
+We now proceed to the perturbation bounds for eigenspaces. Unlike
+eigenvalues, which are stable against small perturbations, the eigenspace
+of a real symmetric matrix can change drastically even under a small
+perturbation. For instance, take
+\[
+\bm{A}=\left[\begin{array}{cc}
+1+\epsilon & 0\\
+0 & 1-\epsilon
+\end{array}\right],\quad\bm{E}=\left[\begin{array}{cc}
+-\epsilon & \epsilon\\
+\epsilon & \epsilon
+\end{array}\right],\quad\text{and}\quad\hat{\bm{A}}=\bm{A}+\bm{E}=\left[\begin{array}{cc}
+1 & \epsilon\\
+\epsilon & 1
+\end{array}\right],
+\]
+where $\epsilon$ is a small positive constant. It is straightforward
+to compute that the leading eigenvector of $\bm{A}$ (reps.~$\hat{\bm{A}}$)
+is $\bm{u}_{1}=(1,0)^{\top}$ (resp.~$\hat{\bm{u}}_{1}=(1/\sqrt{2},1/\sqrt{2})^{\top}$).
+As a result, the sin$\bm{\Theta}$ distance between the subspaces
+spanned by $\bm{u}_{1}$ and $\hat{\bm{u}}_{1}$ is $1/\sqrt{2}$,
+which can be arbitrarily large compared with the small perturbation
+$\epsilon$. On closer inspection, this pathological behavior exists
+due to the fact that size $\epsilon$ of the perturbation is comparable
+to the eigengap of $\bm{A}$, i.e.~$\lambda_{1}(\bm{A})-\lambda_{2}(\bm{A})=2\epsilon$.
+This motivates us to impose conditions on the eigengap such that the
+eigenspace could be stable against perturbations. The stability of
+eigenspaces is formally stated in Theorem~\ref{thm:davis-kahan}.
+
+\begin{theorem}[Davis-Kahan sin-$\Theta$ theorem]\label{thm:davis-kahan}Let
+$\bm{A}$ and $\hat{\bm{A}}=\bm{A}+\bm{E}$ be two symmetric matrices
+in $\mathbb{R}^{n\times n}$ with the spectral decomposition
+\begin{align*}
+\bm{A} & =\bm{U}\bm{\Lambda}\bm{U}^{\top}=\left[\begin{array}{cc}
+\bm{U}_{0} & \bm{U}_{1}\end{array}\right]\left[\begin{array}{cc}
+\bm{\Lambda}_{0} & \bm{0}\\
+\bm{0} & \bm{\Lambda}_{1}
+\end{array}\right]\left[\begin{array}{c}
+\bm{U}_{0}^{\top}\\
+\bm{U}_{1}^{\top}
+\end{array}\right];\\
+\hat{\bm{A}} & =\hat{\bm{U}}\hat{\bm{\Lambda}}\hat{\bm{U}}=\left[\begin{array}{cc}
+\hat{\bm{U}}_{0} & \hat{\bm{U}}_{1}\end{array}\right]\left[\begin{array}{cc}
+\hat{\bm{\Lambda}}_{0} & \bm{0}\\
+\bm{0} & \hat{\bm{\Lambda}}_{1}
+\end{array}\right]\left[\begin{array}{c}
+\hat{\bm{U}}_{0}^{\top}\\
+\hat{\bm{U}}_{1}^{\top}
+\end{array}\right],
+\end{align*}
+respectively. Here 
+\begin{align*}
+\bm{\Lambda}_{0} & =\mathsf{diag}\left(\lambda_{1},\lambda_{2},\cdots\lambda_{r}\right),\qquad\bm{\Lambda}_{1}=\mathsf{diag}\left(\lambda_{r+1},\lambda_{r+2},\cdots\lambda_{n}\right),\\
+\hat{\bm{\Lambda}}_{0} & =\mathsf{diag}\big(\hat{\lambda}_{1},\hat{\lambda}_{2},\cdots\hat{\lambda}_{r}\big),\qquad\hat{\bm{\Lambda}}_{1}=\mathsf{diag}\big(\hat{\lambda}_{r+1},\hat{\lambda}_{r+2},\cdots\hat{\lambda}_{n}\big),
+\end{align*}
+ and $\lambda_{1}\geq\lambda_{2}\geq\cdots\geq\lambda_{r}>\lambda_{r+1}\geq\cdots\geq\lambda_{n}$,
+$\hat{\lambda}_{1}\geq\hat{\lambda}_{2}\geq\cdots\geq\hat{\lambda}_{n}$.
+Suppose that the perturbation is not too large in the sense that $\|\bm{E}\|<\lambda_{r}-\lambda_{r+1}$.
+Then we have for any unitarily invariant norm $\vertiii{\cdot}$,
+\[
+\vertiii{\sin\bm{\Theta}\big(\bm{U}_{0},\hat{\bm{U}}_{0}\big)}\leq\frac{\vertiii{\bm{E}\bm{U}_{0}}}{\lambda_{r}-\left(\lambda_{r+1}+\left\Vert \bm{E}\right\Vert \right)}.
+\]
+\end{theorem}
+
+\begin{theorem}Consider the settings in Section 2.2.1. Assume that
+all the eigenvalues of $\bm{\Lambda}^{\star}$ lie in the interval
+$[\alpha,\beta]$ and those of $\bm{\Lambda}_{\perp}$ lie outside
+of $(\alpha-\Delta,\beta+\Delta)$ for some $\Delta>0$. Then one
+has 
+\[
+\vertiii{\sin\bm{\Theta}}\leq\frac{\vertiii{\bm{E}\bm{U}^{\star}}}{\Delta}.
+\]
+The same conclusion holds true if the roles of $\bm{\Lambda}^{\star}$
+and $\bm{\Lambda}_{\perp}$ are switched. \end{theorem}\begin{proof}Without
+loss of generality, we assume that $\alpha=-\beta$ for some $\beta\geq0$.
+Two immediate consequences are 
+\[
+\|\bm{\Lambda}^{\star}\|\leq\beta,\qquad\text{and}\qquad\|\bm{\Lambda}_{\perp}^{-1}\|\leq(\beta+\delta)^{-1}.
+\]
+Define the residual matrix 
+\[
+\bm{R}\coloneqq\left(\bm{M}-\bm{M}^{\star}\right)\bm{U}^{\star}=\bm{M}\bm{U}^{\star}-\bm{U}^{\star}\bm{\Lambda}^{\star}.
+\]
+Multiply both sides by $\bm{U}_{\perp}^{\top}$ to obtain 
+\[
+\bm{U}_{\perp}^{\top}\bm{R}=\bm{\Lambda}_{\perp}\bm{U}_{\perp}^{\top}\bm{U}^{\star}-\bm{U}_{\perp}^{\top}\bm{U}^{\star}\bm{\Lambda}^{\star}.
+\]
+Invoke the triangle inequality to see that 
+\begin{align*}
+\vertiii{\bm{U}_{\perp}^{\top}\bm{R}} & \geq\vertiii{\bm{\Lambda}_{\perp}\bm{U}_{\perp}^{\top}\bm{U}^{\star}}-\vertiii{\bm{U}_{\perp}^{\top}\bm{U}^{\star}\bm{\Lambda}^{\star}}\\
+ & \geq\frac{1}{\|\bm{\Lambda}_{\perp}^{-1}\|}\vertiii{\bm{U}_{\perp}^{\top}\bm{U}^{\star}}-\vertiii{\bm{U}_{\perp}^{\top}\bm{U}^{\star}}\|\bm{\Lambda}^{\star}\|\\
+ & \geq(\beta+\delta)\vertiii{\bm{U}_{\perp}^{\top}\bm{U}^{\star}}-\beta\vertiii{\bm{U}_{\perp}^{\top}\bm{U}^{\star}}=\delta\vertiii{\bm{U}_{\perp}^{\top}\bm{U}^{\star}}.
+\end{align*}
+Here the middle line uses the facts that $\vertiii{\bm{U}_{\perp}^{\top}\bm{U}^{\star}}=\vertiii{\bm{\Lambda}_{\perp}^{-1}\bm{\Lambda}_{\perp}\bm{U}_{\perp}^{\top}\bm{U}^{\star}}\leq\|\bm{\Lambda}_{\perp}^{-1}\|\vertiii{\bm{\Lambda}_{\perp}\bm{U}_{\perp}^{\top}\bm{U}^{\star}}$
+and that $\vertiii{\bm{U}_{\perp}^{\top}\bm{U}^{\star}\bm{\Lambda}^{\star}}\leq\vertiii{\bm{U}_{\perp}^{\top}\bm{U}^{\star}}\|\bm{\Lambda}^{\star}\|$;
+see Prop XXX. The last inequality arises from the estimates (XXX).
+As a consequence, we arrive at the conclusion that 
+\[
+\vertiii{\bm{U}_{\perp}^{\top}\bm{U}^{\star}}\leq\frac{\vertiii{\bm{U}_{\perp}^{\top}\bm{R}}}{\delta}\leq\frac{\vertiii{\bm{R}}}{\delta}=\frac{\vertiii{\bm{E}\bm{U}^{\star}}}{\delta}.
+\]
+Identifying $\vertiii{\bm{U}_{\perp}^{\top}\bm{U}^{\star}}$ with
+$\vertiii{\sin\bm{\Theta}}$ concludes the proof. \end{proof}
+
+\begin{corollary}Consider the setting where $\bm{\Lambda}^{\star}$
+contains all nonzero eigenvalues of $\bm{M}^{\star}$. Accordingly,
+assume that $\bm{\Lambda}$ contains the $k$ largest eigenvalues
+of $\bm{M}$ in the absolute value sense. Then if $\|\bm{E}\|\leq1/2\min_{1\leq i\leq k}|\lambda_{i}^{\star}|$,
+one has 
+\[
+\vertiii{\sin\bm{\Theta}\big(\bm{U}^{\star},\bm{U}\big)}\leq\frac{\vertiii{\bm{E}\bm{U}^{\star}}}{\min_{1\leq i\leq k}|\lambda_{i}^{\star}|-\|\bm{E}\|}.
+\]
+ \end{corollary}\begin{proof}In view of Weyl's inequality, we know
+that for $i=1,2,\cdots,n$
+\[
+|\lambda_{i}(\bm{M})-\lambda_{i}(\bm{M}^{\star})|\leq\|\bm{E}\|\leq\frac{1}{2}\min_{1\leq i\leq k}|\lambda_{i}^{\star}|,
+\]
+which immediately implies that all the eigenvalues of $\bm{\Lambda}_{\perp}$
+lie within the interval $[-\|\bm{E}\|,\|\bm{E}\|]$. This together
+with the assumption that all the eigenvalues of $\bm{\Lambda}^{\star}$
+are in $\mathbb{R}\backslash(-\min_{1\leq i\leq k}|\lambda_{i}^{\star}|,\min_{1\leq i\leq k}|\lambda_{i}^{\star}|)$
+allows us to invoke Theorem XXX to obtain
+\[
+\vertiii{\sin\bm{\Theta}}\leq\frac{\vertiii{\bm{E}\bm{U}^{\star}}}{\min_{1\leq i\leq k}|\lambda_{i}^{\star}|-\|\bm{E}\|}.
+\]
+\end{proof}
+
+\begin{proof}In view of the decomposition $\bm{A}=\bm{U}_{0}\bm{\Lambda}_{0}\bm{U}_{0}^{\top}+\bm{U}_{1}\bm{\Lambda}_{1}\bm{U}_{1}^{\top}$
+and the fact that $\bm{U}_{1}^{\top}\bm{U}_{0}=\bm{0}$, we have 
+\[
+\bm{A}\bm{U}_{0}=\bm{U}_{0}\bm{\Lambda}_{0},
+\]
+which further implies 
+\begin{equation}
+\hat{\bm{U}}_{1}^{\top}\bm{A}\bm{U}_{0}=\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}\bm{\Lambda}_{0}.\label{eq:dk-identity-1}
+\end{equation}
+In addition, the similar decomposition $\bm{A}+\bm{E}=\hat{\bm{U}}_{0}\hat{\bm{\Lambda}}_{0}\hat{\bm{U}}_{0}^{\top}+\hat{\bm{U}}_{1}\hat{\bm{\Lambda}}_{1}\hat{\bm{U}}_{1}^{\top}$
+and the fact that $\hat{\bm{U}}_{0}^{\top}\hat{\bm{U}}_{1}=\bm{0}$
+tell us that $(\bm{A}+\bm{E})\hat{\bm{U}}_{1}=\hat{\bm{U}}_{1}\hat{\bm{\Lambda}}_{1}$
+and hence 
+\begin{equation}
+\bm{U}_{0}^{\top}\left(\bm{A}+\bm{E}\right)\hat{\bm{U}}_{1}=\bm{U}_{0}^{\top}\hat{\bm{U}}_{1}\hat{\bm{\Lambda}}_{1}.\label{eq:dk-identity-2}
+\end{equation}
+Combine the two identities (\ref{eq:dk-identity-1}) and (\ref{eq:dk-identity-2})
+to reach 
+\begin{align}
+\hat{\bm{U}}_{1}^{\top}\bm{E}\bm{U}_{0} & =\hat{\bm{\Lambda}}_{1}\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}-\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}\bm{\Lambda}_{0}\nonumber \\
+ & =\big(\hat{\bm{\Lambda}}_{1}-c\bm{I}_{n-r}\big)\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}-\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}\left(\bm{\Lambda}_{0}-c\bm{I}_{r}\right),\label{eq:dk-identity-main}
+\end{align}
+where the last line holds for any $c\in\mathbb{R}$. In particular,
+we can take $c\triangleq(\lambda_{1}+\lambda_{r})/2$ and denote $\rho\triangleq(\lambda_{1}-\lambda_{r})/2\geq0$.
+As a result, all the eigenvalues of $\bm{\Lambda}_{0}-c\bm{I}_{r}$
+are contained in the range $[-\rho,\rho]$ whereas all the eigenvalues
+of $\hat{\bm{\Lambda}}_{1}-c\bm{I}_{n-r}$ are smaller than $\hat{\lambda}_{r+1}-c$.
+Apply Weyl's inequality (see Lemma~\ref{lemma:weyl}) to see that
+$\hat{\lambda}_{r+1}\leq\lambda_{r+1}+\|\bm{E}\|$. This combined
+with relation $\lambda_{r+1}-c=\lambda_{r+1}-\lambda_{r}-\rho$ reveals
+that all the eigenvalues of $\hat{\bm{\Lambda}}_{1}-c\bm{I}_{n-r}$
+are within $(-\infty,\lambda_{r+1}-\lambda_{r}+\|\bm{E}\|-\rho)$.
+Two immediate consequences are that 
+\begin{equation}
+\left\Vert \bm{\Lambda}_{0}-c\bm{I}_{r}\right\Vert \le\rho,\qquad\text{and}\qquad\sigma_{\min}\big(\hat{\bm{\Lambda}}_{1}-c\bm{I}_{n-r}\big)\geq\rho+\lambda_{r}-\lambda_{r+1}-\left\Vert \bm{E}\right\Vert .\label{eq:dk-relation-main}
+\end{equation}
+Continue the derivation in (\ref{eq:dk-identity-main}) to obtain
+\begin{align*}
+\vertiii{\hat{\bm{U}}_{1}^{\top}\bm{E}\bm{U}_{0}} & \overset{(\text{i})}{\geq}\vertiii{\left(\hat{\bm{\Lambda}}_{1}-c\bm{I}_{n-r}\right)\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}}-\vertiii{\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}\left(\bm{\Lambda}_{0}-c\bm{I}_{r}\right)}\\
+ & \overset{(\text{ii})}{\geq}\left(\rho+\lambda_{r}-\lambda_{r+1}-\left\Vert \bm{E}\right\Vert _{\mathsf{}}\right)\vertiii{\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}}-\rho\vertiii{\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}}\\
+ & =\left(\lambda_{r}-\lambda_{r+1}-\left\Vert \bm{E}\right\Vert _{\mathsf{}}\right)\vertiii{\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}},
+\end{align*}
+where (i) follows from the triangle inequality and (ii) holds because
+of Proposition~\ref{prop:unitary-norm-property} and the conditions
+(\ref{eq:dk-relation-main}). Clearly, the above inequality is equivalent
+to 
+\[
+\vertiii{\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}}\leq\frac{\vertiii{\hat{\bm{U}}_{1}^{\top}\bm{E}\bm{U}_{0}}}{\lambda_{r}-\lambda_{r+1}-\left\Vert \bm{E}\right\Vert }\leq\frac{\vertiii{\bm{E}\bm{U}_{0}}}{\lambda_{r}-\left(\lambda_{r+1}+\left\Vert \bm{E}\right\Vert \right)}.
+\]
+The proof is then completed via observing Lemma~\ref{lemma:sin-theta-equivalence}.\end{proof}
+
+\begin{lemma}\label{lemma:sin-theta-equivalence}Suppose that $[\bm{U}_{0},\bm{U}_{1}]$
+and $[\hat{\bm{U}}_{0},\hat{\bm{U}}_{1}]$ are orthonormal matrices.
+Let $\{\theta_{i}\}_{1\leq i\leq r}$ be the canonical angles between
+the space spanned by $\bm{U}_{0}$ and that by $\hat{\bm{U}}_{0}$.
+Then the singular values of $\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}$ are
+given by 
+\[
+\sin\theta_{r},\sin\theta_{r-1},\cdots\sin\theta_{1},\;0,0,\cdots0.
+\]
+Consequently, one has 
+\begin{equation}
+\left\Vert \sin\bm{\Theta}\left(\bm{U}_{0},\hat{\bm{U}}_{0}\right)\right\Vert =\left\Vert \hat{\bm{U}}_{1}^{\top}\bm{U}_{0}\right\Vert \qquad\text{and}\qquad\left\Vert \sin\bm{\Theta}\left(\bm{U}_{0},\hat{\bm{U}}_{0}\right)\right\Vert _{\mathrm{F}}=\left\Vert \hat{\bm{U}}_{1}^{\top}\bm{U}_{0}\right\Vert _{\mathrm{F}}.\label{eq:sin-theta-equivalence}
+\end{equation}
+Moreover, for any unitarily invariant norm $\vertiii{\cdot}$, we
+have 
+\[
+\vertiii{\sin\bm{\Theta}\left(\bm{U}_{0},\hat{\bm{U}}_{0}\right)}=\vertiii{\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}}.
+\]
+\end{lemma}\begin{proof}Consider the matrix 
+\[
+\bm{U}_{0}^{\top}\hat{\bm{U}}_{1}\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}=\bm{U}_{0}^{\top}\big(\bm{I}_{n}-\hat{\bm{U}}_{0}\hat{\bm{U}}_{0}^{\top}\big)\bm{U}_{0}=\bm{I}_{r}-\bm{U}_{0}^{\top}\hat{\bm{U}}_{0}\hat{\bm{U}}_{0}^{\top}\bm{U}_{0}.
+\]
+Let $\bm{X}\bm{\Sigma}\bm{Y}^{\top}$ be the SVD of $\bm{U}_{0}^{\top}\hat{\bm{U}}_{0}$.
+By definition, one has $\bm{\Sigma}=\mathsf{diag}(\cos\theta_{1},\cos\theta_{2},\cdots,\cos\theta_{r})$.
+Continue the derivation above to obtain 
+\[
+\bm{U}_{0}^{\top}\hat{\bm{U}}_{1}\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}=\bm{I}_{r}-\bm{X}\bm{\Sigma}^{2}\bm{X}^{\top}=\bm{X}\left(\bm{I}_{r}-\bm{\Sigma}^{2}\right)\bm{X}^{\top}.
+\]
+Utilizing the relationship between singular values and eigenvalues,
+one sees that for $1\leq i\leq r$
+\[
+\sigma_{i}\big(\hat{\bm{U}}_{1}^{\top}\bm{U}_{0}\big)=\sqrt{\lambda_{i}\left(\bm{I}_{r}-\bm{\Sigma}^{2}\right)}=\sqrt{\lambda_{i}\left(1-\cos^{2}\theta_{r-i+1}\right)}=\sin\theta_{r-i+1}.
+\]
+This finishes the first part. The consequences in (\ref{eq:sin-theta-equivalence})
+follow immediately. The last relation needs more care. XXX \cm{TODO}\end{proof}
+
+\subsection{Perturbation of general matrices}
+
+Moving beyond real symmetric matrices, we have similar perturbation
+bounds on singular values and singular subspaces, parallel to Lemma~\ref{lemma:weyl}
+and Theorem~\ref{thm:davis-kahan}.
+
+\subsubsection{Perturbation of singular values}
+
+We begin with the perturbation bounds for singular values.
+
+\begin{lemma}[Wely's inequality for singular values]\label{lemma:weyls-singular-value}Let
+$\bm{A},\bm{E}\in\mathbb{R}^{m\times n}$ be two general matrices.
+Without loss of generality, assume that $m\leq n$. Then for every
+$1\leq i\leq m$, one has 
+\[
+\left|\sigma_{i}\left(\bm{A}+\bm{E}\right)-\sigma_{i}\left(\bm{A}\right)\right|\leq\left\Vert \bm{E}\right\Vert .
+\]
+\end{lemma}
+
+Again, Lemma~\ref{lemma:weyls-singular-value} reveals that singular
+values are \emph{stable }with respect to small perturbations.
+
+\subsubsection{Perturbation of singular subspaces: Wedin's sin-$\Theta$ theorem}
+
+One has similar perturbation bounds for singular subspaces, as proposed
+by Wedin. \cm{Add citations.}
+
+\begin{theorem}[Wedin's sin-$\Theta$ theorem]\label{thm:wedin}Let
+$\bm{A}$ and $\hat{\bm{A}}=\bm{A}+\bm{E}$ be two matrices in $\mathbb{R}^{m\times n}$
+$(m\leq n)$ with the singular value decomposition
+\begin{align*}
+\bm{A} & =\bm{U}\bm{\Sigma}\bm{V}^{\top}=\left[\begin{array}{cc}
+\bm{U}_{0} & \bm{U}_{1}\end{array}\right]\left[\begin{array}{ccc}
+\bm{\Sigma}_{0} & \bm{0} & \bm{0}\\
+\bm{0} & \bm{\Sigma}_{1} & \bm{0}
+\end{array}\right]\left[\begin{array}{c}
+\bm{V}_{0}^{\top}\\
+\bm{V}_{1}^{\top}
+\end{array}\right];\\
+\hat{\bm{A}} & =\hat{\bm{U}}\hat{\bm{\Sigma}}\hat{\bm{V}}^{\top}=\left[\begin{array}{cc}
+\hat{\bm{U}}_{0} & \hat{\bm{U}}_{1}\end{array}\right]\left[\begin{array}{ccc}
+\hat{\bm{\Sigma}}_{0} & \bm{0} & \bm{0}\\
+\bm{0} & \hat{\bm{\Sigma}}_{1} & \bm{0}
+\end{array}\right]\left[\begin{array}{c}
+\hat{\bm{V}}_{0}^{\top}\\
+\hat{\bm{V}}_{1}^{\top}
+\end{array}\right],
+\end{align*}
+respectively. Here 
+\begin{align*}
+\bm{\Sigma}_{0} & =\mathsf{diag}\left(\sigma_{1}\left(\bm{A}\right),\sigma_{2}\left(\bm{A}\right),\cdots,\sigma_{r}\left(\bm{A}\right)\right),\qquad\bm{\Sigma}_{1}=\mathsf{diag}\left(\sigma_{r+1}\left(\bm{A}\right),\sigma_{r+2}\left(\bm{A}\right),\cdots,\sigma_{n}\left(\bm{A}\right)\right),\\
+\hat{\bm{\Sigma}}_{0} & =\mathsf{diag}\big(\sigma_{1}\big(\hat{\bm{A}}\big),\sigma_{2}\big(\hat{\bm{A}}\big),\cdots,\sigma_{r}\big(\hat{\bm{A}}\big)\big),\qquad\hat{\bm{\Sigma}}_{1}=\mathsf{diag}\big(\sigma_{r+1}\big(\hat{\bm{A}}\big),\sigma_{r+2}\big(\hat{\bm{A}}\big),\cdots,\sigma_{n}\big(\hat{\bm{A}}\big)\big).
+\end{align*}
+ Suppose that the perturbation is not too large in the sense that
+$\|\bm{E}\|<\sigma_{r}(\bm{A})-\sigma_{r+1}(\bm{A})$. Then one has
+for any unitarily invariant norm $\vertiii{\cdot}$, 
+\[
+\max\left\{ \vertiii{\sin\bm{\Theta}\left(\bm{U}_{0},\hat{\bm{U}}_{0}\right)},\vertiii{\sin\bm{\Theta}\left(\bm{V}_{0},\hat{\bm{V}}_{0}\right)}\right\} \leq\frac{\max\left\{ \vertiii{\bm{E}^{\top}\bm{U}_{0}},\vertiii{\bm{E}\bm{V}_{0}}\right\} }{\sigma_{r}\left(\bm{A}\right)-\left(\sigma_{r+1}\left(\bm{A}\right)+\|\bm{E}\|\right)}.
+\]
+\end{theorem}\begin{proof}\cm{Leave it to the reader since its
+very similar to the proof of the Davis-Kahan theorem.}\end{proof}
+
+\section{Notes}
+
+In this chapter, we have reviewed classical matrix perturbation theory
+that are useful for our subsequent developments on spectral methods.
+We conclude this chapter with additional references on this subject. 
+
+Our exposition largely follows the excellent book by Stewart \cite{stewart1990matrix}.
+Two other classical references are \cite{bhatia2013matrix,horn2012matrix},
+which go beyond matrix perturbation theory and deal with general matrix
+analysis. More broadly, matrices can be viewed as linear operators
+on the finite dimensional Euclidean space; the general treatment of
+perturbation theory for linear operators can be found in \cite{kato2013perturbation}. 
+
+Recall that in Lemma 2.2 \cm{Need to change later} we have stated
+the equivalence between $\|\bm{U}_{\perp}^{\top}\bm{U}^{\star}\|$
+(resp.~$\|\bm{U}_{\perp}^{\top}\bm{U}^{\star}\|_{\mathrm{F}}$) and
+$\|\sin\bm{\Theta}\|$ (resp.~$\|\sin\bm{\Theta}\|_{\mathrm{F}}$).
+It turns out that $\vertiii{\bm{U}_{\perp}^{\top}\bm{U}^{\star}}=\vertiii{\sin\bm{\Theta}}$
+holds for any unitarily invariant norm; see \cite[Lemma 2.2]{li1998relative}.
+In addition, \cite[Theorems 3.2 and 3.4]{li1998relative} offer general
+versions of Davis-Kahan's and Wedin's theorems, which do not restrict
+attention to the top eigenspaces or singular subspaces. A user-friendly
+version of the Davis-Kahan theorem was provided in \cite{MR3371006}. 
+
+Consider the Procrustes problem 
+\[
+\mathsf{minimize}_{\bm{R}\in\mathcal{O}^{r\times r}}\quad\left\Vert \hat{\bm{U}}\bm{R}-\bm{U}\right\Vert _{\mathrm{F}}^{2},
+\]
+whose solution is revealed in the SVD of $\hat{\bm{U}}^{\top}\bm{U}$.
+More specifically, let $\bm{X}\bm{\Sigma}\bm{Y}^{\top}$ be the SVD
+of $\hat{\bm{U}}^{\top}\bm{U}$, then one has 
+\[
+\bm{X}\bm{Y}^{\top}=\arg\min_{\bm{R}\in\mathcal{O}^{r\times r}}\quad\left\Vert \hat{\bm{U}}\bm{R}-\bm{U}\right\Vert _{\mathrm{F}}^{2}.
+\]
+Denote by $(\sigma_{1},\sigma_{2},\cdots\sigma_{r})$ the entries
+in $\bm{\Sigma}$ in decreasing order. It is easy to check that they
+are contained in $[0,1]$. As a result, we define the principal angles
+between two subspaces spaned by $\bm{U}$ and $\hat{\bm{U}}$ to be
+\[
+\theta_{i}\triangleq\cos^{-1}\left(\sigma_{i}\right),\qquad\text{for all}\qquad1\leq i\leq r
+\]
+and arrange them into a diagonal matrix 
+\[
+\bm{\Theta}\triangleq\mathsf{diag}\left(\theta_{1},\theta_{2},\cdots,\theta_{r}\right)\in\mathbb{R}^{r\times r}.
+\]
+With $\bm{\Theta}$ in place, we can define 
+\begin{align*}
+\cos\bm{\Theta} & =\mathsf{diag}\left(\cos\theta_{1},\cos\theta_{2},\cdots,\cos\theta_{r}\right)=\bm{\Sigma};\\
+\sin\bm{\Theta} & =\mathsf{diag}\left(\sin\theta_{1},\sin\theta_{2},\cdots,\sin\theta_{r}\right).
+\end{align*}
+
+Several immediate facts are in order. First 
+\[
+\left\Vert \sin\bm{\Theta}\right\Vert _{\mathrm{F}}^{2}=\sum_{i=1}^{r}\left(\sin\theta_{r}\right)^{2}=\sum_{i=1}^{r}\left[1-\left(\cos\theta_{r}\right)^{2}\right]=r-\left\Vert \bm{\Sigma}\right\Vert _{\mathrm{F}}^{2}.
+\]
+Second, one has 
+\begin{align*}
+\left\Vert \hat{\bm{U}}\bm{X}\bm{Y}^{\top}-\bm{U}\right\Vert _{\mathrm{F}}^{2} & =\left\Vert \hat{\bm{U}}\right\Vert _{\mathrm{F}}^{2}+\left\Vert \bm{U}\right\Vert _{\mathrm{F}}^{2}-2\mathsf{Tr}\left(\bm{Y}\bm{X}^{\top}\hat{\bm{U}}^{\top}\bm{U}\right)\\
+ & =2r-2\mathsf{Tr}\left(\bm{Y}\bm{X}^{\top}\bm{X}\bm{\Sigma}\bm{Y}^{\top}\right)\\
+ & =2r-2\mathsf{Tr}\left(\bm{\Sigma}\right)\\
+ & \leq2r-2\sum_{i=1}^{r}\sigma_{i}^{2}\\
+ & =2\left\Vert \sin\bm{\Theta}\right\Vert _{\mathrm{F}}^{2}.
+\end{align*}
+Last but not least, the distance between projection matrices satisfy
+\begin{align*}
+\left\Vert \hat{\bm{U}}\hat{\bm{U}}^{\top}-\bm{U}\bm{U}^{\top}\right\Vert _{\mathrm{F}}^{2} & =\left\Vert \hat{\bm{U}}\hat{\bm{U}}^{\top}\right\Vert _{\mathrm{F}}^{2}+\left\Vert \hat{\bm{U}}\hat{\bm{U}}^{\top}\right\Vert _{\mathrm{F}}^{2}-2\mathsf{Tr}\left(\hat{\bm{U}}\hat{\bm{U}}^{\top}\bm{U}\bm{U}^{\top}\right)\\
+ & =2r-2\left\Vert \hat{\bm{U}}^{\top}\bm{U}\right\Vert _{\mathrm{F}}^{2}\\
+ & =2r-2\left\Vert \bm{\Sigma}\right\Vert _{\mathrm{F}}^{2}\\
+ & =2\left\Vert \sin\bm{\Theta}\right\Vert _{\mathrm{F}}^{2}.
+\end{align*}
+
+
+\section{Matrix completion}
+
+Imagine that one observes a small subset of the entries of a matrix
+and seeks to recover the full matrix. \cm{Add a few words on applications.}
+
+\subsection{Setup}
+
+Let $\bm{M}^{\star}\in\mathbb{R}^{n_{1}\times n_{2}}$ be the rank-$r$
+matrix we hope to recover. Without loss of generality, we assume that
+$n_{1}\leq n_{2}$. Denote by $\Omega\subseteq\{1,2\cdots n_{1}\}]\times\{1,2,\cdots,n_{2}\}$
+the index set for the observed entries, and correpondingly define
+the projection operator $\mathcal{P}_{\Omega}:\mathbb{R}^{n_{1}\times n_{2}}\mapsto\mathbb{R}^{n_{1}\times n_{2}}$
+to be 
+\[
+[\mathcal{P}_{\Omega}(\bm{A})]_{i,j}=\begin{cases}
+A_{i,j}, & \text{if }(i,j)\in\Omega,\\
+0, & \text{else},
+\end{cases}
+\]
+where $\bm{A}\in\mathbb{R}^{n_{1}\times n_{2}}$ denotes the input
+matrix. With this notation in place, matrix completion amounts to
+recovering $\bm{M}^{\star}$ from its partial entries $\mathcal{P}_{\Omega}(\bm{M}^{\star})$.
+Throughout this paper, we impose the Bernoulli observation model detailed
+in the following assumption. 
+
+\begin{assumption}[Bernoulli observation model for matrix completion]We
+assume that each entry in $\bm{M}^{\star}$ is observed independentlywith
+probability $0<p\leq1$, i.e.~$(i,j)\in\Omega$ independently with
+probability $p$ for each $1\leq i\leq n_{1}$ and $1\leq j\leq n_{2}$.
+\end{assumption}
+
+The random observation model alone does not guarantee effective recovery
+of the underlying matrix $\bm{M}^{\star}$. It turns out the following
+incoherence property of $\bm{M}^{\star}$ plays a crutial role in
+recovering low-rank matrices from partial observations. 
+
+\begin{definition}[Incoherence for matrix completion]A rank-$r$
+matrix $\bm{M}^{\star}\in\mathbb{R}^{n_{1}\times n_{2}}$ with compact
+SVD $\bm{M}^{\star}=\bm{U}^{\star}\bm{\Sigma}^{\star}\bm{V}^{\star}$
+is said to be $\mu$-incoherent for some $\mu\geq1$ if 
+\[
+\|\bm{U}^{\star}\|_{2,\infty}\leq\sqrt{\frac{\mu}{n_{1}}}\|\bm{U}^{\star}\|_{\mathrm{F}}=\sqrt{\frac{\mu r}{n_{1}}},\quad\text{and}\quad\|\bm{V}^{\star}\|_{2,\infty}\leq\sqrt{\frac{\mu}{n_{2}}}\|\bm{V}^{\star}\|_{\mathrm{F}}=\sqrt{\frac{\mu r}{n_{2}}}.
+\]
+\end{definition}
+
+Before introducing the spectral method for matrix completion, we single
+out a few immediate consequences of $\mu$-incoherence. First, the
+maximum row norm $\|\bm{M}^{\star}\|_{2,\infty}$ of $\bm{M}^{\star}$
+cannot be two large, i.e. 
+\begin{equation}
+\|\bm{M}^{\star}\|_{2,\infty}=\|\bm{U}^{\star}\bm{\Sigma}^{\star}\bm{V}^{\star\top}\|_{2,\infty}\leq\|\bm{U}^{\star}\|_{2,\infty}\|\bm{\Sigma}^{\star}\|\|\bm{V}^{\star}\|\leq\sqrt{\frac{\mu r}{n_{1}}}\sigma_{1}(\bm{M}^{\star}),\label{eq:mc-row-norm-upper}
+\end{equation}
+where the first inequality arises from the elementary inequalities
+$\|\bm{A}\bm{B}\|_{2,\infty}\leq\|\bm{A}\|_{2,\infty}\|\bm{B}\|$
+and $\|\bm{A}\bm{B}\|\leq\|\bm{A}\|\|\bm{B}\|$. The last relation
+uses the incoherence assumption on $\bm{M}^{\star}$, the orthogonality
+of $\bm{V}^{\star}$, and identifies $\|\bm{\Sigma}^{\star}\|$ with
+$\sigma_{1}(\bm{M}^{\star})$. An analogous upper bound holds for
+$\|\bm{M}^{\star\top}\|_{2,\infty}$:
+\begin{equation}
+\|\bm{M}^{\star\top}\|_{2,\infty}\|\bm{V}^{\star}\bm{\Sigma}^{\star}\bm{U}^{\star\top}\|_{2,\infty}\leq\|\bm{V}^{\star}\|_{2,\infty}\|\bm{\Sigma}^{\star}\|\|\bm{U}^{\star}\|\leq\sqrt{\frac{\mu r}{n_{2}}}\sigma_{1}(\bm{M}^{\star}).\label{eq:mc-column-norm-upper}
+\end{equation}
+In addition, the matrix $\bm{M}^{\star}$ is element-wise bounded
+in the sense that 
+\begin{equation}
+\|\bm{M}^{\star}\|_{\infty}=\|\bm{U}^{\star}\bm{\Sigma}^{\star}\bm{V}^{\star\top}\|_{\infty}\leq\|\bm{U}^{\star}\|_{2,\infty}\|\bm{\Sigma}^{\star}\|\|\bm{V}^{\star}\|_{2,\infty}\leq\frac{\mu r}{\sqrt{n_{1}n_{2}}}\sigma_{1}(\bm{M}^{\star}).\label{eq:mc-entry-upper}
+\end{equation}
+Here, the first inequality follows from the relation $\|\bm{A}\bm{B}^{\top}\|_{\infty}\leq\|\bm{A}\|_{2,\infty}\|\bm{B}\|_{2,\infty}$
+and the aforementioned $\|\bm{A}\bm{B}\|_{2,\infty}\leq\|\bm{A}\|_{2,\infty}\|\bm{B}\|$,
+while the last one again utilizes the incoherence assumption. 
+
+\subsection{Spectral method for matrix completion}
+
+Recall that the idea of spectral method is to first form a good approximation
+$\bm{M}$ to the unknown matrix $\bm{M}^{\star}$ we care about, and
+then perform spectral decomposition on $\bm{M}$ to approximately
+recover the singular spaces (spectral properties) of $\bm{M}^{\star}$.
+Given our random sampling model, such a good approximation is readily
+available: 
+\[
+\bm{M}\coloneqq p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star}).
+\]
+Indeed, one can check that $\mathbb{E}[\bm{M}]=\bm{M}^{\star}$ where
+the expectation is taken over the randomness in $\Omega$. As a result,
+it is reasonble to use $\bm{U}\bm{\Sigma}\bm{V}^{\top}$, the top-$r$
+SVD of $p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})$ as an approximation
+to the groundtruth $\bm{M}^{\star}$. We learned from Wedin's $\sin\Theta$
+theorem that whether or not $\bm{U}$ (resp.~$\bm{V}$) is close
+to $\bm{U}^{\star}$ (resp.~$\bm{V}^{\star}$) relies crutially on
+the size of the perturbation $\|p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}\|$.
+Therefore we begin with offering an upper bound on $\|p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}\|$. 
+
+\begin{lemma}Suppose that $n_{2}p\geq C\mu r\log n_{2}$ for some
+sufficiently large constant $C>0$. Then with probability at least
+$1-O(n_{2}^{-10})$, one has 
+\[
+\|p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}\|\lesssim\sqrt{\frac{\mu r}{n_{1}p}\log n_{2}}\,\sigma_{1}(\bm{M}^{\star}).
+\]
+\end{lemma}\begin{proof}Note that the term $p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}$
+can be expressed as the sum of $n_{1}n_{2}$ i.i.d.~random matrices:
+\[
+p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}=\sum_{i=1}^{n_{1}}\sum_{j=1}^{n_{2}}\underbrace{(p^{-1}\mathbbm{1}\{\delta_{ij}=1\}-1)M_{ij}^{\star}\bm{e}_{i}\bm{e}_{j}^{\top}}_{\eqqcolon\bm{X}_{ij}},
+\]
+where $\delta_{ij}$ follows an independent Bernoulli distribution
+with parameter $p$, and $\bm{e}_{i}$ stands for the $i$-th standard
+basis vector. It is easily seen that for each $i,j$ 
+\[
+\mathbb{E}[\bm{X}_{ij}]=\bm{0},\quad\text{and}\quad\|\bm{X}_{ij}\|\leq p^{-1}\|\bm{M}^{\star}\|_{\infty}\leq\frac{\mu r}{p\sqrt{n_{1}n_{2}}}\sigma_{1}(\bm{M}^{\star}),
+\]
+where the last relation uses the entrywise upper bound (\ref{eq:mc-entry-upper})
+on $\bm{M}^{\star}$. In order to apply the matrix Bernstein inequality,
+we need to control the variance statistics
+\[
+v\coloneqq\max\left\{ \left\Vert \sum_{i=1}^{n_{1}}\sum_{j=1}^{n_{2}}\mathbb{E}\left[\bm{X}_{ij}\bm{X}_{ij}^{\top}\right]\right\Vert ,\left\Vert \sum_{i=1}^{n_{1}}\sum_{j=1}^{n_{2}}\mathbb{E}\left[\bm{X}_{ij}^{\top}\bm{X}_{ij}\right]\right\Vert \right\} .
+\]
+Regarding the first variance term, we have 
+\begin{align*}
+\sum_{i=1}^{n_{1}}\sum_{j=1}^{n_{2}}\mathbb{E}\left[\bm{X}_{ij}\bm{X}_{ij}^{\top}\right] & =\sum_{i=1}^{n_{1}}\sum_{j=1}^{n_{2}}\mathbb{E}\left[(p^{-1}\mathbbm{1}\{\delta_{ij}=1\}-1)^{2}(M_{ij}^{\star})^{2}\bm{e}_{i}\bm{e}_{j}^{\top}\bm{e}_{j}\bm{e}_{i}^{\top}\right]\\
+ & =\frac{1-p}{p}\sum_{i=1}^{n_{1}}\sum_{j=1}^{n_{2}}(M_{ij}^{\star})^{2}\bm{e}_{i}\bm{e}_{i}^{\top}=\frac{1-p}{p}\sum_{i=1}^{n_{1}}\|\bm{M}_{i,\cdot}^{\star}\|_{2}^{2}\bm{e}_{i}\bm{e}_{i}^{\top}.
+\end{align*}
+Here, the first identity arises from the definition of $\bm{X}_{ij}$,
+the second one calculated the variance of a Bernoulli random variable,
+and the last equation follows from a direct calculation. Similarly,
+the second term in the variance statistics enjoys the following characterization:
+\[
+\sum_{i=1}^{n_{1}}\sum_{j=1}^{n_{2}}\mathbb{E}\left[\bm{X}_{ij}^{\top}\bm{X}_{ij}\right]=\frac{1-p}{p}\sum_{j=1}^{n_{2}}\|\bm{M}_{\cdot,j}^{\star}\|_{2}^{2}\bm{e}_{j}\bm{e}_{j}^{\top}.
+\]
+Taking the above two relations together, we obtain the following upper
+bound 
+\begin{align*}
+v & \leq\frac{1}{p}\max\left\{ \|\bm{M}^{\star}\|_{2,\infty}^{2},\|\bm{M}^{\star\top}\|_{2,\infty}^{2}\right\} \leq\frac{1}{p}\left\{ \frac{\mu r}{n_{1}}\sigma_{1}^{2}(\bm{M}^{\star}),\frac{\mu r}{n_{2}}\sigma_{1}^{2}(\bm{M}^{\star})\right\} \leq\frac{\mu r}{n_{1}p}\sigma_{1}^{2}(\bm{M}^{\star}),
+\end{align*}
+where the middle relation stems from the upper bounds (\ref{eq:mc-row-norm-upper})
+and (\ref{eq:mc-column-norm-upper}) and the last inequality uses
+the assumption $n_{1}\leq n_{2}$. Now we are in position to invoke
+the matrix Bernstein inequality and arrive at the conclusion that
+\[
+\|p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}\|\lesssim\sqrt{\frac{\mu r}{n_{1}p}\sigma_{1}^{2}(\bm{M}^{\star})\log n_{2}}+\frac{\mu r}{p\sqrt{n_{1}n_{2}}}\sigma_{1}(\bm{M}^{\star})\log n_{2}
+\]
+holds with probability at least $1-O(n^{-10})$. To further simplify
+the matter, note that when $n_{2}p\geq C\mu r\log n_{2}$ for some
+sufficiently large constant $C>0$, one has 
+\[
+\frac{\mu r}{p\sqrt{n_{1}n_{2}}}\sigma_{1}(\bm{M}^{\star})\log n_{2}\leq\sqrt{\frac{\mu r}{n_{1}p}\sigma_{1}^{2}(\bm{M}^{\star})\log n_{2}},
+\]
+which further implies the desired claim. \end{proof}
+
+As a consequence of Lemma XXX, one has 
+\[
+\|p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}\|\lesssim\sqrt{\frac{\mu r}{n_{1}p}\log n_{2}}\sigma_{1}(\bm{M}^{\star})\le\frac{1}{2}\sigma_{r}(\bm{M}^{\star}),
+\]
+as long as $n_{1}p\geq C_{1}\kappa^{2}\mu r\log n_{2}$ for some sufficiently
+large constant $C_{1}>0$. We are now prepared to apply Wedin's $\sin\Theta$
+theorem to obtain the following upper bounds on the singular space
+variations. 
+
+\begin{theorem}[Spectral method for matrix completion]Suppose that
+$n_{1}p\geq C_{1}\kappa^{2}\mu r\log n_{2}$ for some sufficiently
+large constant $C_{1}>0$. Then with probability exceeding $1-O(n^{-10})$,
+\begin{align*}
+\max\left\{ \mathsf{dist}\left(\bm{U},\bm{U}^{\star}\right),\mathsf{dist}\left(\bm{V},\bm{V}^{\star}\right)\right\}  & \lesssim\kappa\sqrt{\frac{\mu r}{n_{1}p}\log n_{2}};\\
+\max\left\{ \mathsf{dist}_{\mathrm{F}}\left(\bm{U},\bm{U}^{\star}\right),\mathsf{dist}_{\mathrm{F}}\left(\bm{V},\bm{V}^{\star}\right)\right\}  & \lesssim\kappa\sqrt{\frac{\mu r^{2}}{n_{1}p}\log n_{2}}.
+\end{align*}
+\end{theorem}
+
+\begin{theorem}[Matrix completion: recovered matrix]Suppose that
+$n_{2}p\geq C\mu r\log n_{2}$ for some sufficiently large constant
+$C>0$. Then with probability at least $1-O(n_{2}^{-10})$, one has
+\begin{align*}
+\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star}\| & \lesssim\sqrt{\frac{\mu r}{n_{1}p}\log n_{2}}\,\sigma_{1}(\bm{M}^{\star}),\quad\text{and}\quad\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star}\|_{\mathrm{F}}\lesssim\sqrt{\frac{\mu r^{2}}{n_{1}p}\log n_{2}}\,\sigma_{1}(\bm{M}^{\star}).
+\end{align*}
+\end{theorem}\begin{proof}By definition, $\bm{U}\bm{\Sigma}\bm{V}^{\top}$
+is the best rank-$r$ approximation to $p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})$,
+i.e.~$\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})\|=\min_{\bm{A}:\mathsf{rank}(\bm{A})\leq r}\|\bm{A}-p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})\|$.
+As a consequence, 
+\[
+\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star}\|\leq\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})\|+\|p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}\|\leq2\|p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}\|,
+\]
+where the first relation is the triangle inequality. This combined
+with Lemma XXX finishes the proof of the first part. Regarding the
+second part, i.e.~the bound on the Frobenius norm, we make the observation
+that $\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star}$ has rank at
+most $2r$, which immediately implies 
+\[
+\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star}\|_{\mathrm{F}}\leq\sqrt{2r}\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star}\|\lesssim\sqrt{\frac{\mu r^{2}}{n_{1}p}\log n_{2}}\sigma_{1}(\bm{M}^{\star}).
+\]
+This completes the proof of the second part. \end{proof}
+
+\bibliographystyle{plain}
+\bibliography{\string"/Users/congma/Dropbox (Princeton)/Research/SpectralMethod_tutorial/FnT/bibfile_Spectral\string"}
+
+\end{document}

@@ -1,0 +1,62 @@
+\chapter{Concluding remarks and open problems}
+\label{chapter:conclusion}
+
+This monograph offered a coherent statistical treatment for spectral methods,
+resulting in appealing theoretical guarantees for a wide spectrum of data science applications ranging from structured signal reconstruction and factor analysis to
+clustering and ranking.
+The important role of statistical thinking cannot be overstated.
+As has been illuminated, the suite of modern statistical techniques not merely empowers classical $\ell_2$ perturbation theory by delivering tight Euclidean error bounds,
+but also enables fine-grained $\ell_\infty$ and $\ell_{2,\infty}$ performance guarantees that cannot be derived from classical matrix perturbation theory alone.
+We highlighted a unified recipe that underlies our application-driven analyses, which will be readily applicable to tackle many other problems.
+
+
+The vignettes presented herein only reflect the tip of an iceberg regarding the capability of spectral methods.
+There are multiple aspects about spectral methods that remain inadequately explored and are worthy of future investigation. We conclude this monograph by pointing out a few of them.
+
+%as they not only enable the classical $\ell_2$ perturbation analysis, but also provide finer-grained $\ell_\infty$ or $\ell_{2,\infty}$ perturbation analysis, through careful treatments of concentration inequalities and statistical decoupling.
+
+
+\begin{itemize}
+
+
+	\item {\em Precise performance characterization.} The analysis herein falls short of pinpointing a precise trade-off curve between the statistical accuracy and sample complexity of spectral methods, and might even be off by some logarithmic factor.  For algorithms that exhibit order-wise equivalent behavior,  comparing their performances requires finer statistical characterization, ideally with sharp pre-constants.
+
+
+
+
+	\item {\em Handling dependency structure.} Thus far, the $\ell_{\infty}$ and $\ell_{2,\infty}$ perturbation theory we have presented  is restricted to the case where the entries of the data samples are independently generated. There is no shortage of applications where the data samples might exhibit across-entry dependency, examples including blind deconvolution \citep{ahmed2013blind} and phase retrieval with coded diffraction patterns \citep{candes2015CDP,gross2017improved}. Handling such scenarios might require ideas beyond the current leave-one-out framework.
+
+	
+	% \item {\em Heavy-tailed noise distributions.}   A large part of this monograph focuses on bounded and/or sub-Gaussian noise distributions.   For noise distributions with even heavier tails (e.g., the ones  with only bounded second or fourth moments), extensions might be possible by leveraging techniques such as truncation, shrinkage,  adaptive Huber estimation, and median of means; see  \citet[Chapter~10]{fan2020statistical} and \citet{fan2020robust} and the references therein.  It would be interesting to see how these techniques can be adapted to tackle the problems listed herein in the presence of heavier-tailed error distributions. 
+		
+
+%    \item {\em Heavier-tail error distributions.}   Most of the work in this monograph is based on the assumption of sub-Gaussian errors.  This can easily be extended to the class of sub-exponential distributions with suitable modifications.  For error distributions with heavier tails such as those  with only bounded second or fourth moments, extensions are also possible by leveraging techniques such as truncation, shrinkage,  adaptive Huber estimation, and median of means.  There is a number of recent developments in these directions.  See Chapter~10 of \citet{fan2020statistical}, \citet{fan2020robust}, and references therein.  It will be interesting to see how these techniques can be adopted to problems such as low-rank matrix denoising and matrix completion.
+		
+	\item {\em Functional estimation.} In many decision making applications, what ultimately matters might not be full information about an eigenvector of a matrix, but rather, some deterministic functions (e.g., certain linear functionals or polynomials) about the entries of this eigenvector. However, naive ``plug-in'' estimators---namely, estimating the eigenvector first and plugging it into the target functional---might suffer from significant estimation bias, even in the case of a linear functional.  A systematic bias-correction paradigm is therefore needed to enable optimal functional estimation.
+
+		
+
+	\item {\em Small eigengaps.} All theory presented in this monograph imposes a stringent requirement on the associated eigengap, that is, it  needs to exceed the spectral norm of a noise or perturbation matrix.  While this eigengap criterion might be unavoidable in generic matrix perturbation theory (which takes a worst-case perspective), there is often no statistical lower bound that rules out the possibility of reliable eigenspace estimation when the eigengap drops below the perturbation size.
+		It would be of fundamental importance to understand how a small eigengap impacts the efficacy of spectral methods under various statistical models.
+
+  \item {\em Weak and sparse factors.}  As mentioned previously, low-rank matrices often admit factor-model interpretations.  
+In many applications, one has to deal with weak factors, on which only a small fraction of the variables have non-negligible loadings.  
+This gives rise to sparse patterns on the loading matrix or the eigenvectors of the covariance matrix. To utilize such a sparsity structure,  a simple method is to apply marginal screening techniques \citep{fan2008sure,fan2008high}.  Examples of this kind include supervised PCA \citep{bair2006prediction},    PCA on ``targeted predictors'' \citep{bai2008forecasting}, and sparse PCA \citep{zou2006sparse,JohLu09,ma2013sparse}. It remains to develop a more systematic and unified theory concerning how to efficiently exploit such
+ special structures in low-rank factorizations, taking into account both statistical and computational considerations.
+  	
+
+	\item {\em Heterogeneous missing patterns.} When it comes to missing data, the theory presented herein adopts a uniform sampling model where every entry is independently observed with the same probability. In practice, however, one might encounter non-uniform sampling mechanisms, where the sampling probabilities are non-identical across different entries. How to develop an effective spectral method to automatically account for heterogeneous observation patterns, ideally without knowing the detailed sampling probabilities {\em a priori}?
+
+
+
+	\item {\em Confidence regions and hypothesis testing for individual eigenvectors.} Given the output of a spectral method, one might be asked to produce valid confidence regions for an unknown individual eigenvector of interest, a task that has not been fully resolved by the existing literature.  Another closely related task is hypothesis testing for individual eigenvectors: given two random samples, how to develop viable statistical tests regarding whether these two samples are associated with the same individual eigenvectors or not. 
+		An even more challenging task is concerned with performing efficient statistical inference on some deterministic functions of an individual eigenvector, which remains largely unknown.    
+	
+
+ % \item {\em Hypothesis testing for individual eigenvectors and eigen-spaces.}  Given two random samples, one naturally asks if their leading vectors or eigenspaces are the same. How to develop viable tests to answer this kind of questions remains open.
+  
+  
+		%Ideally, we would wish to construct confidence intervals without prior knowledge about the noise variance. Additionally, it would also be desirable for such inferential procedures to be fully adaptive to heteroskedastic noise.
+
+		
+\end{itemize}

@@ -1,0 +1,366 @@
+
+\section{$\ell_{2,\infty}$ eigenspace perturbation under independent noise}
+\label{sec:setup-general-theory-independent}
+
+
+
+The appealing entrywise behavior of the eigenvector estimator in Section~\ref{sec:rank-1-denoising-LOO} hints at the promising performance of spectral methods for broader contexts. In this section, we set out to develop a more general framework about $\ell_{2,\infty}$ eigenspace perturbation  that covers a wide spectrum of scenarios.
+
+
+
+\subsection{Setup and notation}\label{sec:setup-general-theory}
+
+
+\paragraph{Ground truth.}
+Consider a rank-$r$ symmetric matrix $\bm{M}^{\star}\in \mathbb{R}^{n\times n}$  with eigenvectors $\bm{u}_1^{\star},\cdots,\bm{u}_n^{\star}$ and associated eigenvalues $\lambda_1^{\star},\cdots,\lambda_n^{\star}$ obeying
+%
+\begin{align} \label{eq:assumption-lambda-r-positive-setup}
+	|\lambda_1^{\star}| \geq |\lambda_2^{\star}| \geq \cdots \geq |\lambda_r^{\star}| >0
+	\quad \text{and} \quad
+	\lambda_{r+1}^{\star} = \cdots = \lambda_n^{\star}=0.
+\end{align}
+%
+We shall write the eigendecomposition $\bm{M}^{\star}=\bm{U}^{\star}\bm{\Lambda}^{\star}\bm{U}^{\star\top}$ as usual, where $\bm{\Lambda}^{\star} \coloneqq \mathsf{diag}([\lambda_1^{\star},\cdots,\lambda_r^{\star}])$ and $\bm{U}^{\star}\coloneqq   [\bm{u}_1^{\star},\cdots, \bm{u}_r^{\star}]\in \mathbb{R}^{n\times r}$. Denote the condition number of $\bm{M}^{\star}$ as
+%
+\begin{align}
+	\label{eq:defn-kappa}
+	\kappa \coloneqq {|\lambda_1^{\star}|} \,/\, {|\lambda_r^{\star}|}.
+\end{align}
+%
+Akin to Definition~\ref{assump:mc-incoherence}, the  incoherence parameter of $\bm{M}^{\star}$ is defined as
+%
+\begin{align}
+	%\|\bm{U}^{\star}\|_{2,\infty} \coloneqq \max_i \big\| \bm{e}_i^{\top}\bm{U}^{\star} \big\|_{2} =  \sqrt{\frac{\mu r}{n}} .
+	\mu \coloneqq \frac{n\|\bm{U}^{\star}\|_{2,\infty}^{2}}{r},
+	\label{eq:defn-Ustar-incoherence}
+\end{align}
+%
+%This incoherence parameter, which is crucial in our theoretical development,
+%captures how well the energy of $\bm{U}^{\star}$ is spread out across all rows. It is readily seen from the fact $n^{-1/2}\|\bm{U}^{\star}\|_{\mathrm{F}} \leq \|\bm{U}^{\star}\|_{2,\infty}\leq \|\bm{U}^{\star}\|$ that
+a parameter that captures how well the energy of $\bm{U}^{\star}$ is spread out across all rows and that obeys (see Remark~\ref{remark:range-mu-MC})
+%
+\begin{align}
+	1 \leq \mu \leq n/r .
+	\label{eq:mu-constraint-general}
+\end{align}
+
+
+
+\paragraph{Observed data.} What we observe is a corrupted version
+%
+\begin{align}
+	\bm{M}=\bm{M}^{\star}+\bm{E} \in \mathbb{R}^{n\times n},
+	\label{eq:M-noisy-copy-general}
+\end{align}
+%
+where $\bm{E}$ is a symmetric noise matrix. We denote by $\{\lambda_i\}_{1\leq i\leq n}$ the set of eigenvalues of $\bm{M}$ obeying
+%
+\begin{align}
+	|\lambda_1| \geq |\lambda_2| \geq \cdots \geq |\lambda_n|,
+	\label{eq:lambda-1-n-ordering-magnitude}
+\end{align}
+%
+and let $\bm{u}_i$ be the eigenvector of $\bm{M}$ associated with $\lambda_i$. We shall introduce the diagonal matrix $\bm{\Lambda}\in \mathbb{R}^{r\times r}$ as $\bm{\Lambda} \coloneqq \mathsf{diag}([\lambda_1,\cdots,\lambda_r])$.
+
+
+
+
+
+\paragraph{Noise assumptions.}
+This section aims to cover a fairly broad class of scenarios of independent noise.
+In particular, the noise matrix considered herein is assumed to satisfy the mild conditions listed below.
+%
+\begin{assumption}
+	\label{assumption-noise-general}
+	%[Noise assumptions]
+	The entries in the lower triangular part of $\bm{E}=[E_{i,j}]_{1\leq i,j\leq n}$ are independently generated obeying
+%
+\begin{align}
+	\mathbb{E}[E_{i,j}] = 0, \quad \mathbb{E}[E_{i,j}^2] =: \sigma_{i,j}^2 \leq \sigma^2, \quad |E_{i,j}|\leq B, \quad \text{for all }i\geq j.
+	\label{eq:noise-E-condition-general}
+\end{align}
+%
+	In particular, $\sigma^2$ is taken to be the smallest choice satisfying \eqref{eq:noise-E-condition-general}. 
+	Further, it is assumed that
+	%there is some positive quantity $c_{\mathsf{b}}=O(1)$ such that
+	%
+	\begin{align}
+		c_{\mathsf{b}} \coloneqq \frac{B}{  \sigma  \sqrt{n/(\mu\log n)} } = O(1).
+		\label{eq:assumption-B-sigma}
+	\end{align}
+\end{assumption}
+%
+
+We emphasize that both $\sigma$ and $B$ are quantities that are allowed to scale with $n$. When $\mu$ is not too large, Condition \eqref{eq:assumption-B-sigma}
+allows the maximum magnitude $B$ of each noisy entry to be substantially larger than the typical size $\sigma$.
+
+
+
+
+
+
+
+
+\paragraph{Goal and algorithm.}
+We seek to estimate $\bm{U}^{\star}$ based on $\bm{M}$. Towards this, a simple spectral  method computes the matrix $\bm{U}=[\bm{u}_1,\cdots,\bm{u}_r]\in \mathbb{R}^{n\times r}$ that comprises the top-$r$ leading eigenvectors of $\bm{M}$.
+
+
+
+
+
+
+\subsection{$\ell_{2,\infty}$ and $\ell_{\infty}$ theoretical guarantees}
+\label{sec:L2inf-Linf-eigen-theory}
+
+
+The leave-one-out argument introduced before, when properly strengthened, enables powerful  $\ell_{2,\infty}$  performance guarantees for the spectral estimate $\bm{U}$, which concern row-wise perturbation of the eigenspace. Before continuing, we remind the readers of the global rotation ambiguity, namely, in general we cannot expect $\bm{U}$  to be close to $\bm{U}^{\star}$ unless suitable global rotation is taken into account. In light of this, we introduce the following notation that helps identify a proper rotation matrix.
+%
+\begin{definition} For any matrix $\bm{Z}$ with SVD $\bm{Z}=\bm{U}_{Z}\bm{\Sigma}_Z\bm{V}_{Z}^{\top}$ (where $\bm{U}_Z$ and $\bm{V}_Z$ represent respectively the left and right singular matrices of $\bm{Z}$, and $\bm{\Sigma}_Z$ is a diagonal matrix composed of the singular values), define
+%
+\begin{align}
+	\mathsf{sgn}(\bm{Z}) \coloneqq \bm{U}_{Z}  \bm{V}_{Z}^{\top}
+	\label{eq:defn-sgn-Z}
+\end{align}
+%
+to be the matrix sign function of $\bm{Z}$.
+\end{definition}
+%
+\begin{remark}
+The matrix sign function is commonly encountered when aligning two matrices---classically known as the orthogonal Procrustes problem \citep{schonemann1966generalized}.
+Consider any two matrices $\widehat{\bB},\bB\in \mathbb{R}^{n\times r}$ with $r\leq n$. Among all rotation matrices,
+the one that best aligns  $\widehat \bB$ with $\bB$ is precisely $ \mathsf{sgn}(\widehat \bB^\top \bB)$ (see, e.g., \citep[Appendix D.2.1]{ma2017implicit}), namely,
+$$
+	\mathsf{sgn}(\widehat \bB^\top \bB) = \underset{\bm{O}\,\in \mathcal{O}^{r\times r}}{\arg\min} ~\| \widehat \bB {\bm O} - \bB\|_{\mathrm{F}}^2.
+$$
+\end{remark}
+%
+With this definition in place, we are ready to state an $\ell_{2,\infty}$ theory adapted from \citet{abbe2020entrywise}.
+Compared to the original development in \citet{abbe2020entrywise}, 
+the theorem and its proof provided herein are more streamlined versions tailored to the current setting. 
+%
+\begin{theorem}
+\label{thm:UsgnH-Ustar-MUstar-general}
+	Consider the settings and assumptions in Section~\ref{sec:setup-general-theory}. Define $\bm{H} \coloneqq \bm{U}^{\top}\bm{U}^{\star}$. With probability exceeding $1-O(n^{-5})$, one has
+%
+\begin{subequations}
+\label{eq:UsgnH-Ustar-MUstar-bound-theorem-general}
+\begin{align}
+& \big\|\bm{U}\mathsf{sgn}(\bm{H})-\bm{U}^{\star}\big\|_{2,\infty}  \lesssim \frac{\sigma\kappa\sqrt{\mu r}+\sigma\sqrt{r\log n}}{ |\lambda_{r}^{\star} | },
+\label{eq:UsgnH-Ustar-bound-theorem-general}\\
+& \big\|\bm{U}\mathsf{sgn}(\bm{H})-\bm{M}\bm{U}^{\star}\big(\bm{\Lambda}^{\star}\big)^{-1}\big\|_{2,\infty} \notag\\
+& \qquad\qquad \lesssim \frac{\sigma\kappa\sqrt{\mu r}}{ |\lambda_{r}^{\star} | }+ \frac{\sigma^{2}\sqrt{rn\log n}+\sigma B\sqrt{\mu r\log^{3}n}}{\big(\lambda_{r}^{\star}\big)^{2}}, 
+	%\frac{\sigma\kappa\sqrt{\mu r}}{ |\lambda_{r}^{\star} | }+\frac{\sigma^{2}\sqrt{rn\log n}\,(1+c_{\mathsf{b}}\sqrt{\log n})}{\big(\lambda_{r}^{\star}\big)^{2}},
+\label{eq:UsgnH-MUstar-bound-theorem-general}
+\end{align}
+\end{subequations}
+%
+provided that $\sigma \sqrt{n \log n}  \leq c_{\sigma} |\lambda_r^{\star}|$ for some sufficiently small constant $c_{\sigma}>0$.
+\end{theorem}
+%
+The proof of this theorem can be found in Section~\ref{sec:proof-thm:UsgnH-Ustar-MUstar-general}. 
+Note that under the assumption in the theorem, the bound on the right-hand side of 
+\eqref{eq:UsgnH-MUstar-bound-theorem-general} is no larger than the one on the right-hand side of \eqref{eq:UsgnH-Ustar-bound-theorem-general}. 
+In fact, \eqref{eq:UsgnH-MUstar-bound-theorem-general} could indeed be tighter than \eqref{eq:UsgnH-Ustar-bound-theorem-general} in some important scenarios like community recovery (see Section~\ref{sec:community-detection-linf}).
+
+
+The $\ell_{2,\infty}$ perturbation theory in Theorem~\ref{thm:UsgnH-Ustar-MUstar-general} accommodates a broad family of noise matrices with independent entries.
+In the sequel, we take a moment to interpret several key messages conveyed by this result.
+
+
+\paragraph{De-localization of estimation errors.} For simplicity, let us concentrate on the case where $\mu,\kappa =O(1)$.   Note that the Davis-Kahan theorem introduced previously results in the following $\ell_2$ estimation guarantees (to be detailed in Section~\ref{sec:preliminary-facts-Linf-general})
+%
+\begin{align}
+	\mathsf{dist}_{\mathrm{F}}(\bm{U},\bm{U}^{\star})  \leq \sqrt{r} \,\mathsf{dist}(\bm{U},\bm{U}^{\star}) \lesssim  \frac{\sigma \sqrt{nr}}{|\lambda_r^{\star}|}.
+	\label{eq:simple-Euclidean-error-general}
+\end{align}
+%
+In comparison, the $\ell_{2,\infty}$ bound derived in  Theorem~\ref{thm:UsgnH-Ustar-MUstar-general} simplifies to
+%
+\begin{align}
+	\min_{\bm{R}\,\in \mathcal{O}^{r\times r}}\big\|\bm{U} \bm{R}-\bm{U}^{\star}\big\|_{2,\infty}
+	 \leq \big\|\bm{U}\mathsf{sgn}(\bm{H})-\bm{U}^{\star}\big\|_{2,\infty}  \lesssim  \frac{\sigma \sqrt{r\log n}}{ |\lambda_{r}^{\star}| }
+	 \label{eq:Linf-eigen-bound-simpler}
+\end{align}
+%
+under the condition $\mu,\kappa = O(1)$,  which is about $O(\sqrt{n/\log n})$ times smaller than the Euclidean error bound \eqref{eq:simple-Euclidean-error-general}.
+This implies that the estimation error of $\bm{U}$ is fairly de-localized and spread out across all rows.
+
+
+\paragraph{First-order approximation.}
+Informally, Theorem~\ref{thm:UsgnH-Ustar-MUstar-general} (and its analysis) unveils the goodness of the first-order approximation
+%
+\begin{align}
+	\bm{U}\mathsf{sgn}(\bm{H}) \approx \bm{M}\bm{U}^{\star}(\bm{\Lambda}^{\star})^{-1} = \bm{U}^{\star} + \bm{E}\bm{U}^{\star}(\bm{\Lambda}^{\star})^{-1}
+\end{align}
+%
+uniformly across all rows. An implication of Theorem~\ref{thm:UsgnH-Ustar-MUstar-general} is that $\bm{U}$ might be closer to the first-order approximation $\bm{M}\bm{U}^{\star}(\bm{\Lambda}^{\star})^{-1}$ than to the ground truth $\bm{U}^{\star}$ (namely, the upper bound on the right-hand side of  \eqref{eq:UsgnH-MUstar-bound-theorem-general} is smaller than the bound on the right-hand side of \eqref{eq:UsgnH-Ustar-bound-theorem-general} under the stated conditions). In principle, the linear term $\bm{E}\bm{U}^{\star}(\bm{\Lambda}^{\star})^{-1}$ can be viewed as a correction term that helps improve the approximation fidelity.
+As we shall see momentarily in Section~\ref{sec:community-detection-linf}, this subtle difference leads to sharper performance guarantees in applications like community recovery.
+
+
+
+
+\paragraph{Entrywise estimation errors.} There is no shortage of applications where one cares more about the fine-grained estimation accuracy of the matrix rather than that of the low-rank factors. Fortunately, the $\ell_{2,\infty}$ theory derived in  Theorem~\ref{thm:UsgnH-Ustar-MUstar-general} in turn enables entrywise performance guarantees when estimating the matrix $\bm{M}^{\star}$. This is summarized in the following corollary, with the proof deferred to Section~\ref{sec:proof-cor-entrywise-error}.
+%
+\begin{corollary}
+	\label{cor:entrywise-error-general}
+	Consider the settings and assumptions in Section~\ref{sec:setup-general-theory}, and assume  further that
+	$\sigma \kappa \sqrt{n\log n} \leq c_1 |\lambda_r^{\star}|$ for some sufficiently small constant $c_1>0$. Then with probability at least $1-O(n^{-5})$, one has
+	%
+	\begin{align}
+		\big\|\bm{U}\bm{\Lambda}\bm{U}^{\top}-\bm{M}^{\star}\big\|_{\infty} & \lesssim\sigma\kappa^{2}\mu r\sqrt{\frac{\log n}{n}}.
+	\end{align}
+	%
+\end{corollary}
+%
+Once again, it is instrumental to explain the result by specializing it to the simpler regime where $\kappa, \mu, r =O(1)$.  In this case, the finding of Corollary~\ref{cor:entrywise-error-general} reduces to
+%
+\begin{align}
+	\big\|\bm{U}\bm{\Lambda}\bm{U}^{\top}-\bm{M}^{\star}\big\|_{\infty} & \lesssim\sigma  \sqrt{\frac{\log n}{n}}.
+	\label{eq:ULambdaU-entrywise-simple}
+\end{align}
+%
+In comparison, the Euclidean error of this spectral estimate satisfies (which follows by combining \eqref{eq:ULambdaU-Mstar-norm-denoising} with \eqref{eq:X-spectral-norm-iid-special-ramon} and \eqref{eq:assumption-B-sigma})
+%
+\begin{align}
+	\big\|\bm{U}\bm{\Lambda}\bm{U}^{\top}-\bm{M}^{\star}\big\|_{\mathrm{F}} \leq 2\sqrt{2} \|\bm{E}\| \lesssim \sigma\sqrt{n}
+\end{align}
+%
+with high probability, which is on the order of $n/\sqrt{\log n}$ times larger than the entrywise error bound \eqref{eq:ULambdaU-entrywise-simple}. In other words, the energy of the estimation error of the unknown matrix is also dispersed more or less across all matrix entries, a message that cannot be derived from classical matrix perturbation theory alone.
+
+
+
+\paragraph{Leave-one-out analysis.}
+As alluded to previously, the proof of Theorem~\ref{thm:UsgnH-Ustar-MUstar-general} relies heavily upon the leave-one-out analysis framework to decouple delicate statistical dependency. While the core idea bears close resemblance to the exposition in Section~\ref{sec:LOO-analysis-rank1-denoising}, implementing this idea rigorously for the general case requires considerably more effort. We defer a complete proof to Section~\ref{sec:proof-thm:UsgnH-Ustar-MUstar-general}.
+
+
+
+
+
+\section{$\ell_{2,\infty}$ singular subspace perturbation under independent noise}
+\label{sec:general-L2inf-SVD-perturbation}
+
+The general theory presented in Section~\ref{sec:setup-general-theory-independent} applies only to symmetric matrices. It is not uncommon, however, to encounter scenarios where the matrix of interest $\bm{M}^{\star}$ is  asymmetric.
+This motivates the need of extending the $\ell_{2,\infty}$ perturbation theory to accommodate more general matrices, which is the main content of the current section.
+
+
+
+\subsection{Setup and notation}\label{sec:general-theory-setup-asymm}
+\paragraph{Ground truth.}
+
+Consider an unknown rank-$r$ matrix $\bm{M}^{\star}\in\mathbb{R}^{n_{1}\times n_{2}}$. Let
+ $\bm{M}^{\star}=\bm{U}^{\star}\bm{\Sigma}^{\star}\bm{V}^{\star\top}$
+represent the SVD of $\bm{M}^{\star}$,
+where $\bm{U}^{\star}\in\mathbb{R}^{n_{1}\times r}$ (resp.~$\bm{V}^{\star}\in\mathbb{R}^{n_{2}\times r}$)
+entails the top-$r$ left (resp.~right) singular vectors of $\bm{M}^{\star}$,
+and $\bm{\Sigma}^{\star}=\mathsf{diag}([\sigma_{1}^{\star},\sigma_{2}^{\star},\cdots,\sigma_{r}^{\star}])$
+is formed by the (nonzero) singular values of $\bm{M}^{\star}$. We  arrange the singular values $\{\sigma_i^{\star}\}$ in descending order (i.e., $\sigma_{1}^{\star}\geq \sigma_{2}^{\star} \geq \cdots \geq \sigma_{r}^{\star} > 0$). 
+%
+%and define the condition number of the matrix $\bm{M}^{\star}$ as $\kappa\coloneqq  {\sigma_{1}^{\star}}/{\sigma_{r}^{\star}}$.
+%
+% In accordance with (\ref{eq:defn-Ustar-incoherence}),
+
+\paragraph{Key parameters.}
+As usual,  $\mu$ stands for the incoherence parameter  of  $\bm{M}^{\star}$ (see Definition~\ref{assump:mc-incoherence}),
+and  the condition number of the matrix $\bm{M}^{\star}$ is defined as $\kappa\coloneqq  {\sigma_{1}^{\star}}/{\sigma_{r}^{\star}}$.
+Without loss of generality, it is assumed that $$n_1 \leq n_2$$ and we set $n \coloneqq n_1 + n_2$.
+
+
+
+\paragraph{Observations and noise assumptions. }
+%
+Assume we have access to corrupted observations of $\bm{M}^{\star}$ as follows:
+%
+\[
+	\bm{M}=\bm{M}^{\star}+\bm{E}\in\mathbb{R}^{n_{1}\times n_{2}},
+\]
+%
+where $\bm{E}=[E_{i,j}]$ stands for a  noise or perturbation matrix. We impose the following conditions on  $\bm{E}$, which is a natural
+adaptation of Assumption~\ref{assumption-noise-general} to the general case and covers a diverse array of scenarios.
+
+\begin{assumption}
+\label{assump:noise-general-rect}
+The entries of $\bm{E}$ are independently generated obeying
+%
+\begin{align}
+	\mathbb{E}[E_{i,j}] = 0, \quad \mathbb{E}[E_{i,j}^2]\leq \sigma^2, \quad |E_{i,j}|\leq B \quad \text{for all }i, j.
+\end{align}
+%
+	Further,  assume that
+	\begin{align}
+		c_{\mathsf{b}} \coloneqq \frac{B}{\sigma  \sqrt{n_1/(\mu\log n)}} = O(1).
+	\end{align}\end{assumption}
+
+
+
+\paragraph{Goal and algorithm.}
+Again, we aim at estimating $\bm{U}^{\star}$ and $\bm{V}^{\star}$, based
+on the observation $\bm{M}$, using a spectral method. Specifically, let
+%
+\begin{equation}
+\bm{M}=\left[\begin{array}{cc}
+\bm{U} & \bm{U}_{\perp}\end{array}\right]\left[\begin{array}{cc}
+\bm{\Sigma}\\
+ & \bm{\Sigma}_{\perp}
+\end{array}\right]\left[\begin{array}{c}
+\bm{U}^{\top}\\
+\bm{V}^{\top}
+\end{array}\right]\label{eq:general-M-SVD}
+\end{equation}
+be the SVD of $\bm{M}$, in which $\bm{U}\bm{\Sigma}\bm{V}^{\top}$
+is the rank-$r$ SVD (i.e., the singular values in $\bm{\Sigma}\coloneqq\mathsf{diag}([\sigma_{1},\cdots,\sigma_{r}])$
+are larger than those in $\bm{\Sigma}_{\perp}$). The spectral method then
+	deploys ($\bm{U},\bm{V}$) as an estimate of ($\bm{U}^{\star},\bm{V}^{\star}$).
+
+
+	
+
+\subsection{$\ell_{2,\infty}$ and $\ell_{\infty}$ theoretical guarantees}
+\label{sec:theory-Linf-SVD-general}
+
+We now present a theorem that generalizes Theorem~\ref{thm:UsgnH-Ustar-MUstar-general} and Corollary~\ref{cor:entrywise-error-general} to accommodate general (asymmetric and possibly rectangular) matrices. This can be accomplished via a standard ``symmetric dilation'' trick; the details can be found in Section~\ref{sec:proof-inf-rect}.  
+% Yuxin: moved to Section 4.3.1
+%Recall the definition of incoherent parameter $\mu$ in definition~\ref{assump:mc-incoherence} and condition number $\kappa$ that generalizes \eqref{eq:defn-kappa}
+
+
+
+\begin{theorem}
+\label{thm:2-inf-asymm}
+%
+Consider the settings and
+assumptions in Section~\ref{sec:general-theory-setup-asymm}, and
+define $\bm{H}_{\bm{U}}\coloneqq\bm{U}^{\top}\bm{U}^{\star}$ and
+$\bm{H}_{\bm{V}}\coloneqq\bm{V}^{\top}\bm{V}^{\star}$. With probability
+at least $1-O(n^{-5})$, one has
+%
+\begin{align}
+	& \max\Big\{\|\bm{U}\mathsf{sgn}(\bm{H}_{\bm{U}})-\bm{U}^{\star}\|_{2,\infty},\, \|\bm{V}\mathsf{sgn}(\bm{H}_{\bm{V}})-\bm{V}^{\star}\|_{2,\infty} \Big\} \nonumber\\
+	& \qquad\qquad\qquad\qquad \lesssim\frac{\sigma\sqrt{ r}\big(\kappa\sqrt{\frac{n_{2}}{n_{1}}\mu}+\sqrt{\log n}\big)}{\sigma_{r}^{\star}},\label{eq:main-result-2-infty-general-asymm}
+\end{align}
+%
+provided that $\sigma\sqrt{n\log n}\leq c_{1}\sigma_{r}^{\star}$
+for some sufficiently small constant $c_{1}>0$. In addition, if $\sigma\kappa\sqrt{n\log n}\leq c_{2}\sigma_{r}^{\star}$
+for some small enough constant $c_{2}>0$, then the following holds with
+probability at least $1-O(n^{-5})$:
+%
+\begin{equation}
+	\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star}\|_{\infty}\lesssim\sigma\kappa^{2}\mu r\sqrt{\frac{(n_2/n_1) \log n}{n_{1}}}.\label{eq:main-result-infty-general-asymm}
+\end{equation}
+%
+\end{theorem}
+
+
+
+The messages conveyed in Theorem~\ref{thm:2-inf-asymm} largely parallel those in Theorem~\ref{thm:UsgnH-Ustar-MUstar-general} and Corollary~\ref{cor:entrywise-error-general}.
+For simplicity, let us discuss the implications when $\kappa, \mu, r = O(1)$ and $n_1 \asymp n_2$ (i.e., the aspect ratio of the matrix is $n_2 / n_1 = O(1)$).
+In this scenario, Theorem~\ref{thm:2-inf-asymm} implies that
+%
+\begin{align*}
+\|\bm{U}\mathsf{sgn}(\bm{H}_{\bm{U}})-\bm{U}^{\star}\|_{2,\infty}+\|\bm{V}\mathsf{sgn}(\bm{H}_{\bm{V}})-\bm{V}^{\star}\|_{2,\infty} & \lesssim\frac{\sigma\sqrt{\log n}}{\sigma_{r}^{\star}},\\
+\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star}\|_{\infty} & \lesssim\sigma  \sqrt{\frac{\log n}{n}},
+\end{align*}
+%
+both of which bear close similarities to our previous observations \eqref{eq:Linf-eigen-bound-simpler} and \eqref{eq:ULambdaU-entrywise-simple}. Akin to our discussions in Section~\ref{sec:L2inf-Linf-eigen-theory}, these findings tell us that the  singular subspace estimation errors (resp.~the matrix estimation errors)  are fairly spread out across all rows of the singular subspace (resp.~all entries of the matrix).
+
+
+
+

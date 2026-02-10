@@ -1,0 +1,339 @@
+
+\section{Principal component analysis and factor models}
+\label{sec:PCA}
+
+
+
+Principal component analysis (PCA) and factor models  \citep{jolliffe1986principal,lawley1962factor,fan2020statistical}---which serve as an effective unsupervised learning tool for exploring and understanding data---arise frequently in data-intensive applications in economics,  finance, psychology, signal processing, speech, neuroscience, traffic data analysis, among other things \citep{stock2002forecasting,mccrae1992introduction, scharf1991svd, chen2015reduced, balzano2018streaming,fan2020robust}.
+PCA and factor models not only allow for dimensionality reduction,
+but also provide intermediate means for data visualization, noise removal, anomaly detection, and other downstream tasks.
+In this section, we investigate a simple, yet broadly applicable, factor model.
+
+
+
+\subsection{Problem formulation and assumptions}
+\label{sec:formulation-PCA}
+
+Dependence of high-dimensional measurements is a stylized feature in data science.  To model the dependence among observed high-dimensional data, we assume that there are latent factors that drive the dependence, with a loading matrix that describes how each component depends on the latent factors and an idiosyncratic noise that captures the remaining part.
+To set the stage, imagine we have collected a set of $n$ independent sample vectors
+$\bm{x}_{i} \in \mathbb{R}^{p}$, $1\leq i\leq n$ obeying
+%
+\begin{equation}
+	\bm{x}_{i}=\bm{L}^{\star}\bm{f}_{i}+\bm{\eta}_{i},\qquad1\leq i\leq n.
+	\label{eq:samples-PCA}
+\end{equation}
+%
+Here, $\bm{f}_{i}\in\mathbb{R}^{r}$ is a vector of latent factors, $\bm{L}^{\star}\in\mathbb{R}^{p\times r}$ represents a factor
+loading matrix that is not known {\em a priori}, whereas $\bm{\eta}_{i}\in\mathbb{R}^{p}$
+stands for additive random noise or the idiosyncratic part that cannot be explained by the latent factor $\bm{f}_i$.
+Informally, the samples $\{\bm{x}_{i}\}$ are, in some sense, assumed to be approximately embedded in a low-dimensional subspace encoded by the loading matrix $\bm{L}^{\star}$,
+which describes how each component of data $\bm{x}_{i}$ depends on the factor $\bm f_i$ and captures the inter-dependency across different variables.
+In the language of PCA, the subspace spanned by $\bm{L}^{\star}$ specifies the $r$ principal components underlying this sequence of data samples.
+A common goal thus amounts to estimating the subspace spanned by the loading matrix $\bm{L}^{\star}$ and the latent factors $\{\bm{f}_i\}$. 
+In the PCA literature, the subspace  represented by $\bm{L}^{\star}$ is commonly referred  to as the principal subspace.
+
+
+
+In this monograph, we concentrate on the following tractable statistical model for pedagogical reasons.
+See  \citet[Chapter 10]{fan2020statistical} for more general settings (including, say, heavy-tailed distributions and non-isotropic noise covariance matrices).
+%
+\begin{assumption}
+\label{assumption:factor-model-f-eta}
+The vectors $\bm{f}_{i}$ and $\bm{\eta}_{i}$ ($1\leq i\leq n$) are all independently generated according to
+%
+\begin{equation}
+	\bm{f}_{i}\overset{\mathrm{i.i.d.}}{\sim}\mathcal{N}(\bm{0},\bm{I}_{r}),
+	\qquad \text{and} \qquad
+	\bm{\eta}_{i}\overset{\mathrm{i.i.d.}}{\sim}\mathcal{N} \big( \bm{0}, \sigma^2\bm{I}_{p} \big).
+	\label{eq:random-model-fi-eta-i}
+\end{equation}
+%
+\end{assumption}
+%
+Moreover, we assume without loss of generality that $\bm{L}^{\star}=\bm{U}^{\star} (\bm{\Lambda}^{\star})^{1/2}$, where the columns of $\bm{U}^{\star}\in \mathbb{R}^{p\times r}$ are composed of orthonormal vectors, and $\bm{\Lambda}^{\star}=\mathsf{diag}\big( [\lambda_1^{\star}, \cdots, \lambda_r^{\star}] \big)$ is an $r$-dimensional diagonal matrix obeying $\lambda_1^{\star}\geq \cdots \geq \lambda_r^{\star}>0$.
+Throughout this section, we denote by $$\kappa \coloneqq \lambda_1^{\star}\,/\,\lambda_r^{\star}$$ the condition number of the low-rank matrix $\bm{L}^{\star}\bm{L}^{\star\top}= \bm{U}^{\star}\bm{\Lambda}^{\star}\bm{U}^{\star\top}$.
+
+
+
+\subsection{Algorithm}
+\label{sec:algorithm-PCA}
+
+As a starting point, it is readily seen under Assumption~\ref{assumption:factor-model-f-eta} that
+%
+\begin{align}
+	\bm{x}_{i}\sim\mathcal{N}\big(\bm{0},\bm{M}^{\star}\big)
+	\quad\quad
+	\text{with }\bm{M}^{\star} \coloneqq \bm{U}^{\star}\bm{\Lambda}^{\star}\bm{U}^{\star\top} + \sigma^2 \bm{I}_p.
+	\label{eq:defn-Mstar-PCA}
+\end{align}
+%
+In brief, the covariance matrix $\bm{M}^{\star}$  is a low-rank matrix superimposed by a scaled identity matrix;
+for this reason, this model is also frequently referred to as the spiked covariance model \citep{johnstone2001distribution}.
+The key takeaway is that  the top-$r$ eigenspace of the covariance matrix $\bm{M}^{\star}$ in \eqref{eq:defn-Mstar-PCA} coincides with the $r$-dimensional principal subspace being sought after (i.e., the one spanned by $\bm{L}^{\star}$ or $\bm{U}^{\star}$).
+
+
+ The above observation motivates a simple spectral algorithm, which begins by computing a sample covariance matrix
+%
+\begin{equation}
+	\bm{M} \coloneqq \frac{1}{n} \sum_{i=1}^{n}\bm{x}_{i}\bm{x}_{i}^{\top},
+	\label{eq:defn-sample-covariance}
+\end{equation}
+%
+followed by  computation of the rank-$r$ eigendecomposition $\bm{U}\bm{\Lambda}\bm{U}^{\top}$
+of $\bm{M}$. Here, $\bm{\Lambda}\in\mathbb{R}^{r\times r}$ is a
+diagonal matrix whose diagonal entries entail the $r$ largest eigenvalues $\lambda_{1}\geq\cdots\geq\lambda_{r}$
+of $\bm{M}$, and $\bm{U}\coloneqq[\bm{u}_{1},\cdots,\bm{u}_{r}]\in\mathbb{R}^{p\times r}$
+with $\bm{u}_{i}$ representing the eigenvector of $\bm{M}$ associated with $\lambda_{i}$.
+The spectral algorithm studied herein then returns $\bm{U}$ as the  estimate for the principal subspace $\bm{U}^{\star}$.
+
+
+\begin{remark}
+	In the presence of missing data or heteroskedastic noise (meaning that the  variance of the noise entries varies across different entries),  the second part of the covariance matrix $\bm{M}^{\star}$ (i.e., $\sigma^{2}\bm{I}_{p}$ in~\eqref{eq:defn-Mstar-PCA}) might no longer be a scaled identity. Under such circumstances,
+one might need to carefully adjust the diagonal entries of  $\bm{M}$ in order for the  algorithm to succeed; see, e.g., \citet{lounici2014high,loh2012high,zhang2018heteroskedastic,cai2019subspace,zhu2019high,yan2021inference}. The reader might  consult Section~\ref{sec:tensor-completion} for an introduction to a commonly adopted diagonal deletion idea to address the aforementioned issue.  
+\end{remark}
+
+
+\subsection{Performance guarantees}
+
+This subsection develops statistical guarantees for the spectral method described above by invoking the eigenspace perturbation theory introduced previously.
+The first step is to establish a connection between the sample covariance $\bm{M}$ and the true covariance $\bm{M}^{\star}$.
+Defining $\bm{F}\coloneqq[\bm{f}_{1},\cdots,\bm{f}_{n}]\in\mathbb{R}^{r\times n}$
+and $\bm{Z}\coloneqq[\bm{\eta}_{1},\cdots,\bm{\eta}_{n}]\in\mathbb{R}^{p\times n}$,
+one can easily compute that
+%
+\begin{align}
+\bm{M} & = \frac{1}{n} (\bm{L}^{\star}\bm{F}+\bm{Z})(\bm{L}^{\star}\bm{F}+\bm{Z})^{\top}=\bm{M}^{\star}+\bm{E},
+\label{eq:connection-M-Mstar-E-PCA}
+\end{align}
+%
+where $\bm{M}^{\star}$ is defined in \eqref{eq:defn-Mstar-PCA}, and
+%
+\begin{align}
+\bm{E}  & \coloneqq\bm{L}^{\star}\Big(\frac{1}{n}\bm{F}\bm{F}^{\top}-\bm{I}_r \Big)\bm{L}^{\star\top}+\frac{1}{n}\bm{L}^{\star}\bm{F}\bm{Z}^{\top} +\frac{1}{n}\bm{Z}\bm{F}^{\top}\bm{L}^{\star\top}  \notag \\
+  &\qquad +  \Big( \frac{1}{n}\bm{Z}\bm{Z}^{\top} -\sigma^2 \bm{I}_p \Big).
+\label{eq:defn-E-PCA}
+%\\
+%\bm{M}^{\star} & \coloneqq\bm{\Sigma}^{\star}+\sigma^{2}\bm{I}.
+%\label{eq:defn-Mstar-PCA}
+\end{align}
+%
+
+
+To apply the Davis-Kahan theorem, we are in need of controlling the size of the perturbation matrix $\bm{E}$.
+This is achieved by the following lemma, whose proof is deferred to Section~\ref{sec:proof-lemmas:perturbation-size-E-PCA}.
+%
+\begin{lemma}
+\label{lemma:perturbation-size-E-PCA}
+Consider the settings in Section~\ref{sec:formulation-PCA}. Suppose that $n\geq c r\log^{3}(n+p)$ for some sufficiently large constant $c>0$. Then with probability exceeding $1-O((n+p)^{-10})$, one has
+%
+\begin{align*}
+	\|\bm{E}\| & \lesssim\Bigg(\lambda_{1}^{\star}\sqrt{\frac{r}{n}}+\sigma\sqrt{\frac{\lambda_{1}^{\star}p}{n}}+\sigma^{2}\sqrt{\frac{p}{n}} + \frac{\sigma^2 p\log^{\frac{3}{2}}(n+p)}{n} \Bigg)\log^{\frac{1}{2}}(n+p).
+\end{align*}
+%
+\end{lemma}
+
+With Lemma~\ref{lemma:perturbation-size-E-PCA} in place, we are ready to present the following theorem that controls the estimation error of the spectral algorithm.
+%
+\begin{theorem}
+\label{thm:perturbation-bound-PCA-l2}
+%
+Consider the settings in Section~\ref{sec:formulation-PCA}.
+Suppose that $n \geq C \big(\kappa^{2}r+ r\log^2(n+p)+ \frac{\kappa\sigma^{2}p}{\lambda_{r}^{\star}}+\frac{\sigma^{4}p}{(\lambda_{r}^{\star})^{2}}\big)\log^{3} (n+p)$ for some sufficiently large constant $C>0$.
+%and that $p \geq r$.
+Then with probability  at least $1-O((n+p)^{-10})$, the following holds:
+%
+\begin{align}
+\mathsf{dist}\big(\bm{U},\bm{U}^{\star}\big)
+	\lesssim\Bigg(\frac{\sigma}{\sqrt{\lambda_{r}^{\star}}}\sqrt{\frac{\kappa p}{n}}+\frac{\sigma^{2}}{\lambda_{r}^{\star}}\sqrt{\frac{p}{n}} + \kappa\sqrt{\frac{r}{n}}\Bigg)\log^{\frac{1}{2}}(n+p).
+\label{eq:thm-perturbation-PCA-l2}
+\end{align}
+%
+\end{theorem}
+%
+\begin{remark}
+	\label{remark:additional-term-PCA}
+	The third term $\kappa\sqrt{(r \log(n+p)) /n} $ on the right-hand side of \eqref{eq:thm-perturbation-PCA-l2} arises due to the randomness of $\{\bm{f}_i\}$ but not that of $\{\bm{\eta}_i\}$. If our goal is instead to estimate the eigenspace of $\bm{L}^{\star} (\frac{1}{n}\sum_i\bm{f}_i\bm{f}_i^{\top})\bm{L}^{\star\top}$ as opposed to that of $\bm{L}^{\star}\bm{L}^{\star\top}$, then this term can be erased.
+\end{remark}
+ 
+
+
+To interpret what Theorem~\ref{thm:perturbation-bound-PCA-l2} conveys,
+we include a few remarks in the sequel, focusing on the simple scenario where $\kappa =O(1)$.
+In view of Remark~\ref{remark:additional-term-PCA}, we shall ignore the term $\kappa\sqrt{(r \log(n+p)) /n} $ in the discussion below.
+
+
+\paragraph{Linear vs.~quadratic dependency on the noise level.}  In comparison to the matrix denoising task (cf.~Section~\ref{sec:performance-denoising-L2}) where $\mathsf{dist}\big(\bm{U},\bm{U}^{\star}\big)$ scales linearly with the noise level $\sigma$ (cf.~\eqref{eq:dist-U-Ustar-denoising-L2}), the above performance guarantees for PCA exhibit contrasting behavior in two different regimes depending on the strength of the signal-to-noise ratio (SNR), measured in terms of $\lambda_{r}^{\star} / \sigma^2$:
+%
+\begin{itemize}
+\item
+	When the SNR is sufficiently large with $\lambda_{r}^{\star} / \sigma^2   \gtrsim 1$,
+	then the dominant factor in \eqref{eq:thm-perturbation-PCA-l2} is the term $\sigma \big( {\frac{  p \log(n+p)}{\lambda_{r}^{\star} n}} \big)^{1/2}$, which scales linearly with the noise level.
+%
+\item
+When the SNR drops below the threshold $\lambda_{r}^{\star} / \sigma^2 \lesssim 1$, then  the term $\frac{\sigma^{2}}{\lambda_{r}^{\star}}\sqrt{\frac{p\log(n+p)}{n}} $---which scales quadratically with the noise level---enters the picture and becomes the dominant effect.
+%
+\end{itemize}
+%
+In truth, the quadratic term emerges since our spectral method operates upon the sample covariance matrix,  which inevitably contains second moments of the noise components.
+
+
+
+\paragraph{Tightness and optimality.} Natural questions arise as to  whether the performance guarantees in Theorem~\ref{thm:perturbation-bound-PCA-l2} are tight,
+and whether the statistical accuracy can be further improved by designing more intelligent algorithms. These questions can be addressed by looking into the fundamental statistical limits. As established in the literature \citep{zhang2018heteroskedastic,cai2019subspace}, one cannot hope to achieve
+%
+\begin{align}
+	\mathsf{dist}\big( \widehat{\bm{U}},\bm{U}^{\star}\big)
+	=o \Bigg( \frac{\sigma}{\sqrt{\lambda_{r}^{\star}}}\sqrt{\frac{p}{n}}+\frac{\sigma^{2}}{\lambda_{r}^{\star}}\sqrt{\frac{p}{n}} \Bigg)
+	\label{eq:minimax-lower-bound-PCA}
+\end{align}
+%
+in a minimax sense, regardless of the choice of the estimator $\widehat{\bm{U}}$; see, e.g., \citet[Theorem 2]{zhang2018heteroskedastic} for a precise statement. Comparing \eqref{eq:minimax-lower-bound-PCA} with Theorem~\ref{thm:perturbation-bound-PCA-l2} reveals the near statistical optimality of the spectral method (modulo some log factor), and  confirms the tightness of the eigenspace perturbation theory when applied to this problem.
+
+
+
+
+
+
+\paragraph{Proof of Theorem~\ref{thm:perturbation-bound-PCA-l2}.}
+We first make the observation that
+%
+\begin{align*}
+\lambda_{1}(\bm{M}^{\star}) & \geq\cdots\geq\lambda_{r}(\bm{M}^{\star})>\lambda_{r+1}(\bm{M}^{\star})=\cdots=\lambda_{p}(\bm{M}^{\star})=\sigma^{2}>0,\\
+ & \qquad\quad\text{and}\quad \lambda_{r}(\bm{M}^{\star})-\lambda_{r+1}(\bm{M}^{\star})=\lambda_{r}^{\star}.
+\end{align*}
+%
+The Davis-Kahan sin$\bm{\Theta}$ theorem (cf.~Corollary \ref{cor:davis-kahan-conclusion-corollary})
+thus implies that: if the perturbation size obeys $\|\bm{E}\|\leq(1-1/\sqrt{2})\lambda_{r}^{\star}$,
+then one has
+%
+\begin{align*}
+ & \mathsf{dist}\big(\bm{U},\bm{U}^{\star}\big)  \leq\frac{2\|\bm{E}\|}{\lambda_{r}(\bm{M}^{\star})-\lambda_{r+1}(\bm{M}^{\star})}=\frac{2\|\bm{E}\|}{\lambda_{r}^{\star}}\\
+	& \quad \lesssim \frac{1}{\lambda_{r}^{\star}}\Bigg(\lambda_{1}^{\star}\sqrt{\frac{r}{n}}+\sigma\sqrt{\frac{\lambda_{1}^{\star}p}{n}}+\sigma^{2}\sqrt{\frac{p}{n}} + \frac{\sigma^{2}p\log^{\frac{3}{2}}(n+p)}{n} \Bigg)\log^{\frac{1}{2}}(n+p) \\
+	& \quad \asymp \Bigg(\kappa\sqrt{\frac{r}{n}}+\frac{\sigma}{\sqrt{\lambda_{r}^{\star}}}\sqrt{\frac{\kappa p}{n}}+\frac{\sigma^{2}}{\lambda_{r}^{\star}}\sqrt{\frac{p}{n}}  \Bigg)\log^{\frac{1}{2}}(n+p) .
+\end{align*}
+%
+Here, the penultimate inequality results from Lemma~\ref{lemma:perturbation-size-E-PCA};
+the last line is valid as long as $n\gtrsim (\sigma^2 / \lambda_{1}^{\star}) p\log^{3}(n+p)$---a condition that would hold under the assumption of this theorem---so that the fourth term is dominated by the second one in the parenthesis of the penultimate line. Finally, it is immediately seen from Lemma~\ref{lemma:perturbation-size-E-PCA}
+that the condition $\|\bm{E}\|\leq(1-1/\sqrt{2})\lambda_{r}^{\star}$ would hold
+under the assumption of this theorem.
+%
+%\end{proof}
+
+
+
+
+
+
+
+
+
+
+\subsection{Proof of Lemma~\ref{lemma:perturbation-size-E-PCA}}
+\label{sec:proof-lemmas:perturbation-size-E-PCA}
+
+
+We start by applying the triangle inequality to \eqref{eq:defn-E-PCA} as follows
+%
+\begin{align}
+\|\bm{E}\| & \leq \big\|\bm{L}^{\star}\big\|^{2}\Big\|\frac{1}{n}\bm{F}\bm{F}^{\top}-\bm{I}_{r}\Big\|+\|\bm{L}^{\star} \|\,\Big\|\frac{1}{n}\bm{F}\bm{Z}^{\top}\Big\|+\Big\|\frac{1}{n}\bm{Z}\bm{F}^{\top}\Big\|\,\big\|\bm{L}^{\star} \big\|\nonumber \\
+ & \qquad+\Big\|\frac{1}{n}\bm{Z}\bm{Z}^{\top}-\sigma^{2}\bm{I}_{p}\Big\|.
+\label{eq:defn-E-decompose-PCA-triangle}
+\end{align}
+%
+In order to develop an upper bound on this quantity, one needs to control the spectral
+norm of $\frac{1}{n}\bm{F}\bm{F}^{\top}-\bm{I}_{r}$, $\frac{1}{n}\bm{F}\bm{Z}^{\top}$,
+$\frac{1}{n}\bm{Z}\bm{F}^{\top}$ and $\frac{1}{n}\bm{Z}\bm{Z}^{\top}-\sigma^{2}\bm{I}_{p}$.
+All of these terms share similar randomness structure, namely, they are all averages of independent zero-mean random matrices.
+As a result, the truncated matrix Bernstein inequality in Corollary~\ref{thm:matrix-Bernstein-friendly-truncated} becomes applicable.
+In what follows, we shall only demonstrate how to control the size
+of $\frac{1}{n}\bm{F}\bm{Z}^{\top}$; the other terms can be bounded similarly.
+
+
+
+Write
+$
+\bm{F}\bm{Z}^{\top}=\sum_{i=1}^{n}\bm{f}_{i}\bm{\eta}_{i}^{\top}
+$.
+Since the entries of $\bm{F}\bm{Z}^{\top}$ might be unbounded, we
+start by identifying an appropriate truncation level. From standard
+properties about Gaussian distributions and the union bound, it is
+straightforward to verify that
+\[
+\mathbb{P}\left\{  \|\bm{f}_{i}\big\|_{\infty}\leq5\sqrt{\log(n+p)}\text{ and }\|\bm{\eta}_{i}\big\|_{\infty}\leq5\sigma\sqrt{\log(n+p)}\right\} \geq1-(n+p)^{-11.5}.
+\]
+One can further derive
+%$\|\bm{f}_{i}\bm{\eta}_{i}^{\top}\big\|\leq\|\bm{f}_{i}\big\|_{2}\|\bm{\eta}_{i}\big\|_{2}\leq\sqrt{rp}\|\bm{f}_{i}\big\|_{\infty}\|\bm{\eta}_{i}\big\|_{\infty}$,
+%
+\[
+	\|\bm{f}_{i}\bm{\eta}_{i}^{\top}\big\|
+	\leq\|\bm{f}_{i}\big\|_{2}\|\bm{\eta}_{i}\big\|_{2} \leq\sqrt{rp}\,\|\bm{f}_{i}\big\|_{\infty}\|\bm{\eta}_{i}\big\|_{\infty}\leq25\sqrt{rp}\sigma\log(n+p)
+\]
+%
+with probability greater than $1-(n+p)^{-11.5}$. In other words,
+with the choice $L\coloneqq 25\sqrt{rp}\sigma\log(n+p)$ one has
+\[
+\mathbb{P}\left\{ \|\bm{f}_{i}\bm{\eta}_{i}^{\top}\big\|\geq L\right\} \leq(n+p)^{-11.5}\eqqcolon q_{0}.
+\]
+Additionally, the symmetry of Gaussian distributions implies
+%
+\[
+	\mathbb{E}\big[\bm{f}_{i}\bm{\eta}_{i}^{\top}\big]
+	- \mathbb{E}\Big[\bm{f}_{i}\bm{\eta}_{i}^{\top}\mathbbm1\big\{\|\bm{f}_{i}\bm{\eta}_{i}^{\top}\big\| < L\big\}\Big]
+	% =- \mathbb{E}\Big[\bm{f}_{i}\bm{\eta}_{i}^{\top}\mathbbm1\big\{\|\bm{f}_{i}\bm{\eta}_{i}^{\top}\big\|\leq L\big\}\Big]
+	=0.
+\]
+
+To invoke the truncated Bernstein inequality, it remains to determine
+the variance statistic. Towards this end, letting $\bB_{i} = \bm{f}_{i}\bm{\eta}_{i}^{\top}$, we observe that
+\begin{align*}
+\mathbb{E}\big[\bm{B}_{i}\bm{B}_{i}^{\top}\big] & =\mathbb{E}\big[\bm{f}_{i}\bm{\eta}_{i}^{\top}\bm{\eta}_{i}\bm{f}_{i}^{\top}\big]=\mathbb{E}\big[\bm{\eta}_{i}^{\top}\bm{\eta}_{i}\big]\mathbb{E}\big[\bm{f}_{i}\bm{f}_{i}^{\top}\big]=p\sigma^{2}\bm{I}_r,\\
+\mathbb{E}\big[\bm{B}_{i}^{\top}\bm{B}_{i}\big] & =\mathbb{E}\big[\bm{\eta}_{i}\bm{f}_{i}^{\top}\bm{f}_{i}\bm{\eta}_{i}^{\top}\big]=\mathbb{E}\big[\bm{f}_{i}^{\top}\bm{f}_{i}\big]\mathbb{E}\big[\bm{\eta}_{i}\bm{\eta}_{i}^{\top}\big]=r\sigma^{2}\bm{I}_p,
+\end{align*}
+%
+thus leading to
+\[
+	v\coloneqq \max\Big\{\Big\|\sum_{i}\mathbb{E}\big[\bm{B}_{i}\bm{B}_{i}^{\top}\big]\Big\|,\Big\|\sum_{i}\mathbb{E}\big[\bm{B}_{i}^{\top}\bm{B}_{i}\big]\Big\|\Big\}
+	= np\sigma^{2},
+\]
+where we use the fact that $r \leq p$.
+Taking these bound together and applying the truncated matrix Bernstein theorem
+(see Corollary~\ref{thm:matrix-Bernstein-friendly-truncated}) demonstrate that if $n\gtrsim r\log^3(n+p)$, one has
+%
+\begin{subequations}
+\label{eq:norm-noise-bounds-PCA}
+\begin{align}
+	& \frac{1}{n}\big\|\bm{F}\bm{Z}^{\top}\big\|  \lesssim \frac{1}{n} \sqrt{v\log(n+p)}+ \frac{1}{n} L\log(n+p) \notag \\
+	& \quad \asymp\sigma\sqrt{\frac{p\log(n+p)}{n}}+\frac{\sqrt{rp}}{n}\sigma\log^2(n+p)
+ 	 \asymp\sigma\sqrt{\frac{p\log(n+p)}{n}}
+	 \label{eq:norm-bound-FZtop-PCA}
+\end{align}
+with probability at least $1-O\big((n+p)^{-10}\big)-nq_{0}=1-O\big((n+p)^{-10}\big)$.
+
+
+
+
+
+Repeating the above analysis yields that: if $n\gtrsim r\log^{3}(n+p)$,  with probability at least $1-O((n+p)^{-10})$ one has
+%
+\begin{align}
+\Big\| \frac{1}{n} \bm{F}\bm{F}^{\top}-\bm{I}_{r}\Big\| & \lesssim \sqrt{\frac{r\log(n+p)}{n}},\label{eq:norm-bound-FFt-PCA}\\
+\Big\| \frac{1}{n} \bm{Z}\bm{Z}^{\top}-\sigma^{2}\bm{I}_{p} \Big\| & \lesssim \sigma^{2}\sqrt{\frac{p\log(n+p)}{n}} + \frac{\sigma^{2}p\log^2(n+p)}{n}.
+\label{eq:norm-bound-ZZt-PCA}
+\end{align}
+%
+\end{subequations}
+%
+Note that we do not get rid of the second term on the right-hand side of \eqref{eq:norm-bound-ZZt-PCA} since we do not assume $n\gtrsim p\log^{3}(n+p)$.
+
+
+Substituting the above results \eqref{eq:norm-noise-bounds-PCA} into \eqref{eq:defn-E-decompose-PCA-triangle} and recognizing the basic fact
+$\|\bm{L}^{\star}\|=\|\bm{U}^{\star}(\bm{\Lambda}^{\star})^{1/2}\|\leq\|(\bm{\Lambda}^{\star})^{1/2}\|=\sqrt{\lambda_{1}^{\star}}$,
+we conclude that
+%
+\begin{align*}
+	\|\bm{E}\| & \lesssim\Bigg(\lambda_{1}^{\star}\sqrt{\frac{r}{n}}+\sigma\sqrt{\frac{\lambda_{1}^{\star}p}{n}}+\sigma^{2}\sqrt{\frac{p}{n}} + \frac{\sigma^2 p\log^{\frac{3}{2}}(n+p)}{n} \Bigg)\log^{\frac{1}{2}}(n+p).
+\end{align*}
+%
+
+
+

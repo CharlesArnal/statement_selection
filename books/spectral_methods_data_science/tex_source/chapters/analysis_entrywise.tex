@@ -1,0 +1,304 @@
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\section{Appendix B: Proof of Corollary~\ref{cor:entrywise-error-general}}
+\label{sec:proof-cor-entrywise-error}
+
+
+
+
+% Preview source code from paragraph 14 to 15
+
+Moving on to the proof of Corollary \ref{cor:entrywise-error-general},
+we start by pointing out the main issue that deserves particular attention.
+Roughly speaking, we have learned from Theorem \ref{thm:UsgnH-Ustar-MUstar-general}
+(and its analysis) that $\bm{U}^{\star}\approx\bm{U}\bm{H}$ under
+mild conditions, which naturally suggests that
+\[
+\bm{M}^{\star}=\bm{U}^{\star}\bm{\Lambda}^{\star}\bm{U}^{\star\top}\approx\bm{U}\bm{H}\bm{\Lambda}^{\star}\bm{H}^{\top}\bm{U}^{\top}.
+\]
+As a result, in order to enable $\bm{M}^{\star}\approx\bm{U}\bm{\Lambda}\bm{U}^{\top}$,
+one would need to ensure
+%\[
+%\bm{U}\bm{H}\bm{\Lambda}^{\star}\bm{H}^{\top}\bm{U}^{\top}\approx\bm{U}\bm{\Lambda}\bm{U}^{\top},
+%\]
+%which would happen as long as 
+$\bm{H}\bm{\Lambda}^{\star}\bm{H}^{\top}\approx\bm{\Lambda}$.
+
+The above argument, while highly informal, reveals the core idea underlying
+the proof. Our proof is based upon the following observation
+%
+\begin{align}
+	& \big\|\bm{U}\bm{\Lambda}\bm{U}^{\top}-\bm{U}^{\star}\bm{\Lambda}^{\star}\bm{U}^{\star\top}\big\|_{\infty}
+  \leq\underset{\eqqcolon\mathcal{\gamma}_{1}}{\underbrace{\big\|\bm{U}\big(\bm{\Lambda}-\bm{H}\bm{\Lambda}^{\star}\bm{H}^{\top}\big)\bm{U}^{\top}\big\|_{\infty}}}\nonumber \\
+ & \quad\quad\quad\quad+
+	\underset{\eqqcolon\gamma_{2}}{\underbrace{\big\|\bm{U}\bm{H}\bm{\Lambda}^{\star}\bm{H}^{\top}\bm{U}^{\top}-\bm{U}^{\star}\bm{\Lambda}^{\star}\bm{U}^{\star\top}\big\|_{\infty}}},
+\label{eq:ULambdaU-YLambdaY-decompose}
+\end{align}
+%
+which leaves us with two terms to cope with.
+
+% We now move on to the proof of Corollary~\ref{cor:entrywise-error-general}.   In order to study the estimation error of $\bm{U}\bm{\Lambda}\bm{U}^{\top}$,
+
+
+\subsubsection{Step 1: bounding $\gamma_1$}
+
+Regarding $\gamma_1$ defined in \eqref{eq:ULambdaU-YLambdaY-decompose}, it is seen that
+%
+\begin{align}
+	\gamma_{1} & \leq\big\|\bm{U}\big\|_{2,\infty}^{2}\big\|\bm{\Lambda}-\bm{H}\bm{\Lambda}^{\star}\bm{H}^{\top}\big\|\leq\frac{4\mu r}{n}\big\|\bm{\Lambda}-\bm{H}\bm{\Lambda}^{\star}\bm{H}^{\top}\big\|.
+	\label{eq:gamma1-UB-12345}
+\end{align}
+%
+In the last relation, we have exploited the fact that
+%
+\begin{align}
+	\big\|\bm{U}\big\|_{2,\infty}&=\big\|\bm{U}\mathsf{sgn}(\bm{H})\big\|_{2,\infty}
+\leq\big\|\bm{U}^{\star}\big\|_{2,\infty}+\big\|\bm{U}\mathsf{sgn}(\bm{H})-\bm{U}^{\star}\big\|_{2,\infty} \notag\\
+	&\leq 2\sqrt{\mu r/n},
+	\label{eq:incoherence-U-estimate}
+\end{align}
+%
+where the last inequality relies on (\ref{eq:UsgnH-Ustar-bound-theorem-general})
+and the assumption $\sigma\sqrt{n}(\kappa+\sqrt{\log n})\leq c_{1}\lambda_{r}^{\star}$
+for some sufficiently small constant $c_{1}>0$.
+
+
+
+
+It then boils down to bounding $\|\bm{\Lambda}-\bm{H}\bm{\Lambda}^{\star}\bm{H}^{\top}\|$.
+Towards this, it is  seen from the identity (\ref{eq:HLambda-Lambda-H-connection})
+and the definition $\bm{H}=\bm{U}^{\top}\bm{U}^{\star}$ that
+%
+\begin{align*}
+\bm{H}\bm{\Lambda}^{\star}\bm{H}^{\top}-\bm{\Lambda} & =\bm{\Lambda}\bm{H}\bm{H}^{\top}-\bm{U}^{\top}\bm{E}\bm{U}^{\star}\bm{H}^{\top}-\bm{\Lambda},
+\end{align*}
+%
+which together with the triangle inequality reveals that
+%
+\begin{align}
+\big\|\bm{H}\bm{\Lambda}^{\star}\bm{H}^{\top}-\bm{\Lambda}\big\| & \leq\big\|\bm{\Lambda}\big(\bm{H}\bm{H}^{\top}-\bm{I}\big)\big\|+\big\|\bm{U}^{\top}\bm{E}\bm{U}^{\star}\bm{H}^{\top}\big\|.
+	\label{eq:HLambda-H-ambda-bound-2terms}
+\end{align}
+%
+The rest of this step is devoted to controlling the above two terms.
+
+
+With regards to the first term on the right-hand side of (\ref{eq:HLambda-H-ambda-bound-2terms}), we make the observation that
+%
+\[
+\|\bm{H}\bm{H}^{\top}-\bm{I}\|=\|\cos^{2}\bm{\Theta}-\bm{I}\|=\|\sin^{2}\bm{\Theta}\|\leq\frac{2c_{2}^2\sigma^{2}n}{(\lambda_{r}^{\star})^{2}},
+\]
+%
+where, as usual, $\bm{\Theta}$ denotes a diagonal matrix composed
+of the principal angles between $\bm{U}$ and $\bm{U}^{\star}$, and the last inequality results from Lemma~\ref{lem:preliminary-result-general-iid}. This
+combined with Weyl's inequality and Lemma \ref{lem:preliminary-result-general-iid} leads to
+%
+\begin{align}
+\|\bm{\Lambda}(\bm{H}\bm{H}^{\top}-\bm{I})\| & \leq\|\bm{\Lambda}\|\,\|\bm{H}\bm{H}^{\top}-\bm{I}\|\leq(\|\bm{\Lambda}^{\star}\|+\|\bm{E}\|)\,\|\bm{H}\bm{H}^{\top}-\bm{I}\|\nonumber \\
+ & \leq\big(\big|\lambda_{1}^{\star}\big|+c_{2}\sigma\sqrt{n}\big)\frac{2c_{2}^2\sigma^{2}n}{(\lambda_{r}^{\star})^{2}}\leq\frac{4c_{2}^2\kappa\sigma^{2}n}{\lambda_{r}^{\star}},
+\label{eq:Lambda-HHT-I-bound}
+\end{align}
+%
+provided that $c_{2}\sigma\sqrt{n}\leq\lambda_{r}^{\star}\leq|\lambda_{1}^{\star}|$.
+
+
+
+When it comes to the second term on the right-hand side of (\ref{eq:HLambda-H-ambda-bound-2terms}),
+let us introduce an orthonormal matrix $\bm{R}\coloneqq\arg\min_{\bm{Q}\in\mathcal{O}^{r\times r}}\|\bm{U}\bm{Q}-\bm{U}^{\star}\|$, which helps us derive
+%
+\begin{align}
+\big\|\bm{U}^{\top}\bm{E}\bm{U}^{\star}\bm{H}^{\top}\big\| & \leq\big\|\bm{U}^{\top}\bm{E}\bm{U}^{\star}\big\|=\big\|\bm{R}^{\top}\bm{U}^{\top}\bm{E}\bm{U}^{\star}\big\| \notag\\
+ & \leq\big\|\bm{U}^{\star\top}\bm{E}\bm{U}^{\star}\big\|+\big\|\big(\bm{U}\bm{R}-\bm{U}^{\star}\big)^{\top}\bm{E}\bm{U}^{\star}\big\| \notag\\
+	& \leq\big\|\bm{U}^{\star\top}\bm{E}\bm{U}^{\star}\big\|+\|\bm{E}\|\,\mathsf{dist}\big(\bm{U},\bm{U}^{\star}\big). \label{eq:Utop-E-U-H-bound12}
+\end{align}
+%
+Here, the first inequality holds since $\|\bm{H}\|=\|\bm{U}^{\top}\bm{U}^{\star}\|\leq1$,
+% the second inequality relies on Remark \ref{remark:AH-norm-bound},
+while the last line follows since $\|\bm{U}^{\star}\|=1$ and $\|\bm{U}\bm{R}-\bm{U}^{\star}\|=\mathsf{dist}(\bm{U},\bm{U}^{\star})$.
+In addition, we claim that with probability at least $1-2n^{-7}$,
+%
+\begin{equation}
+\|\bm{U}^{\star\top}\bm{E}\bm{U}^{\star}\|\leq(6+12 c_{\mathsf{b}})\sigma\sqrt{r\log n}.
+	\label{eq:claim-Utop-E-Ustar-spectral-norm}
+\end{equation}
+%
+If this claim were valid, then one could continue the derivation (\ref{eq:Utop-E-U-H-bound12}) and invoke Lemma \ref{lem:preliminary-result-general-iid} to demonstrate that
+%
+\begin{equation}
+\big\|\bm{U}^{\top}\bm{E}\bm{U}^{\star}\bm{H}^{\top}\big\|\leq(6+12 c_{\mathsf{b}})\sigma\sqrt{r\log n}+\frac{2c_{2}^{2}\sigma^{2}n}{\lambda_{r}^{\star}}.
+	\label{eq:UB-UEUHtop-UB1}
+\end{equation}
+%
+
+To finish up, substituting \eqref{eq:Lambda-HHT-I-bound} and \eqref{eq:UB-UEUHtop-UB1} into \eqref{eq:HLambda-H-ambda-bound-2terms} yields
+%
+\begin{align}
+	\big\|\bm{H}\bm{\Lambda}^{\star}\bm{H}^{\top}-\bm{\Lambda}\big\|\leq\frac{6c_{2}^2\kappa\sigma^{2}n}{\lambda_{r}^{\star}}+ (6+12c_{\mathsf{b}})\sigma\sqrt{r\log n} ,
+	\label{eq:H-Lambda-star-H-Lambda-dist}
+\end{align}
+%
+which combined with \eqref{eq:gamma1-UB-12345} leads to
+%
+\begin{equation}
+\gamma_{1}\lesssim \frac{\sigma^{2} \kappa\mu r}{\lambda_{r}^{\star}}+\frac{\sigma\mu\sqrt{r^{3}\log n}}{n}.
+\label{eq:gamma1-UB-2346}
+\end{equation}
+%
+
+
+
+\subsubsection{Step 2: bounding $\gamma_2$}
+
+
+%Before proceeding, we first gather a simple bound on $\|\bm{Y}\|_{2,\infty}$.
+%It is seen from the definition of $\bm{Y}$ that
+%\begin{align}
+%\|\bm{Y}\|_{2,\infty} & \leq\big\|\bm{U}^{\star}\big\|_{2,\infty}+\big\|\bm{E}\bm{U}^{\star}\big(\bm{\Lambda}^{\star}\big)^{-1}\big\|_{2,\infty}\leq\sqrt{\frac{\mu r}{n}}+\frac{\big\|\bm{E}\bm{U}^{\star}\big\|_{2,\infty}}{\lambda_{r}^{\star}}\nonumber \\
+% & \overset{(\mathrm{i})}{\leq}\sqrt{\frac{\mu r}{n}}+\frac{10\sigma\sqrt{r\log n}}{\lambda_{r}^{\star}}\overset{(\mathrm{ii})}{\leq}2\sqrt{\frac{\mu r}{n}},\label{eq:Y-2-inf-bound-123}
+%\end{align}
+%where (i) comes from (\ref{eq:EU-2-inf-bound-general}) and the assumption
+%$c_{\mathsf{b}}\leq1$, and (ii) is valid as long as $10\sigma\sqrt{n\log n}\leq\lambda_{r}^{\star}$.
+%In addition, it follows from (\ref{eq:UH-MUstar-Lambda-star-2inf})
+%that
+%\begin{align}
+%\big\|\bm{U}\bm{H}-\bm{Y}\big\|_{2,\infty} & \lesssim\frac{\sigma\kappa\sqrt{\mu r}}{\lambda_{r}^{\star}}+\frac{c_{\mathsf{b}}\sigma^{2}\sqrt{rn}\log n}{\big(\lambda_{r}^{\star}\big)^{2}}\lesssim\frac{\sigma\kappa\sqrt{\mu r\log n}}{\lambda_{r}^{\star}},\label{eq:UH-MUstar-Lambda-star-2inf-1}
+%\end{align}
+%with the proviso that $\sigma\sqrt{n\log n}\lesssim\lambda_{r}^{\star}$.
+
+
+Before proceeding, we recall from (\ref{eq:UH-MUstar-Lambda-star-2inf}) that
+%
+\begin{align}
+	\big\|\bm{U}\bm{H}-\bm{U}^{\star}\big\|_{2,\infty}
+	\lesssim  \frac{\sigma\kappa\sqrt{\mu r}+\sigma\sqrt{r\log n}}{\lambda_{r}^{\star}}
+	\lesssim  \frac{\sigma\kappa\sqrt{\mu r \log n}}{\lambda_{r}^{\star}}
+	\label{eq:UH-MUstar-Lambda-star-2inf-1}
+\end{align}
+%
+% with the proviso that $\sigma\sqrt{n\log n}\lesssim\lambda_{r}^{\star}$.
+
+
+
+
+
+Recognizing the basic decomposition
+%
+\begin{align*}
+	\gamma_2 = \big\| \bm{U}\bm{H}\bm{\Lambda}^{\star}\bm{H}^{\top}\bm{U}^{\top}-\bm{U}^{\star}\bm{\Lambda}^{\star}\bm{U}^{\star\top} \big\|_{\infty}
+	= \big\| \bm{A}_1 + \bm{A}_1^{\top} + \bm{A}_2 \big\|_{\infty}
+%(\bm{U}\bm{H}-\bm{U}^{\star})\bm{\Lambda}^{\star}(\bm{U}\bm{H}-\bm{U}^{\star})^{\top}\\
+% & \quad\quad\quad+(\bm{U}\bm{H}-\bm{U}^{\star})\bm{\Lambda}^{\star}\bm{U}^{\star\top}+\bm{U}^{\star}\bm{\Lambda}^{\star}(\bm{U}\bm{H}-\bm{U}^{\star})^{\top},
+\end{align*}
+%
+with $\bm{A}_{1}\coloneqq(\bm{U}\bm{H}-\bm{U}^{\star})\bm{\Lambda}^{\star}\bm{U}^{\star\top}$
+and $\bm{A}_{2}\coloneqq(\bm{U}\bm{H}-\bm{U}^{\star})\bm{\Lambda}^{\star}(\bm{U}\bm{H}-\bm{U}^{\star})^{\top}$,
+we can control each of these terms separately.
+Firstly, observe that
+%
+\begin{align*}
+\big\|\bm{A}_{1}\big\|_{\infty} & \leq\|\bm{U}\bm{H}-\bm{U}^{\star}\|_{2,\infty}\big\|\bm{U}^{\star}\big\|_{2,\infty}\big\|\bm{\Lambda}^{\star}\big\|\\
+ & \lesssim\big|\lambda_{1}^{\star}\big|\sqrt{\frac{\mu r}{n}}\cdot\frac{\sigma\kappa\sqrt{\mu r\log n}}{\lambda_{r}^{\star}}\asymp\sigma\kappa^{2}\mu r\sqrt{\frac{\log n}{n}},
+\end{align*}
+%
+where we have made use of (\ref{eq:UH-MUstar-Lambda-star-2inf-1}). Similarly,
+%
+\begin{align*}
+	\big\|\bm{A}_{2}\big\|_{\infty} & \leq\|\bm{U}\bm{H}-\bm{U}^{\star}\|_{2,\infty}^{2}\big\|\bm{\Lambda}^{\star}\big\|
+	\lesssim\big|\lambda_{1}^{\star}\big|\frac{\sigma^{2}\kappa^{2}\mu r\log n}{\big(\lambda_{r}^{\star}\big)^{2}}\\
+ 	& \asymp\frac{\sigma^{2}\kappa^{3}\mu r\log n}{\lambda_{r}^{\star}}\lesssim\sigma\kappa^{2}\mu r\sqrt{\frac{\log n}{n}},
+\end{align*}
+%
+provided that $\sigma\kappa\sqrt{n\log n}\lesssim\lambda_{r}^{\star}$.
+Consequently,
+%
+\begin{align*}
+% \big\|\bm{U}\bm{H}\bm{\Lambda}^{\star}\bm{H}^{\top}\bm{U}^{\top}-\bm{Y}\bm{\Lambda}^{\star}\bm{Y}^{\top}\big\|_{\infty}
+\gamma_2 & \leq2\big\|\bm{A}_{1}\big\|_{\infty}+\big\|\bm{A}_{2}\big\|_{\infty}\lesssim\sigma\kappa^{2}\mu r\sqrt{\frac{\log n}{n}}.
+\end{align*}
+
+
+
+\subsubsection{Step 3: putting all this together}
+
+%Combining the above bounds, we demonstrate that
+%%
+%\begin{align}
+%	& \big\|\bm{U}\bm{\Lambda}\bm{U}^{\top}-\bm{Y}\bm{\Lambda}^{\star}\bm{Y}^{\top}\big\|_{\infty}
+%	\leq\gamma_{1}+\gamma_{2} \notag\\
+%& \lesssim\sigma\kappa^{2}\mu r\sqrt{\frac{\log n}{n}}+\frac{\kappa\mu r\sigma^{2}}{\lambda_{r}^{\star}}+\frac{\sigma\mu r\sqrt{r\log n}}{n}
+%  \asymp\sigma\kappa^{2}\mu r\sqrt{\frac{\log n}{n}}.
+%\end{align}
+%%
+
+
+
+
+Combining the above bounds, we demonstrate that
+%
+\begin{align}
+	& \big\|\bm{U}\bm{\Lambda}\bm{U}^{\top}-\bm{U}^{\star}\bm{\Lambda}^{\star}\bm{U}^{\star\top} \big\|_{\infty}
+	\leq\gamma_{1}+\gamma_{2} \notag\\
+& \lesssim\sigma\kappa^{2}\mu r\sqrt{\frac{\log n}{n}}+\frac{\kappa\mu r\sigma^{2}}{\lambda_{r}^{\star}}+\frac{\sigma\mu r\sqrt{r\log n}}{n}
+  \asymp\sigma\kappa^{2}\mu r\sqrt{\frac{\log n}{n}},
+\end{align}
+%
+provided that $\sigma\sqrt{n} \lesssim \lambda_r^{\star}$. This concludes the proof of Corollary~\ref{cor:entrywise-error-general}, as long as the claim \eqref{eq:claim-Utop-E-Ustar-spectral-norm} can be validated.
+
+
+
+
+\subsubsection{Proof of the claim \eqref{eq:claim-Utop-E-Ustar-spectral-norm}}
+
+% Preview source code for paragraph 3
+
+Let us start by expressing $\bm{U}^{\star\top}\bm{E}\bm{U}^{\star}$
+as a sum of independent random matrices as follows
+%
+\[
+\bm{U}^{\star\top}\bm{E}\bm{U}^{\star}=\sum_{i,j:\,i\geq j}E_{i,j}\Big\{\big(\bm{U}_{i,\cdot}^{\star}\big)^{\top}\bm{U}_{j,\cdot}^{\star}+\big(\bm{U}_{j,\cdot}^{\star}\big)^{\top}\bm{U}_{i,\cdot}^{\star}\Big\}\eqqcolon\sum_{i,j:\,i\geq j}\bm{Z}_{i,j}.
+\]
+%
+From the elementary inequality $(\bm{A}+\bm{A}^{\top})^{2}\preceq2\bm{A}\bm{A}^{\top}+2\bm{A}^{\top}\bm{A}$, we have
+%
+\begin{align*}
+\mathbb{E}\big[\bm{Z}_{i,j}^{2}\big] & \preceq\sigma^{2}\Big\{\big(\bm{U}_{i,\cdot}^{\star}\big)^{\top}\bm{U}_{j,\cdot}^{\star}+\big(\bm{U}_{j,\cdot}^{\star}\big)^{\top}\bm{U}_{i,\cdot}^{\star}\Big\}\Big\{\big(\bm{U}_{i,\cdot}^{\star}\big)^{\top}\bm{U}_{j,\cdot}^{\star}+\big(\bm{U}_{j,\cdot}^{\star}\big)^{\top}\bm{U}_{i,\cdot}^{\star}\Big\}^{\top}\\
+ & \preceq2\sigma^{2}\Big\{\big\|\bm{U}_{j,\cdot}^{\star}\big\|_{2}^{2}\big(\bm{U}_{i,\cdot}^{\star}\big)^{\top}\bm{U}_{i,\cdot}^{\star}+\big\|\bm{U}_{i,\cdot}^{\star}\big\|_{2}^{2}\big(\bm{U}_{j,\cdot}^{\star}\big)^{\top}\bm{U}_{j,\cdot}^{\star}\Big\},
+\end{align*}
+%
+thus indicating that
+%
+\begin{align*}
+v & =\Big\|\sum_{i,j:i\geq j}\mathbb{E}\big[\bm{Z}_{i,j}^{2}\big]\Big\|\leq2\sigma^{2}\Big\|\sum_{i=1}^{n}\sum_{j=1}^{n}\big\|\bm{U}_{j,\cdot}^{\star}\big\|_{2}^{2}\big(\bm{U}_{i,\cdot}^{\star}\big)^{\top}\bm{U}_{i,\cdot}^{\star}\Big\|\\
+ & =2\sigma^{2}\|\bm{U}^{\star}\|_{\mathrm{F}}^{2}\Big\|\sum_{i}\big(\bm{U}_{i,\cdot}^{\star}\big)^{\top}\bm{U}_{i,\cdot}^{\star}\Big\|
+	=2\sigma^{2}r \big\|\bm{U}^{\star\top}\bm{U}^{\star}\big\| =2\sigma^{2}r.
+\end{align*}
+%
+In addition, each matrix $\bm{Z}_{i,j}$ can be bounded in size by
+%
+\[
+\max_{i,j}\|\bm{Z}_{i,j}\|\leq2\max_{i,j}\big|E_{i,j}\big|\max_{i,j}\big\|\bm{U}_{i,\cdot}^{\star}\big\|_{2}\big\|\bm{U}_{j,\cdot}^{\star}\big\|_{2}\leq2B\frac{\mu r}{n}\eqqcolon L,
+\]
+%
+where we have used the definition of the incoherence parameter $\mu$.
+Apply the matrix Bernstein inequality (see Corollary \ref{thm:matrix-Bernstein-friendly}) to reach
+%
+\begin{align*}
+\big\|\bm{U}^{\star\top}\bm{E}\bm{U}^{\star}\big\| & \leq4\sqrt{v\log n}+6L\log n\leq\sigma\sqrt{32r\log n}+ 12B\frac{\mu r\log n}{n}\\
+ & \leq(6+ 12c_{\mathsf{b}})\sigma\sqrt{r\log n}
+\end{align*}
+%
+with probability exceeding $1-2n^{-7}.$ Here, the last line holds since
+%
+\[
+B\frac{\mu r\log n}{n}\leq c_{\mathsf{b}}\sigma\sqrt{\frac{n}{\mu\log n}}\cdot\frac{\mu r\log n}{n}=c_{\mathsf{b}}\sigma\sqrt{r\log n}\sqrt{\frac{\mu r}{n}}\leq c_{\mathsf{b}}\sigma\sqrt{r\log n},
+\]
+%
+which relies on the assumption (\ref{eq:assumption-B-sigma}) and the basic fact $\mu\leq n/r$.
+%
+
+
+

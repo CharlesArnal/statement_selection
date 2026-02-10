@@ -1,0 +1,109 @@
+
+\section{Truncated spectral method for removing sparse outliers}
+
+When the samples are susceptible to adversarial entries, the spectral method might not work properly even with the presence of a single outlier whose magnitude can be arbitrarily large to perturb the leading eigenvector of the data matrix $\bm{M}$. Therefore, the spectral method needs to be modified carefully in order to still function properly in the presence of outliers.
+
+\paragraph{Median-truncated spectral method.} One strategy to remove outliers is to truncate away spurious samples based on the sample median, as the median is known to be robust against arbitrary outliers \citep{zhang2016provable,li2017nonconvex}. We illustrate this median-truncation approach through an example of robust phase retrieval \citep{zhang2016provable}, where we assume a subset of samples in \eqref{eq:PR-samples} is corrupted arbitrarily, with their index set denoted by $\mathcal{S}$ with $|\mathcal{S}|=\alpha  m$, $\alpha \in (0,1/2]$ is the faction of outliers. Mathematically, the measurement  model in the presence of outliers is given by
+%
+\begin{equation} \label{eq:robust_pr_model}
+	y_i = \begin{cases}
+(\ba_i^\top\bx_{\star})^2, \quad  & i \notin \mathcal{S}, \\
+\mathsf{arbitrary} , & i \in \mathcal{S}. 
+	\end{cases}
+\end{equation}
+%
+The goal is to still recover $\bm{x}_{\star}$ in the presence of many outliers (e.g.~a constant fraction of measurements are outliers). To mitigate this issue, a median-truncation scheme was proposed in \cite{zhang2016provable,li2017nonconvex}, where
+\begin{equation}\label{eq:T_median}
+	\mathcal{T}(y)  = y \charfn_{\set{y_i \leq \gamma \, \mathsf{median}\{ y_j \}_{j=1}^m}}
+\end{equation}
+for some predetermined constant $\gamma >0$, $\mathsf{median}\{ y_j \}_{j=1}^m $ is the median of the samples $\{ y_j \}_{j=1}^m$. The data matrix $\bM$ is then constructed via \eqref{eq:D_PR_T} using the above preprocessing function.
+
+ By including only a subset of samples whose values are not excessively large compared with the sample median of the samples, the preprocessing function in \eqref{eq:T_median} makes the spectral method more robust against sparse and large outliers.
+The following theorem is due to \cite{zhang2016provable}. 
+\begin{theorem} 
+	\label{thm:truncated-PR-init}
+	Consider the robust phase retrieval problem in \eqref{eq:robust_pr_model}, and fix any $\zeta > 0$. There exist some constants  $c_0, c_1>0$ such that if 
+$m\geq c_{0}n$ and $\alpha\leq c_1$, then the median-truncated spectral estimate obeys
+\[
+	\mathsf{dist}(\bm{x},\bm{x}^{\star})  \le \zeta \| \vxp \|_2
+\]
+with probability at least $1 - O(n^{-2})$.
+\end{theorem}
+
+Theorem~\ref{thm:truncated-PR-init} suggests that even with a constant fraction of outliers, the median-truncated spectral method can still robustly estimate $\bm{x}^{\star}$ with a near-optimal number of measurements $m=O(n)$, thus further enhancing the resilience of the truncated spectral method in the presence of adversarial corruptions.
+
+%median-TWF needs O(n) sample for initialization.
+\paragraph{Hard-thresholded spectral method.}
+The idea of applying truncation to form a spectral estimate is also used in the robust PCA problem \citep{chandrasekaran2011siam,candes2009robustPCA,vaswani2017robust}, when we are provided an upper bound on the fraction of outliers. 
+Suppose we are given a matrix $\bm{\Gamma}_{\star}\in\mathbb{R}^{n_1\times n_2}$ that is a superposition of a rank-$r$ matrix $\bm{M}_{\star}\in\mathbb{R}^{n_1\times n_2}$ and a sparse matrix $\bm{S}_{\star}\in\mathbb{R}^{n_1\times n_2}$:
+%
+\begin{equation}\label{eq:rpca_decomp}
+\bm{\Gamma}_{\star} = \bm{M}_{\star} + \bm{S}_{\star}.
+\end{equation}
+%
+The goal is to separate $\bm{M}_{\star}$ and $\bm{S}_{\star}$ from the (possibly partial) entries of $\bm{\Gamma}_{\star}$. This problem is also known as {\em robust PCA}, since we can think of it as recovering the low-rank factors of  $\bm{M}_{\star}$ when the observed entries are corrupted by {\em sparse outliers} (modeled by $\bm{S}_{\star}$). The problem spans numerous applications in computer vision, medical imaging, and video surveillance. 
+
+Similar to the matrix completion problem, we assume the random sampling model \eqref{assump:mc-bernoulli}, where $\Omega$ is the set of observed entries. 
+In order to make the problem well-posed, we need the incoherence parameter of $\bM_{\star}$ as defined in Definition~\ref{assump:mc-incoherence} as well, which precludes $\bM_{\star}$ from being too spiky.  In addition, it is sometimes convenient to introduce the following deterministic condition on the sparsity pattern and sparsity level of $\bm{S}_{\star}$,  originally proposed by \cite{chandrasekaran2011siam}. Specifically, it is assumed that the non-zero entries of $\bm{S}_{\star}$ are ``spread out'', where there are at most a  fraction $\alpha$ of non-zeros per row\,/\,column. Mathematically, this means:
+
+\begin{assumption}
+	It is assumed that $\bS_{\star}\in\mathcal{S}_\alpha\subseteq \mathbb{R}^{n_1\times n_2}$, where
+%
+\begin{equation}
+	\mathcal{S}_\alpha := \left\{\bS \,:\,  \|(\bS_{\star})_{i,\cdot}\|_0 \leq \alpha n_2, \; \|(\bS_{\star})_{\cdot,j}\|_0 \leq \alpha n_1, \forall i,j \right\}. 
+\end{equation}
+%
+\end{assumption}
+
+
+Since the observations are also potentially corrupted by large but sparse outliers, it is useful to first clean up the observations $(\bm{\Gamma}_{\star})_{i,j} = (\bm{M}_{\star})_{i,j} + (\bm{S}_{\star})_{i,j}$ before constructing the matrix $\bM$ as in \eqref{eq:rescaled-M-matrix-completion-l2}. Indeed, this is the strategy proposed in \cite{yi2016fast}. 
+%For simplicity, we present in what follows only the results for the fully observed case. 
+To proceed, we start by forming an estimate of the sparse outliers via the hard-thresholding operation as
+\begin{equation}\label{eq:hard_threshodling_init}
+\bm{S}_{0}=\mathcal{H}_{c\alpha np}\big(\mathcal{P}_{\Omega}(\bm{\Gamma}_{\star} )\big).
+\end{equation}
+%We start by forming an estimate of the sparse outliers. Let
+%\[
+%\mathcal{T}_{\alpha}[\bm{\Gamma}] = \begin{cases}
+%\bm{\Gamma}_{i,j}, &\text{if } \abs{\bm{\Gamma}_{i,j}} \ge \abs{\bm{\Gamma}_{(i, \cdot)}^{(\alpha n_2)}} \text{ and } \abs{\bm{\Gamma}_{i,j}} \ge \abs{\bm{\Gamma}_{(\cdot, j)}^{(\alpha n_1)}} \\
+%0,&\text{otherwise}
+%\end{cases},
+%\]
+%where $\bm{\Gamma}_{(i, \cdot)}^{(k)}$ (resp. $\bm{\Gamma}_{(\cdot, j)}^{(\alpha n_1)}$) denotes the $k$th largest entry of $\bm{\Gamma}_{(i, \cdot)}$ (resp. $\bm{\Gamma}_{(\cdot, j)}$). 
+where $c>0$ is some predetermined constant (e.g.~$c=3$) and $\mathcal{P}_{\Omega}$ is defined in \eqref{defn:Pomega}. Here, $\mathcal{H}_l(\cdot)$ is the hard-thresholding operator defined as
+%
+\[
+	[\mathcal{H}_{l}(\bA)]_{j,k} := \begin{cases}  A_{j,k},  &\text{if }|A_{j,k}|\geq |A_{j,\cdot}^{(l)}| \text{ and }
+							|A_{j,k}|\geq |A_{\cdot,k}^{(l)}|,  \\
+							0, & \text{otherwise,}
+					  \end{cases}
+\]
+where 
+$A_{j,\cdot}^{(l)}$ (resp.~$A_{\cdot,k}^{(l)}$) denotes the $l$th largest entry (in magnitude) in the $j$th row (resp.~column) of $\bm{A}$.
+The  idea is simple: an entry is likely to be an outlier if it is simultaneously among the largest entries in the corresponding row and column. Armed with this estimate, we form the matrix $\bM$ as
+%
+\begin{equation}
+	\label{eq:Y-RPCA}
+	\bm{M} =\frac{1}{p} \mathcal{P}_{\Omega}(\bm{\Gamma}_{\star}   - \bm{S}_{0}).
+\end{equation}
+
+ 
+%	
+
+
+One can then apply the spectral method to $\bm{M}$ in \eqref{eq:Y-RPCA} (similar to the matrix completion case). This approach enjoys the following performance guarantee, due to \cite{yi2016fast}; see also \citep{cherapanamjeri2017nearly}.
+%
+\begin{theorem} \label{thm:spectral_RPCA}
+Suppose that the robust PCA problem. If the sample size and the sparsity fraction satisfy $n_1  p\geq c_0  \kappa^2 \mu r  \log n_2$ and $\alpha\leq c_1/( \mu \kappa  r )$ for
+	some sufficiently large (resp. small) constant $c_0>0$ (resp. $c_1>0$), then 
+with probability at least $1-O\left(n^{-1}\right)$,  
+%
+	\[
+  \max\Big\{ \mathsf{dist}\left(\bm{U},\bm{U}^{\star}\right),\mathsf{dist}\left(\bm{V},\bm{V}^{\star}\right) \Big\}  \leq  c_2 \alpha \mu r \kappa + c_3 \kappa \sqrt{\frac{\mu r \log n_2}{n_1 p}},
+	\]	
+for some constants $c_2, c_3>0$.
+\end{theorem}
+
+It can be seen that Theorem~\ref{thm:spectral_RPCA} reduces to Theorem~\ref{thm:mc-l2-subspace} for the case of matrix completion when there are no outliers, i.e. $\alpha =0$. Therefore, the truncated spectral method injects additional robustness properties to the spectral method without hurting its performance in the outlier-free case, hence it is resilient in an oblivious fashion.   
+
+

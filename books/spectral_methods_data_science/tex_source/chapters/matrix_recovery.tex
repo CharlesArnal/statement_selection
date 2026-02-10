@@ -1,0 +1,226 @@
+\chapter[Applications of $\ell_2$ perturbation theory to data science]{Applications of $\ell_2$ perturbation theory \\ to data science}
+\label{chap:application-L2}
+
+
+
+This chapter develops tailored spectral methods for several important applications arising in statistics, machine learning and signal processing.
+As it turns out,  these methods are all variations of a common recipe: extracting the information of interest  from the eigenspace (resp.~singular spaces) and eigenvalues (resp.~singular values) of a certain matrix $\bm{M}$ properly constructed from data. The inspiration stems from the observation that: the corresponding quantities of $\bm{M}^{\star}=\mathbb{E}[\bm{M}]$---when properly constructed and under appropriate statistical models---might faithfully reveal the information being sought after.
+The classical $\ell_2$ perturbation theory introduced in Chapter~\ref{cha:matrix-perturbation}, when paired with modern probabilistic tools reviewed in Section~\ref{sec:matrix-Bernstein}, uncovers appealing performance of spectral methods in numerous applications by controlling the size of the perturbation $\bm{E} := \bm{M} - \bm{M}^{\star} $.
+The vignettes in this chapter provide ample evidence regarding the benefits of
+harnessing the statistical nature of the acquired data.
+
+
+\input{chapters/matrix_concentration.tex}
+
+\input{chapters/matrix_denoising.tex}
+\input{chapters/PCA.tex}
+\input{chapters/community_detection.tex}
+\input{chapters/gaussian_mixture.tex}
+\input{chapters/ranking.tex}
+\input{chapters/phase_retrieval.tex}
+\input{chapters/matrix_completion.tex}
+\input{chapters/tensor_completion.tex}
+
+
+
+%\input{chapters/gaussian_mixture.tex}
+
+
+
+
+ \section{Notes}
+
+
+
+
+This section provides further pointers to the applications studied in this chapter, and singles out a brief list of applications we have omitted.
+
+Before proceeding, it is worth pointing out several important facts. First, for many applications (e.g., phase retrieval, matrix and tensor completion), the spectral method alone does not allow for perfect reconstruction of the unknowns even when it is information-theoretically feasible to do so.  Instead, the spectral method frequently serves as a suitable initialization step for these applications, and its estimate can often be further refined by means of nonconvex optimization algorithms like gradient descent and alternating minimization; see \citet{chi2019nonconvex,jain2017non} for overviews of recent advances.
+Second, throughout this chapter, we have assumed that the underlying matrix is exactly low-rank, and in addition the spectral methods deployed know the correct rank. However, in reality, data matrices are rarely exactly low-rank. It is therefore of great importance to develop and analyze methods that can handle such misspecified cases. When the reconstruction error of the matrix is considered, several methods are capable of achieving graceful tradeoff between the estimation error and the approximation error, without knowing the correct rank, e.g. e.g.,~\citet{koltchinskii2011nuclear,chatterjee2014universal,negahban2011estimation}. 
+In addition, further discussions (e.g., convex relaxation approaches and nonconvex landscape analysis) about several of these applications can be found in \citet{candes2014mathematics,wainwright2019high,wright2020high,zhang2020symmetry}.
+
+
+% study of spectral methods, particularly for the applications studied in this chapter.
+
+%Similar spectral techniques were also proposed in \citep{keshavan2010matrix, jain2013low}, for initializing algorithms for low-rank matrix completion.
+
+
+
+
+
+\paragraph{PCA, factor models and covariance estimation.}
+
+PCA and factor models are among the most classic and extensively studied topics in statistics \citep{anderson1962introduction,fan2020statistical,wainwright2019high}. The model considered in Section~\ref{sec:formulation-PCA} has been studied by, for example, \citet{johnstone2001distribution,paul2007asymptotics,nadler2008finite, perry2016optimality, xie2018sequential, wang2017asymptotics, fan2018spiked, bao2020statistical}  under the name of  spiked covariance models,  
+covering both the finite-sample regime and high-dimensional asymptotics.
+A more recent strand of work extended the theory to accommodate heteroskedastic noise and missing data (including heterogeneous missing patterns) \citep{lounici2014high,zhang2018heteroskedastic,cai2019subspace,zhu2019high}, as well as exponential family distributions~\citep{liu2018pca}. In addition to providing the distance control between the spectral estimate and the true principle subspace, \citet{koltchinskii2016asymptotics} and \citet{fan2019distributed} also studied the bias of the spectral estimate under various types of data distributions.
+It is clearly impossible to review the enormous literature in a monograph of this length; the interested reader is referred to the overview papers \citet{johnstone2018pca,fan2018PCA,vaswani2018rethinking,balzano2018streaming}  and the recent books
+  \citet{fan2020statistical,wainwright2019high} for overviews of contemporary developments on this topic (with particular emphasis on high-dimensional data).
+In addition, this monograph does not account for the sparsity structure, or a superposition of low-rank and sparsity structure,  where are commonly imposed on either the covariance matrix or the precision matrix \citep{JohLu09,ma2013sparse,vu2012minimax,cai2013sparse,candes2011robust,chandrasekaran2011rank,chandrasekaran2010latent}. These additional structural assumptions play a crucial role in further dimension reduction and are useful for, say, learning graphical models, video surveillance in computer vision, and portfolio allocation and risk managements in finance;   see \citet{fan2020statistical,ma2016GPCA,wainwright2019high,wright2020high} for more detailed discussions.
+
+% When the covariance of $\bm{\eta}_{i}$ is sparse, the bias can be negligible when the factors are strong, namely, $\lambda_r$ is large.  In this case, conventional PCA continues to apply.  See   \citet[Chapter 10]{fan2020statistical}.
+
+
+
+\paragraph{Applications of PCA in statistical and econometric modeling.}   PCA has been widely applied to estimate dimension-reduced spaces in multiple-index models \citep{Li:92, duan1991slicing,cook2007fisher,xia2009adaptive,li2018sufficient}, and latent factors in econometric modeling \citep{forni2000generalized, stock2002forecasting, bai2002determining,bai2003inferential,bai2009panel,ahn2013eigenvalue,fan2015power,fan2016projected}.
+For recent reviews of this topic, we refer the readers to \citet{stock2016dynamic} for dynamic factor models with applications to macroeconomics, to \citet{bai2016econometric} for time series and panel data models, to \citet{fan2020robust} for robust factor models and large covariance estimation, and to \citet{fan2021recent}  for  factor models and their broader applications to econometric learning.  In particular, factor models have been frequently employed to adjust correlated covariates in high-dimensional model selection, large-scale inference, predictions, treatment evaluations, among others;  see \citet{fan2020robust, fan2021recent} and the references therein.
+
+
+
+
+\paragraph{Graph clustering and community recovery.}
+
+Spectral methods---possibly coupled with other subsequent refining schemes like
+$k$-means---are among the most widely used algorithms for graph clustering
+\citep{mcsherry2001spectral,rohe2011spectral,balakrishnan2011noise,chaudhuri2012spectral,fishkind2013consistent,sarkar2015role,jin2015fast,gao2017achieving,zhang2020theoretical,newman2013spectral,chen2015phase,zhang2020detecting,le2015estimating,jin2015fast,le2018concentration,chen2020global}.
+While a large fraction of earlier papers required the average vertex degree  to be significantly larger than  $\log n$,
+\citet{lei2015consistency} broadened the coverage of the theory by accommodating sparse graphs with average  degrees as low as $O(\log n)$. This, however, should be differentiated from the ultra-sparse regime with average degrees $O(1)$; in this scenario, spectral methods based on  vanilla adjacency matrices no longer work, and  more intelligent designs are needed  to effectively detect the communities \citep{coja2010graph,massoulie2014community,chin2015stochastic,le2015sparse}.
+The theory available for spectral clustering extends far beyond the two-community SBM presented herein, examples including SBMs with growing communities \citep{rohe2011spectral}, degree-corrected SBMs \citep{lei2015consistency,lei2014generic}, graphs with locality \citep{chen2016community}, mixed membership models \citet{fan2019simple,han2019universal}, hyper-graphs \citep{ahn2018hypergraph,michoel2012alignment,cole2020exact}, and directed graphs \citep{wang2020spectral}. An abundance of other paradigms, most notably convex relaxation, have also proved effective for clustering \citep{jalali2011clustering,amini2013pseudo,abbe2014exact,hajek2015achieving,cai2015robust,zhao2012consistency,li2018convex,zhang2020theoretical,yuan2018community,fei2018exponential,fei2019achieving}. We recommend the article \citet{abbe2017community} for an overview of recent developments.
+
+
+
+%\citep{florescu2016spectral}
+
+
+
+ \paragraph{Gaussian mixture models.}
+
+The Gaussian mixture model is among the most classic and convenient statistical models to capture the effect of multi-modal and heterogeneous data
+(e.g., \citet{pearson1894contributions,titterington1985statistical,xu1996convergence,dasgupta1999learning,hsu2013learning,kalai2010efficiently,balakrishnan2014statistical,xu2016global,jin2016local,fei2018hidden,jin2017phase,dan2020sharp,han2020eigen}).
+Unlike parameter estimation (e.g., estimating the centers) that does not require center separation \citep{wu2020optimal},
+the feasibility of reliable clustering in Gaussian mixture models
+is dictated by the minimum center separation \citep{lu2016statistical,cai2018rate,ndaoud2018sharp,giraud2019partial,chen2020cutoff}.
+While spectral methods naturally come into mind for the clustering task and have been frequently applied in the literature \citep{von2007tutorial,vempala2004spectral,kannan2008spectral,kumar2010kmeans,awasthi2012improved},
+sharp statistical analysis of spectral clustering (and its variants)
+has been lacking until recently \citep{ndaoud2018sharp,loffler2019optimality,srivastava2019robust,abbe2020ell_p}.
+While it might be tempting to impose a minimum spectral gap requirement on the matrix $\bm{\Theta}^{\star}$ (cf. \eqref{eq:defn-Theta-star-F-star-GMM}) in order to invoke the $\sin\bm{\Theta}$ theorems,
+such a condition can be dropped as long as an appropriate spectral clustering scheme is employed \citep{loffler2019optimality}.
+Encouragingly, spectral clustering (with the aid of $k$-means) also achieves information-theoretically optimal mis-clustering rate exponents for a couple of scenarios  \citep{loffler2019optimality,abbe2020ell_p}.
+
+
+
+
+
+
+
+% \citep{el2008operator}
+
+
+
+ \paragraph{Ranking from pairwise comparisons.}
+
+
+ Deploying spectral methods to address ranking tasks has a long history, dating back at least to \citet{seeley1949net}. We refer the readers to~\citet{vigna2016spectral} for a historical account of this subject. The specific instance of spectral methods  introduced here was due to \citet{negahban2016rank}, and has been subsequently analyzed in multiple papers \citep{rajkumar2014statistical,chen2015spectral,jang2016top,chen2020partial}. It bears close similarity to the celebrated PageRank algorithm heavily used by Google~\citep{page1999pagerank}.  \citet{negahban2016rank} developed the first $\ell_{2}$ statistical guarantees when estimating the underlying score vector, accounting for missing data and general comparison graphs as well. The $\ell_2$ guarantees for random comparison graphs were further sharpened in \citet{chen2015spectral} (which  closed the logarithmic gap).
+Note, however, that the $\ell_2$ score estimation error bounds alone typically do not imply the ranking accuracy. Motivated by this inadequacy, \citet{chen2015spectral} directly studied the top-$K$ ranking accuracy, by demonstrating the  optimality of spectral ranking followed by an iterative refinement scheme.
+However, this left open another question regarding whether the follow-up refinement step is necessary in achieving optimal ranking accuracy.
+\citet{jang2016top} attempted to address this question by establishing desired ranking accuracy of spectral methods when the number of pairwise comparisons available is large. A complete picture was subsequently obtained by \citet{chen2017spectral}, which proved the optimality of spectral methods  in top-$K$ ranking all the way to the sample-starved regime. Moving beyond exact top-$K$ ranking, the recent work \citet{chen2020partial} studied the capability (and limitations) of spectral methods in handling
+partial recovery of the top-$K$ ranked items. Moving beyond the BTL model, there are also a number of other ranking models that have been extensively studied in the literature (e.g., the Plackett-Luce model for multi-way comparisons \citep{hunter2004mm,hajek2014minimax,oh2014learning,agarwal2018accelerated}, the stochastically transitive model \citep{shah2016stochastically,shah2019feeling}), which are beyond the scope of the present monograph.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% \citet{vempala2004spectral,awasthi2012improved,cai2018rate,kannan2008spectral,loffler2019optimality,yi2014alternating,abbe2020ell_p}
+
+
+
+
+
+%\citep{kumar2010kmeans}
+
+
+
+
+
+\paragraph{Phase retrieval.}
+
+
+\citet{netrapalli2015phase} proposed the first spectral method (cf.~Section~\ref{sec:pr-alg}) for phase retrieval,
+and established the performance guarantees when the sample size exceeds $m\gtrsim n\log^3 n$.
+The theoretical support was then tightened by \citet{candes2015phase}, allowing the sample size to be as low as $m \asymp n\log n$.
+Similar theory was provided for the random coded diffraction pattern model in \citet{candes2015phase}. Several variations and generalizations of the spectral method have been further proposed to improve performance. The first order-wise optimal spectral method  for phase retrieval was proposed by  \citet{chen2015solving}, based on the truncation idea. This method has multiple variants \citep{zhang2016provable,li2017nonconvex, wang2017solving}, and has been shown to be robust against noise and corruptions. The precise asymptotic characterization of the spectral method was first obtained in \citet{lu2020phase}. Based on this characterization, \citet{mondelli2017fundamental,luo2019optimal} later devised optimal designs of spectral methods in phase retrieval when the sensing matrix follows the Gaussian design, where its sensitivity to model mismatch was studied in \citet{monardo2019sensitivity}. \citet{ma2019spectral,dudeja2020analysis} explored similar questions when the sensing matrix is Haar distributed (e.g., an isotropically random unitary matrix).
+The spectral method presented herein has been used to seed a follow-up procedure that in turn enhances estimation accuracy; see, e.g., \citet{netrapalli2015phase,candes2015phase,sanghavi2017local,goldstein2018phasemax,bahmani2016phase,ma2017implicit,chandra2019phasepack,dhifallah2017phase,qu2019convolutional,zhang2017nonconvex,ma2019optimization,tan2019phase,jeong2017convergence,cai2019fast,salehi2018precise}. An alternative to the spectral method, based on a nullspace approach, has been proposed in \citet{chen2017phase}. \citet{fannjiang2020numerics} provided an extensive discussion on initialization strategies for algorithmic phase retrieval, including but not limited to various forms of spectral methods.
+Sparse phase retrieval is another important topic when the signal of interest is assumed to be a sparse vector; we refer the interested reader to
+\citet{li2013sparse,oymak2012simultaneously,chen2015exact,cai2016optimal,wang66sparse,jagatap2019sample,yang2019misspecified,soltanolkotabi2017structured,yang2016sparse,zhang2018compressive,salehi2018learning,shechtman2014gespar,yuan2019phase,eldar2014phase} and additional references cited therein.
+
+
+
+
+\paragraph{Matrix completion.}
+
+Regarding matrix completion, the spectral method was originally proposed in \citet{achlioptas2007fast,keshavan2010matrix} to estimate (approximately) low-rank matrices in the face of missing data and random corruptions.
+Similar to phase retrieval, 
+the estimate returned by the spectral method is employed as a suitable initialization to enable fast convergence of nonconvex iterative procedures;
+see, e.g., \citet{keshavan2010matrix,keshavan2009matrix,jain2013low,hardt2014understanding,sun2016guaranteed,chen2015fast,zheng2016convergence,boumal2015low,wei2016guarantees,chen2020nonconvex,ma2017implicit,zhang2018fast,jin2016provable,charisopoulos2019lowrank}.
+Moreover, there are several nuclear norm penalized estimators that also bear close relevance to the spectral method,
+e.g., \citet{koltchinskii2011nuclear}.
+We also remark in passing that there are other estimators that can effectively handle the case when the underlying matrix is not exactly low-rank, including but not limited to Universal Singular Value Thresholding \citep{chatterjee2014universal} and its soft-thresholded version \citep{koltchinskii2011nuclear}.
+In addition, while our discussion focuses on clean data and uniform random sampling patterns,  it is of great importance to study various noisy and quantized scenarios \citep{keshavan2009matrix,candes2010matrix,cao2015poisson,klopp2014noisy,chen2015fast,mcrae2019low,davenport20141,ma2017implicit,zhang2018primal,krahmer2019convex}, 
+as well as non-uniform or deterministic sampling patterns \citep{foucart2019weighted,negahban2012restricted,shapiro2018matrix}.
+
+
+
+
+% We have to omit these due to the space limit.
+
+
+
+ \paragraph{Tensor completion and estimation.}
+
+Unfolding-based spectral methods  have been frequently adopted to deal with various tensor estimation problems including tensor PCA, tensor decomposition, tensor completion,
+and so on \citep{richard2014a,montanari2016spectral,han2020an,zhang2018tensor,cai2019subspace,cai2019tensorOR,xia2019on,xia2017statistically,moitra2019spectral,liu2020tensor,zhang2020islet,xia2020inference,tong2021scaling}.
+When it comes to tensor completion, the first near-optimal $\ell_2$ statistical analysis of spectral methods was due to \citet{montanari2016spectral},
+which was subsequently extended by \citet{cai2019subspace} to enable $\ell_{2,\infty}$ error control.
+The readers interested in higher-order tensors (beyond third-order tensors) can consult \citet{montanari2016spectral,richard2014a}.
+In addition, the theory and algorithm presented herein focus attention on the regime where $r< n$, and fall short of accommodating ``over-complete'' tensors when $r$ rises above $n$. Certain ``contraction'' tricks are needed in order to cope with the over-complete regime; see \citet{hopkins2016fast,montanari2016spectral}.
+
+
+
+
+
+\paragraph{An extensive but non-exhaustive list of other applications.} Finally, the list of applications discussed in this monograph is clearly far from comprehensive. Spectral methods have been successfully applied to a plethora of other problems,  including but not limited to the following topics:
+%
+\begin{itemize}
+\setlength\itemsep{0.2em}
+\item { matrix sensing:} \citet{tu2016low,zheng2015convergent,ma2019beyond,chen2020learning,tong2020low,tong2020accelerating,lee2017near};
+\item { phase synchronization and group synchronization:} \citet{singer2011angular,abbe2020entrywise,ling2020near};
+\item { joint matching and map synchronization:} \citet{chen2014near,pachauri2013solving,shen2016normalized,bajaj2018smac,sun2018joint,sun2019k,huang2019tensor,huang2019learning};
+\item { covariance sketching and quadratic sensing:} \citet{li2019nonconvex,charisopoulos2019lowrank,sanghavi2017local,chi2017subspace};
+%\item { ranking from pairwise comparisons:}
+\item { blind deconvolution and blind calibration:} \citet{li2016deconvolution,ma2017implicit,huang2018blind,charisopoulos2019composite,chen2020convex,li2018blind,cambareri2016non};
+\item { blind demixing:} \citet{ling2019regularized,dong2018nonconvex};
+\item { low-rank phase retrieval and phaseless PCA:} \citet{vaswani2017low,nayer2019phaseless,vaswani2020nonconvex};
+\item { canonical correlation analysis (CCA):} \citet{cai2018rate,ge2016efficient};
+\item { sparse PCA:} \citet{amini2008high,JohLu09};
+\item { mixed linear regression:} \citet{yi2014alternating,ghosh2020alternating,kwon2020minimax};
+\item { finding hidden cliques:} \citet{alon1998finding};
+\item { joint image alignment:} \citet{chen2016projected};
+\item { robust subspace recovery and robust PCA:} \citet{yi2016fast,netrapalli2014non,cherapanamjeri2017nearly,tong2020low,zhu2018dual,maunu2019well};
+\item { contextual stochastic block models:} \citet{binkiewicz2017covariate,abbe2020ell_p};
+\item { learning neural networks:} \citet{zhong2017recovery,fu2020guaranteed};
+%\item { inference for network data:} \citet{fan2019simple};
+\item { topic modeling:} \citet{ke2017new};
+\item { crowd sourcing:} \citet{ghosh2011moderates,dalvi2013aggregating,karger2013efficient,zhang2014spectral,karger2014budget};
+\item { meta learning:} \citet{kong2020meta,du2020few,tripuraneni2020provable};
+\item { subspace clustering:} \citet{eriksson2012high,li2019theory};
+\item { state aggregation and compression of Markov chains:} \citet{zhang2020spectral,duan2019state};
+\item {causal inference}: \citet{amjad2018robust};
+\item { passive imaging:} \citet{lee2018spectral}.
+\end{itemize}
+%
+For the sake of conciseness, we have chosen not to detail these applications,
+but instead recommend the interested reader to the above articles and the references therein.
+
+
+
+

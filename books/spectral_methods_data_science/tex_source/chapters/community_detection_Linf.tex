@@ -1,0 +1,488 @@
+
+\section{Application: Exact community recovery}
+\label{sec:community-detection-linf}
+
+
+Another application that benefits remarkably from the fine-grained eigenvector perturbation theory is community recovery. This section reexplores the stochastic block model studied in Section~\ref{sec:community-detection}, and develops significantly enhanced theoretical support for spectral clustering. 
+
+
+
+
+\subsection{Performance guarantees: Exact recovery}
+\label{sec:performance-exact-recovery}
+
+
+The focus of this section is simultaneous recovery of the community memberships of all vertices, 
+which is termed {\em exact recovery} or {\em strong consistency} in the community detection literature \citep{abbe2017community}. This imposes a much stronger requirement than the {\em weak consistency} studied in Section~\ref{sec:theory-community-detection}. 
+
+For the sake of conciseness, the theorem below concentrates on the challenging regime where $p,q\asymp \frac{\log n}{n}$,  corresponding to the lowest possible edge densities that allow for exact recovery. This is because, if $p < \frac{\log n}{n}$, then with high probability, one can find isolated vertices that are not connected with any edge in the graph \citep{durrett2007random}; hence, there will be absolutely no means to infer the community membership of these isolated vertices.  The theoretical guarantee is as follows. 
+%
+\begin{theorem}
+	\label{thm:community-recovery-linf}
+	Fix any constant $\varepsilon>0$, and consider the setting of Section~\ref{sec:setup-community-detection}. Suppose  $p=\frac{\alpha \log n}{n}$ and $q=\frac{\beta \log n}{n}$ for some sufficiently large constants $\alpha > \beta >0$.\footnote{In the current proof, the constants $\alpha$, $\beta$ might depend on the fixed choice of $\varepsilon$. Encouragingly, this restriction can be lifted; see~\citet{abbe2020entrywise} for details.} In addition, assume that
+	%
+	\begin{align}
+		\big( \sqrt{p} -\sqrt{q}\big)^2 \geq   2\left( 1+ \varepsilon  \right) \frac{\log n}{n} .
+		\label{eq:H-pq-lower-bound-theorem}
+	\end{align}
+	%
+	With probability  $1-o(1)$, the spectral method in Section~\ref{sec:algorithm-community-detection} yields
+	%
+	\[
+		x_{i}=x_{i}^{\star}~~\text{for all }1\leq i\leq n, \quad~\text{or}\quad~ x_{i}=-x_{i}^{\star}~~\text{for all }1\leq i\leq n.
+	\]
+\end{theorem}
+%
+This theorem, which first appeared in \citet{abbe2020entrywise},  identifies a sufficient recovery condition in terms of the edge densities. 
+The result substantially strengthens the $\ell_2$-based theory in Section~\ref{sec:theory-community-detection}, 
+uncovering the capability of the spectral method in achieving not merely almost exact recovery in the average sense, 
+but more appealingly,  exact community recovery that ensures correct labels of all vertices.  
+
+A natural question arises as to whether the recovery condition \eqref{eq:H-pq-lower-bound-theorem} is improvable via more sophisticated algorithms. Answering this question requires information-theoretic thinking, that is, how to characterize a fundamental threshold---in terms of the difference of edge densities---below which exact recovery is deemed  infeasible. As has been demonstrated in \citet{abbe2014exact,mossel2015consistency,hajek2015achieving}, no algorithm whatsoever is able to achieve exact community recovery  if
+%
+\begin{equation}
+	\big( \sqrt{p} -\sqrt{q}\big)^2 \leq  2(1-\varepsilon) \frac{\log n}{n} 
+	\label{eq:IT-lower-bound-CD}
+\end{equation}
+%
+for any constant $\varepsilon >0$. 
+This fundamental lower bound, in conjunction with Theorem~\ref{thm:community-recovery-linf}, reveals a sharp phase transition behind the performance of the spectral method. In particular, its optimality is guaranteed all the way down to the information-theoretic threshold; see Figure~\ref{fig:sbm-inf} for numerical evidence.  
+
+\begin{figure}[!t]
+\begin{center}
+	\includegraphics[width=0.55\textwidth]{figures/SBM-rec-new.pdf} 
+\end{center}	
+	\caption{Phase transition of spectral methods for exact community recovery. Set $n=300$, $p=(a \log n) / n$, and $q = (b \log n) / n$. We vary $a,b$ from 0 to 8 with an equal space of 0.1. For each configuration of $a \geq b$, we conduct 100 Monte Carlo trials and report the empirical success rate for recovering the entire community structure correctly. 
+	%White areas indicate complete success, while dark ones indicate complete failure. 
+	The empirical phase transition occurs near the information-theoretic threshold (see \eqref{eq:IT-lower-bound-CD}).
+	\label{fig:sbm-inf}}
+\end{figure}
+
+
+
+Given that the above information-theoretic threshold is specified in terms of $( \sqrt{p} -\sqrt{q})^2$,
+the reader might naturally wonder what the operational meaning of this quantity is. As it turns out, this metric is a sort of distance measure between the two edge probability distributions under consideration. In truth, in the setting of Theorem~\ref{thm:community-recovery-linf}, this metric is intimately related to the squared Hellinger distance between two Bernoulli distributions.
+%
+\begin{definition}[Squared Hellinger distance]
+%
+\label{defn:Hellinger-distance}
+Consider two distributions $P$ and $Q$ over a finite alphabet $\mathcal{Y}$. The squared Hellinger distance $\mathsf{H}^2(P\,\|\,Q)$ between $P$ and $Q$  is defined as follows	%
+\begin{equation}
+\mathsf{H}^2(P\,\|\,Q)\coloneqq\frac{1}{2}\sum\nolimits_{y\in \mathcal{Y}}\Big(\sqrt{P(y)}-\sqrt{Q(y)}\Big)^{2}.
+\label{eq:defn-Hellinger-PQ}
+\end{equation}
+%
+\end{definition}
+%
+In particular, consider the squared Hellinger distance between two Bernoulli distributions of interest $\mathsf{Bern}(p)$ and $\mathsf{Bern}(q)$, where we denote by $\mathsf{Bern}(p)$ the Bernoulli distribution with mean $p$. It is seen that \citep{chen2016information}
+%
+\begin{align*}
+	\mathsf{H}^2\big( \mathsf{Bern}(p),   \mathsf{Bern}(q) \big) 
+	&\coloneqq \frac{1}{2} \big( \sqrt{p} -\sqrt{q}\big)^2 + \frac{1}{2} \big( \sqrt{1-p} -\sqrt{1-q}\big)^2 \nonumber\\
+	&= (1+o(1)) \frac{1}{2} \big( \sqrt{p} -\sqrt{q}\big)^2,
+\end{align*}
+%
+when $p=o(1)$ and $q=o(1)$.\footnote{To justify this approximation, the following calculation suffices: \[ \sqrt{1-q}-\sqrt{1-p}=\frac{p-q}{\sqrt{1-p}+\sqrt{1-q}}=(1+o(1))\big(\sqrt{p}-\sqrt{q}\big)\big(\sqrt{p}+\sqrt{q}\big)=o\big(\sqrt{p}-\sqrt{q}\big).\]} 
+The phase transition phenomenon identified in \eqref{eq:H-pq-lower-bound-theorem} and \eqref{eq:IT-lower-bound-CD} can then be alternatively described as
+%
+\begin{align*}
+\text{\text{spectral method works}}\quad & \text{if }\mathsf{H}^{2}\big(\mathsf{Bern}(p),\mathsf{Bern}(q)\big)\geq(1+\varepsilon)\frac{\log n}{n}\\
+\text{no algorithm works}\quad & \text{if }\mathsf{H}^{2}\big(\mathsf{Bern}(p),\mathsf{Bern}(q)\big)\leq(1-\varepsilon)\frac{\log n}{n}
+\end{align*}
+%
+for an arbitrary small constant $\varepsilon >0$. 
+
+
+\subsection{Proof of Theorem~\ref{thm:community-recovery-linf}} 
+
+We now turn to the proof of Theorem~\ref{thm:community-recovery-linf}. 
+Without loss of generality, suppose that $x_i^{\star}=1$ for all $1\leq i\leq n/2$  and $x_i^{\star}=-1$ for all $i> n/2$, so that 
+$\bm{u}^{\star} =\frac{1}{\sqrt{n}}  {\small
+\left[\begin{array}{c}
+\bm{1}_{n/2}\\
+-\bm{1}_{n/2}
+\end{array}\right] }$. 
+
+
+
+Recalling the matrix $\bM$ given in \eqref{eq:M-data-matrix-SBM} and its mean $\bM^{\star}$ in \eqref{eq:M-data-matrix-expectation-SBM}, 
+one can immediately see that $\kappa=\mu=r=1$ for $\bM^{\star}$ in this application. 
+Theorem \ref{thm:UsgnH-Ustar-MUstar-general} (cf.~\eqref{eq:UsgnH-MUstar-bound-theorem-general}) readily implies 
+the existence of some $z\in\{1,-1\}$ such that
+%
+\begin{align}
+ & \Big\| z\bm{u}-\frac{1}{\lambda^{\star}}\bm{M}\bm{u}^{\star}\Big\|_{\infty}
+\lesssim\frac{\sigma}{|\lambda^{\star}|}+\frac{\sigma^{2}\sqrt{n\log n}+\sigma B \,{\log^{3/2}n}}{(\lambda^{\star})^{2}} 
+\label{eq:implication-Thm-symmetry-1st-CD}
+\end{align}
+%
+with probability at least $1-O(n^{-5})$. Additionally, it has already been explained in Section~\ref{sec:community-detection} that  
+%
+\[
+	 B=1,\quad\sigma^{2}\leq\max\{p,q\}=p, \quad \text{and} \quad \lambda^{\star}={n(p-q)}/{2}.
+\]
+%
+Substitution into \eqref{eq:implication-Thm-symmetry-1st-CD} reveals that
+%
+\begin{align}
+	\big\| z\lambda^{\star}\bm{u}-\bm{M}\bm{u}^{\star} \big\|_{\infty} & \lesssim\sigma+\frac{\sigma^{2}\sqrt{n\log n}}{\lambda^{\star}}+\frac{\sigma B\,\log^{3/2}n}{\lambda^{\star}}\nonumber \\
+ 	& \leq  C \Big( \sqrt{p}+\frac{p\sqrt{\log n}}{\sqrt{n}(p-q)}+\frac{\sqrt{p}\log^{3/2}n}{n(p-q)} \Big)
+	\label{eq:z-lambda-u-MU-bound-CD}
+\end{align}
+%
+holds for some universal constant $C>0$.
+As a result, a crucial step boils down to controlling $\bm{M}\bm{u}^{\star}$ in an entrywise manner: each element is a difference between two independent random binomial random variables and  is accomplished through the following lemma. 
+%
+\begin{lemma}
+	\label{lemma:M-ustar-lower-bound-CD}
+	Suppose that
+%
+\begin{align}
+	\mathsf{H}_{p,q}^{2} \coloneqq \big( \sqrt{p} -\sqrt{q}\big)^2 \geq\left( 1+ \varepsilon  \right) \frac{2\log n}{n} 
+	\label{eq:H-pq-lower-bound-lemma}
+\end{align}
+% 
+for some quantity $\varepsilon>0$.  Let $\varepsilon_0 \coloneqq \frac{\varepsilon\log n}{\sqrt{n}\log\frac{p(1-q)}{q(1-p)}}-\frac{1}{\sqrt{n}}$. 
+Then with probability exceeding $1-n^{-\varepsilon/2}$, one has
+%
+\begin{align*}
+	 \bm{M}_{l,\cdot}\bm{u}^{\star}   \geq \varepsilon_0 \,\,\,\text{for all }l\leq \frac{n}{2},
+	\quad\text{and}\quad
+	   \bm{M}_{l,\cdot} \bm{u}^{\star}  
+	\leq - \varepsilon_0 \,\,\, \text{for all } l > \frac{n}{2}. 
+	%\label{eq:M-ustar-bound-CD-lemma}
+\end{align*}
+%
+\end{lemma}
+%
+
+We now return to analyze the entrywise behavior of $\bm{u}$. Note that
+%
+\begin{align*}
+(z\lambda^{\star})u_{l} & \geq\bm{M}_{l,\cdot}\bm{u}^{\star}-\big| z\lambda^{\star}u_{l}-\bm{M}_{l,\cdot}\bm{u}^{\star}\big|  \quad\text{for all } l\leq n/2;\\
+(z\lambda^{\star})u_{l} & \leq\bm{M}_{l,\cdot}\bm{u}^{\star}+\big| z\lambda^{\star}u_{l}-\bm{M}_{l,\cdot}\bm{u}^{\star}\big|  \quad\text{for all }l>n/2.
+\end{align*}
+%
+This together with \eqref{eq:z-lambda-u-MU-bound-CD}, Lemma~\ref{lemma:M-ustar-lower-bound-CD} and $\lambda^{\star}>0$ yields that if
+%
+\begin{align}
+	\frac{\varepsilon\log n}{\sqrt{n}\log\frac{p(1-q)}{q(1-p)}}  > \frac{1}{\sqrt{n}} 
+	+  C \Big( \sqrt{p} + \frac{p\sqrt{\log n}}{\sqrt{n}(p-q)} + \frac{\sqrt{p}\log^{3/2}n}{n(p-q)} \Big), 
+	\label{eq:epsilon-condition-CD-inf-123}
+\end{align}
+%
+then it follows that
+%
+\[
+zu_{l}>0\quad\text{for all }1\leq l\leq\frac{n}{2},\quad\text{and}\quad zu_{l}<0\quad\text{for all }l>\frac{n}{2},
+\]
+%
+thus guaranteeing exact community recovery once the rounding procedure (based on the sign) is applied.  
+
+
+To finish up, it remains to validate Condition~\eqref{eq:epsilon-condition-CD-inf-123}. 
+Fixing $\varepsilon>0$ to be a constant, we make the following observations. 
+%
+\begin{itemize}
+	\item From the assumptions $\varepsilon \asymp 1$ and $p,q\asymp \frac{\log n}{n}$ (or $\alpha,\beta \asymp 1$), one has
+	%
+	\[
+		\frac{\varepsilon\log n}{\sqrt{n}\log\frac{p(1-q)}{q(1-p)}}=\frac{\varepsilon\log n}{\sqrt{n}\log\frac{(1+o(1))\alpha}{\beta}}
+		\asymp \frac{\log n}{\sqrt{n}}\gg \sqrt{p}+\frac{1}{\sqrt{n}}.
+	\]
+	\item Turning to the term $\frac{p\sqrt{\log n}}{\sqrt{n}(p-q)}$,   we  observe that 
+	%
+	\begin{align}
+		& \log\frac{p(1-q)}{q(1-p)}=\log\Big(1+\frac{p-q}{q(1-p)}\Big)\leq\frac{p-q}{q(1-p)}\leq\frac{2(\alpha-\beta)}{\beta}, \notag\\
+		& \qquad\quad \Longrightarrow \quad 
+		\frac{\varepsilon\log n}{\sqrt{n}\log\frac{p(1-q)}{q(1-p)}}\geq\frac{\varepsilon\log n}{2\sqrt{n}}\,\frac{\beta}{\alpha-\beta},
+		\label{eq:LB-CD-12345}
+	\end{align}
+	%
+	where in the last inequality of the  first line we have used the assumption $p=o(1)$ and hence $1/(1-p) \leq 2$. 
+	Given that $\varepsilon, \alpha,\beta \asymp 1$, it is guaranteed that
+	%
+	\[
+		\eqref{eq:LB-CD-12345} \gg \frac{\alpha\sqrt{\log n}}{\sqrt{n}(\alpha-\beta)}=\frac{p\sqrt{\log n}}{\sqrt{n}(p-q)} .
+	\]
+	% 
+	\item We then move on to the term $\frac{\sqrt{p}\log^{3/2}n}{n(p-q)}$. 
+	If $\alpha / \beta \leq 2$ and  $\beta \geq\frac{200C^{2}}{\varepsilon^{2}} \geq \frac{100C^{2}\alpha/\beta}{\varepsilon^{2}}$, then one  has $\beta \geq \frac{10C\sqrt{\alpha}}{\varepsilon}$ and hence
+	%
+	\[
+		\eqref{eq:LB-CD-12345} \geq\frac{5C\sqrt{\alpha}\log n}{\sqrt{n}(\alpha-\beta)}=\frac{5C\sqrt{p}\log^{3/2}n}{n(p-q)} .
+	\]
+	%
+	 In addition, if $\alpha / \beta > 2$, then it follows that
+	%
+	\begin{equation}
+		\frac{\sqrt{p}\log^{3/2}n}{n(p-q)}=\frac{\sqrt{\alpha}\log n}{\sqrt{n}(\alpha-\beta)}\leq\frac{2\sqrt{\alpha}\log n}{\sqrt{n}\alpha}=\frac{2\log n}{\sqrt{n\alpha}},
+		\label{eq:LB-CD-5678}
+	\end{equation}
+	%
+	where the inequality holds true since $\alpha - \beta > \alpha - \alpha/2 = \alpha / 2$. 
+	Using the basic inequality $\log x \leq \sqrt{x}$ further leads  to
+	%
+	\[
+		\frac{\varepsilon\log n}{\sqrt{n}\log\frac{p(1-q)}{q(1-p)}}\geq\frac{\varepsilon\log n}{\sqrt{n}\log\frac{2\alpha}{\beta}}
+		\geq\frac{\varepsilon\sqrt{\beta}\log n}{\sqrt{n}\sqrt{2\alpha}}\geq\frac{5C\sqrt{p}\log^{3/2}n}{n(p-q)}.
+	\]
+	%
+	Here, the first inequality holds since $p,q=o(1)$ and hence $\frac{1-q}{1-p}\leq 2$, 
+	whereas the last relation relies on \eqref{eq:LB-CD-5678} and holds with the proviso that $\beta\geq200C^{2}/\varepsilon^{2}$. 
+	
+ 
+\end{itemize}
+%
+The above calculations taken collectively establish Condition~\eqref{eq:epsilon-condition-CD-inf-123} under the assumptions of Theorem~\ref{thm:community-recovery-linf}, thus concluding the proof. 
+
+
+
+\begin{remark}
+	It is worth pointing out that the bound \eqref{eq:UsgnH-Ustar-bound-theorem-general} in Theorem \ref{thm:UsgnH-Ustar-MUstar-general} is not sufficiently tight when establishing this result. 
+	Instead, one needs to resort to the more refined bound \eqref{eq:UsgnH-MUstar-bound-theorem-general} in Theorem \ref{thm:UsgnH-Ustar-MUstar-general}, 
+	which allows us to sharpen the error bound by explicitly accounting for the first-order error term $(\bm{M}-\bm{M}^{\star})\bm{u}^{\star}$. 
+\end{remark}
+
+
+
+
+ 
+
+
+\subsection{Proof of auxiliary lemmas}
+\label{sec:proof-auxiliary-CD}
+
+Before embarking on the proof of Lemma~\ref{lemma:M-ustar-lower-bound-CD}, we first record non-asymptotic tail bounds concerning log-likelihood ratios and a sum of Bernoulli random variables, which make apparent the role of the squared Hellinger distance \citep{tsybakov2009nonparm}.
+%
+\begin{lemma}
+	\label{lemma:LLR-Hellinger}
+	Consider two distributions $P$ and $Q$ over a finite alphabet $\mathcal{Y}$, and suppose that $P(y)\neq 0$ for all $y\in \mathcal{Y}$. Generate an independent sequence $\{y_i\}_{1\leq i\leq n}$ obeying $y_i \sim P$. Then for any $\zeta\in \mathbb{R}$ one has
+	%
+\begin{equation}
+\mathbb{P}\left\{ \sum_{i=1}^{n}\log\frac{Q(y_{i})}{P(y_{i})}\geq-n\zeta\right\} \leq\exp\left(-n\Big[\mathsf{H}^2(P\,\|\,Q)-\frac{\zeta}{2}\Big]\right),
+\label{eq:prob-log-PQ-exp-Hel}
+\end{equation}
+%
+where $\mathsf{H}^2(P\,\|\,Q)$ is the squared Hellinger distance between $P$ and $Q$ defined in \eqref{eq:defn-Hellinger-PQ}.
+\end{lemma}
+%
+%
+\begin{lemma}
+\label{lem:sum-Bernoulli-CD}
+%
+Consider two sequences of independent random variables
+%
+\[
+z_{i}\sim\mathsf{Bern}(p),\qquad w_{i}\sim\mathsf{Bern}(q),\qquad1\leq i\leq n,
+\]
+%
+and suppose that $p>q$. For any $\xi\in \mathbb{R}$, it follows that
+%
+\begin{align*}
+\mathbb{P}\left\{ \sum_{i=1}^{n}(z_{i}-w_i) \leq n\xi\right\}  & \leq\exp\left(-n\Big[\mathsf{H}_{p,q}^{2}-\frac{\xi}{2}\log\frac{p(1-q)}{q(1-p)}\Big]\right) ,
+\end{align*}
+%
+where $\mathsf{H}_{p,q}^{2}  \coloneqq  \big(\sqrt{p}-\sqrt{q} \, \big)^{2}$.
+%
+%\begin{align}
+%	.
+%	\label{eq:defn-Hpq}
+%\end{align}
+% 
+\end{lemma}
+%
+In what follows, we first establish Lemmas~\ref{lemma:LLR-Hellinger} and \ref{lem:sum-Bernoulli-CD}, and then return to prove Lemma~\ref{lemma:M-ustar-lower-bound-CD}. 
+
+
+
+\paragraph{Proof of Lemma~\ref{lemma:LLR-Hellinger}.}
+Apply the Chernoff bound to yield 
+%
+\begin{align}
+ & \mathbb{P}\left\{ \sum_{i=1}^{n}\log\frac{Q(y_{i})}{P(y_{i})}\geq-n\zeta\right\} {\leq}\frac{\mathbb{E}_{y_{i}\sim P}\left[\exp\left(\frac{1}{2}\sum_{i=1}^{n}\log\frac{Q(y_{i})}{P(y_{i})}\right)\right]}{\exp(-n\zeta/2)} \notag\\
+ & \qquad \qquad\overset{(\mathrm{i})}{=}
+ %\frac{\prod_{i=1}^{n}\mathbb{E}_{y_{i}\sim P}\left[\exp\left(\frac{1}{2}\log\frac{Q(y_{i})}{P(y_{i})}\right)\right]}{\exp(-n\zeta/2)}
+ %= 
+ \frac{\left(\mathbb{E}_{y\sim P}\Big[\left(\frac{Q(y)}{P(y)}\right)^{1/2}\Big]\right)^{n}}{\exp(-n\zeta/2)},
+\label{eq:prob-log-PQ-UB}
+\end{align}
+%
+where 
+%(i) results from the Chernoff bound, and (ii) 
+(i) holds due to the i.i.d.~assumption of the $y_{i}$'s.  In addition,
+%It is seen from the definition of $P$ and $Q$ that
+%
+\begin{align}
+\mathbb{E}_{y\sim P}\left[\left(\frac{Q(y)}{P(y)}\right)^{1/2}\right] & =\sum_{y}P(y)\left(\frac{Q(y)}{P(y)}\right)^{1/2}=\sum_{y}\sqrt{P(y)Q(y)} \notag\\
+ & =1-\frac{1}{2}\sum_{y}\left(P(y)+Q(y)-2\sqrt{P(y)Q(y)}\right) \notag\\
+  & =1-\frac{1}{2}\sum_{y}\left( \sqrt{P(y)} - \sqrt{Q(y)} \right)^2 \notag\\
+ & =1-\mathsf{H}^2(P\,\|\,Q)\leq  \exp \big(-\mathsf{H}^2(P\,\|\,Q) \big),
+ \label{eq:P-Q-Hellinger-bound}
+\end{align}
+%
+where the second line follows since $\sum_yP(y) = \sum_yQ(y)=1$, and  the last line uses the definition \eqref{eq:defn-Hellinger-PQ} and the elementary inequality $1-x\leq \exp(-x)$. 
+Substituting \eqref{eq:P-Q-Hellinger-bound} into \eqref{eq:prob-log-PQ-UB} concludes the proof. 
+
+
+
+
+
+
+
+\paragraph{Proof of Lemma~\ref{lem:sum-Bernoulli-CD}.}
+
+Set  $y_i\coloneqq z_i - w_i$. The proof is built upon a mapping between $\sum_{i=1}^{n}y_{i}$ and a certain log-likelihood ratio. 
+Specifically, let us introduce two distributions $P$ and $Q$ supported on $\{1,0,-1\}$:
+%
+\[
+P(x)=\begin{cases}
+p(1-q),\quad & \text{if }x=1,\\
+q(1-p), & \text{if }x=-1,\\
+pq+(1-p)(1-q), \quad & \text{if }x=0,
+\end{cases} 
+%\qquad \text{and}
+\]
+% 
+%
+\[
+Q(x)=\begin{cases}
+q(1-p),\quad & \text{if }x=1,\\
+p(1-q), & \text{if }x=-1,\\
+pq+(1-p)(1-q), \quad & \text{if }x=0.
+\end{cases}
+\]
+%
+Apparently, $P$ (resp.~$Q$) corresponds to the distribution of $y_i$ (resp.~$-y_i$).  A key observation is that
+%
+\begin{align*}
+\sum_{i=1}^{n}\log\frac{Q(y_{i})}{P(y_{i})} & =\sum_{i=1}^{n}\left\{ \mathbbm1\{y_{i}=1\}\log\frac{q(1-p)}{p(1-q)}+\mathbbm1\{y_{i}=-1\}\log\frac{p(1-q)}{q(1-p)}\right\} \\
+ & =\sum_{i=1}^{n}y_{i}\log\frac{q(1-p)}{p(1-q)} ,
+\end{align*}
+%
+which relies on the fact that $y_i$ is supported on $\{1,0,-1\}$. 
+Recognizing that $\log\frac{p(1-q)}{q(1-p)}>0$ holds as long as
+$p>q$ (since $q(1-p)<p(1-q)$), we can further derive
+%
+\begin{align*}
+\mathbb{P}\left\{ \sum_{i=1}^{n}y_{i}\leq n\xi\right\}  & =\mathbb{P}\left\{ \frac{1}{\log\frac{p(1-q)}{q(1-p)}}\sum_{i=1}^{n}\log\frac{Q(y_{i})}{P(y_{i})}\geq-n\xi\right\} \\
+ & \leq\exp\left(-n\Big[\mathsf{H}^2(P\,\|\,Q)-\frac{\xi}{2}\log\frac{p(1-q)}{q(1-p)}\Big]\right),
+\end{align*}
+%
+where the last inequality comes from Lemma~\ref{lemma:LLR-Hellinger}. 
+From the constructions of $P$ and $Q$ and the definition \eqref{eq:defn-Hellinger-PQ} of $\mathsf{H}^2(P\,\|\,Q)$, it is easily seen that 
+%
+\begin{align*}
+\mathsf{H}^{2}(P\,\|\,Q) & =\Big(\sqrt{p(1-q)}-\sqrt{q(1-p)}\,\Big)^{2}
+	= \frac{\big(p-q\big)^{2}}{\big(\sqrt{p(1-q)}+\sqrt{q(1-p)}\,\big)^{2}}\\
+ & \geq\frac{\big(p-q\big)^{2}}{\big(\sqrt{p}+\sqrt{q}\,\big)^{2}}=\big(\sqrt{p}-\sqrt{q}\big)^{2} ,
+\end{align*}
+%
+thus concluding the proof. 
+
+
+
+
+
+
+\paragraph{Proof of Lemma~\ref{lemma:M-ustar-lower-bound-CD}.}
+
+Let us start by looking at the first entry of $\bm{M}\bm{u}^{\star}$. 
+It is seen from the construction \eqref{eq:M-data-matrix-SBM} that
+%
+\begin{align}
+\bm{M}_{1,\cdot}\bm{u}^{\star}=\bm{A}_{1,\cdot}\bm{u}^{\star}-\frac{p+q}{2}\big(\bm{1}^{\top}\bm{u}^{\star}\big)\bm{1}+pu_{1}^{\star}
+\geq \bm{A}_{1,\cdot}\bm{u}^{\star} ,
+%+ O\Big(\frac{1}{\sqrt{n}}\Big),
+	\label{eq:connection-M1u-A1u-CD}
+\end{align}
+%
+where we have used the fact that $\bm{1}^{\top}\bm{u}^{\star}=0$  and $u_1^{\star}>0$. 
+The expression  $\bm{u}^{\star} =\frac{1}{\sqrt{n}}  {\small
+\left[\begin{array}{c}
+\bm{1}_{n/2}\\
+-\bm{1}_{n/2}
+\end{array}\right] }$ admits the following decomposition
+%
+\begin{align}
+	\bm{A}_{1,\cdot}\bm{u}^{\star}
+%=\frac{1}{\sqrt{n}}\sum_{i=2}^{n/2}\big(A_{1,i}-A_{1,i+n/2}\big)+\frac{1}{\sqrt{n}}A_{1,n/2+1}
+	= \frac{1}{\sqrt{n}}\sum\nolimits_{i=1}^{n/2}\big(A_{1,i}-A_{1,i+n/2}\big) , 
+	\label{eq:A1ustar-decompose-CD}
+\end{align}
+%
+which can be controlled via Lemma~\ref{lem:sum-Bernoulli-CD}. 
+%Here and throughout, we denote by $\mathsf{Bern}(p)$  the Bernoulli distribution with mean $p$.
+
+
+
+Observe that $A_{1,i} \sim \mathsf{Bern}(p)$ for all $1< i\leq n/2$ and $A_{1,i} \sim \mathsf{Bern}(q)$ otherwise. Using the definitions of $z_i$ and $w_i$ in Lemma~\ref{lem:sum-Bernoulli-CD}, we obtain
+%
+\begin{align}
+ & \mathbb{P}\left\{ \sum\nolimits_{i=1}^{n/2}\big(A_{1,i}-A_{1,i+n/2}\big)\leq\frac{n\zeta}{2}-1\right\}  
+	\leq\mathbb{P}\left\{ \sum\nolimits_{i=1}^{n/2}\big(z_{i}-w_{i}\big)\leq\frac{n\zeta}{2}\right\}  \notag\\
+	& \qquad \leq\exp\left(-\frac{n}{2}\Big[\mathsf{H}_{p,q}^{2}-\frac{\zeta}{2}\log\frac{p(1-q)}{q(1-p)}\Big]\right) \leq \frac{1}{n^{1+\delta}}
+	\label{eq:A-sum-complicated-CD}
+\end{align}
+%
+for some $\delta >0$, where the first inequality follows since $A_{1,1}=0\leq z_1+1$ (so that $A_{1,1}-A_{1,n/2+1}$ is stochastically dominated by $z_1 - w_1$), and the last inequality holds as long as
+%
+\begin{equation}
+	\mathsf{H}_{p,q}^{2}-\frac{\zeta}{2}\log\frac{p(1-q)}{q(1-p)}
+	\geq\frac{2(1+\delta)\log n}{n} ,
+	\label{eq:H-pq-lower-bound-123}
+\end{equation}
+which we shall ensure at the end of the proof. Substituting \eqref{eq:A-sum-complicated-CD} into \eqref{eq:A1ustar-decompose-CD} and \eqref{eq:connection-M1u-A1u-CD} yields
+\begin{align*}
+\mathbb{P}\left\{ \bm{M}_{1,\cdot}\bm{u}^{\star}\leq \frac{n\zeta-2}{2\sqrt{n}} \right\}  
+%& \leq\mathbb{P}\left\{ \bm{A}_{1,\cdot}\bm{u}^{\star}\leq\varepsilon_{0}-1/\sqrt{n}\right\} \\
+ & \leq \mathbb{P}\left\{ \bm{A}_{1,\cdot}\bm{u}^{\star}\leq\frac{n\zeta-2}{2\sqrt{n}} \right\} \leq\frac{1}{n^{1+\delta}}.
+\end{align*}
+%
+%which combined with \eqref{eq:connection-M1u-A1u-CD} leads to
+% and the assumption ${1}/{\lambda^{\star}} = o(\varepsilon_0)$ leads to
+%
+%\[
+%	\mathbb{P}\left\{ \bm{M}_{1,\cdot}\bm{u}^{\star} \leq  {\varepsilon_0}  \right\} \leq
+%	\mathbb{P}\left\{ \bm{A}_{1,\cdot}\bm{u}^{\star} \leq  {\varepsilon_0}   \right\} 
+%	\leq\frac{1}{n^{1+\delta}}.
+%\]
+%
+Repeating the preceding analysis for $ \bm{M}_{l,\cdot}\bm{u}^{\star}$ with other  $l$'s  and taking the union bound, we see that with probability at least $1- n^{-\delta}$,
+%
+\begin{subequations}
+	\label{eq:M-ustar-bound-CD}
+\begin{align}
+%\begin{split}
+% & \frac{1}{\lambda^{\star}}\bm{A}_{l,\cdot}\bm{u}^{\star}\geq\frac{\sqrt{n}\zeta}{4\lambda^{\star}}\ \qquad\,\text{for all }l\leq\frac{n}{2}\\
+% & \frac{1}{\lambda^{\star}}\bm{A}_{l,\cdot}\bm{u}^{\star}\leq-\frac{\sqrt{n}\zeta}{4\lambda^{\star}}\ \ \quad \text{for all }l>\frac{n}{2}
+%\end{split}
+	\bm{M}_{l,\cdot}\bm{u}^{\star} &\geq \frac{n\zeta-2}{2\sqrt{n}}
+	%\frac{\sqrt{n}\zeta}{4\lambda^{\star}}
+	\quad  &&\text{if } l\leq {n}/{2} \\
+	%\quad
+	%\text{and}\quad
+	\bm{M}_{l,\cdot}\bm{u}^{\star}
+	&\leq - \frac{n\zeta-2}{2\sqrt{n}}
+	%-\frac{\sqrt{n}\zeta}{4\lambda^{\star}}
+	\quad  &&\text{if } l> n/2
+	%\big)
+\end{align}
+\end{subequations}
+%
+%\begin{equation}
+%\begin{array}{cc}
+%	& \frac{1}{\lambda^{\star}}\bm{M}_{l,\cdot}\bm{u}^{\star}  \geq\frac{\sqrt{n}\zeta-2}{2\lambda^{\star}},\ \quad~~\text{}l\leq\frac{n}{2}\\
+%	& \frac{1}{\lambda^{\star}}\bm{M}_{l,\cdot}\bm{u}^{\star}  \leq-\frac{\sqrt{n}\zeta-2}{2\lambda^{\star}},\ \ ~~\text{}l>\frac{n}{2}
+%\end{array}
+%\end{equation}
+%
+hold simultaneously for all $1\leq l\leq n$. 
+
+
+
+Finally, it remains to ensure satisfaction of \eqref{eq:H-pq-lower-bound-123}. As it turns out, if the condition \eqref{eq:H-pq-lower-bound-lemma}
+holds, then it suffices to take $\delta\leq \varepsilon / 2$ and 
+$\zeta=\frac{2\varepsilon\log n}{n\log\frac{p(1-q)}{q(1-p)}}$. This completes the proof.  
+
+

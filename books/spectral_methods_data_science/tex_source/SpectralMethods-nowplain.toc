@@ -1,0 +1,459 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {1}Introduction}{2}{chapter.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1.1}Motivating applications}{3}{section.1.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Clustering.}{3}{paragraph*.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Principal component analysis (PCA).}{4}{paragraph*.6}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Matrix recovery in the face of missing data.}{5}{paragraph*.8}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Ranking from pairwise comparisons.}{6}{paragraph*.10}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{A unified theme.}{7}{paragraph*.11}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1.2}A modern statistical perspective}{7}{section.1.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1.3}Organization}{8}{section.1.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1.4}What is not here and complementary readings}{9}{section.1.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1.5}Notation}{9}{section.1.5}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {2}Classical spectral analysis: $\ell _2$ perturbation theory}{11}{chapter.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.1}Preliminaries: Basics of matrix analysis}{11}{section.2.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Unitarily invariant norms.}{11}{paragraph*.12}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Perturbation bounds for eigenvalues and singular values.}{12}{paragraph*.13}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.2}Preliminaries: Distance and angles between subspaces}{12}{section.2.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.2.1}Setup and notation}{12}{subsection.2.2.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.2.2}Distance metrics and principal angles}{13}{subsection.2.2.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Global rotational ambiguity.}{13}{paragraph*.14}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Valid choices of distance and angles.}{13}{paragraph*.15}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.2.3}Intimate connections between the distance metrics}{14}{subsection.2.2.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.2.4}The distance metrics of choice in this monograph}{15}{subsection.2.2.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.3}Perturbation theory for eigenspaces}{15}{section.2.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.3.1}Setup and notation}{15}{subsection.2.3.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.3.2}A warm-up example}{15}{subsection.2.3.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.3.3}The Davis-Kahan sin$\bm {\Theta }$ theorem}{16}{subsection.2.3.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.3.4}Proof of the Davis-Kahan sin$\bm {\Theta }$ theorem}{17}{subsection.2.3.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Proof of Theorem \ref {thm:davis-kahan}.}{17}{paragraph*.16}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Proof of Corollary \ref {cor:davis-kahan-conclusion-corollary}.}{18}{paragraph*.17}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.4}Perturbation theory for singular subspaces}{19}{section.2.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.4.1}Setup and notation}{19}{subsection.2.4.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.4.2}Wedin's sin$\bm {\Theta }$ theorem}{19}{subsection.2.4.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.4.3}Proof of the Wedin sin$\bm {\Theta }$ theorem}{20}{subsection.2.4.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.5}Eigenvector perturbation for probability transition matrices}{21}{section.2.5}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.5.1}Background, setup and notation}{21}{subsection.2.5.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.5.2}Perturbation of the leading eigenvector}{22}{subsection.2.5.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.5.3}Proof of Theorem\nobreakspace {}\ref {thm:DK_asym}}{22}{subsection.2.5.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.6}Appendix: Proofs of auxiliary lemmas in Section\nobreakspace {}\ref {sec:preliminary-distance-angles}}{24}{section.2.6}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.6.1}Proof of Lemma \ref {lemma:connection-algebraic-geometric}}{24}{subsection.2.6.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.6.2}Proof of Lemma \ref {prop:unitary-norm-property}}{24}{subsection.2.6.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.6.3}Proof of Lemma\nobreakspace {}\ref {prop:rotation-UR}}{25}{subsection.2.6.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{The spectral norm upper bound.}{25}{paragraph*.18}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{The spectral norm lower bound.}{25}{paragraph*.19}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{The Frobenius norm upper bound.}{26}{paragraph*.20}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{The Frobenius norm lower bound.}{27}{paragraph*.21}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.7}Notes}{27}{section.2.7}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Additional resources on matrix perturbation theory.}{27}{paragraph*.22}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Extensions.}{27}{paragraph*.23}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {3}Applications of $\ell _2$ perturbation theory to data science}{28}{chapter.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.1}Preliminaries: Matrix tail bounds}{28}{section.3.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{The (truncated) matrix Bernstein inequality}{28}{subsubsection*.24}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Spectral norm of random matrices with independent entries}{30}{subsubsection*.25}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.2}Low-rank matrix denoising}{31}{section.3.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.2.1}Problem formulation and algorithm}{31}{subsection.3.2.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.2.2}Performance guarantees}{31}{subsection.3.2.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Statistical accuracy of the spectral estimate.}{31}{paragraph*.26}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Tightness and optimality.}{32}{paragraph*.27}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Additional useful results: eigenvalue and matrix estimation.}{32}{paragraph*.28}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.2.3}Proof of the inequality \textup {\hbox {\mathsurround \z@ \normalfont (\ignorespaces \ref {eq:noise-matrix-E-bound-denoising}\unskip \@@italiccorr )}} on $\|\bm {E}\|$}{32}{subsection.3.2.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.3}Principal component analysis and factor models}{33}{section.3.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.3.1}Problem formulation and assumptions}{33}{subsection.3.3.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.3.2}Algorithm}{34}{subsection.3.3.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.3.3}Performance guarantees}{34}{subsection.3.3.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Linear vs.\nobreakspace {}quadratic dependency on the noise level.}{35}{paragraph*.29}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Tightness and optimality.}{35}{paragraph*.30}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Proof of Theorem\nobreakspace {}\ref {thm:perturbation-bound-PCA-l2}.}{36}{paragraph*.31}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.3.4}Proof of Lemma\nobreakspace {}\ref {lemma:perturbation-size-E-PCA}}{36}{subsection.3.3.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.4}Graph clustering and community recovery}{37}{section.3.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.4.1}Problem formulation and assumptions}{38}{subsection.3.4.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.4.2}Algorithm: spectral clustering}{39}{subsection.3.4.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.4.3}Performance guarantees: almost exact recovery}{40}{subsection.3.4.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Proof of Theorem\nobreakspace {}\ref {thm:community-detection-weak}.}{41}{paragraph*.33}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.4.4}Proof of Lemma\nobreakspace {}\ref {lemma:E-spectral-norm-SBM}}{41}{subsection.3.4.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.5}Clustering in Gaussian mixture models}{42}{section.3.5}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.5.1}Gaussian mixture models and assumptions}{42}{subsection.3.5.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Model and goal.}{42}{paragraph*.34}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Assumptions.}{42}{paragraph*.35}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.5.2}Algorithm and rationale}{43}{subsection.3.5.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Motivation: spectral structure of the data matrix.}{43}{paragraph*.36}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Algorithm: spectral clustering followed by $k$-means.}{43}{paragraph*.37}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Further explanations.}{44}{paragraph*.38}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.5.3}Performance guarantees}{45}{subsection.3.5.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Proof of Theorem\nobreakspace {}\ref {thm:GMM-performance}.}{46}{paragraph*.39}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.5.4}Proof of auxiliary lemmas}{48}{subsection.3.5.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Proof of Lemma\nobreakspace {}\ref {lem:perturbation-norm-Gaussian-mixture}.}{48}{paragraph*.40}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Proof of Lemma\nobreakspace {}\ref {lemma:k-means-GMM} (analysis for $k$-means).}{48}{paragraph*.41}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Proof of Claim\nobreakspace {}\ref {claim:deviation-S-GMM}.}{52}{paragraph*.42}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.6}Ranking from pairwise comparisons}{53}{section.3.6}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.6.1}The Bradley-Terry-Luce model and assumptions }{53}{subsection.3.6.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Latent preference scores.}{53}{paragraph*.43}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Pairwise comparisons.}{53}{paragraph*.44}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Goal. }{54}{paragraph*.45}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.6.2}A spectral ranking algorithm }{54}{subsection.3.6.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.6.3}Performance guarantees}{55}{subsection.3.6.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.6.4}Proof of auxiliary lemmas }{57}{subsection.3.6.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Proof of Lemma \ref {lemma:ranking-gap}.}{57}{paragraph*.46}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Proof of Lemma \ref {lemma:ranking-noise}.}{58}{paragraph*.47}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.7}Phase retrieval and solving quadratic systems of equations}{59}{section.3.7}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.7.1}Problem formulation and assumptions}{59}{subsection.3.7.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.7.2}Algorithm}{60}{subsection.3.7.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Derivation of \textup {\hbox {\mathsurround \z@ \normalfont (\ignorespaces \ref {eq:mtx_LLN}\unskip \@@italiccorr )}}.}{61}{paragraph*.49}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.7.3}Performance guarantees}{61}{subsection.3.7.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Proof of Theorem\nobreakspace {}\ref {thm:PR-L2-performance}.}{61}{paragraph*.50}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.7.4}Extensions}{62}{subsection.3.7.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Improving sample efficiency}{62}{subsubsection*.51}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Why is the algorithm in Section\nobreakspace {}\ref {sec:pr-alg} suboptimal?}{63}{paragraph*.52}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Spectral methods with data preprocessing.}{63}{paragraph*.53}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Robustness vis-\`a-vis adversarial outliers}{66}{subsubsection*.55}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.7.5}Proof of auxiliary lemmas}{66}{subsection.3.7.5}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Proof of Lemma\nobreakspace {}\ref {lemma:pr-noise-bound}.}{66}{paragraph*.56}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.8}Matrix completion}{68}{section.3.8}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.8.1}Problem formulation and assumptions}{68}{subsection.3.8.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Random sampling.}{69}{paragraph*.58}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Incoherence conditions.}{69}{paragraph*.59}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Additional notation.}{70}{paragraph*.60}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.8.2}Algorithm}{70}{subsection.3.8.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.8.3}Performance guarantees}{71}{subsection.3.8.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.8.4}Proof of auxiliary lemmas}{72}{subsection.3.8.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Proof of Lemma\nobreakspace {}\ref {claim:mu-incoherence}.}{72}{paragraph*.61}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Proof of Lemma\nobreakspace {}\ref {lemma:mc-noise-bound}.}{72}{paragraph*.62}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.9}Tensor completion}{73}{section.3.9}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.9.1}Problem formulation and assumptions}{74}{subsection.3.9.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Notation.}{74}{paragraph*.64}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Models and assumptions.}{74}{paragraph*.65}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.9.2}Algorithm}{75}{subsection.3.9.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.9.3}Performance guarantees}{76}{subsection.3.9.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.9.4}Proof of auxiliary lemmas}{77}{subsection.3.9.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Proof of Lemma\nobreakspace {}\ref {lem:size-E-TC}.}{77}{paragraph*.66}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Proof of Lemma\nobreakspace {}\ref {lemma:spectrum-Astar-AstarT-TC}.}{80}{paragraph*.67}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Proof of Lemma\nobreakspace {}\ref {lem:size-W-Wlift-TC}.}{81}{paragraph*.68}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.10}Notes}{82}{section.3.10}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{PCA, factor models and covariance estimation.}{83}{paragraph*.69}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Applications of PCA in statistical and econometric modeling.}{83}{paragraph*.70}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Graph clustering and community recovery.}{83}{paragraph*.71}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Gaussian mixture models.}{84}{paragraph*.72}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Ranking from pairwise comparisons.}{84}{paragraph*.73}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Phase retrieval.}{85}{paragraph*.74}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Matrix completion.}{85}{paragraph*.75}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Tensor completion and estimation.}{86}{paragraph*.76}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{An extensive but non-exhaustive list of other applications.}{86}{paragraph*.77}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {4}Fine-grained analysis: $\ell _{\infty }$ and $\ell _{2,\infty }$ perturbation theory}{88}{chapter.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.1}Leave-one-out analysis: An illustrative example}{89}{section.4.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.1.1}Setup and algorithm}{89}{subsection.4.1.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.1.2}$\ell _{\infty }$ performance guarantees}{89}{subsection.4.1.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.1.3}Key ingredient and intuition: Leave-one-out estimates}{90}{subsection.4.1.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Construction of leave-one-out estimates.}{90}{paragraph*.78}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Intuition.}{90}{paragraph*.80}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.1.4}Leave-one-out analysis}{91}{subsection.4.1.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Preparation: what we have learned from $\ell _2$ perturbation theory}{91}{subsubsection*.81}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Step 1: bounding the proximity of leave-one-out $\&$ true estimates}{92}{subsubsection*.82}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Step 2: analyzing leave-one-out estimates}{93}{subsubsection*.83}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Step 3: putting all pieces together}{93}{subsubsection*.84}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.2}$\ell _{2,\infty }$ eigenspace perturbation under independent noise}{94}{section.4.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.2.1}Setup and notation}{94}{subsection.4.2.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Ground truth.}{94}{paragraph*.85}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Observed data.}{94}{paragraph*.86}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Noise assumptions.}{94}{paragraph*.87}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Goal and algorithm.}{95}{paragraph*.88}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.2.2}$\ell _{2,\infty }$ and $\ell _{\infty }$ theoretical guarantees}{95}{subsection.4.2.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{De-localization of estimation errors.}{96}{paragraph*.89}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{First-order approximation.}{96}{paragraph*.90}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Entrywise estimation errors.}{96}{paragraph*.91}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Leave-one-out analysis.}{97}{paragraph*.92}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.3}$\ell _{2,\infty }$ singular subspace perturbation under independent noise}{97}{section.4.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.3.1}Setup and notation}{97}{subsection.4.3.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Ground truth.}{97}{paragraph*.93}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Key parameters.}{97}{paragraph*.94}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Observations and noise assumptions. }{97}{paragraph*.95}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Goal and algorithm.}{98}{paragraph*.96}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.3.2}$\ell _{2,\infty }$ and $\ell _{\infty }$ theoretical guarantees}{98}{subsection.4.3.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.4}Application: Entrywise guarantees for matrix completion}{98}{section.4.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.5}Application: Exact community recovery}{99}{section.4.5}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.5.1}Performance guarantees: Exact recovery}{100}{subsection.4.5.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.5.2}Proof of Theorem\nobreakspace {}\ref {thm:community-recovery-linf}}{102}{subsection.4.5.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.5.3}Proof of auxiliary lemmas}{103}{subsection.4.5.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Proof of Lemma\nobreakspace {}\ref {lemma:LLR-Hellinger}.}{104}{paragraph*.98}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Proof of Lemma\nobreakspace {}\ref {lem:sum-Bernoulli-CD}.}{104}{paragraph*.99}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Proof of Lemma\nobreakspace {}\ref {lemma:M-ustar-lower-bound-CD}.}{105}{paragraph*.100}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.6}Distributional theory and uncertainty quantification}{106}{section.4.6}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.6.1}Entrywise distributional guarantees}{106}{subsection.4.6.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.6.2}Inference and uncertainty quantification}{108}{subsection.4.6.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.7}Application: Confidence intervals for matrix completion}{109}{section.4.7}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Model: noisy matrix completion.}{110}{paragraph*.101}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Computing entrywise confidence intervals.}{110}{paragraph*.102}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Performance guarantees and implications.}{110}{paragraph*.103}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Proof of Theorem\nobreakspace {}\ref {thm:CI-noisy-matrix-completion}.}{111}{paragraph*.105}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.8}Appendix A: Proof of Theorem\nobreakspace {}\ref {thm:UsgnH-Ustar-MUstar-general}}{113}{section.4.8}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.8.1}Construction of leave-one-out auxiliary estimates}{113}{subsection.4.8.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.8.2}Preliminary facts}{114}{subsection.4.8.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.8.3}Leave-one-out analysis}{115}{subsection.4.8.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Step 1: decomposing the $\ell _{2,\infty }$ estimation error of $\bm {U}$}{116}{subsubsection*.106}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Step 2: bounding $\|\bm {E} (\bm {U}\bm {H}-\bm {U}^{\star }) \|_{2,\infty }$ via leave-one-out analysis}{117}{subsubsection*.107}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Step 2.1: a convenient decomposition.}{117}{paragraph*.108}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Step 2.2: the proximity of $\bm {U}\bm {H}$ and $\bm {U}^{(l)}\bm {H}^{(l)}$.}{117}{paragraph*.109}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Step 2.3: bounding $\|\bm {E}_{l,\cdot } (\bm {U}^{(l)}\bm {H}^{(l)}-\bm {U}^{\star } ) \|_{2}$.}{118}{paragraph*.110}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Step 2.4: combining the above bounds.}{119}{paragraph*.111}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Step 3: bounding $\|\bm {M}^{\star } (\bm {U}\bm {H}-\bm {U}^{\star } ) \|_{2,\infty }$}{119}{subsubsection*.112}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Step 4: putting all pieces together}{120}{subsubsection*.113}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.8.4}Proof of auxiliary lemmas}{120}{subsection.4.8.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Proof of Lemma\nobreakspace {}\ref {lemma:general-noise-bound}.}{120}{paragraph*.114}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Proof of Lemma\nobreakspace {}\ref {lem:preliminary-result-general-iid}.}{121}{paragraph*.115}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Proof of Lemma\nobreakspace {}\ref {lem:H-property-summary-general}.}{121}{paragraph*.116}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Proof of Lemma\nobreakspace {}\ref {lem:UH-MUstar-diff-decompose}.}{122}{paragraph*.117}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Proof of Lemma\nobreakspace {}\ref {lem:UH-sequence-bounds-E123}.}{123}{paragraph*.118}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.9}Appendix B: Proof of Corollary\nobreakspace {}\ref {cor:entrywise-error-general}}{124}{section.4.9}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Step 1: bounding $\gamma _1$}{124}{subsubsection*.119}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Step 2: bounding $\gamma _2$}{125}{subsubsection*.120}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Step 3: putting all this together}{126}{subsubsection*.121}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Proof of the claim \textup {\hbox {\mathsurround \z@ \normalfont (\ignorespaces \ref {eq:claim-Utop-E-Ustar-spectral-norm}\unskip \@@italiccorr )}}}{126}{subsubsection*.122}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.10}Appendix C: Proof of Theorem\nobreakspace {}\ref {thm:2-inf-asymm}}{127}{section.4.10}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{A symmetrization trick. }{127}{paragraph*.123}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Verifying conditions. }{127}{paragraph*.124}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{$\ell _{2,\infty }$ and $\ell _{\infty }$ guarantees. }{128}{paragraph*.125}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.11}Appendix D: Proof of Theorem\nobreakspace {}\ref {thm:matrix-distribution-complete}}{129}{section.4.11}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.11.1}Proof outline}{129}{subsection.4.11.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.11.2}Proof of Lemma\nobreakspace {}\ref {thm:matrix-distribution}}{130}{subsection.4.11.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.11.3}Proof of Lemma\nobreakspace {}\ref {lem:normality-spectral}}{131}{subsection.4.11.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.11.4}Proof of Lemma\nobreakspace {}\ref {lem:bound-Delta1-Delta2}}{134}{subsection.4.11.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.12}Appendix E: Proof of Theorem\nobreakspace {}\ref {thm:CI-general}}{134}{section.4.12}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.12.1}Proof for Lemma\nobreakspace {}\ref {lem:variance-estimation-guarantee}}{135}{subsection.4.12.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Step 1: show that $\setbox \z@ \hbox {\mathsurround \z@ $\textstyle v$}\mathaccent "0365{v}_{i,j}\approx {v}^{\star }_{i,j}$}{136}{subsubsection*.126}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Step 2: show that $\setbox \z@ \hbox {\mathsurround \z@ $\textstyle v$}\mathaccent "0362{v}_{i,j}\approx \setbox \z@ \hbox {\mathsurround \z@ $\textstyle v$}\mathaccent "0365{v}_{i,j}$}{136}{subsubsection*.127}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Step 3: combining the above bounds}{138}{subsubsection*.128}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.13}Notes}{138}{section.4.13}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{Leave-one-out analysis.}{138}{paragraph*.129}%
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{$\ell _{\infty }$ and $\ell _{2,\infty }$ perturbation theory.}{139}{paragraph*.130}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {5}Concluding remarks and open problems}{141}{chapter.5}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{Acknowledgements}{143}{chapter*.131}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{References}{144}{chapter*.132}%

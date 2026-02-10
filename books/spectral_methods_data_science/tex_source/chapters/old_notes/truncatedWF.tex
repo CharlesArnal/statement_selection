@@ -1,0 +1,99 @@
+
+\section{Truncated spectral method for sample efficiency} \label{sec:improved-spectral-truncated}
+
+The generic recipe for spectral methods described in the previous chapters works well when one has  sufficient samples compared to the underlying signal dimension. It might not be effective though if the sample complexity is on the order of  the information-theoretic limit. 
+
+In what follows, we use phase retrieval, discussed in Section~\ref{sec:phase_retrieval}, to demonstrate the underlying issues and how to address them\footnote{Strategies of similar spirit have been proposed for other problems; see, e.g.,~\citep{keshavan2010matrix} for matrix completion. }. Recall that Theorem~\ref{thm:PR-L2-performance} requires a sample complexity $m \gtrsim n  \log^3 n$, which is a few logarithmic factor larger than the  signal dimension $n$.  
+%For matrix completion, we assume the sampling probability $p > \log^3 n/ n$ in Theorem~\ref{thm:spectral_MC}.
+%
+What happens if we only have access to $m \asymp n$ samples, which is the information-theoretic limit (order-wise) for phase retrieval? In this more challenging regime, it turns out that we have to modify the standard recipe by applying appropriate preprocessing before forming the surrogate matrix $\bm{M}$ in \eqref{eq:D_PR_org}.
+
+
+We start by explaining why the surrogate matrix $\bm{M}$ in \eqref{eq:D_PR_org} for phase retrieval must be suboptimal in terms of sample complexity. For all $1 \le j \le m$,
+\begin{equation*}
+	\norm{\bm{M}} \ge \frac{\va_j^\top \bm{M} \va_j}{\va_j^\top \va_j}=  \frac{1}{m} \sum_{i=1}^m y_i \frac{(\va_i^\top \va_j)^2}{\va_j^\top \va_j} \geq \frac{1}{m}  y_j  \| \va_j \|_2^2.
+\end{equation*}
+%
+In particular, taking $j = i^\ast  = \underset{{1 \le i \le m}}{\arg \max} \ y_i$ gives us
+\begin{equation}\label{eq:bound_id2}
+	\norm{\bm{M}} \ge \frac{(\max_i y_i) \| \va_{i^\ast} \|_2^2}{m}.
+\end{equation}
+Under the Gaussian design, $\set{y_i / \| \vxp \|_2^2}$ is a collection of i.i.d.~$\chi^2$ random variables with 1 degree of freedom. It follows from well-known estimates in extreme value theory \citep{Ferguson:1996} that 
+\[
+\max_{1\le i \le m} \, y_i \approx 2\|\vxp\|_2^2 \log m,\qquad \text{as}\; m \to \infty.
+\] 
+Meanwhile, note that $\| \va_{i^\ast} \|_2^2  \approx n$ for $n$ sufficiently large. It follows from \eqref{eq:bound_id2} that
+\begin{equation}\label{eq:PR_sc}
+	\norm{\bm{M}} \ge \big(1+o(1)\big)  \frac{ n \log m}{  m} \|\vxp\|_2^2  .
+\end{equation}
+%
+
+%These estimates can be made precise as follows.
+%\begin{lemma}\label{lemma:T_id}
+%Suppose the sensing vectors $\set{\va_i}$ are drawn from the i.i.d. Gaussian distribution. Then
+%\[
+%\norm{\mD - \mathbb{E}[\mD]} > \norm{\vxp}^2 (n \log m) / m - 2 \norm{\vxp}^2  - 1
+%\]
+%with probability at least $1 - \mathcal{O}(1/n^2)$.
+%\end{lemma}
+
+%Recall that $\mathbb{E}[\bm{Y}] = \vxp \vxp^\top + \| \vxp\|_2^2 \boldsymbol{I}_n$.  Its spectral norm is bounded and its leading eigenvector is exactly the true object $\vxp$. Our goal is to make sure the noisy matrix $\bm{Y}$ is close to $\EE[\bm{Y}]$ so that the principal eigenvector of $\bm{Y}$ stays close to that of $\EE[\bm{Y}]$. 
+% = \vxp \vxp^\top + \| \vxp\|_2^2 \boldsymbol{I}_n
+
+Recall that $\mathbb{E}[\bm{M}] = 2 \vxp \vxp^\top +  \| \vxp\|_2^2 \boldsymbol{I}_n$ has a bounded spectral norm, then \eqref{eq:PR_sc} implies that, to keep the deviation between $\bm{M}$ and $\mathbb{E}[\bm{M}]$ well-controlled, we must at least have
+\[
+\frac{n \log m}{ m} \lesssim 1.
+\]
+This condition, however, cannot be satisfied when we have linear sample complexity $m \asymp  n$. This explains why we need a sample complexity $m \gg n \log n$ in Theorem~\ref{thm:PR-L2-performance}. 
+%Indeed, in \cite{netrapalli2013phaseAM}, the authors established performance guarantees for the spectral method by assuming $m =  c \cdot n \log^3 n$ (for some sufficiently large $c$), and this requirement was later reduced to $m = c \cdot n \log n$ in \cite{candes2015phase}. 
+
+The above diagnosis also suggests an easy fix: since the main culprit lies in the fact that $\max_i y_i$ is unbounded (as $m \to \infty$), we can apply a preprocessing function $\mathcal{T}(\cdot)$ to $y_i$ to keep the quantity bounded. Indeed, this is the key idea behind the {\em truncated spectral method} proposed by \cite{chen2015solving}, in which the surrogate matrix is modified as
+%
+\begin{equation}
+	\label{eq:D_PR_T}
+	\bm{M}_{\mathcal{T}} := \frac{1}{m} \sum_{i=1}^m \mathcal{T}(y_i) \va_i \va_i^\top,
+\end{equation} 
+%
+where 
+\begin{equation}\label{eq:trimming}
+\mathcal{T}(y) := y \charfn_{\set{\abs{y} \le  \frac{\gamma}{m} \sum_{i=1}^m y_i}}
+\end{equation}
+for some predetermined truncation threshold $\gamma$. The initial point $\bm{x}_0$ is then formed by scaling the leading eigenvector of $\bm{M}_{\mathcal{T}}$ to have roughly the same norm of $\bx_{\star}$, which can be estimated by $\overline{y} =\frac{1}{m} \sum_{i=1}^m y_i $. This is essentially performing a trimming operation, removing any entry of $y_i$ that bears too much influence on the leading eigenvector.  The trimming step turns out to be very effective, allowing one to achieve order-wise optimal sample complexity. The following theorem is due to \cite{chen2015solving}. 
+%
+%\begin{align}
+%	\label{eq:init-spectral-proc}
+%	\bm{x}_0 = \sqrt{\lambda}\bm{u},
+%\end{align}
+%
+%where $\lambda$ and $\bm{u}$ are the leading eigenvalue and eigenvector of $\bm{Y}_{\mathcal{T}}$, respectively. 
+
+
+%
+\begin{theorem}[$\mathsf{Truncated~spectral~method~for~phase~retrieval}$]
+	\label{thm:truncated-PR}
+	Consider phase retrieval in Section~\ref{sec:phase_retrieval}. Fix any $\zeta > 0$, and suppose $m \ge c_0 n $ for some sufficiently large constant $c_0>0$.  Then the truncated spectral estimate obeys
+\[
+	\mathsf{dist}(\bm{x},\bm{x}^{\star})  \le \zeta \| \vxp \|_2
+\]
+with probability at least $1 - O(n^{-2})$.
+\end{theorem}
+
+Subsequently, several different designs of the preprocessing function have been proposed in the literature. One example was given in \cite{wang2017solving}, where
+\begin{equation}\label{eq:subset}
+	\mathcal{T}(y)  = \charfn_{\set{y \ge \gamma  }},
+\end{equation}
+%
+where $\gamma$ is the $(cm)$-largest value (e.g.~$c=1/6$) in $\{ y_j \}_{1\le j\le m}$. In words, this method only employs a subset of design vectors that are better aligned with the truth $\bm{x}_{\star}$.  By properly tuning the parameter $c$, this truncation scheme performs competitively as the scheme in \eqref{eq:trimming}.
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=0.8\textwidth]{figures/stanford} \\
+(a) ground truth \\
+\includegraphics[width=0.8\textwidth]{figures/stanford_quad_init_WF} \\
+(b) initialization via the vanilla spectral method \\
+\includegraphics[width=0.8\textwidth]{figures/stanford_quad_init_TWF}  \\
+(c) initialization via the truncated spectral method
+\end{center}
+	\caption{Illustration of signal recovery using the vanilla spectral method and the truncated spectral method in phase retrieval. Here, \textbf{add parameter settings}. } \label{fig:phase_retrieval_twf}
+\end{figure}
+

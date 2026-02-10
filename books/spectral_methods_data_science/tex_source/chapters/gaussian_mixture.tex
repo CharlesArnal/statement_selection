@@ -1,0 +1,1042 @@
+\section{Clustering in Gaussian mixture models}
+\label{sec:Gaussian-mixture}
+
+
+% We now revisit an important task in unsupervised learning---clustering, which aims to group unlabeled data points into a few clusters (so that the data within the same cluster share similar characteristics). 
+
+
+
+This section is also concerned with clustering, with the aim of grouping unlabeled data points into a few clusters (so that the data within the same cluster share similar characteristics). 
+In contrast to the graph clustering setting in Section~\ref{sec:community-detection} where only pairwise measurements are available, this section  assumes direct access to data samples for each individual. Spectral methods---possibly with the aid of subsequent refinement like $k$-means---continue to be remarkably effective  for this setting,  achieving practical success in, say, image segmentation \citep{shi2000normalized}, text separation \citep{reynolds1995robust}, climate modeling \citep{lin2017statistical}, and heterogeneity modeling in precision medicine and marketing \citep{fan2014challenges}. Motivated by the empirical successes, understanding the theoretical properties of spectral clustering has garnered growing attention recently. In particular, Gaussian mixture models emerge as a succinct model of attack,  providing elegant yet intuitive abstractions to pivotal quantities that dictate the feasibility of  spectral clustering.
+
+
+%
+
+\subsection{Gaussian mixture models and assumptions}
+\label{sec:setup-gaussian-mixture}
+
+\paragraph{Model and goal.}
+Imagine that we have collected $n$ independent samples $\{\bm{x}_{i}\}_{1\leq i\leq n}$,
+generated from a mixture of $r$ spherical Gaussians with respective centers $\bm{\theta}_{1}^{\star},\cdots,\bm{\theta}_{r}^{\star}\in\mathbb{R}^{p}$.
+More precisely, for each sample vector $\bm{x}_{i}\in\mathbb{R}^{p}$, we assume the existence of a predetermined, yet {\em a priori} unknown,
+cluster membership variable $\xi_{i}^{\star}\in [r]$ such that
+%
+\begin{equation}
+\bm{x}_{i}=\begin{cases}
+\bm{\theta}_{1}^{\star}+\bm{\eta}_{i},\qquad & \text{if }\xi_{i}^{\star}=1,\\
+\quad\,\,\vdots & \quad\,\vdots\\
+\bm{\theta}_{r}^{\star}+\bm{\eta}_{i}, & \text{if }\xi_{i}^{\star}=r,
+\end{cases}\label{eq:data-model-r-Gaussian-GM}
+\end{equation}
+%
+where the noise vector $\bm{\eta}_{i}\sim\mathcal{N}(\bm{0},\bm{I}_{p})$ is independently generated across the samples.
+In words, $\xi_{i}^{\star}$ indicates which Gaussian component a sample is generated from.
+Clustering in this Gaussian mixture model can, therefore,
+be posed as recovering the set of cluster membership variables $\{\xi_{i}^{\star}\}_{1\leq i\leq n}$ (modulo the global permutation ambiguity).
+
+
+\paragraph{Assumptions.} To simplify our exposition, we impose the following assumptions throughout this section. As a worthy note,  this assumption is often non-essential and can be significantly relaxed, which we shall remark on momentarily in Remark~\ref{remark:assumptions_gmm}.
+%
+\begin{assumption}
+	\label{assumption:gaussian-mixture}
+	The centers are independently generated obeying
+	%
+	\[
+		\bm{\theta}_{i}^{\star} ~\overset{\mathrm{i.i.d.}}{\sim}~ \mathcal{N}\Bigg( \bm{0}, \frac{\Delta^2}{2p} \bm{I}_p \Bigg),
+		\qquad 1\leq i\leq r
+	\]
+ 	%
+	for some parameter $\Delta>0$.
+\end{assumption}
+%
+Under this assumption, standard Gaussian concentration inequalities  \citep{vershynin2016high} tell us that, with high probability (for large $p$ and $n=\mathrm{poly}(p)$),
+%
+\begin{align*}
+& ~~~~~~ \big\|\bm{\theta}_{i}^{\star}\big\|_{2}^{2}  =(1+o(1))\frac{\Delta^{2}}{2},
+\quad~~
+\big|\bm{\theta}_{i}^{\star\top}\bm{\theta}_{j}^{\star}\big|= o(\Delta^2), \\
+%O\left(\Delta\sqrt{\frac{\log n}{p}}\right),\\
+& \big\|\bm{\theta}_{i}^{\star}-\bm{\theta}_{j}^{\star}\big\|_{2}^{2}
+=\big\|\bm{\theta}_{i}^{\star}\big\|_{2}^{2}+\big\|\bm{\theta}_{j}^{\star}\big\|_{2}^{2}-2\bm{\theta}_{i}^{\star\top}\bm{\theta}_{j}^{\star}=(1+o(1))\Delta^{2}
+\end{align*}
+%
+hold for any pair $i\neq j$, where $o(1)$ denotes a vanishingly small quantity as $p$ approaches infinity. The indication is that the parameter $\Delta$ reflects (approximately) the separation between any pair of centers.
+
+
+For simplicity of presentation, it is further assumed that there are exactly $n/r$ samples drawn from each of the $r$ Gaussian components.
+Without loss of generality, we assume that
+%
+\begin{align}
+	\xi_{i}^{\star}=l,\qquad\text{if }\left\lceil \frac{\,i\,}{r}\right\rceil =l
+	\label{eq:zi-assignment-GM}
+\end{align}
+%
+for any $1\leq i\leq n$, where the ceiling function $\lceil x \rceil$ represents the least integer greater than or equal to the number $x\in \mathbb{R}$.
+%the ceiling operator such as  $\left\lceil .01 \right\rceil = 1$ and $ \left\lceil 2.2 \right\rceil = 3$.
+In other words, the first batch of $n/r$ samples is drawn from the first Gaussian component, the second batch comes from the second component, and so on.
+It is worth pointing out that this assumed assignment information \eqref{eq:zi-assignment-GM} is unavailable when running the spectral clustering algorithm.
+
+
+
+
+\subsection{Algorithm and rationale}
+\label{sec:algorithm-gaussian-mixture}
+
+
+\paragraph{Motivation: spectral structure of the data matrix.}
+
+In order to develop a spectral clustering algorithm, it is instrumental to first examine the spectral feature of the following data matrix
+%
+\begin{align}
+	\bm{X}\coloneqq[\bm{x}_{1},\cdots,\bm{x}_{n}]=\mathbb{E}[\bm{X}]+\underset{\eqqcolon\,\bm{Z}}{\underbrace{[\bm{\eta}_{1},\cdots,\bm{\eta}_{n}]}}.
+	\label{eq:defn-Z-X-EX-GMM}
+\end{align}
+%
+Clearly, $\mathbb{E}[\bm{X}] \in \mathbb{R}^{p \times n}$ exhibits a rank-$r$ structure:
+%
+\begin{align*}
+	\mathbb{E}[\bm{X}] & =\big[\bm{\theta}_{1}^{\star},\cdots,\bm{\theta}_{1}^{\star},\bm{\theta}_{2}^{\star},\cdots,\bm{\theta}_{2}^{\star},\cdots,\bm{\theta}_{r}^{\star},\cdots,\bm{\theta}_{r}^{\star}\big]
+ 	= \bm{\Theta}^{\star}\bm{F}^{\star\top},
+\end{align*}
+%
+where we define
+%
+\begin{align}
+\bm{\Theta}^{\star}\coloneqq\left[\bm{\theta}_{1}^{\star},\cdots,\bm{\theta}_{r}^{\star}\right] \in \mathbb{R}^{p\times r},
+\quad
+%\text{and}\quad
+\bm{F}^{\star}\coloneqq {\footnotesize\left[\begin{array}{cccc}
+\bm{1}_{\frac{n}{r}}\\
+ & \bm{1}_{\frac{n}{r}}\\
+ &  & \ddots\\
+ &  &  & \bm{1}_{\frac{n}{r}}
+\end{array}\right] }\in \mathbb{R}^{n\times r}.
+\label{eq:defn-Theta-star-F-star-GMM}
+\end{align}
+%
+
+
+Similarly, the Gram matrix $\bm{X}^{\top}\bm{X}$ also inherits this rank-$r$ structure in the following sense (albeit in the form of a ``spiked'' structure due to the presence of noise):
+%
+\begin{align}
+	\mathbb{E}\big[\bm{X}^{\top}\bm{X}\big]
+	& =\mathbb{E}[\bm{X}]^{\top}\mathbb{E}[\bm{X}]+\mathbb{E}\big[\bm{Z}^{\top}\bm{Z}\big]
+	=\bm{F}^{\star}\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\bm{F}^{\star\top}+p\bm{I}_n .
+	\label{eq:mean-XT-X-GM}
+\end{align}
+%
+Recognizing that  $\bm{F}^{\star}$ encodes all the cluster membership information,
+one is motivated to attempt information extraction from the rank-$r$ eigenspace of $\bm{X}^{\top}\bm{X}$,
+akin to the PCA algorithm introduced in Section~\ref{sec:algorithm-PCA}.
+
+
+
+\paragraph{Algorithm: spectral clustering followed by $k$-means.}
+
+With the preceding spectral properties in mind, we are ready to present a spectral clustering algorithm tailored to this Gaussian mixture model.
+Given that the eigenspace of $\bm{X}^{\top}\bm{X}$ might only approximate $\bm{F}^{\star}$ up to global rotation,
+we include a follow-up $k$-means scheme \citep{macqueen1967some}
+ to produce a valid clustering outcome based on the spectral estimate.
+%
+\begin{itemize}
+	\item[1.] Compute the leading rank-$r$ eigenspace $\bm{U}\in \mathbb{R}^{n\times r}$ of $\bm{X}^{\top}\bm{X}$.
+
+	\item[2.] Compute $\bm{Y}= \mathcal{P} \big( \bm{U}\bm{U}^{\top} \big) \in \mathbb{R}^{n\times n}$,
+		where the operator $\mathcal{P}(\cdot)$ projects each column onto the unit sphere,
+		i.e., 
+	%
+\begin{align*}
+	%\label{eq:projection-unit-ball-GMM}
+	\mathcal{P}(\bm{Z}) \coloneqq \Big[ \frac{\bm{z}_{1}}{\|\bz_1\|_2},\cdots,  \frac{\bz_n}{\|\bm{z}_{n}\|_2}\Big] 
+\end{align*}
+	%
+% Clearly, the global scaling factor $\sqrt{n/r}$ is not needed.
+	for any matrix $\bm{Z}=[\bm{z}_1,\cdots,\bm{z}_n]$. 
+	As will be discussed below, the projection step is not necessary, and we can also simply take $\bY = \bU \bU^\top$.
+		%,  but improves somewhat the  performance; see \eqref{eq:Y-Ystar-dist-GMM} below in the proof. \yxc{check}
+	
+	
+	
+	\item[3.] Let $\bm{y}_i$ represent the $i$-th column of $\bm{Y}$, and apply the $k$-means algorithm
+	(with $k=r$) to the vectors $\{\by_i\}_{1 \leq i \leq n}$  to find the cluster centers and cluster labels for all individuals; namely, we  compute
+%
+\begin{equation}
+\Big(\big\{\widehat{\xi}_{i}\big\}_{i=1}^{n},\big\{\widehat{\bm{\vartheta}}_{i}\big\}_{i=1}^{r}\Big)
+= \hspace{-0.2em}
+\underset{\xi_{1},\cdots,\xi_{n}\in[r],\,\bm{\vartheta}_{1},\cdots,\bm{\vartheta}_{r}\in\mathbb{R}^{n}}{\arg\min}\sum_{i=1}^{n}\big\|\bm{y}_{i}-\bm{\vartheta}_{\xi_{i}}\big\|_{2}^{2} .
+\label{eq:k-means-GMM}
+\end{equation}
+%
+%The $k$-mean algorithm alternatively optimizes $\big\{\xi_{i}\big\}_{i=1}^{n}$  given $\big\{\bm{\vartheta}_{i}\big\}_{i=1}^{r}$ and  $\big\{\bm{\vartheta}_{i}\big\}_{i=1}^{r}$ given $\big\{\xi_{i}\big\}_{i=1}^{n}$.  Given the current estimate of centers $\big\{\widehat{\bm{\vartheta}}_{i}\big\}_{i=1}^{r}$, classify $\bm{x}_i$ to its nearest estimated center, i.e., assign $\widehat{\xi}_{i}$ to the label of that of the nearest center ; and given the class labels $\big\{\widehat{\xi}_{i}\big\}_{i=1}^{n}$, use the sample means of the clusters to update  $\big\{\widehat{\bm{\vartheta}}_{i}\big\}_{i=1}^{r}$.  The initialization is typically $r$ randomly selected data points.  Since the optimization is non-convex, multiple random initializations are used and the optimal output, in terms of target function \eqref{eq:k-means-GMM}, is used as the final estimate.
+\end{itemize}
+%
+The algorithm then returns $\big\{\widehat{\xi}_{i}\big\}_{1\leq i\leq n}$ as the clustering result.
+Interestingly, Step 1 bears similarity with the spectral algorithm for graph clustering,
+since  we essentially generate a pairwise similarity measurement for each pair $(i,j)$ using the inner product $\langle \bm{x}_i, \bm{x}_j \rangle$.
+
+\begin{remark}
+	The $k$-means formulation \eqref{eq:k-means-GMM}---which minimizes the sum of squared distance between each data point and the center of its associated cluster---is
+	an integer program and intractable in general \citep{aloise2009np}.
+	Fortunately, computationally feasible solutions are available either under sufficient minimum center separation or when suitably initialized
+	\citep{lloyd1982least,vempala2004spectral,lu2016statistical,peng2007approximating,awasthi2015relax,mixon2017clustering,iguchi2017probably}.
+	An in-depth account of this computational aspect is beyond the scope of this monograph,
+	and the interested reader is referred to \citet{li2020birds,loffler2019optimality} for details.
+\end{remark}
+
+
+%\citep{peng2007approximating,awasthi2015relax,mixon2017clustering,iguchi2017probably,li2020birds}
+
+
+
+\paragraph{Further explanations.}
+
+We take a moment to explain why $k$-means is applied to the columns of $\bm{Y}$.
+Recall that the central object the spectral algorithm seeks to approximate
+is the leading rank-$r$ eigenspace of $\bm{F}^{\star}\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\bm{F}^{\star\top}$ (cf.~\eqref{eq:mean-XT-X-GM}).
+For convenience, suppose we have the eigendecomposition  $\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}=\bm{U}_{\theta}\bm{\Sigma}_{\theta}\bm{U}_{\theta}^{\top}$,
+where $\bm{U}_{\theta}\in\mathcal{O}^{r\times r}$ is  orthonormal and $\bm{\Sigma}_{\theta}\in\mathbb{R}^{r\times r}$ is diagonal.
+This results in the decomposition
+%
+\begin{equation}
+\bm{F}^{\star}\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\bm{F}^{\star\top}=\frac{n}{r}\cdot\Big(\underset{\eqqcolon\,\bm{U}^{\star}}{\underbrace{\sqrt{\frac{r}{n}}\bm{F}^{\star}\bm{U}_{\theta}}}\Big)\bm{\Sigma}_{\theta}\Big(\sqrt{\frac{r}{n}}\bm{F}^{\star}\bm{U}_{\theta}\Big)^{\top}.
+\label{eq:FTheta-Theta-F-eigenspace}
+\end{equation}
+%
+Apparently, the matrix $\bm{U}^{\star}\in\mathbb{R}^{n\times r}$ defined above has orthonormal columns and, as a result,
+represents the eigenspace of $\bm{F}^{\star}\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\bm{F}^{\star\top}$.
+The idea is that if the spectral estimate $\bm{U}$ approximates $\bm{U}^{\star}\in\mathbb{R}^{n\times r}$ well,
+then the matrices $\sqrt{\frac{n}{r}} \, \bm{U}\bm{U}^{\top}$ and $\bm{Y}$ constructed above are hopefully close to the following matrix
+%
+\begin{equation}
+\bm{Y}^{\star}  \coloneqq  \sqrt{\frac{n}{r}} \, \bm{U}^{\star}\bm{U}^{\star\top}
+%=\bm{F}^{\star}\bm{U}_{\theta}\bm{U}_{\theta}^{\top}\bm{F}^{\star\top}
+%= \sqrt{\frac{r}{n}} \, \bm{F}^{\star}\bm{F}^{\star\top}
+= \sqrt{\frac{r}{n}} \left[\begin{array}{ccc}
+\bm{1}_{\frac{n}{r}}\bm{1}_{\frac{n}{r}}^{\top}\\
+ & \ddots\\
+ &  & \bm{1}_{\frac{n}{r}}\bm{1}_{\frac{n}{r}}^{\top}
+\end{array}\right].
+\label{eq:Ystar-definition-GMM}
+\end{equation}
+%
+As can be easily seen, the data points belonging to the same ground-truth cluster are associated with identical columns in $\bm{Y}^{\star}$;
+for instance, each of the first $n/r$ samples---which belongs to the first cluster---corresponds to a column of $\bm{Y}^{\star}$ given by
+$\sqrt{\frac{r}{n}}\,  {\scriptsize \left[\begin{array}{c}
+\bm{1}_{n/r}\\
+\bm{0}
+\end{array}\right]}$.
+%
+Therefore, clustering  the columns of $\bm{Y}$ via $k$-means is expected to unveil the underlying cluster structure,
+provided that $\bm{Y}$ is sufficiently close to $\bm{Y}^{\star}$.
+In summary,  spectral estimation (Steps 1-2) effectively leads to a new vector $\bm{y}_i$ for each point, which enjoys substantially enhanced signal-to-noise ratio compared to $\bm{x}_i$ and boosts the chance for $k$-means to succeed.
+
+
+We shall also explain the projection operation enforced in Step 2 of the algorithm.
+Given that each column of $\bm{Y}^{\star} $ has unit $\ell_2$ norm, projecting each column of  $ \bm{U}\bm{U}^{\top}$ onto the unit sphere ensures that no column of $\bm{Y}$ has an abnormal size.
+Note, however, that this projection step is  non-essential and is introduced here 
+primarily to simplify the mathematical analysis. Spectral clustering is expected to succeed even in the absence of such a projection step \citep{loffler2019optimality}.
+% Yuxin: projection is actually needed in the proof to show that || y_i ||_2 \leq 1
+% %with expectation of improved empirical performance.  Indeed, the proof goes through without this projection step; see \eqref{eq:Y-Ystar-dist-GMM}.
+
+
+
+\begin{remark}
+	Another variation of spectral clustering is to directly apply the $k$-means algorithm to cluster the rows of $\bU$ (or some properly rescaled version of them) \citep{loffler2019optimality}.  To explain the rationale, we note that under the assumption \eqref{eq:zi-assignment-GM}, $\bU^{\star}$ necessarily consists of $r$ blocks of identical rows as follows:
+$$
+	\bU^{\star} = \sqrt{\frac{r}{n}} \begin{pmatrix}
+		\bm{1}_{n/r} \bm{\nu}_1^\top\\
+   	\vdots\\
+   	\bm{1} _{n/r} \bm{\nu}_r^\top
+   \end{pmatrix} ,
+$$
+where $\bm{\nu}_1^\top, \cdots, \bm{\nu}_r^\top$ are the orthonormal rows of the matrix $\bU_\theta$ (cf.~\eqref{eq:FTheta-Theta-F-eigenspace}).
+Consequently,  clustering the rows of $\bU^{\star}$ reveals exactly the true cluster assignments of all individuals.
+The idea of our spectral analysis below applies to this method as well; we leave it to the reader as an exercise.
+\end{remark}
+
+
+\subsection{Performance guarantees}
+\label{sec:theory-gaussian-mixture}
+
+
+Now, we turn to characterizing the clustering performance of the above spectral algorithm.
+We shall focus attention on the mis-clustering rate as the performance metric.  As the cluster labels in $[r]$ can be arbitrarily permuted,
+the mis-clustering rate associated with the labels $\{\widehat{\xi}_{i}\}$ returned by our algorithm is defined as
+%
+\[
+	\ell_{\mathsf{mis}}\big(\{\widehat{\xi}_{i}\},\{\xi_{i}^{\star}\}\big)
+	\coloneqq \min_{\phi\in\Pi} ~ \frac{1}{n}\sum_{i=1}^{n}\mathbbm{1}\left\{ \phi(\widehat{\xi}_{i})\neq\xi_{i}^{\star}\right\} ,
+\]
+%
+where $\Pi$ is the set of permutations of $[r]$.
+In words, this metric captures the average number of mislabeled data points, after accounting for global permutation.
+For notational convenience, we shall set $\bm{M}^{\star}\coloneqq\mathbb{E}\big[\bm{X}^{\top}\bm{X}\big]$ and
+$\bm{E}\coloneqq\bm{X}^{\top}\bm{X} - \mathbb{E}\big[\bm{X}^{\top}\bm{X}\big]$ throughout this section.
+
+
+The first step towards analyzing the statistical accuracy of the spectral algorithm lies in developing a perturbation bound on $\|\bm{U}\bm{U}^{\top} - \bm{U}^{\star}\bm{U}^{\star\top}\|$, where $\bm{U}^{\star}$ (cf.~\eqref{eq:FTheta-Theta-F-eigenspace}) represents the leading rank-$r$ eigenspace of $\bm{M}^{\star}$.
+This can be accomplished via the Davis-Kahan theorem, which requires us to first control the size of the perturbation $\bm{E}$.
+%
+\begin{lemma}
+	\label{lem:perturbation-norm-Gaussian-mixture}
+	Consider the settings in Section~\ref{sec:setup-gaussian-mixture}, and suppose $p\gtrsim r \log ^3 (n+p)$.
+	Then with probability at least $1-O((n+p)^{-10})$, one has
+	%
+	\begin{align*}
+		\|\bm{E}\|  \lesssim\frac{\Delta n\sqrt{\log(n+p)}}{\sqrt{r}}+\sqrt{np\log(n+p)}+n\log^{2}(n+p) .
+	\end{align*}
+	%
+\end{lemma}
+%
+%Another part that needs to be taken care of is developing a lower bound on the spectral gap of $\bm{M}^{\star}$.
+%In view of \eqref{eq:mean-XT-X-GM} and \eqref{eq:FTheta-Theta-F-eigenspace}, the spectral gap of $\bm{M}^{\star}$ relies heavily on the spectral property of $\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}$, which is studied through the following lemma.
+%%
+%\begin{lemma}
+%	\label{lemma:sigma-min-Thetastar-GMM}
+%	Consider the setting in Section~\ref{sec:setup-gaussian-mixture}, and suppose that  $p\geq C_{2}r^{2}\log p$ for some sufficiently large constant $C_2>0$.
+%	Then with probability at least $1-O(p^{-8})$, the matrix $\bm{\Theta}^{\star}$ defined in \eqref{eq:defn-Theta-star-F-star-GMM} obeys
+%	\[
+%		\lambda_{\min}\big(\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\big) \geq \Delta^2 / 4.
+%	\]
+%\end{lemma}
+%%
+
+%
+The proof of this lemma can be found in Section~\ref{sec:proof-auxiliary-lemmas-GM}.
+Equipped with the above perturbation bound, we are ready to present our statistical guarantees for spectral clustering.
+%
+\begin{theorem}
+	\label{thm:GMM-performance}
+	Consider the setting and assumptions in Section~\ref{sec:setup-gaussian-mixture}, and suppose that $r=O(1)$ and $p\gtrsim \log^3 n$.
+	% Suppose that  $\Delta\geq C_{1} \sqrt{r}\max \big\{ \big(\frac{p\log(n+p)}{n}\big)^{1/4}, \log(n+p) \big\}$ for some sufficiently large constant $C_1>0$.
+	With probability at least $1-O(p^{-10})$, the mis-clustering rate of the spectral algorithm in Section~\ref{sec:algorithm-gaussian-mixture} achieves
+	 $$ \ell_{\mathsf{mis}}\big(\{\widehat{\xi}_{i}\},\{\xi_{i}^{\star}\}\big) = o(1) ,$$
+	with the proviso that
+	%
+	\begin{equation}
+		\log(n+p)=o(\Delta)\quad\text{and}\quad\Big(\frac{p\log(n+p)}{n}\Big)^{1/4}=o(\Delta).
+		\label{eq:condition-Delta-thm-GMM}
+	\end{equation} 	
+	%
+\end{theorem}
+%
+
+Before embarking on the proof of this theorem, we discuss briefly the implications of this theorem.
+ In order to ensure a vanishingly small mis-clustering rate, it suffices for the center separation $\Delta$ to exceed
+%
+\[
+	\Delta\gtrsim \begin{cases}
+		\mathrm{poly}\log(n+p), & \text{if }p\leq n,\\
+		\big(\frac{p}{n}\big)^{1/4} \mathrm{poly}\log(n+p),\qquad & \text{if }p\geq n.
+	\end{cases}
+\]
+%
+This separation condition matches the minimax lower bound  up to some logarithmic term \citep{cai2018rate,ndaoud2018sharp}.
+In particular,  in the high-dimensional case where $p\geq n$, the required separation condition changes fairly gracefully with the aspect ratio $p/n$.
+
+\begin{remark}\label{remark:assumptions_gmm}
+	As alluded to previously, Assumption \ref{assumption:gaussian-mixture} can be significantly relaxed. For example,
+	the Gaussianity assumption therein is unnecessary; (almost) exact clustering is plausible once the minimum center separation exceeds a certain threshold,
+	regardless of how $\{\bm{\theta}_i^{\star}\}$ are generated.
+	To achieve this generality, however, the algorithm might need to be properly modified. Roughly speaking, in addition to $\bm{U}$,
+	it is sensible to also exploit information contained in the eigenvalues of $\bm{X}^{\top}\bm{X}$
+	(which is crucial for, say, the scenario where all centers $\{\bm{\theta}_i^{\star}\}$ are perfectly aligned except for the scaling factors).
+	We recommend the readers to \citet{loffler2019optimality} for detailed discussions.
+\end{remark}
+
+
+
+\paragraph{Proof of Theorem~\ref{thm:GMM-performance}.}
+The proof consists of two steps: controlling the perturbation $\|\bm{U}\bm{U}^{\top}-\bm{U}^{\star}\bm{U}^{\star\top}\|_{\mathrm{F}}$ (and hence $\|\bm{Y}-\bm{Y}^{\star}\|_{\mathrm{F}}$),
+and demonstrating that the follow-up $k$-means  performs well.
+
+%The proof consists of two steps, which we elaborate on separately.
+
+%\paragraph{Step 1: controlling $\|\bm{Y}-\bm{Y}^{\star}\|$.}
+
+The first step  is to control $\|\bm{U}\bm{U}^{\top}-\bm{U}^{\star}\bm{U}^{\star\top}\|_{\mathrm{F}}$,
+built upon Lemma~\ref{lem:perturbation-norm-Gaussian-mixture} and a lower bound on the spectral gap of $\bm{M}^{\star}$.
+Observe that
+%
+\begin{align*}
+\lambda_{r}\big(\bm{M}^{\star}\big)-\lambda_{r+1}\big(\bm{M}^{\star}\big)
+& =\lambda_{\min}\big(\bm{F}^{\star}\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\bm{F}^{\star\top}\big)
+ =\frac{n}{r}\lambda_{\min}\big(\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\big) ,
+%\label{eq:lambda-r-Mstar-GMM-12345}
+\end{align*}
+%
+where the last identity holds since  $\bm{F}^{\star} \bm{F}^{\star\top} = \frac{n}{r} \bI_r$ according to the definition \eqref{eq:defn-Theta-star-F-star-GMM}.
+This motivates us to look at the spectral property of $\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}$.
+Given that $\bm{\Theta}^{\star}$ is composed of i.i.d.~Gaussian entries (cf.~Assumption~\ref{assumption:gaussian-mixture}),
+invoking the bound (\ref{eq:norm-bound-ZZt-PCA}) with proper rescaling gives
+%
+\[
+	\big\Vert \bm{\Theta}^{\star\top}\bm{\Theta}^{\star}-\mathbb{E}\big[\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\big]\big\Vert
+	\lesssim\Delta^{2}\left(\sqrt{\frac{r\log p}{p}}+\frac{r\log^{2}p}{p}\right)\leq\frac{\Delta^{2}}{4}
+\]
+%
+with probability exceeding $1-O(p^{-10})$, provided that $p\geq C_{2}r\log^{2}p$ for some sufficiently large constant $C_{2}>0$.
+Further, it is self-evident that $\mathbb{E}\big[\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\big] = \frac{1}{2}\Delta^{2} \bm{I}_{r}$.
+Weyl's inequality (see Lemma~\ref{lemma:weyl}) then guarantees that
+%
+\begin{align*}
+\lambda_{\min}\big(\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\big)
+& \geq\lambda_{\min}\big(\mathbb{E}\big[\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\big]\big)
+  -\big\Vert \bm{\Theta}^{\star\top}\bm{\Theta}^{\star}-\mathbb{E}\big[\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\big] \big\Vert \\
+ & \geq {\Delta^{2}}/{2} - {\Delta^{2}}/{4} = {\Delta^{2}}/{4}.
+\end{align*}
+%
+Combine the preceding inequalities to arrive at
+%
+\begin{align}
+\lambda_{r}\big(\bm{M}^{\star}\big)-\lambda_{r+1}\big(\bm{M}^{\star}\big)
+= \frac{n}{r}\lambda_{\min}\big(\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\big)
+ \geq   \frac{n\Delta^2}{ 4 r} .
+\label{eq:eigen-gap-GMM-12345}
+\end{align}
+%
+
+
+%where the penultimate relation holds since the columns of $\bm{F}^{\star}$ are orthogonal to each other and $\|\bm{F}^{\star}\|=\sqrt{n/r}$,  and the last line follows from Lemma~\ref{lemma:sigma-min-Thetastar-GMM}.
+
+
+
+By virtue of Lemma~\ref{lem:perturbation-norm-Gaussian-mixture} and \eqref{eq:eigen-gap-GMM-12345}, if the following condition
+%
+$$\Delta\geq C_{1}\max\Big\{ \Big(\frac{r^{2}p\log(n+p)}{n}\Big)^{1/4},\sqrt{r}\log(n+p) \Big\}$$
+%
+holds for some large enough constant $C_1>0$, then it is guaranteed that $\|\bm{E}\|\leq (1-1/\sqrt{2}) (\lambda_{r}\big(\bm{M}^{\star}\big)-\lambda_{r+1}\big(\bm{M}^{\star}\big)) $.
+This in turn allows us to invoke the Davis-Kahan theorem
+(namely, Corollary~\ref{cor:davis-kahan-conclusion-corollary})
+to obtain
+%
+\begin{align}
+ & \big\|\bm{U}\bm{U}^{\top}-\bm{U}^{\star}\bm{U}^{\star\top}\big\|_{\mathrm{F}}
+ \leq\frac{\sqrt{2r}\,\|\bm{E}\|}{\lambda_{r}\big(\bm{M}^{\star}
+ \big)-\lambda_{r+1}\big(\bm{M}^{\star}\big)} \leq \sqrt{r} \varepsilon
+ %\nonumber\\
+ %& \qquad\lesssim\frac{\Delta r\sqrt{\log(n+p)}+r^{1.5}
+% \sqrt{\frac{p\log(n+p)}{n}}+r^{1.5}\log^{2}(n+p)}{\Delta^{2}}
+\label{eq:U-Ustar-dist-GMM}
+\end{align}
+%
+with probability exceeding $1-O(p^{-8})$,
+where the last line arises from \eqref{eq:eigen-gap-GMM-12345}
+and Lemma~\ref{lem:perturbation-norm-Gaussian-mixture}, and
+\[
+	\varepsilon \asymp \frac{\Delta\sqrt{r\log(n+p)}
++ r\sqrt{\frac{p\log(n+p)}{n}} + r \log^{2}(n+p)}{\Delta^{2}}.
+\]
+
+From the construction of $\bm{Y}$ and \eqref{eq:Ystar-definition-GMM},
+one can propagate the bound \eqref{eq:U-Ustar-dist-GMM} to $\|\bm{Y}-\bm{Y}^{\star}\|_{\mathrm{F}}$ as follows:
+%
+%
+\begin{align}
+	\big\|\bm{Y}-\bm{Y}^{\star}\big\|_{\mathrm{F}}^{2} & \overset{\mathrm{(i)}}{=} \Big\|\mathcal{P}\Big(\sqrt{\frac{n}{r}}\,\bm{U}\bm{U}^{\top}\Big)-\bm{Y}^{\star}\Big\|_{\mathrm{F}}^{2}
+ \overset{\mathrm{(ii)}}{\leq} 4\Big\|\sqrt{\frac{n}{r}}\,
+ \bm{U}\bm{U}^{\top}-\bm{Y}^{\star}\Big\|_{\mathrm{F}}^{2} \notag\\
+ & =\frac{4n}{r}\big\|\bm{U}\bm{U}^{\top}-\bm{U}^{\star}
+ \bm{U}^{\star\top}\big\|_{\mathrm{F}}^{2}\lesssim \varepsilon^{2}n.
+\label{eq:Y-Ystar-dist-GMM}
+\end{align}
+%
+%
+%
+Here, the first identity (i) holds since the operator $\mathcal{P}$ is invariant to global scaling.
+Regarding the inequality (ii),  it follows from standard inequality regarding Euclidean projection (e.g.,
+\citet[Lemma~15]{soltanolkotabi2017structured}), which we postpone to the end of this proof.
+
+% where the last relation holds true as long as
+% %
+% \[
+% \sqrt{r}\Bigg(\frac{p\log(n+p)}{n}\Bigg)^{1/4}=o(\Delta)\quad\text{and}\quad\sqrt{r}\log(n+p)=o(\Delta).
+% \]
+% %
+
+
+The next step then amounts to translating the perturbation bound \eqref{eq:Y-Ystar-dist-GMM} into clustering accuracy guarantees (after $k$-means is applied).
+This is accomplished through the following key lemma, to be established in Section~\ref{sec:proof-auxiliary-lemmas-GM}.
+%
+\begin{lemma}
+	\label{lemma:k-means-GMM}
+	Suppose that the matrix $\bm{Y}$ obtained in the spectral algorithm in Section~\ref{sec:algorithm-gaussian-mixture} satisfies
+	%
+	\begin{equation}
+		\big\|\bm{Y}-\bm{Y}^{\star}\big\|_{\mathrm{F}}^{2}\leq\varepsilon^{2}n,
+		\label{eq:assumption-Y-Ystar-Fro-GMM}
+	\end{equation}
+	%
+	where $\varepsilon>0$ is a quantity obeying $\varepsilon\leq c_{3}r^{-4}$ for some sufficiently small constant $c_3>0$.
+	Then the mis-clustering rate obeys
+	$$\ell_{\mathsf{mis}}\big(\{\widehat{\xi}_{i}\},\{\xi_{i}^{\star}\}\big)  \leq 2r \varepsilon^{1/4}.$$
+	%
+\end{lemma}
+%
+As a consequence of Lemma~\ref{lemma:k-means-GMM}, the mis-clustering rate is $o(1)$ as long as $\varepsilon r^4 = o(1)$,
+a condition that is guaranteed  under the assumptions \eqref{eq:condition-Delta-thm-GMM} and $r=O(1)$.
+This establishes Theorem~\ref{thm:GMM-performance}.
+
+
+\begin{proof}[Proof of the inequality (ii) in \eqref{eq:Y-Ystar-dist-GMM}]
+For any vector $\bm{v}$ residing in the unit sphere and any other vector
+$\bm{w}$, we have
+%
+\begin{align*}
+\|\mathcal{P}(\bm{w})-\bm{w}\|_{2}^{2} & =\|\mathcal{P}(\bm{w})-\bm{v}+\bm{v}-\bm{w}\|_{2}^{2}\\
+ & =\|\mathcal{P}(\bm{w})-\bm{v}\|_{2}^{2}+\|\bm{v}-\bm{w}\|_{2}^{2}+2\langle\mathcal{P}(\bm{w})-\bm{v},\bm{v}-\bm{w}\rangle\\
+ & \geq\|\mathcal{P}(\bm{w})-\bm{v}\|_{2}^{2}+
+ \|\mathcal{P}(\bm{w})-\bm{w}\|_{2}^{2}
+ +2\langle\mathcal{P}(\bm{w})-\bm{v},\bm{v}-\bm{w}\rangle,
+\end{align*}
+%
+where the last inequality follows since $\mathcal{P}$ denotes the projection onto the unit sphere and $\bm{v}$ lies in the unit sphere.
+%,and hence $\|\mathcal{P}(\bm{w})-\bm{w}\|_2\leq \|\bm{v}-\bm{w}\|_2$.
+Cancelling out the common term $\|\mathcal{P}(\bm{w})-\bm{w}\|_{2}^{2}$ and invoking Cauchy-Schwarz lead to
+%
+\begin{align*}
+\|\mathcal{P}(\bm{w})-\bm{v}\|_{2}^{2} & \leq-2\langle\mathcal{P}(\bm{w})-\bm{v},\bm{v}-\bm{w}\rangle\leq2\|\mathcal{P}(\bm{w})-\bm{v}\|_{2}\|\bm{v}-\bm{w}\|_{2},
+\end{align*}
+%
+and therefore,
+%
+\[
+\|\mathcal{P}(\bm{w})-\bm{v}\|_{2}\leq2\|\bm{w}-\bm{v}\|_{2}, 
+\quad\text{or}\quad\|\mathcal{P}(\bm{w})-\bm{v}\|_{2}^{2}
+\leq4\|\bm{w}-\bm{v}\|_{2}^{2}.
+\]
+%
+This inequality clearly extends to the matrix counterpart, thus establishing the claimed result.
+\end{proof}
+
+%\end{proof}
+
+
+
+\subsection{Proof of auxiliary lemmas}
+\label{sec:proof-auxiliary-lemmas-GM}
+
+
+
+\paragraph{Proof of Lemma~\ref{lem:perturbation-norm-Gaussian-mixture}.}
+
+To begin with, let us decompose $\bm{E}$ as follows
+%
+\begin{align}
+	\bm{E} & =\bm{X}^{\top}\bm{X}-\mathbb{E}\big[\bm{X}^{\top}\bm{X}\big]
+	  = \big(\bm{\Theta}^{\star} \bm{F}^{\star\top} +\bm{Z}\big)^{\top}\big(\bm{\Theta}^{\star} \bm{F}^{\star\top} +\bm{Z}\big)
+		- \mathbb{E}\big[\bm{X}^{\top}\bm{X}\big] \notag\\
+ 	& = \bm{F}^{\star}\bm{\Theta}^{\star\top}\bm{Z} + \bm{Z}^{\top}\bm{\Theta}^{\star}\bm{F}^{\star\top} + \bm{Z}^{\top}\bm{Z}-p\bm{I}_n,
+	\label{eq:defn-E-decomposition-GMM}
+\end{align}
+%
+where we have used the notation in \eqref{eq:defn-Z-X-EX-GMM} and \eqref{eq:defn-Theta-star-F-star-GMM}, as well as the identity (\ref{eq:mean-XT-X-GM}).
+As it turns out, similar terms have already been controlled in the proof for PCA (see Section~\ref{sec:proof-lemmas:perturbation-size-E-PCA}). More precisely, the first term in \eqref{eq:defn-E-decomposition-GMM} obeys
+%
+\begin{align*}
+\big\|\bm{F}^{\star}\bm{\Theta}^{\star\top}\bm{Z}\big\| &
+%=\sqrt{\frac{n}{r}}\big\|\sqrt{\frac{r}{n}}\bm{F}^{\star}
+%\bm{\Theta}^{\star\top}\bm{Z}\big\|
+\overset{(\mathrm{i})}
+{=}\sqrt{\frac{n}{r}}\big\|\bm{\Theta}^{\star\top}\bm{Z}\big\|
+  \overset{(\mathrm{ii})}{\lesssim}  \sqrt{\frac{n}{r}}\cdot\frac{\Delta}{\sqrt{p}}\sqrt{np\log(n+p)} \\
+	& \asymp  \frac{\Delta n\sqrt{\log(n+p)}}{\sqrt{r}}
+\end{align*}
+%
+with probability exceeding $1-O\big((n+p)^{-10}\big)$, provided that $p\gtrsim r \log ^3 (n+p)$.
+Here, the first relation (i) holds true since $\sqrt{\frac{r}{n}}\bm{F}^{\star}$ contains orthonormal columns and the spectral norm is unitarily invariant,
+while (ii) invokes the high-probability bound (\ref{eq:norm-bound-FZtop-PCA}).
+When it comes to the third term of \eqref{eq:defn-E-decomposition-GMM},
+the bound \eqref{eq:norm-bound-ZZt-PCA} readily implies that
+%
+\[
+	\big\|\bm{Z}^{\top}\bm{Z}-p\bm{I}_n\big\|  \lesssim  \sqrt{np\log(n+p)}+n\log^{2}(n+p)
+\]
+%
+with probability at least $1-O((n+p)^{-10})$.
+Substituting the preceding two bounds into \eqref{eq:defn-E-decomposition-GMM} and applying the triangle inequality, we reach
+%
+\begin{align*}
+\|\bm{E}\| & \leq2\big\|\bm{F}^{\star}\bm{\Theta}^{\star\top}\bm{Z}\big\|+\big\|\bm{Z}^{\top}\bm{Z}-p\bm{I}_n\big\|\\
+ & \lesssim\frac{\Delta n\sqrt{\log(n+p)}}{\sqrt{r}}+\sqrt{np\log(n+p)}+n\log^{2}(n+p) .
+\end{align*}
+%
+% thus concluding the proof.
+
+
+
+%\paragraph{Proof of Lemma~\ref{lemma:sigma-min-Thetastar-GMM}.}
+
+
+
+
+
+%By construction, for any $i\neq j$ one can write
+%%
+%\[
+%	\bm{\theta}_{i}^{\star\top}\bm{\theta}_{j}^{\star}=\sum_{l=1}^{p}\theta_{i,l}^{\star}\theta_{j,l}^{\star}\eqqcolon\sum_{l=1}^{p}z_{l},
+%\]
+%%
+%which is a sum of $p$ independent zero-mean random variables. Taking $L_{1}=\frac{25\Delta^{2}\log p}{2p}$ yields $\mathbb{E}\left[z_{l}\mathbbm1\left\{ |z_{l}|\geq L_{1}\right\} \right]=0$ and
+%%
+%\begin{align*}
+% & \mathbb{P}\left\{ |z_{l}|\geq L\right\} \leq\mathbb{P}\left\{ |\theta_{i,l}^{\star}|\geq\sqrt{L}\text{ or }|\theta_{j,l}^{\star}|\geq\sqrt{L}\right\} \\
+% & \quad\leq\mathbb{P}\left\{ |\theta_{i,l}^{\star}|\geq\sqrt{L}\right\} +\mathbb{P}\left\{ |\theta_{j,l}^{\star}|\geq\sqrt{L}\right\} \\
+% & \quad=\mathbb{P}\left\{ \frac{|\theta_{i,l}^{\star}|}{\Delta/\sqrt{2p}}\geq5\sqrt{\log p}\right\} +\mathbb{P}\left\{ \frac{|\theta_{j,l}^{\star}|}{\Delta/\sqrt{2p}}\geq5\sqrt{\log p}\right\} \leq p^{-10} .
+%\end{align*}
+%%
+%Additionally, the variance statistic can be controlled by
+%%
+%\[
+%v_{1}\coloneqq p\,\mathbb{E}[z_{l}^{2}]=p\,\mathbb{E}\big[\big(\theta_{i,l}^{\star}\big)^{2}\big]\mathbb{E}\big[\big(\theta_{j,l}^{\star}\big)^{2}\big]
+%={\Delta^{4}}/(4p).
+%\]
+%%
+%Apply Corollary \ref{thm:matrix-Bernstein-friendly-truncated} to
+%show that: with probability exceeding $1-O(p^{-10})$,
+%\[
+%\big|\bm{\theta}_{i}^{\star\top}\bm{\theta}_{j}^{\star}\big|\lesssim\sqrt{v_{1}\log p}+L_{1}\log p\asymp\Delta^{2}\sqrt{\frac{\log p}{p}}.
+%\]
+%Repeating a similar argument yields: with probability $1-O(p^{-10})$,
+%\[
+%\big|\bm{\theta}_{i}^{\star\top}\bm{\theta}_{i}^{\star}-\mathbb{E}\big[\bm{\theta}_{i}^{\star\top}\bm{\theta}_{i}^{\star}\big]\big|\lesssim\Delta^{2}\sqrt{\frac{\log p}{p}} .
+%\]
+%%with probability at least $1-O(p^{-10})$.
+%Consequently, taking the union bound over all $1\leq i,j\leq r\leq p$ implies that with probability greater than $1-O(p^{-8})$
+%%
+%\begin{align*}
+%\left\Vert \bm{\Theta}^{\star\top}\bm{\Theta}^{\star}-\mathbb{E}\big[\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\big]\right\Vert  & \leq r\left\Vert \bm{\Theta}^{\star\top}\bm{\Theta}^{\star}-\mathbb{E}\big[\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\big]\right\Vert _{\infty}\\
+% & \lesssim r \Delta^{2}\sqrt{\frac{\log p}{p}}\leq\frac{\Delta^{2}}{4},
+%\end{align*}
+%%
+%provided that $p\geq C_{2}r^{2}\log p$ for some sufficiently large constant $C_2>0$.
+
+
+
+
+
+
+\paragraph{Proof of Lemma~\ref{lemma:k-means-GMM} (analysis for $k$-means).}
+
+Given the class labels $\{\xi_i\}_{i=1}^n$, the optimization of the cluster centers  $\{\bm{\vartheta}_i\}_{i=1}^r$ in the $k$-means formulation \eqref{eq:k-means-GMM} is achieved by the sample means of each cluster. Thus, the $k$-means formulation \eqref{eq:k-means-GMM} can be equivalently posed as solving
+%
+\begin{align}
+	%\underset{\xi_{1},\cdots,\xi_{n}\in[r],\,\bm{\vartheta}_{1},\cdots,\bm{\vartheta}_{r}\in\mathbb{R}^{p}}{\min}\sum_{i=1}^{n}\big\|\bm{y}_{i}-\bm{\vartheta}_{\xi_{i}}\big\|_{2}^{2}
+	 \underset{\mathcal{C}\in\Xi}{
+		 \mathrm{minimize}} ~ \sum_{l=1}^{r} \sum_{i\in\mathcal{C}_{l}}\Big\|\bm{y}_{i}-\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}\Big\|_{2}^{2}
+	\label{eq:k-means-formulation-Cl-GMM}
+\end{align}
+%
+where $\mathcal{C}=\{\mathcal{C}_{1},\cdots,\mathcal{C}_{r}\}$ represents the cluster assignment,
+and $\Xi$ denotes the set of all $r$-partitions of $[n]$ (i.e., $r$ disjoint subsets whose union equals $[n]$).
+
+In order to tackle this formulation, a key ingredient of the proof lies in the following deviation bound that allows one to replace $\bm{y}_{i}$ with the truth $\bm{y}_{i}^{\star}$,
+as long as the cluster size is sufficiently large.
+%
+\begin{claim}
+\label{claim:deviation-S-GMM}
+Consider any set $\mathcal{S}\subseteq[n]$ with cardinality $c_{s}n$ for some quantity $c_s >0$.
+Suppose that (\ref{eq:assumption-Y-Ystar-Fro-GMM}) holds with $\varepsilon\leq c_{s}^{2}$. Then one has
+%
+\begin{align}
+	\Bigg|\sum_{i\in\mathcal{S}}\Big\|\bm{y}_{i}-\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}\Big\|_{2}^{2}-\sum_{i\in\mathcal{S}}\Big\|\bm{y}_{i}^{\star}-\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}^{\star}\Big\|_{2}^{2} \Bigg|
+	\leq  6 c_{s}\sqrt{\varepsilon}n.
+	\label{eq:claim:deviation-S-GMM}
+\end{align}
+%
+\end{claim}
+%
+With Claim~\ref{claim:deviation-S-GMM} in place, we are positioned to establish Lemma~\ref{lemma:k-means-GMM}  by contradiction; that is, we intend to demonstrate that any cluster assignment that differs too much from the ground-truth clusters cannot possibly be the $k$-means solution.
+In what follows, we denote by $\mathcal{C}_{l}^{\star}$ the $l$-th ground-truth cluster $(1\leq l\leq r)$,
+and let $\{\mathcal{C}_{1},\cdots,\mathcal{C}_{r}\}$ represent the minimizer of \eqref{eq:k-means-formulation-Cl-GMM} whenever it is clear from the context.
+
+
+
+\bigskip
+\noindent {\em Step 1: developing an upper bound on \eqref{eq:k-means-formulation-Cl-GMM}.}
+To begin with, we derive an upper bound on the optimal objective value of \eqref{eq:k-means-formulation-Cl-GMM},
+which serves as a reference in assessing the (sub)-optimality of other cluster assignments.
+By virtue of Claim~\ref{claim:deviation-S-GMM} and the assumption $|\mathcal{C}_{l}^{\star}|=n/r$, one has
+%
+\[
+\Bigg|\sum_{i\in\mathcal{C}_{l}^{\star}}\Big\|\bm{y}_{i}-\frac{1}{|\mathcal{C}_{l}^{\star}|}\sum_{j\in\mathcal{C}_{l}^{\star}}\bm{y}_{j}\Big\|_{2}^{2}-\sum_{i\in\mathcal{C}_{l}^{\star}}\Big\|\bm{y}_{i}^{\star}-\frac{1}{|\mathcal{C}_{l}^{\star}|}\sum_{j\in\mathcal{C}_{l}^{\star}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}\Bigg|\leq\frac{6\sqrt{\varepsilon}n}{r},
+\]
+%
+with the proviso that $\varepsilon \leq 1/r^2$.
+Note that by construction,  for the ``ideal'' fitting,
+one has $\sum_{i\in\mathcal{C}_{l}^{\star}}\big\|\bm{y}_{i}^{\star}-\frac{1}{|\mathcal{C}_{l}^{\star}|}\sum_{j\in\mathcal{C}_{l}^{\star}}\bm{y}_{j}^{\star}\big\|_{2}^{2}=0$.
+Using this fact and summing the above inequality over
+all $1\leq l \leq r$, we arrive at
+%
+\begin{align}
+\sum_{l=1}^{r}\sum_{i\in\mathcal{C}_{l}^{\star}}\Big\|\bm{y}_{i}-\frac{1}{|\mathcal{C}_{l}^{\star}|}\sum_{j\in\mathcal{C}_{l}^{\star}}\bm{y}_{j}\Big\|_{2}^{2}
+& \leq 6\sqrt{\varepsilon}n.
+\label{eq:error-true-cluster-GMM}
+\end{align}
+%
+Consequently, due to the assumed optimality of $\mathcal{C}$ w.r.t.~\eqref{eq:k-means-formulation-Cl-GMM},
+replacing $\{\mathcal{C}_{l}^\star\}_{l=1}^r$ in \eqref{eq:error-true-cluster-GMM} by $\{\mathcal{C}_{l}\}_{l=1}^r$ can only further improve the objective value:
+%
+\begin{align}
+\sum_{l=1}^{r}\sum_{i\in\mathcal{C}_{l}}\Big\|\bm{y}_{i}-\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}\Big\|_{2}^{2}
+	& \leq \sum_{l=1}^{r}\sum_{i\in\mathcal{C}_{l}^{\star}}\Big\|\bm{y}_{i}-\frac{1}{|\mathcal{C}_{l}^{\star}|}\sum_{j\in\mathcal{C}_{l}^{\star}}\bm{y}_{j}\Big\|_{2}^{2}
+	\notag\\
+&  \leq 6\sqrt{\varepsilon}n.
+\label{eq:error-optimizer-cluster-GMM}
+\end{align}
+
+
+
+
+\bigskip
+\noindent {\em Step 2: showing that no cluster can be too large.}
+Suppose that there exists a cluster $\mathcal{C}_{l}$ $(1\leq l\leq r)$ that is too large in the sense that
+%
+\begin{align}
+	\label{eq:Cl-lower-bound-contradition-GMM}
+	|\mathcal{C}_{l}|\geq\frac{(1+c_{\varepsilon})n}{r}
+\end{align}
+%
+for some quantity $c_{\varepsilon}>0$. We would like to show that this is impossible unless $c_{\varepsilon}$ is  small;
+in fact,  in light of Claim~\ref{claim:deviation-S-GMM},
+we need only to establish a lower bound on the second term in \eqref{eq:claim:deviation-S-GMM} (with $\mathcal{S}=\mathcal{C}_{l}$)
+so that it leads to a contradiction with the upper bound \eqref{eq:error-optimizer-cluster-GMM}.
+Towards this end, we start with the elementary decomposition of the sum of squared errors:
+%
+\begin{align}
+\sum_{i\in\mathcal{C}_{l}}\Big\|\bm{y}_{i}^{\star}-\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2} & =\Bigg(\sum_{i\in\mathcal{C}_{l}}\big\|\bm{y}_{i}^{\star}\big\|_{2}^{2}\Bigg)-|\mathcal{C}_{l}|\cdot\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}\nonumber \\
+ & =|\mathcal{C}_{l}| \Big(1-\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}\Big),\label{eq:fitting-error-cluster-GMM-123}
+\end{align}
+%
+where we have invoked the fact that $\big\|\bm{y}_{i}^{\star}\big\|_{2}=1$.
+It thus comes down to controlling $\big\|\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\big\|_{2}^{2}$.
+For notational convenience, for any $1\leq\tau\leq r$, we set $n_{l,\tau} \coloneqq \big|\mathcal{C}_{l}\cap\mathcal{C}_{\tau}^{\star}\big|$
+(namely, the number of points in $\mathcal{C}_{l}$ coming from the $\tau$-th ground-truth cluster),
+and let $\bm{y}_{(\tau)}^{\star}$ represent the vector associated with the $\tau$-th cluster
+(namely, $\bm{y}_{(\tau)}^{\star}=\bm{y}_{j}^{\star}$ for any $j\in\mathcal{C}_{\tau}^{\star}$).
+Armed with this set of notation, we can write
+%
+\begin{equation}
+\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}
+= \Big\|\sum_{\tau=1}^{r}\frac{n_{l,\tau}}{|\mathcal{C}_{l}|}\bm{y}_{(\tau)}^{\star}\Big\|_{2}^{2}
+= \sum_{\tau=1}^{r}\Big\|\frac{n_{l,\tau}}{|\mathcal{C}_{l}|}\bm{y}_{(\tau)}^{\star}\Big\|_{2}^{2}
+=\frac{\sum_{\tau=1}^{r}n_{l,\tau}^{2}}{|\mathcal{C}_{l}|^{2}} .
+\label{eq:mean-yjstar-decompose-456-GMM}
+\end{equation}
+%
+Here, the penultimate identity holds since $\langle\bm{y}_{(i)}^{\star},\bm{y}_{(j)}^{\star}\rangle=0$ for any $i\neq j$,
+while the last relation relies on the fact that $\big\|\bm{y}_{(\tau)}^{\star}\big\|_{2}=1$.
+Using $0\leq n_{l,\tau} \leq n/r$ and $\sum_{\tau=1}^{r}n_{l,\tau} = |\mathcal{C}_l| $, we have
+%
+\begin{align*}
+	\eqref{eq:mean-yjstar-decompose-456-GMM}  & \leq   \frac{ \big( \max_{\tau} n_{l,\tau} \big) \big( \sum_{\tau} n_{l,\tau} \big) }{|\mathcal{C}_{l}|^2}
+	\leq \frac{(n/r) \cdot |\mathcal{C}_l|}{|\mathcal{C}_{l}|^2}
+	%= \frac{n/r}{|\mathcal{C}_{l}|}
+\leq\frac{1}{1+c_{\varepsilon}},
+\end{align*}
+%
+where the first inequality comes from the basic fact that $\|\bm{a}\|_2^2 \leq \|\bm{a}\|_{\infty}\|\bm{a}\|_{1}$ for any vector $\bm{a}$, and the last relation arises from the assumed cardinality constraint on $\mathcal{C}_{l}$ (cf.~(\ref{eq:Cl-lower-bound-contradition-GMM})).
+
+%To further upper bound (\ref{eq:mean-yjstar-decompose-456-GMM}), the following claim proves useful.
+%%
+%\begin{claim}
+%	\label{claim:simple-opt-GMM}
+%	Suppose $\{a_{\tau}^{\star}\}_{1\leq\tau\leq r}$ is the optimizer of the following problem:
+%%
+%\begin{align*}
+%\text{maximize}\quad  & f\big(\{a_{\tau}\}_{1\leq\tau\leq r}\big) \coloneqq A^{-2}\sum\nolimits_{\tau=1}^{r}a_{\tau}^{2}\\
+%\text{subject to}\quad  & 0\leq a_{\tau}\leq A_{0}\ (1\leq\tau\leq r),\ \sum\nolimits_{\tau=1}^{r}a_{\tau}=A,
+%\end{align*}
+%
+%where $A_0, A>0$.
+%Then one has $f\big(\{a_{\tau}^{\star}\}_{1\leq\tau\leq r}\big)\leq A_{0}/A$.
+%\end{claim}
+
+%%
+%With the assistance of Claim~\ref{claim:simple-opt-GMM}, we can derive
+%
+%\begin{align*}
+%	\eqref{eq:mean-yjstar-decompose-456-GMM}  & \leq\frac{n/r}{|\mathcal{C}_{l}|}\leq\frac{1}{1+c_{\varepsilon}},
+%\end{align*}
+%
+%which relies on the fact $n_{l,\tau}\leq |\mathcal{C}_{\tau}^{\star}| = n/r$ and the assumption \eqref{eq:Cl-lower-bound-contradition-GMM}.
+Substitution into (\ref{eq:fitting-error-cluster-GMM-123}) yields
+%
+\begin{align}
+\sum_{i\in\mathcal{C}_{l}}\Big\|\bm{y}_{i}^{\star}-\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}
+& \geq|\mathcal{C}_{l}| \Big(1-\frac{1}{1+c_{\varepsilon}}\Big)
+\geq%\frac{c_{\varepsilon}}{1+c_{\varepsilon}}
+c_{\varepsilon}
+\frac{n}{r},
+\label{eq:fitting-error-cluster-GMM-123-1}
+\end{align}
+%
+where the last inequality again arises from the assumption \eqref{eq:Cl-lower-bound-contradition-GMM}. %with $c_{\varepsilon}>0$.
+This in turn demonstrates that
+%
+\begin{align}
+ & \sum_{l=1}^{r}\sum_{i\in\mathcal{C}_{l}}\Big\|\bm{y}_{i}-\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}\Big\|_{2}^{2}\geq\sum_{i\in\mathcal{C}_{l}}\Big\|\bm{y}_{i}-\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}\Big\|_{2}^{2} \notag\\
+ & \qquad \geq \sum_{i\in\mathcal{C}_{l}}\Big\|\bm{y}_{i}^{\star}-\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}-6\frac{|\mathcal{C}_{l}|}{n}\sqrt{\varepsilon}n
+	\label{eq:cluster-SS-lower-bound-GMM-345}\\
+ & \qquad \geq %\frac{c_{\varepsilon}}{1+c_{\varepsilon}}
+   c_{\varepsilon}  \frac{n}{r}-6\sqrt{\varepsilon}n
+   > 6\sqrt{\varepsilon}n, \notag
+\end{align}
+%
+where \eqref{eq:cluster-SS-lower-bound-GMM-345} results from  Claim~\ref{claim:deviation-S-GMM} when $\varepsilon\leq 1/r^2$, and the last inequality follows as long as $12\sqrt{\varepsilon} < %\frac{c_{\varepsilon}}{1+c_{\varepsilon}}
+c_{\varepsilon} /r$.
+%
+Comparing this  with \eqref{eq:error-optimizer-cluster-GMM} leads to  contradiction with the optimality assumption of $\{\mathcal{C}_l\}$.
+
+
+
+
+\bigskip
+\noindent {\em Step 3: showing that no cluster can be too small.}
+%
+Suppose now that there exists a cluster $\mathcal{C}_{i}$ ($1\leq i\leq r$) obeying
+%
+\[
+	|\mathcal{C}_{i}|\leq\frac{\big(1-c_{\varepsilon}(r-1)\big)n}{r}.
+\]
+%
+Then from the pigeonhole principle, one can find another cluster $\mathcal{C}_{l}$ ($1\leq l\leq r$) with cardinality exceeding
+%
+\[
+	|\mathcal{C}_{l}|\geq\frac{(1+c_{\varepsilon})n}{r};
+\]
+otherwise the total size obeys $\sum_{k=1}^r |\mathcal{C}_{k}| < \frac{ (1-c_{\varepsilon}(r-1) )n}{r} + (r-1)\frac{(1+c_{\varepsilon})n}{r} \leq n$ and $\{\mathcal{C}_l\}$ is infeasible.
+%
+The above condition on $|\mathcal{C}_{l}|$ coincides with the assumption \eqref{eq:Cl-lower-bound-contradition-GMM} in Step 2,
+which, as a result of previous arguments, cannot possibly hold.
+To conclude, for all $1\leq i\leq r$, one necessarily has
+%
+\begin{align}
+	\label{eq:Cl-lower-bound-GMM-357}
+	|\mathcal{C}_{i}| > \frac{\big(1-c_{\varepsilon}(r-1)\big)n}{r} \geq \frac{\big(1-c_{\varepsilon}r \big)n}{r}.
+\end{align}
+
+
+\bigskip
+\noindent {\em Step 4: showing that each $\mathcal{C}_{l}$ is mainly composed of points from a true (and distinct) cluster.}
+%
+Suppose that there exists a cluster $\mathcal{C}_{l}$ ($1\leq l\leq r$) whose dominant component obeys
+%
+\[
+	\max_{1\leq\tau\leq r}n_{l,\tau}  \leq  (1-2rc_{\varepsilon})n/r,
+\]
+%
+where we recall that $n_{l,\tau}=|\mathcal{C}_{l}\cap \mathcal{C}_{\tau}^{\star}|$.
+Under this assumption, we have
+%
+\begin{align*}
+	\eqref{eq:mean-yjstar-decompose-456-GMM}
+	 \leq \frac{\big(\max_{\tau}n_{l,\tau}\big)\big( \sum_{\tau}n_{l,\tau}\big)}{|\mathcal{C}_{l}|^2}
+	%\leq \frac{\big[ (1-2rc_{\varepsilon})n/r \big] \cdot  |\mathcal{C}_{l}| }{|\mathcal{C}_{l}|^2} \\
+	\leq \frac{[(1-2rc_{\varepsilon})n/r]\cdot |\mathcal{C}_l|}{|\mathcal{C}_{l}|^2}
+	\leq \frac{1-2rc_{\varepsilon}}{1-rc_{\varepsilon}},
+\end{align*}
+%
+where the last inequality relies on the lower bound \eqref{eq:Cl-lower-bound-GMM-357}.
+Substitution into (\ref{eq:fitting-error-cluster-GMM-123}) gives
+%
+\begin{align*}
+\sum_{i\in\mathcal{C}_{l}}\Big\|\bm{y}_{i}^{\star}-\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}
+& \geq|\mathcal{C}_{l}| \Big(1-\frac{1-2rc_{\varepsilon}}{1-rc_{\varepsilon}}\Big)
+\overset{\mathrm{(i)}}{\geq} \frac{(1-rc_{\varepsilon})n}{r} \cdot \frac{rc_{\varepsilon}}{1-rc_{\varepsilon}} \\
+ & =c_{\varepsilon}n > 12\sqrt{\varepsilon}n,
+\end{align*}
+%
+where (i) arises again from \eqref{eq:Cl-lower-bound-GMM-357},
+and the last relation is valid once $c_{\varepsilon}> 12\sqrt{\varepsilon}$.
+This taken collectively with the inequality \eqref{eq:cluster-SS-lower-bound-GMM-345} yields
+%
+\begin{align*}
+\sum_{l=1}^{r}\sum_{i\in\mathcal{C}_{l}}\Big\|\bm{y}_{i}-\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}\Big\|_{2}^{2} & \geq\sum_{i\in\mathcal{C}_{l}}\Big\|\bm{y}_{i}^{\star}-\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}-6\sqrt{\varepsilon}n\\
+ & > 6 \sqrt{\varepsilon}n,
+\end{align*}
+%
+which, however, contradicts the upper bound \eqref{eq:error-optimizer-cluster-GMM}.
+Consequently, the dominant component in every cluster $1\leq l\leq r$ must obey
+%
+\begin{align}
+	\max_{1\leq\tau\leq r}n_{l,\tau}  >  (1-2rc_{\varepsilon})n/r.
+	\label{eq:lower-bound-n-l-tau-GMM}
+\end{align}
+%
+In particular, if $2rc_{\varepsilon}< 1/2$, then $\max_{1\leq\tau\leq r}n_{l,\tau} > n/(2r)$.
+An immediate consequence is that: the dominant components of the clusters $\{\mathcal{C}_l\}$ must come from distinct ground-truth clusters.
+
+
+
+\bigskip
+\noindent {\em Step 5: putting all this together.}
+%
+Armed with the preceding bound \eqref{eq:lower-bound-n-l-tau-GMM} and the remark thereafter,
+it is straightforward to verify the following result on the mis-clustering rate:
+%
+\[
+\ell_{\mathsf{mis}}\big(\{\widehat{\xi}_{i}\},\{\xi_{i}^{\star}\}\big)\leq1-\frac{\sum_{l=1}^{r}\max_{1\leq\tau\leq r}n_{l,\tau}}{n}\leq2rc_{\varepsilon}.
+\]
+%
+Finally, setting $c_{\varepsilon} = \varepsilon^{1/4}$ leads to the advertised result,
+provided that $\varepsilon\leq c_{3}r^{-4}$ for some sufficiently small constant $c_3>0$.
+
+
+
+
+
+\paragraph{Proof of Claim~\ref{claim:deviation-S-GMM}.}
+%
+Before proceeding, let us take a quick look at how many columns
+of $\bm{Y}$ might deviate considerably from their counterparts in
+$\bm{Y}^{\star}$. To be precise, let us introduce the following set
+%
+\begin{equation}
+	\mathcal{N}_{\mathsf{large}}\coloneqq\left\{ i\mid\|\bm{y}_{i}-\bm{y}_{i}^{\star}\|_{2}^{2}\geq\varepsilon\right\} .
+	\label{eq:defn-Nlarge-GMM}
+\end{equation}
+%
+Clearly, its cardinality is necessarily bounded above by
+%
+\begin{equation}
+	\big|\mathcal{N}_{\mathsf{large}}\big|\leq\frac{\big\|\bm{Y}-\bm{Y}^{\star}\big\|_{\mathrm{F}}^{2}}{\varepsilon}\leq\frac{\varepsilon^{2}n}{\varepsilon}=\varepsilon n.
+	\label{eq:size-Nlarge-UB-GMM}
+\end{equation}
+%
+
+
+%
+The starting point of the proof is the elementary identities
+\begin{align}
+ &  \sum_{i\in\mathcal{S}}\Big\|\bm{y}_{i}-\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}\Big\|_{2}^{2}-\sum_{i\in\mathcal{S}}\Big\|\bm{y}_{i}^{\star}-\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}  \nonumber \\
+ & \quad=\sum_{i\in\mathcal{S}}\big\|\bm{y}_{i}\big\|_{2}^{2}-|\mathcal{S}|\cdot\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}\Big\|_{2}^{2}  - \Big( \sum_{i\in\mathcal{S}}\big\|\bm{y}_{i}^{\star}\big\|_{2}^{2}-|\mathcal{S}|\cdot\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}^{\star}\Big\|_{2}^{2} \Big) \nonumber\\
+ & \quad = |\mathcal{S}|\cdot \Bigg( \Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}^{\star}\Big\|_{2}^{2} -\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}\Big\|_{2}^{2} \Bigg), \label{eq:sum-y-S-decompose-GMM}
+\end{align}
+where the last inequality follows from the fact that $\big\|\bm{y}_{i}\big\|_{2}=\big\|\bm{y}_{i}^{\star}\big\|_{2}=1$.
+To bound the right-hand side of (\ref{eq:sum-y-S-decompose-GMM}),
+we make the observation that
+%
+\begin{align}
+\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\big(\bm{y}_{j}-\bm{y}_{j}^{\star}\big)\Big\|_{2} & \leq\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}\backslash\mathcal{N}_{\mathsf{large}}}\big\|\bm{y}_{j}-\bm{y}_{j}^{\star}\big\|_{2}+\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}\cap\mathcal{N}_{\mathsf{large}}}\big\|\bm{y}_{j}-\bm{y}_{j}^{\star}\big\|_{2}\notag\\
+ & \overset{(\mathrm{i})}{\leq}\sqrt{\varepsilon}+\frac{2\big|\mathcal{N}_{\mathsf{large}}\big|}{|\mathcal{S}|}\overset{(\mathrm{ii})}{\leq}\sqrt{\varepsilon}+\frac{2\varepsilon}{c_{s}}\leq 3\sqrt{\varepsilon}. \label{eq:sum-y-diff}
+\end{align}
+%
+Here, (i) holds true since any column outside $\mathcal{N}_{\mathsf{large}}$
+satisfies $\big\|\bm{y}_{j}-\bm{y}_{j}^{\star}\big\|_{2} < \sqrt{\varepsilon}$,
+and any column coming from $\mathcal{N}_{\mathsf{large}}$ obeys
+$\big\|\bm{y}_{j}-\bm{y}_{j}^{\star}\big\|_{2}\leq\big\|\bm{y}_{j}\big\|_{2}+\big\|\bm{y}_{j}^{\star}\big\|_{2} = 2$;
+(ii) follows from (\ref{eq:size-Nlarge-UB-GMM}) and the assumption
+$|\mathcal{S}|=c_{s}n$; and the last inequality relies on the assumption
+$\varepsilon\leq c_{s}^{2}$.
+In addition,
+%
+\begin{subequations}\label{eq:sum-y-ub}
+\begin{align}
+\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}^{\star}\Big\|_{2} &\leq\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\big\|\bm{y}_{j}^{\star}\big\|_{2}=1; \\
+\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j} \Big\|_{2} &\leq\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\big\|\bm{y}_{j} \big\|_{2}=1.
+\end{align}
+\end{subequations}
+%
+Combining  \eqref{eq:sum-y-diff} and \eqref{eq:sum-y-ub} and applying the triangle inequality, we arrive at
+%
+\begin{align}
+& \Bigg|\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}\Big\|_{2}^{2}-\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}\Bigg| \notag\\
+& \qquad  =\Bigg|\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}\Big\|_{2} -\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}^{\star}\Big\|_{2} \Bigg|\cdot \Bigg|\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}\Big\|_{2} + \Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}^{\star}\Big\|_{2} \Bigg| \notag\\
+& \qquad \leq 2\Bigg|\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}\Big\|_{2} -\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}^{\star}\Big\|_{2} \Bigg| \notag \\
+& \qquad \leq 2 \Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}(\bm{y}_{j}-\bm{y}_{j}^{\star})\Big\|_{2}
+	%\nonumber \\
+%	+ 2\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}(\bm{y}_{j}-\bm{y}_{j}^{\star})\Big\|_{2}\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}^{\star}\Big\|_{2}\nonumber \\
+  \leq 6\sqrt{\varepsilon}.\label{eq:mean-difference-123-GMM}
+\end{align}
+%9\varepsilon+\leq 15 \sqrt{\varepsilon}
+Finally, plugging in (\ref{eq:mean-difference-123-GMM})
+into (\ref{eq:sum-y-S-decompose-GMM}),
+we conclude that
+%
+\begin{align*}
+ & \Bigg| \sum_{i\in\mathcal{S}}\Big\|\bm{y}_{i}-\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}\Big\|_{2}^{2}-\sum_{i\in\mathcal{S}}\Big\|\bm{y}_{i}^{\star}-\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}^{\star}\Big\|_{2}^{2} \Bigg|\\
+ & \quad = |\mathcal{S}|
+ \cdot\Bigg|\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}\Big\|_{2}^{2}-\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}  \Bigg|\\
+ & \quad\leq   6 \sqrt{\varepsilon}|\mathcal{S}| = 6 c_{s}\sqrt{\varepsilon}n
+\end{align*}
+%
+as claimed, where the last relation holds true since $|\mathcal{S}|=c_s n$.
+
+%\begin{subequations}\label{eq:sum-y-ystar-S-decompose-GMM}
+%%
+%\begin{align}
+%\sum_{i\in\mathcal{S}}\Big\|\bm{y}_{i}-\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}\Big\|_{2}^{2}
+%& = \sum_{i\in\mathcal{S}}\big\|\bm{y}_{i}\big\|_{2}^{2}-|\mathcal{S}|\cdot\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}\Big\|_{2}^{2},
+%\label{eq:sum-y-S-decompose-GMM}\\
+%\sum_{i\in\mathcal{S}}\Big\|\bm{y}_{i}^{\star}-\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}
+%& =\sum_{i\in\mathcal{S}}\big\|\bm{y}_{i}^{\star}\big\|_{2}^{2}-|\mathcal{S}|\cdot\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}^{\star}\Big\|_{2}^{2},
+%\label{eq:sum-ystar-S-decompose-GMM}
+%\end{align}
+%\end{subequations}
+%%
+%leaving us with two terms to cope with.
+%
+%%Recall the definition of $\mathcal{N}_{\mathsf{large}}$ in \eqref{eq:defn-Nlarge-GMM}.
+%Regarding the first term on the right-hand side of (\ref{eq:sum-y-S-decompose-GMM}), it can be seen that
+%%
+%\[
+%\big\|\bm{y}_{i}\big\|_{2}^{2}
+%=\big\|\bm{y}_{i}^{\star}\big\|_{2}^{2}+\big\|\bm{y}_{i}-\bm{y}_{i}^{\star}\big\|_{2}^{2}+2\big\langle \bm{y}_{i} - \bm{y}_{i}^{\star},\, \bm{y}_{i}^{\star} \big\rangle,
+%\]
+%%
+%and therefore, for any $i\notin\mathcal{N}_{\mathsf{large}}$ (i.e., $\|\bm{y}_{i}-\bm{y}_{i}^{\star}\|_{2}^{2}<\varepsilon$) one has
+%%
+%\begin{align}
+%\left|\big\|\bm{y}_{i}\big\|_{2}^{2}-\big\|\bm{y}_{i}^{\star}\big\|_{2}^{2}\right|
+% & \leq\big\|\bm{y}_{i}-\bm{y}_{i}^{\star}\big\|_{2}^{2}+2\big\|\bm{y}_{i}-\bm{y}_{i}^{\star}\big\|_{2}\big\|\bm{y}_{i}^{\star}\big\|_{2}
+% \label{eq:expansion-y-i-123}\\
+% & \leq\varepsilon+2\sqrt{\varepsilon}\leq3\sqrt{\varepsilon},\nonumber
+%\end{align}
+%%
+%where we have applied Cauchy-Schwarz as well as the fact $\|\bm{y}_i^{\star}\|_2=1$.
+%In addition, for any $i\in\mathcal{N}_{\mathsf{large}}$, it suffices to resort to the crude bound
+%%
+%\[
+%	\left| \|\bm{y}_{i} \|_{2}^{2}-\big\|\bm{y}_{i}^{\star}\big\|_{2}^{2}\right|
+%	\leq  \max\left\{ \|\bm{y}_{i}\|_{2}^{2},\big\|\bm{y}_{i}^{\star}\big\|_{2}^{2}\right\} =1,
+%\]
+%%
+%where $\|\bm{y}_{i}\|_{2} = 1$ is guaranteed by the projection operation $\mathcal{P}$ introduced in Section~\ref{sec:algorithm-gaussian-mixture}.
+%Putting the preceding bounds together yields
+%%
+%\begin{align}
+% & \Bigg|\sum_{i\in\mathcal{S}}\big\|\bm{y}_{i}\big\|_{2}^{2}-\sum_{i\in\mathcal{S}}\big\|\bm{y}_{i}^{\star}\big\|_{2}^{2}\Bigg|
+% \leq  \Bigg\{ \sum_{i\in\mathcal{S\backslash\mathcal{N}_{\mathsf{large}}}}
+% + \sum_{i\in\mathcal{S\cap\mathcal{N}_{\mathsf{large}}}} \Bigg\} \left|\big\|\bm{y}_{i}\big\|_{2}^{2}-\big\|\bm{y}_{i}^{\star}\big\|_{2}^{2}\right|\nonumber \\
+% & \qquad
+%   \leq |\mathcal{S}| \cdot (3\sqrt{\varepsilon}) +\big|\mathcal{N}_{\mathsf{large}}\big|
+%   \leq 3\sqrt{\varepsilon}\cdot c_{s}n+\varepsilon n\leq4c_{s}\sqrt{\varepsilon} n,
+%\label{eq:sum-difference-123-GMM}
+%\end{align}
+%%
+%where the penultimate relation relies on the assumption $|\mathcal{S}|=c_sn$ and \eqref{eq:size-Nlarge-UB-GMM}, with the last
+%inequality holding true as long as $\varepsilon\leq c_{s}^{2}$.
+
+
+
+
+%\paragraph{Proof of Claim~\ref{claim:simple-opt-GMM}.}
+
+
+%From elementary convex analysis (which we omit for brevity), a maximizer for this optimization problem is given by
+%%
+%\[
+%a_{\tau}^{\star}=\begin{cases}
+%A_{0},\qquad & \text{if }1\leq\tau\leq\left\lfloor A/A_{0}\right\rfloor ,\\
+%A-\left\lfloor A/A_{0}\right\rfloor \cdot A_{0},\qquad & \text{if }\tau=\left\lfloor A/A_{0}\right\rfloor +1,\\
+%0, & \text{else}.
+%\end{cases}
+%\]
+%%
+%Write $A=(k +\delta) A_0$, with $k$ an integer and $0\leq \delta <1$. Then one obtains
+%%
+%\begin{align*}
+%f\big(\{a_{\tau}^{\star}\}_{1\leq\tau\leq r}\big) & =A^{-2}\sum_{i=1}^{r}\big(a_{\tau}^{\star}\big)^{2}=A^{-2}\big(kA_{0}^{2}+\delta^{2}A_{0}^{2}\big)\leq A^{-2}(k+\delta)A_{0}^{2}\\
+% & =A^{-2}A\cdot A_{0}=A_{0}/A.
+%\end{align*}

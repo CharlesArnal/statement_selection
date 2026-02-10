@@ -1,0 +1,368 @@
+
+%\section{An illustrative example: Rank-1 matrix denoising}
+\section{Leave-one-out analysis: An illustrative example}
+\label{sec:rank-1-denoising-LOO}
+
+
+
+To paint a high-level picture of the core ideas empowering the $\ell_{\infty}$ and $\ell_{2,\infty}$ analysis, we find it helpful to first look at a pedagogical example of rank-1 matrix denoising, a special case of the formulation introduced in Section~\ref{sec:matrix-denoising-setup}.
+
+
+\subsection{Setup and algorithm}
+\label{sec:setup-rank1-denoising}
+Suppose that we observe a noisy copy of an unknown rank-1 matrix $\bm{M}^{\star}$ as follows
+%
+\begin{equation}
+	\bm{M}=\bm{M}^{\star}+\bm{E}=\lambda^{\star}\bm{u}^{\star}\bm{u}^{\star\top}+\bm{E} \in \mathbb{R}^{n\times n},
+	\label{eq:defn-matrix-denoising-rank1}
+\end{equation}
+%
+where $\lambda^{\star}>0$ and $\bm{u}^{\star}\in \mathbb{R}^{n}$
+represent the largest eigenvalue  of $\bm{M}^{\star}$ and its associated eigenvector, respectively.  We assume the Gaussian noise model as in Section~\ref{sec:matrix-denoising-setup}, namely, $\bm{E}$ is a symmetric matrix whose upper triangular part comprises of i.i.d.~entries drawn from $\mathcal{N}(0,\sigma^2)$.
+ In addition, we remind the readers of the following incoherence parameter $\mu$  (cf.~Definition~\ref{assump:mc-incoherence}):
+%
+\begin{align}
+	%\|\bm{u}^{\star}\|_{\infty}= \sqrt{\mu/n} = \sqrt{\mu/n} \,\|\bm{u}^{\star}\|_2,
+	\mu = n\|\bm{u}^{\star}\|_{\infty}^{2},
+	\label{defn:incoherence-rank-1-denoising}
+\end{align}
+%
+which satisfies $1 \leq \mu \leq n$ in this rank-1 case; see Remark~\ref{remark:range-mu-MC}.
+
+
+
+Letting $\lambda$  be the leading eigenvalue of $\bm{M}$ (i.e., $\lambda = \lambda_{1}(\bm{M})$) and $\bm{u}\in \mathbb{R}^{n}$
+ the associated eigenvector, the spectral method attempts to estimate $\bm{u}^{\star}$ using $\bm{u}$. In this section, we are particularly interested in controlling the entrywise error, defined in terms of the $\ell_{\infty}$ distance (modulo the global sign):
+ \begin{align}
+	\mathsf{dist}_{\infty}\big(\bm{u},\bm{u}^{\star}\big)
+	\coloneqq \min\big\{ \|\bm{u}-\bm{u}^{\star}\|_{\infty}, \|\bm{u}+\bm{u}^{\star}\|_{\infty} \big\}.
+	\label{eq:defn-dist-infty-vector}
+\end{align}
+
+
+
+
+\subsection{$\ell_{\infty}$ performance guarantees}
+
+
+
+While Section~\ref{sec:performance-denoising-L2} delivers $\ell_2$ estimation guarantees for the spectral estimate $\bm{u}$,
+it falls short of characterizing the entrywise behavior---except for the crude and highly suboptimal bound  $\mathsf{dist}_{\infty}(\bm{u},\bm{u}^{\star})\leq \mathsf{dist}(\bm{u},\bm{u}^{\star})$. Encouragingly,  this simple spectral method is provably  accurate in an entrywise fashion, as revealed by the following theorem.
+%
+ \begin{theorem}
+	 Consider the settings in Section~\ref{sec:setup-rank1-denoising}.
+	 There exists some sufficiently small constant $c_0>0$ such that if $\sigma \sqrt{n} \leq c_0 \lambda^{\star}$, then
+ %
+ \begin{align}
+	 \mathsf{dist}_{\infty}\big(\bm{u},\bm{u}^{\star}\big)
+	 \lesssim \frac{\sigma (\sqrt{\log n} + \sqrt{\mu} )}{\lambda^{\star}}
+ \end{align}
+  %
+	 holds with probability exceeding $1-O(n^{-8})$.
+  \end{theorem}
+%
+
+In particular, if the incoherence parameter obeys $\mu \lesssim \log n$ (the case where no entries of $\bm{u}^{\star}$ are significantly larger in magnitude than the average magnitude), then our $\ell_{\infty}$ bound reads
+%
+\begin{align}
+	 \mathsf{dist}_{\infty}\big(\bm{u},\bm{u}^{\star}\big)
+	 \lesssim \frac{\sigma\sqrt{\log n}}{\lambda^{\star}} ,
+ \end{align}
+%
+which is about $\sqrt{n/\log n}$ times smaller than the $\ell_2$ error bound \eqref{eq:dist-U-Ustar-denoising-L2}, that is, $\mathsf{dist}\big(\bm{u},\bm{u}^{\star}\big)   \lesssim \frac{\sigma\sqrt{ n}}{\lambda^{\star}}$.
+This implies that the estimation errors of $\bm{u}$ are dispersed  more or less evenly across all entries---a message that is previously unavailable from classical $\ell_2$ perturbation theory.
+
+
+
+
+\subsection{Key ingredient and intuition: Leave-one-out estimates}
+\label{sec:LOO-estimates-denoising}
+
+To facilitate entrywise analysis, a crucial ingredient lies in the introduction of a set of leave-one-out auxiliary estimates, detailed below.
+
+
+\paragraph{Construction of leave-one-out estimates.} For each $1\leq l\leq n$, let us construct an auxiliary matrix  $\bm{M}^{(l)}$ as follows
+%
+\begin{align}
+	\bm{M}^{(l)} \coloneqq \lambda^{\star}\bm{u}^{\star}\bm{u}^{\star\top}+\bm{E}^{(l)} ,
+	\label{eq:defn-Ml-denoising}
+\end{align}
+%
+where the noise matrix $\bm{E}^{(l)}$ is generated according to
+%
+\begin{equation}
+E_{i,j}^{(l)} \coloneqq
+\begin{cases}
+E_{i,j},\qquad & \text{if }i\neq l\text{ and }j\neq l, \\
+0, & \text{else}.
+\end{cases}
+\label{eq:Eij-l-defn}
+\end{equation}
+%
+In words, $\bm{M}^{(l)}$ (resp.~$\bm{E}^{(l)}$) is obtained by leaving out the randomness in the $l$-th row/column of $\bm{M}$ (resp.~$\bm{E}$). The pattern of the leave-one-out construction is illustrated in Figure~\ref{fig:loo_illustration}.
+Let $\lambda^{(l)}$ and $\bm{u}^{(l)}$ denote respectively the leading eigenvalue and leading eigenvector of $\bm{M}^{(l)}$; 
+these leave-one-out estimates are introduced solely for analysis purpose. 
+It is important to recognize that by construction, $\bm{M}^{(l)}$ (and hence $\bm{u}^{(l)}$) is independent of the noise in the $l$-th row/column of $\bm{E}$, a fact that plays a pivotal role in controlling the perturbation of the $l$-th entry of $\bm{u}^{\star}$.
+
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=0.85\textwidth]{figures/loo_illustration}
+\end{center}
+\caption{Illustration of the leave-one-out auxiliary matrix $\bm{M}^{(l)}$, which removes all the noise in the $l$-th row and the $l$-th column of $\bm{M}$.} \label{fig:loo_illustration}
+\end{figure}
+
+
+\paragraph{Intuition.} Before delving into the proof, let us first explain the rationale at an intuitive level.
+%
+\begin{enumerate}
+	\item Given that $\bm{u}^{(l)}$ is obtained by dropping only a tiny fraction of the data, we expect $\bm{u}^{(l)}$ to be exceedingly close to $\bm{u}$, i.e.,
+	%
+	\begin{align}
+		\bm{u} \approx \pm \bm{u}^{(l)}.
+	\end{align}
+	%
+	In words,  $\bm{u}^{(l)}$ forms a reliable surrogate of $\bm{u}$, which motivates us to analyze $\bm{u}^{(l)}$ instead (if there are foreseeable benefits to do so).
+
+
+\item The way we construct $\bm{u}^{(l)}$ makes it particularly convenient to analyze the behavior of the $l$-th entry, denoted by $u_l^{(l)}$.
+More specifically, given that $(\lambda^{(l)},\bm{u}^{(l)})$ is an eigenpair of $\bm{M}^{(l)}$, one has (assuming for the moment that $\lambda^{(l)} \neq 0$)
+%
+	\begin{align}
+		u_{l}^{(l)} & =\frac{1}{\lambda^{(l)}}\bm{M}_{l,\cdot}^{(l)}\bm{u}^{(l)}=\frac{1}{\lambda^{(l)}}\bm{M}_{l,\cdot}^{\star}\bm{u}^{(l)}=\frac{\lambda^{\star}}{\lambda^{(l)}}u_{l}^{\star}\bm{u}^{\star\top}\bm{u}^{(l)}   \label{eq:ul_l-expression-denoising} \\
+		& \approx \pm u_{l}^{\star}.
+	\end{align}
+	%
+	Here, the first line follows since, by design, the $l$-th rows of $\bm{M}^{(l)}$
+		and $\bm{M}^{\star}$ coincide (both of which are given by $\lambda^{\star}u_{l}^{\star}\bm{u}^{\star\top}$), whereas the second line holds as long as the size $\sigma$ of the noise is sufficiently small, so that $ \lambda^{(l)} / \lambda^{\star} \approx 1$ and $\bm{u}^{\star\top}\bm{u}^{(l)}\approx \pm 1$ according to the $\ell_2$ perturbation theory.
+	% where the second identity follows by construction of $\bm{M}^{(l)}$.
+	
+	%% this point below is justified more rigorously in the formal proof, and hence omitted from the intuition as it is more technical
+	
+%\item The above $\ell_2$-pertubation theory requires evaluation of $\|\bE^{(l)}\|$.
+%	By construction, for any $n$-dimensional vector $\bx$ with restriction $x_l = 0$, we have $\bx^{\top} \bE \bx = \bx^{\top} \bE^{(l)} \bx$.  Therefore,
+%$$
+%		\| \bE \| \geq \sup_{\|\bx\|_2=1, x_l = 0} \bx^{\top} \bE \bx =  \sup_{\|\bx\|_2=1, x_l = 0}  \bx^{\top} \bE^{(l)} \bx =
+%\| \bE ^{(l)}\|
+%$$
+\end{enumerate}
+%
+Combining the above observations suggests that $u_{l} \approx \pm u_{l}^{(l)} \approx \pm u_{l}^{\star}$.
+
+
+\subsection{Leave-one-out analysis}
+\label{sec:LOO-analysis-rank1-denoising}
+Now we make rigorous the heuristic argument in the last subsection, which relies heavily on careful statistical analysis.
+
+
+\subsubsection{Preparation: what we have learned from $\ell_2$ perturbation theory}
+%
+Let us start by collecting a few results derived from the $\ell_2$ perturbation theory in Section~\ref{sec:matrix-denoising-L2} for handy reference. Experienced readers can proceed directly to Step 1.
+
+
+Specifically, suppose that $\sigma\sqrt{n}\leq\frac{1-1/\sqrt{2}}{5}\lambda^{\star}$. Then with probability at least $1-O(n^{-8})$,
+%
+\begin{subequations}
+\label{eq:L2-perturbation-summary-denoising}
+%
+\begin{align}
+  \|\bm{E} \|  &\leq 5\sigma \sqrt{n}    & \|\bm{E}^{(l)} \| &\leq \|\bm{E} \| \leq 5\sigma \sqrt{n}  && \\
+  \mathsf{dist}( \bm{u} , \bm{u}^{\star} )  &\leq \frac{10\sigma\sqrt{n}}{\lambda^{\star}}  ~~
+ & \mathsf{dist}( \bm{u}^{(l)} , \bm{u}^{\star} )  &\leq \frac{10\sigma\sqrt{n}}{\lambda^{\star}} && \\
+	| \lambda - \lambda^{\star} |  &\leq 5\sigma \sqrt{n} & | \lambda^{(l)} - \lambda^{\star} |  &\leq 5\sigma \sqrt{n} &&\\
+	\max_{j: j\geq 2} | \lambda_j(\bm{M})   |  &\leq 5\sigma \sqrt{n} & \max_{j: j\geq 2}| \lambda_j(\bm{M}^{(l)}) |  &\leq 5\sigma \sqrt{n}
+\end{align}
+%
+\end{subequations}
+%
+hold simultaneously for all $1\leq l\leq n$. Here, the first line arises from~\eqref{eq:noise-matrix-E-bound-denoising}, and the remaining claims follow the same argument as in the proof of Corollary~\ref{cor:davis-kahan-conclusion-corollary}. 
+ Consequently, there exist global signs $z, z_l \in \{1,-1\}$  obeying $\|z\bm{u} - \bm{u}^{\star}\|_2= \mathsf{dist}( \bm{u}, \bm{u}^{\star} ) \leq 10\sigma\sqrt{n} / \lambda^{\star}$ and $\|z_l\bm{u}^{(l)} - \bm{u}^{\star}\|_2= \mathsf{dist}( \bm{u}^{(l)}, \bm{u}^{\star} ) \leq 10\sigma\sqrt{n} / \lambda^{\star}$. To simplify presentation, we shall assume
+ \begin{subequations}
+\label{eq:ul-ustar-WLOG-denoising}
+\begin{align}
+	\|\bm{u} - \bm{u}^{\star}\|_2 &= \mathsf{dist}( \bm{u}, \bm{u}^{\star} ), \quad \\
+	\big\| \bm{u}^{(l)} - \bm{u}^{\star} \big\|_2 &= \mathsf{dist}( \bm{u}^{(l)}, \bm{u}^{\star} ) , \quad 1 \leq l \leq n
+\end{align}
+\end{subequations}
+%
+without loss of generality.
+As a simple yet useful byproduct: if ${20\sigma{\sqrt{n}}} < \lambda^{\star}$, then Condition \eqref{eq:ul-ustar-WLOG-denoising} necessarily implies
+%
+\begin{align}
+	\big\| \bm{u} -  \bm{u}^{(l)} \big\|_2 = \mathsf{dist}\big( \bm{u}, \bm{u}^{(l)}\big), \qquad 1 \leq l \leq n.  	
+	\label{eq:u-ul-rotation-denoising}
+\end{align}
+To see this, combine the triangle inequality and \eqref{eq:L2-perturbation-summary-denoising} to yield
+%
+\begin{align*}
+	\big\|\bm{u}-\bm{u}^{(l)}\big\|_{2} & \leq\big\|\bm{u}-\bm{u}^{\star}\big\|_{2}+\big\|\bm{u}^{(l)}-\bm{u}^{\star}\big\|_{2}
+	\leq\frac{20\sigma\sqrt{n}}{\lambda^{\star}}<1 ,
+\end{align*}
+%
+which taken collectively with the fact $\|\bm{u} \|_{2} = \|\bm{u}^{(l)}\|_{2}=1$ gives
+%
+\[
+\big\|\bm{u}+\bm{u}^{(l)}\big\|_{2}^{2}=
+2\big\|\bm{u}\big\|_{2}^{2}+2\big\|\bm{u}^{(l)}\big\|_{2}^2
+-\big\|\bm{u}-\bm{u}^{(l)}\big\|_{2}^{2}>1>\big\|\bm{u}-\bm{u}^{(l)}\big\|_{2}^{2}.
+\]
+%
+This together with the definition \eqref{eq:dist_UUstar-spectral} of $\mathsf{dist}(\cdot,\cdot)$ validates  \eqref{eq:u-ul-rotation-denoising}.
+
+
+
+\subsubsection{Step 1: bounding the proximity of leave-one-out $\&$ true estimates}
+
+In this step, we seek to control the distance between the true estimate $\bm{u}$ and the leave-one-out estimate $\bm{u}^{(l)}$. Suppose for the moment that
+\begin{equation}\label{eq:noise-small-gap}
+\|\bm{M}-\bm{M}^{(l)}\| \leq (1 - 1 / \sqrt{2}) \Big(\lambda^{(l)}-  \max_{j\geq 2}\big| \lambda_{j}\big(\bm{M}^{(l)}\big) \big| \Big).
+\end{equation}
+We can then invoke the Davis-Kahan theorem (cf.~Corollary \ref{cor:davis-kahan-conclusion-corollary}) and the relation \eqref{eq:u-ul-rotation-denoising} to yield
+%
+\begin{align}
+	\big\|\bm{u}-\bm{u}^{(l)}\big\|_{2} &
+	%=\mathsf{dist}\big(\bm{u},\bm{u}^{(l)}\big)
+	\leq\frac{2\|\big(\bm{M}-\bm{M}^{(l)}\big)\bm{u}^{(l)}\|_{2}}{\lambda^{(l)}- \max\limits_{j\geq 2}\big| \lambda_{j}\big(\bm{M}^{(l)}\big) \big| }
+	\leq \frac{4\|\big(\bm{M}-\bm{M}^{(l)}\big)\bm{u}^{(l)}\|_{2}}{\lambda^{\star}}.
+	\label{eq:u-ul-diff-denoising}
+\end{align}
+%
+Here, the last inequality invokes \eqref{eq:L2-perturbation-summary-denoising} and $20\sigma\sqrt{n}\leq \lambda^{\star}$ to obtain
+%
+\begin{align}
+	\lambda^{(l)}-  \max_{j\geq 2}\big| \lambda_{j}\big(\bm{M}^{(l)}\big) \big| & \geq  (\lambda^{\star}-  5\sigma \sqrt{n} ) - 5\sigma \sqrt{n} \geq\lambda^{\star}/2 .
+	\label{eq:lambda-l-minus-lambda-j-LB1}
+	%\\
+	%& \geq \lambda^{\star}- \|\bm{E}^{(l)}\| \geq \lambda^{\star}-10\sigma\sqrt{n}\geq\lambda^{\star}/2,
+\end{align}
+A byproduct of this calculation is that $\lambda^{(l)}$ is positive for all $1\leq l \leq n$.
+%
+%provided that $20\sigma\sqrt{n}\leq \lambda^{\star}$.
+
+It thus remains to control the term $\|\big(\bm{M}-\bm{M}^{(l)}\big)\bm{u}^{(l)}\|_{2}$ in \eqref{eq:u-ul-diff-denoising}, towards which certain statistical independence proves crucial. Specifically, we observe that (by construction of $\bm{M}^{(l)}$)
+%
+\begin{align*}
+\big(\bm{M}-\bm{M}^{(l)}\big)\bm{u}^{(l)} & =\bm{e}_{l}\bm{E}_{l,\cdot}\bm{u}^{(l)}+u_{l}^{(l)}(\bm{E}_{\cdot,l} - E_{l,l}\bm{e}_{l}),
+\end{align*}
+%
+where $\bm{e}_{l}$ is the $l$-th standard basis vector,
+% $u_{l}^{(l)}$ is the $l$-th entry of $\bm{u}^{(l)}$,
+and $\bm{E}_{l,\cdot}$ (resp.~$\bm{E}_{\cdot,l}$)
+denotes the $l$-th row (resp.~column) of $\bm{E}$. By construction, $\bm{u}^{(l)}$ is statistically independent of $\bm{E}_{l,\cdot}$, thus indicating that
+%
+\begin{align}
+	\bm{E}_{l,\cdot} \bm{u}^{(l)} ~\sim~ \mathcal{N}(0, \sigma^2 \|\bm{u}^{(l)}\|_2^2) = \mathcal{N}(0, \sigma^2 )
+\end{align}
+%
+conditioned on $\bm{u}^{(l)}$. Hence, with probability at least $1-n^{-10}$,
+%
+\begin{align}
+	\big| \bm{E}_{l,\cdot} \bm{u}^{(l)} \big| \leq 5\sigma \sqrt{\log n}, \qquad 1\leq l\leq n.
+\end{align}
+%
+In addition, $\|\bm{E}_{\cdot,l} - E_{l,l}\bm{e}_{l}\|_{2} \leq \|\bm{E}_{\cdot,l}\|_2\leq \|\bm{E}\|\leq 5\sigma \sqrt{n}$ (cf.~\eqref{eq:L2-perturbation-summary-denoising}). Consequently,
+%
+\begin{align*}
+ & \|\big(\bm{M}-\bm{M}^{(l)}\big)\bm{u}^{(l)}\|_{2}
+	\leq \big|\bm{E}_{l,\cdot}\bm{u}^{(l)}\big|  +
+	 \big\|\bm{E}_{\cdot,l}\big\|_{2} \cdot \big|u_{l}^{(l)}\big| \\
+ & \qquad \leq5\sigma\sqrt{\log n}+\big\|\bm{E}_{\cdot,l}\big\|_{2}\big(\big|u_{l}\big|+\big\|\bm{u}-\bm{u}^{(l)}\big\|_{\infty}\big)\\
+ & \qquad \leq5\sigma\sqrt{\log n}+5\sigma\sqrt{n}\|\bm{u}\|_{\infty}+5\sigma\sqrt{n}\big\|\bm{u}-\bm{u}^{(l)}\big\|_{2}.
+\end{align*}
+%
+Substitution into \eqref{eq:u-ul-diff-denoising} yields
+%
+\begin{align*}
+\big\|\bm{u}-\bm{u}^{(l)}\big\|_{2}
+ & \leq \frac{20\sigma\sqrt{\log n}+20\sigma\sqrt{n}\|\bm{u}\|_{\infty}+20\sigma\sqrt{n}\big\|\bm{u}-\bm{u}^{(l)}\big\|_{2}}{\lambda^{\star}}\\
+ & \leq\frac{20\sigma\sqrt{\log n}+20\sigma\sqrt{n}\|\bm{u}\|_{\infty}}{\lambda^{\star}}+\frac{1}{2}\big\|\bm{u}-\bm{u}^{(l)}\big\|_{2},
+\end{align*}
+%
+provided that $40\sigma\sqrt{n}\leq \lambda^{\star}$.
+Rearranging terms and taking the union bound, we demonstrate that with probability at least $1- O(n^{-8})$,
+%
+\begin{align}
+\big\|\bm{u}-\bm{u}^{(l)}\big\|_{2} & \leq\frac{40\sigma\sqrt{\log n}+40\sigma\sqrt{n}\|\bm{u}\|_{\infty}}{\lambda^{\star}} , \qquad 1\leq l\leq n.
+	\label{eq:u-ul-proximity-final-denoising}
+\end{align}
+%
+
+\medskip
+\begin{proof}[Proof of the relation \eqref{eq:noise-small-gap}] Apply the triangle inequality to see that
+\begin{align*}
+\|\bm{M}-\bm{M}^{(l)}\|&\leq\|\bm{M}-\bm{M}^{\star}\|+\|\bm{M}^{\star}-\bm{M}^{(l)}\|=\|\bm{E}\|+\|\bm{E}^{(l)}\| \\
+&\leq10\sigma\sqrt{n}\leq\lambda^{\star}/10.
+\end{align*}
+%
+Here, the equality arises from the definition of $\bm{M}$ and $\bm{M}^{\star}$,
+the penultimate inequality uses (\ref{eq:L2-perturbation-summary-denoising}), while the last inequality holds as long
+as $100\sigma\sqrt{n}\leq\lambda^{\star}$. This together with \eqref{eq:lambda-l-minus-lambda-j-LB1} establishes \eqref{eq:noise-small-gap}.
+%
+\end{proof}
+
+
+\subsubsection{Step 2: analyzing leave-one-out estimates}
+
+We now turn attention to bounding the size of the $l$-th entry $u_l^{(l)}$ of $\bm{u}^{(l)}$. Since $\lambda^{(l)}> 0$, by \eqref{eq:ul_l-expression-denoising}, we have 
+%together with the fact $\lambda^{(l)}> 0$ allows us to obtain
+%
+\begin{align*}
+u_{l}^{(l)}-u_{l}^{\star} & %=u_{l}^{\star}\Big(\frac{\lambda^{\star}}{\lambda^{(l)}}\bm{u}^
+%{\star\top}\bm{u}^{(l)}-1\Big)
+=u_{l}^{\star}\Big(\frac{\lambda^{\star}}{\lambda^{(l)}}\bm{u}^{\star\top}\bm{u}^{(l)}-\bm{u}^{\star\top}\bm{u}^{\star}\Big)\\
+ & =u_{l}^{\star}\Big(\frac{\lambda^{\star}-\lambda^{(l)}}{\lambda^{(l)}}\bm{u}^{\star\top}\bm{u}^{(l)}\Big)+u_{l}^{\star}\bm{u}^{\star\top}\big(\bm{u}^{(l)}-\bm{u}^{\star}\big).
+\end{align*}
+%
+%where the first line relies on \eqref{eq:ul-l-expression-denoising}
+%and the fact  $\|\bm{u}^{\star}\|_2=1$. Therefore,
+The triangle inequality and the Cauchy-Schwarz inequality then give
+%
+\begin{align}
+\big|u_{l}^{(l)}-u_{l}^{\star}\big|
+& \leq\big|u_{l}^{\star}\big|\cdot\frac{\big|\lambda^{\star}-\lambda^{(l)}\big|}{\big|\lambda^{(l)}\big|} \cdot \|\bm{u}^{\star}\|_{2} \cdot \|\bm{u}^{(l)}\|_{2}
+	+ \big|u_{l}^{\star}\big|\cdot\|\bm{u}^{\star}\|_{2} \cdot \big\|\bm{u}^{(l)}-\bm{u}^{\star}\big\|_{2} \notag\\
+ & \leq\big|u_{l}^{\star}\big|\cdot\frac{10\sigma\sqrt{n}}{\lambda^{\star}}+\big|u_{l}^{\star}\big|\cdot\frac{10\sigma\sqrt{n}}{\lambda^{\star}} \notag\\
+ & \leq  \frac{20\sigma\sqrt{n}}{\lambda^{\star}} \big\|\bm{u}^{\star}\big\|_{\infty}.
+	\label{eq:ul-ulstar-bound-denoising-rank1}
+\end{align}
+%
+Here, the second line holds due to Condition (\ref{eq:L2-perturbation-summary-denoising}) and the fact $\big|\lambda^{(l)}\big|\geq\lambda^{\star}/2$; see~(\ref{eq:lambda-l-minus-lambda-j-LB1}).
+
+
+
+\subsubsection{Step 3: putting all pieces together}
+
+
+Putting \eqref{eq:u-ul-proximity-final-denoising} and \eqref{eq:ul-ulstar-bound-denoising-rank1} together, we arrive at
+%
+\begin{align}
+\big\|\bm{u}-\bm{u}^{\star}\big\|_{\infty} & =\max_{l}\big|u_{l}-u_{l}^{\star}\big|\leq\max_{l}\Big\{\big|u_{l}^{(l)}-u_{l}^{\star}\big|+\big\|\bm{u}-\bm{u}^{(l)}\big\|_{2}\Big\} \notag\\
+ & \leq \frac{20\sigma\sqrt{n}}{\lambda^{\star}} \big\|\bm{u}^{\star}\big\|_{\infty}
+	+ \frac{40\sigma\sqrt{\log n}+40\sigma\sqrt{n}\|\bm{u}\|_{\infty}}{\lambda^{\star}}.
+	\label{eq:u-ustar-inf-first-bound}
+\end{align}
+%
+The above upper bound, however, involves the term $\|\bm{u}\|_{\infty}$, which can further be bounded by
+$\|\bm{u}^{\star}\|_{\infty} + \|\bm{u}-\bm{u}^{\star} \|_{\infty}$.  Substituting this into \eqref{eq:u-ustar-inf-first-bound}, we have
+\begin{align*}
+\big\|\bm{u}-\bm{u}^{\star}\big\|_{\infty}
+%\eqref{eq:u-ustar-inf-first-bound}
+%	& \leq\frac{20\sigma\sqrt{n} \big\|\bm{u}^{\star}\big\|_{\infty}}{\lambda^{\star}}
+%	+ \frac{40\sigma\sqrt{\log n}  + 40 \sigma \sqrt{n} \big( \|\bm{u}^{\star}\|_{\infty} + \|\bm{u}-\bm{u}^{\star} \|_{\infty} \big)}{\lambda^{\star}}\\
+	& \leq \frac{40\sigma\sqrt{\log n} + 60 \sigma \sqrt{n}\, \|\bm{u}^{\star}\|_{\infty} }{\lambda^{\star}}+\frac{1}{2}\big\|\bm{u}-\bm{u}^{\star}\big\|_{\infty},
+\end{align*}
+%
+provided that $80\sigma\sqrt{n}\leq\lambda^{\star}$. Rearranging terms yields
+\begin{align*}
+	 \big\|\bm{u}-\bm{u}^{\star}\big\|_{\infty}
+	 &\leq \frac{ 80\sigma\sqrt{\log n} + 120 \sigma \sqrt{n}\, \|\bm{u}^{\star}\|_{\infty} }{\lambda^{\star}}
+	 % \leq  \frac{200\sigma\sqrt{\log n}\, ( \sqrt{n} \|\bm{u}^{\star}\|_{\infty} )}{\lambda^{\star}} \\
+	 = \frac{80\sigma\sqrt{\log n} + 120 \sigma \sqrt{\mu} }{\lambda^{\star}} ,
+\end{align*}
+%
+where the last identity results from the definition \eqref{defn:incoherence-rank-1-denoising} of $\mu$.
+
+%
+
+
+
+

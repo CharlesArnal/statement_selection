@@ -1,0 +1,89 @@
+\chapter[Fine-grained analysis:  $\ell_{\infty}$ and $\ell_{2,\infty}$ perturbation theory]{Fine-grained spectral analysis: \\ $\ell_{\infty}$ and $\ell_{2,\infty}$ perturbation theory}
+\label{cha:Linf-theory}
+
+
+In a growing number of applications, the $\ell_2$-type distance between subspaces, which is the central subject studied in Chapter~\ref{chap:application-L2}, turns out to be inadequate for performance characterization. Rather, what would be of interest is the entrywise behavior of the eigenvector and the matrix under consideration. This is especially important when the individual entries of the eigenvector or the matrix of interest carry pivotal operational meanings. For example, in a recommendation system, one might be interested in controlling the prediction error of a user's preference on a specific product, which  concerns  a specific entry in a user-product rating matrix; in sensor network localization, one might seek to control the ranging error w.r.t.~a pair of sensors, which corresponds to  entrywise prediction errors in a Euclidean distance matrix; and last but not least, in community recovery, the entries of the leading eigenvector of a certain data matrix might encode the community membership associated with each individual (as explained in Section~\ref{sec:community-detection}).
+
+Tackling the preceding applications calls for development of fine-grained spectral analysis beyond classical $\ell_2$ perturbation theory.  To be more precise, consider once again the observation model
+$$
+\bm{M}=\bm{M}^{\star} + \bm{E}
+$$  previously studied in Chapter~\ref{cha:matrix-perturbation} (cf.~\eqref{eq:perturbed-M}). The sort of fine-grained theory being sought after gravitates around the following questions concerned with $\ell_{\infty}$ and/or $\ell_{2,\infty}$ perturbation:
+%
+\begin{itemize}
+	\item For a symmetric matrix $\bm{M}^{\star}$, how to characterize the effect of $\bm{E}$ on the $\ell_{\infty}$ perturbation  of the leading eigenvector,
+		or the $\ell_{2,\infty}$ perturbation of the rank-$r$ leading eigenspace?
+	\item For a general matrix $\bm{M}^{\star}$, how to pin down the $\ell_{\infty}$ perturbation of the leading singular vector, or the $\ell_{2,\infty}$ perturbation  of the rank-$r$ leading singular subspace, in response to the perturbation $\bm{E}$?
+	\item How to assess the entrywise estimation error of the matrix estimate produced by the spectral method, and how is it affected by $\bm{E}$?
+\end{itemize}
+%
+Unfortunately, a direct application of classical $\ell_2$ perturbation theory typically leads to overly crude bounds when coping with the above questions.  In particular, when the $\ell_2$ error is approximately evenly distributed across entries, naively upper bounding the entrywise error by the $\ell_2$ error is often loose by an order-of-magnitude.
+In order to conquer such limitations,
+this chapter introduces a modern suite of techniques that delivers tight $\ell_\infty$ and $\ell_{2,\infty}$ error control by leveraging the statistical nature of data models. 
+
+
+
+
+\input{chapters/matrix_denoising_linf.tex}
+\input{chapters/general_theory_linf.tex}
+\input{chapters/mc_inf.tex}
+\input{chapters/community_detection_Linf.tex}
+\input{chapters/distribution_theory.tex}
+
+%\begin{subappendices}
+\input{chapters/analysis_Linf.tex}
+\input{chapters/analysis_entrywise.tex}
+\input{chapters/analysis_Linf_asym.tex}
+\input{chapters/analysis_distribution.tex} 
+%\end{subappendices}
+
+
+
+
+
+
+
+\section{Notes}
+
+
+
+
+
+
+
+\paragraph{Leave-one-out analysis.} The core idea of leave-one-out analysis,  which drops a small amount of randomness to decouple complicated statistical dependency, is deeply rooted in the probability and statistics literature. For instance, an idea of this kind was invoked by \citet{stein1972a} to help establish normal approximation,   was paired with the Stieltjes transform to establish the  limiting spectral law of random matrices (see, e.g., \citep[Section 2.4.3]{Tao2012RMT}), and bears some resemblance to the cavity method in statistical physics \citep{mezard2009information}.
+When it comes to statistical estimation, a prominent series of work that unveiled the striking effectiveness of leave-one-out analysis was \citet{el2013robust,el2015impact}, which characterized rigorously the sharp statistical performance (including pre-constants) of M-estimators in high dimension (i.e., a challenging regime where the number of samples is comparable to the number of unknown parameters).
+The deep analysis framework developed in these papers inspired much of the follow-up work presented in this chapter. Particularly worth mentioning are: (1) \citet{zhong2017near}: which was the first to determine the entrywise behavior of the generalized projected power method; (2) \citet{abbe2020entrywise,chen2017spectral}: which extended the leave-one-out analysis idea to establish entrywise eigenvector perturbation; and (3) \citet{ma2017implicit,chen2019gradient}: which characterized tight convergence guarantees for nonconvex optimization algorithms with the aid of leave-one-out ideas. For readers' reference, we list below several topics for which leave-one-out analyses prove useful:
+%
+\begin{itemize}
+	\item Maximum likelihood estimation and M-estimation: \citet{el2013robust,el2015impact,lei2018asymptotics,sur2019likelihood,sur2019modern,chen2017spectral,chen2020partial};
+	\item spectral methods: \citet{chen2017spectral,abbe2020entrywise,ma2017implicit,cai2019subspace,lei2019unified,abbe2020ell_p,ling2020near,chen2020partial};
+	\item nonconvex optimization for statistical estimation: \citet{ma2017implicit,chen2019gradient, li2019nonconvex,chen2020nonconvex,cai2019tensor,dong2018nonconvex,chen2020convex,wang2021entrywise};
+	\item semidefinite relaxation for low-rank matrix factorization: \citet{zhong2017near,ding2020leave,chen2020noisy,chen2020bridging,chen2020convex};
+	\item uncertainty quantification and  confidence intervals: \citet{javanmard2018debiasing,chen2019inference,cai2020uncertainty,yan2021inference};
+	\item cross validation: \citet{xu2019consistent};
+	\item reinforcement learning: \citet{agarwal2020model,li2020breaking,pananjady2020instance,zhang2020model,cui2020minimax,
+		wang2021sample}.
+\end{itemize}
+
+
+
+\paragraph{$\ell_{\infty}$ and $\ell_{2,\infty}$  perturbation theory.}
+
+The $\ell_{\infty}$ and $\ell_{2,\infty}$ perturbation theory for eigenspace and singular subspaces have been investigated in the literature \citep{fan2016ell,cape2019two,eldridge2018unperturbed}, but only scatteredly until very recently.
+A modern and systematic framework was established recently,  empowered by the leave-one-out analysis idea.
+Its efficacy and tightness  were first demonstrated by \citet{abbe2020entrywise} in a setting that subsumes the one presented herein (with applications to SBMs, phase synchronization and matrix completion), and  by \citet{chen2017spectral} in an asymmetric setting (with application to
+ top-$K$ ranking).
+ The theoretical framework has subsequently been extended in several aspects.
+ For instance, (1) \citet{cai2019subspace} investigated the ``unbalanced'' scenario where the column dimension far exceeds the row dimension of the matrix, resulting in near-optimal fine-grained guarantees for PCA, bi-clustering and tensor completion; (2) \citet{lei2019unified}  expanded the setting by accounting for more flexible noise distributions (including the ones exhibiting certain dependency structure), leading to tight guarantees for, e.g., spectral clustering with more than two communities, and  hierarchical clustering;  (3)  \citet{abbe2020ell_p} explored a more general $\ell_{p}$ perturbation theory that subsumes the $\ell_{\infty}$ perturbation theory as special cases.
+Another plausible  approach to study $\ell_{\infty}$ eigenvector perturbation
+is to analyze instead the dynamics of an iterative procedure (e.g., the power method) that converges to the leading eigenvector \citep{zhong2017near}, again using the leave-one-out ideas.
+This iterative approach offers a perspective complementary to the analysis framework presented herein,
+while at the same time playing a pivotal role when studying nonconvex optimization algorithms (see \citet{chi2019nonconvex}).
+Moving beyond the leave-one-out analysis framework, $\ell_{\infty}$ and $\ell_{2,\infty}$ eigenspace perturbation theory has been derived via other powerful tools as well, e.g., the Neumann trick \citep{eldridge2018unperturbed,chen2018asymmetry,cheng2020tackling,}, the Procrustes analysis \citep{cape2019two}, and more specialized techniques tailored to Gaussian ensembles \citep{koltchinskii2016perturbation,koltchinskii2016asymptotics,koltchinskii2020efficient}. Perturbations of linear forms and bilinear forms of eigenvectors have also been investigated  in the literature
+\citep{koltchinskii2016perturbation,koltchinskii2016asymptotics,chen2018asymmetry,cheng2020tackling,fan2020asymptotic,koltchinskii2020efficient},
+which are beyond the scope of this work.
+Finally, distributional theory and uncertainty quantification for spectral methods, which
+have been recently studied by \citet{xia2019normal, cheng2020tackling, fan2020asymptotic, yan2021inference,agterberg2021entrywise}, 
+are still in their infancy. The results presented in Section~\ref{sec:distribution-theory} follow the analysis framework developed in \citet{yan2021inference}. 
+
+

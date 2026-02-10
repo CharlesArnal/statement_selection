@@ -1,0 +1,5597 @@
+#LyX file created by tex2lyx 2.3
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin /Users/congma/Dropbox (Princeton)/Research/SpectralMethod_tutorial/FnT/chapters/
+\textclass article
+\use_default_options false
+\maintain_unincluded_children false
+\language english
+\language_package none
+\inputencoding auto
+\fontencoding default
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 0
+\use_package cancel 0
+\use_package esint 1
+\use_package mathdots 0
+\use_package mathtools 0
+\use_package mhchem 0
+\use_package stackrel 0
+\use_package stmaryrd 0
+\use_package undertilde 0
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+chapter{Applications of $
+\backslash
+ell_2$ perturbation theory to data science}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:application-L2"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+begin{itemize}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+item Principal component analysis and factor models in high dimensions
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+item Matrix denoising
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+item Matrix completion and sensing
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+item Phase retrieval and solving random systems of quadratic equations
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+item Clustering and mixture models
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+item Community recovery
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+item Joint alignment from pairwise differences
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+item Joint graph matching
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+end{itemize}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This chapter develops tailored spectral methods for several important applications arising in statistical data science and machine learning, where the quantities of interest can be extracted by computing the top eigenspace and eigenvalues of a properly constructed data matrix. Encouragingly, we shall see that these methods are all variations on a common recipe. The classical 
+\begin_inset Formula $\ell_2$
+\end_inset
+
+ perturbation theory introduced in Chapter
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "cha:matrix-perturbation"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, when equipped with statistical tools reviewed in Section
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:matrix-Bernstein"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, unveils appealing performance of spectral methods in a variety of applications by harnessing the randomness of data.
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%With the matrix perturbation theory in place, we are positioned to present spectral methods for various low-rank matrix factorization problems. 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+yc{mostly adapted from the overview article -- maybe include $
+\backslash
+ell_
+\backslash
+infty$ whenever available?}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Preliminaries: matrix tail bounds
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:matrix-Bernstein"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In order to invoke the sin
+\begin_inset Formula $\bm{\Theta}$
+\end_inset
+
+ theorems (Theorems
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:davis-kahan"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:wedin"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+), an important ingredient lies in developing a (hopefully) tight upper bound on the spectral norm 
+\begin_inset Formula $\|\bm{E}\|$
+\end_inset
+
+ of the perturbation matrix 
+\begin_inset Formula $\bm{E}$
+\end_inset
+
+. This is where statistical/probabilistic tools play a major role. Rather than presenting an encyclopedia of probabilistic techniques, we choose to single out only two concentration inequalities in this monograph.
+\end_layout
+
+\begin_layout Paragraph
+The matrix Bernstein inequality.
+\end_layout
+
+\begin_layout Standard
+The first result is the matrix Bernstein inequality 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+citep{tropp2012user}
+\end_layout
+
+\end_inset
+
+, an elegant and convenient-to-use tail bound that leads to effective performance guarantees for a wide range of statistical applications. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{theorem}[Matrix Bernstein]
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:matrix-Bernstein"
+
+\end_inset
+
+ Let 
+\begin_inset Formula $\{\bm{X}_{i}\}$
+\end_inset
+
+ be a sequence of independent real random matrices with dimension 
+\begin_inset Formula $n_{1}\times n_{2}$
+\end_inset
+
+. Suppose that 
+\begin_inset Formula \begin{align}
+\mathbb{E}\left[\bm{X}_{i}\right]=\bm{0} 
+	\quad \text{and} \quad
+	\left\Vert \bm{X}_{i}\right\Vert \leq B\qquad\text{for all } i.
+	\label{eq:mean-zero-bound-B}
+\end{align}
+\end_inset
+
+Define the matrix variance statistic 
+\begin_inset Formula $v$
+\end_inset
+
+ as follows 
+\begin_inset Formula \begin{align}
+	v \coloneqq
+	\max\left\{ \left\Vert \sum\nolimits_{i}\mathbb{E}\big[\bm{X}_{i}\bm{X}_{i}^{\top}\big]\right\Vert ,
+	\left\Vert \sum\nolimits_{i}\mathbb{E}\big[\bm{X}_{i}^{\top}\bm{X}_{i}\big]\right\Vert \right\} .
+	\label{defn:variance-statistic}
+\end{align}
+\end_inset
+
+Then for all 
+\begin_inset Formula $t\geq0$
+\end_inset
+
+, one has 
+\begin_inset Formula \[
+	\mathbb{P}\left( \left\Vert \sum\nolimits_{i}\bm{X}_{i}\right\Vert \geq t\right)\leq\left(n_{1}+n_{2}\right) \exp\left(\frac{-t^{2}/2}{v+Bt/3}\right).
+\]
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{theorem}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We refer the interested reader to 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+citep{tropp2015introduction}
+\end_layout
+
+\end_inset
+
+ for a highly accessible introduction of this result (as well as other matrix concentration inequalities). Here, we make note of a straightforward consequence of Theorem
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:matrix-Bernstein"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ that further enhances its user-friendliness. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{corollary}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:matrix-Bernstein-friendly"
+
+\end_inset
+
+ Instate the assumptions of Theorem
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:matrix-Bernstein"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+. Set 
+\begin_inset Formula $n=\max\{n_1,n_2\}$
+\end_inset
+
+. Then for any 
+\begin_inset Formula $a\geq 2$
+\end_inset
+
+, with probability exceeding 
+\begin_inset Formula $1-2n^{-a+1}$
+\end_inset
+
+ one has 
+\begin_inset Formula \begin{align}
+		\left\Vert \sum\nolimits_{i}\bm{X}_{i}\right\Vert \leq \sqrt{2a v \log n } + \frac{2a}{3}B\log n .
+	\end{align}
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{corollary}
+\end_layout
+
+\end_inset
+
+ In other words, bounding the order of 
+\begin_inset Formula $\left\Vert \sum\nolimits_{i}\bm{X}_{i}\right\Vert$
+\end_inset
+
+ boils down to controlling the following two crucial quantities: 
+\begin_inset Formula \begin{align*}
+	\sqrt{v\log n} \qquad \text{and} \qquad B\log n. 
+\end{align*}
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%with high probability one should have $$
+\backslash
+left
+\backslash
+Vert 
+\backslash
+sum
+\backslash
+nolimits_{i}
+\backslash
+bm{X}_{i}
+\backslash
+right
+\backslash
+Vert 
+\backslash
+lesssim 
+\backslash
+sqrt{ v 
+\backslash
+log n } + B
+\backslash
+log n.$$
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Spectral norm of random matrices with independent entries.
+\end_layout
+
+\begin_layout Standard
+An important family of random matrices that merits special attention comprises the ones with independent random entries. We record a spectral norm tail bound for this family, which is of significant utility and is tighter than what matrix Bernstein has to offer. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{theorem}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:tighter-spectral-normal-ramon"
+
+\end_inset
+
+ Consider a symmetric random matrix 
+\begin_inset Formula $\bm{X}=[X_{i,j}]_{1\leq i,j\leq n}$
+\end_inset
+
+ in 
+\begin_inset Formula $\mathbb{R}^{n\times n}$
+\end_inset
+
+, whose entries are independently generated and obey 
+\begin_inset Formula \begin{align}
+		\label{eq:Xij-condition-iid}
+		\mathbb{E}[X_{i,j}]=0 \quad \text{and} \quad  |X_{i,j}|\leq B,  \qquad 1\leq i,j\leq n. 
+	\end{align}
+\end_inset
+
+Define 
+\begin_inset Formula \begin{align}
+		\label{eq:Xij-row-sum-variance}
+		\nu \coloneqq \max_i \sqrt{\sum\nolimits_j \mathbb{E}[X_{i,j}^2]}. 
+	\end{align}
+\end_inset
+
+Then there is some universal constant 
+\begin_inset Formula $c>0$
+\end_inset
+
+ such that for any 
+\begin_inset Formula $t\geq 0$
+\end_inset
+
+, 
+\begin_inset Formula \begin{align}
+		\mathbb{P}\Big\{ \|\bm{X}\|\geq4\sqrt{\nu}+t \Big\} \leq n\exp\Big(-\frac{t^{2}}{cB^{2}}\Big).		
+	\end{align}
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{theorem}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This result, which appeared in 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+citep[Remark 3.13]{bandeira2016sharp}
+\end_layout
+
+\end_inset
+
+, can be established via tighter control of the expected spectral norm as well as Talagrand's concentration inequality. As a remark, if we know 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+em
+\end_layout
+
+\end_inset
+
+ a priori
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+ that 
+\begin_inset Formula $\mathbb{E}[X_{i,j}^2]\leq \sigma^2$
+\end_inset
+
+ for all 
+\begin_inset Formula $(i,j)$
+\end_inset
+
+, then Theorem
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:tighter-spectral-normal-ramon"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ implies the existence of some constant 
+\begin_inset Formula $c_{\mathsf{b}}>0$
+\end_inset
+
+ such that 
+\begin_inset Formula \begin{align}
+	\|\bm{X}\| \leq 4\sigma \sqrt{n} + c_{\mathsf{b}} B \sqrt{ \log n }
+	\label{eq:X-spectral-norm-iid-special-ramon}
+\end{align}
+\end_inset
+
+holds with probability at least 
+\begin_inset Formula $1-n^{-8}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+citep{tropp2016expected}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Matrix denoising
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:matrix-denoising-L2"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Let us start by trying out the approach we have introduced on a simple model: matrix denoising.
+\end_layout
+
+\begin_layout Subsection
+Problem formulation and algorithm
+\end_layout
+
+\begin_layout Standard
+Consider an unknown rank-
+\begin_inset Formula $r$
+\end_inset
+
+ symmetric matrix 
+\begin_inset Formula $\bm{M}^{\star} \in \mathbb{R}^{n\times n}$
+\end_inset
+
+ with eigen-decomposition 
+\begin_inset Formula $\bm{M}^{\star}=\bm{U}^{\star}\bm{\Lambda}^{\star}\bm{U}^{\star\top}$
+\end_inset
+
+, where the columns of 
+\begin_inset Formula $\bm{U}^{\star}\in \mathbb{R}^{n\times r}$
+\end_inset
+
+ are orthonormal, and 
+\begin_inset Formula $\bm{\Lambda}^{\star}\in \mathbb{R}^{r\times r}$
+\end_inset
+
+ is a diagonal matrix containing the nonzero eigenvalues of 
+\begin_inset Formula $\bm{M}^{\star}$
+\end_inset
+
+. Assume that 
+\begin_inset Formula $|\lambda_1^{\star}|\geq |\lambda_2^{\star}|\geq \cdots \geq |\lambda_r^{\star}|>0$
+\end_inset
+
+. Suppose that we observe a noisy copy 
+\begin_inset Formula $\bm{M}=\bm{M}^{\star}+\bm{E}$
+\end_inset
+
+, where 
+\begin_inset Formula $\bm{E}=[E_{i,j}]_{1\leq i,j\leq n}$
+\end_inset
+
+ is a symmetric noise matrix. It is assumed that the entries 
+\begin_inset Formula $\{{E}_{i,j}\}_{i\geq j}$
+\end_inset
+
+ are independently generated obeying 
+\begin_inset Formula \begin{align}
+	E_{i,j} \overset{\mathrm{i.i.d.}}{\sim} \mathcal{N}(0,\sigma^2) , \qquad i\geq j. 
+\end{align}
+\end_inset
+
+The aim is to estimate the eigenspace 
+\begin_inset Formula $\bm{U}^{\star}$
+\end_inset
+
+ from the data matrix 
+\begin_inset Formula $\bm{M}$
+\end_inset
+
+. This is a simple setting that has been frequently studied in the literature, and is closely related to the angular/phase synchronization problem 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+citep{singer2011angular,abbe2020entrywise}
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In order to estimate the low-rank factors specified by 
+\begin_inset Formula $\bm{U}^{\star}$
+\end_inset
+
+, a natural scheme is to resort to the rank-
+\begin_inset Formula $r$
+\end_inset
+
+ leading eigenspace of the data matrix 
+\begin_inset Formula $\bm{M}$
+\end_inset
+
+. More precisely, denote by 
+\begin_inset Formula $\lambda_1,\cdots,\lambda_n$
+\end_inset
+
+ the eigenvalues of 
+\begin_inset Formula $\bm{M}$
+\end_inset
+
+ sorted by their magnitudes, i.e., 
+\begin_inset Formula \begin{align}
+	|\lambda_1| \geq |\lambda_2| \geq \cdots \geq |\lambda_n|, 
+\end{align}
+\end_inset
+
+and let 
+\begin_inset Formula $\bm{u}_1$
+\end_inset
+
+, 
+\begin_inset Formula $\cdots$
+\end_inset
+
+, 
+\begin_inset Formula $\bm{u}_n$
+\end_inset
+
+ represent the associated eigenvectors. This spectral method returns 
+\begin_inset Formula $\bm{U} = [\bm{u}_1,\cdots,\bm{u}_r]\in \mathbb{R}^{n\times r}$
+\end_inset
+
+ as the estimate of 
+\begin_inset Formula $\bm{U}^{\star}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Performance guarantees
+\end_layout
+
+\begin_layout Standard
+We now examine the accuracy of the above spectral estimate. Towards this, a key step lies in bounding the spectral norm of the noise matrix 
+\begin_inset Formula $\bm{E}=[E_{i,j}]_{1\leq i,j\leq n}$
+\end_inset
+
+. We claim that with probability at least 
+\begin_inset Formula $1-O(n^{-8})$
+\end_inset
+
+, 
+\begin_inset Formula \begin{align}
+	\|\bm{E}\| \leq 5\sigma\sqrt{n}.
+	\label{eq:noise-matrix-E-bound-denoising}
+\end{align}
+\end_inset
+
+Armed with this bound and the fact 
+\begin_inset Formula $\lambda_{r+1}^{\star}=0$
+\end_inset
+
+, the Davis-Kahan theorem (cf.
+\begin_inset space ~
+
+\end_inset
+
+Corollary 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "cor:davis-kahan-conclusion-corollary"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) reveals that with probability greater than 
+\begin_inset Formula $1-O(n^{-8})$
+\end_inset
+
+, 
+\begin_inset Formula \begin{align}
+	\mathsf{dist}\big(\bm{U},\bm{U}^{\star}\big)\leq\frac{2\|\bm{E}\|}{|\lambda_{r}^{\star}|}\leq\frac{10\sigma\sqrt{n}}{|\lambda_{r}^{\star}|} ,
+	\label{eq:dist-U-Ustar-denoising-L2}
+\end{align}
+\end_inset
+
+provided that the noise variance is sufficiently small 
+\begin_inset Formula $ \sigma \sqrt{n} \leq \frac{1-1/\sqrt{2}}{5} |\lambda_r^{\star}|$
+\end_inset
+
+ (so that 
+\begin_inset Formula $\|\bm{E}\|\leq (1-1/\sqrt{2})|\lambda_r^{\star}|$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+yxc
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+maybe talk about lower bound
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+[
+\end_layout
+
+\end_inset
+
+Proof of the inequality 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:noise-matrix-E-bound-denoising"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+]
+\end_layout
+
+\end_inset
+
+ Given that Gaussian entries are unbounded, we introduce a truncated copy 
+\begin_inset Formula $\widetilde{\bm{E}}=[\widetilde{E}_{i,j}]_{1\leq i,j\leq n}$
+\end_inset
+
+ defined as follows 
+\begin_inset Formula \begin{equation}
+\widetilde{E}_{i,j}\coloneqq E_{i,j}\ind\big\{|E_{i,j}|\leq 5\sigma\sqrt{\log n}\big\}, \qquad 1\leq i,j\leq n.
+	\label{eq:defn-Eij-truncated-denoising}
+\end{equation}
+\end_inset
+
+Two properties are worth mentioning. 
+\end_layout
+
+\begin_layout Itemize
+It is readily seen from the property of Gaussian distributions that 
+\begin_inset Formula \[
+\mathbb{P}\big\{ E_{i,j}=\widetilde{E}_{i,j}\big\}\geq1-n^{-12},\qquad1\leq i,j\leq n,
+\]
+\end_inset
+
+which combined with the union bound leads to 
+\begin_inset Formula \begin{equation}
+\mathbb{P}\big\{\bm{E}=\widetilde{\bm{E}}\big\}\geq1-n^{-10}.\label{eq:prob-E-Etilde-equivalence-denoising}
+\end{equation}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Given that 
+\begin_inset Formula $B\coloneqq\max_{i,j}|\widetilde{E}_{i,j}|\leq 5\sigma\sqrt{\log n}$
+\end_inset
+
+, we can invoke Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:tighter-spectral-normal-ramon"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ (or more directly, (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:X-spectral-norm-iid-special-ramon"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+)) to demonstrate that 
+\begin_inset Formula \[
+\|\widetilde{\bm{E}}\|\leq4\sigma\sqrt{n}+O(B\log n)=4\sigma\sqrt{n}+O(\sigma\log^{1.5}n)\leq5\sigma\sqrt{n}
+\]
+\end_inset
+
+with probability exceeding 
+\begin_inset Formula $1-O(n^{-8})$
+\end_inset
+
+. 
+\end_layout
+
+\begin_layout Standard
+Combining the above two observations implies that 
+\begin_inset Formula \[
+\|\bm{E}\|=\|\widetilde{\bm{E}}\|\leq5\sigma\sqrt{n}
+\]
+\end_inset
+
+with probability exceeding 
+\begin_inset Formula $1-O(n^{-8})$
+\end_inset
+
+, as claimed. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{remark}
+\end_layout
+
+\end_inset
+
+ Before concluding, we record several immediate consequences of the above analysis (in addition to the proof of Corollary 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "cor:davis-kahan-conclusion-corollary"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) that will prove useful later on. Specifically, assuming that 
+\begin_inset Formula $ \sigma \sqrt{n} \leq \frac{1-1/\sqrt{2}}{5} |\lambda_r^{\star}|$
+\end_inset
+
+ , we have — with probability 
+\begin_inset Formula $1-O(n^{-8})$
+\end_inset
+
+ — that 
+\begin_inset Formula \begin{align}
+		|\lambda_{i}| & \leq\|\bm{E}\|\leq5\sigma\sqrt{\log n}, 
+		\qquad 
+		\text{for all }i\geq r+1.
+		\label{eq:lambda-i-bound-E-denoising}
+	\end{align}
+\end_inset
+
+In the special case where 
+\begin_inset Formula $r=1$
+\end_inset
+
+, with probability 
+\begin_inset Formula $1-O(n^{-8})$
+\end_inset
+
+ one has 
+\begin_inset Formula \begin{align}
+		|\lambda_{1} - \lambda_1^{\star}| & \leq\|\bm{E}\|\leq5\sigma\sqrt{\log n}.
+		\label{eq:lambda-1-bound-E-denoising}
+	\end{align}
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{remark}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Principal component analysis and factor models
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset CommandInset citation
+LatexCommand cite
+after ""
+key "cai2019subspace"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset CommandInset citation
+LatexCommand cite
+after ""
+key "florescu2016spectral"
+literal "false"
+
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+after ""
+key "lounici2014high"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Matrix sensing
+\end_layout
+
+\begin_layout Standard
+We start with the prototypical problem of matrix sensing 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:matrix-sensing-samples"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+. Suppose that we are given a set of 
+\begin_inset Formula $m$
+\end_inset
+
+ measurements of 
+\begin_inset Formula $\bm{M}_{\star}\in\mathbb{R}^{n_1\times n_2}$
+\end_inset
+
+ of the form 
+\begin_inset Formula \begin{equation}
+	\label{eq:matrix-sensing-samples}
+	y_i = \langle \bm{A}_i, \bm{M}_{\star} \rangle, \qquad 1\leq i\leq m,
+\end{equation}
+\end_inset
+
+where 
+\begin_inset Formula $\{\bm{A}_i\in \mathbb{R}^{n_1\times n_2}\}$
+\end_inset
+
+ is a collection of sensing matrices known 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+em
+\end_layout
+
+\end_inset
+
+ a priori
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+. We are asked to recover 
+\begin_inset Formula $\bm{M}_{\star}$
+\end_inset
+
+ — which is assumed to be of rank 
+\begin_inset Formula $r$
+\end_inset
+
+ — from these linear matrix equations 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+citep{recht2010guaranteed,candes2011tight}
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+We resort to the spectral method to estimate 
+\begin_inset Formula \begin{equation}
+	\label{eq:ground_truth_factors}
+	\bL_{\star }:=\bm{U}_{\star}\bm{\Sigma}_{\star}^{1/2}\quad \text{and} \quad  \bR_{\star} :=\bm{V}_{\star}\bm{\Sigma}_{\star}^{1/2},
+\end{equation}
+\end_inset
+
+which are denoted as the true low-rank factors, where 
+\begin_inset Formula $\bm{M}_{\star}=\bm{U}_{\star}\bm{\Sigma}_{\star}\bm{V}_{\star}^\top$
+\end_inset
+
+ stands for its singular value decomposition. Let us construct a 
+\emph on
+surrogate matrix
+\emph default
+ as follows 
+\begin_inset Formula \begin{equation}
+	\label{eq:surrogate}
+	\bm{Y} = \frac{1}{m}\sum_{i=1}^m y_i \bm{A}_i = \mathcal{A}^* \mathcal{A} (\bm{M}_{\star}),
+\end{equation}
+\end_inset
+
+where 
+\begin_inset Formula $\mathcal{A}:\mathbb{R}^{n_1\times n_2}\mapsto\mathbb{R}^{m}$
+\end_inset
+
+ is the linear operator defined by: 
+\begin_inset Formula \begin{equation}
+	\mathcal{A}(\bm{X}):=\big[m^{-1/2}\langle\bm{A}_{i},\bm{X}\rangle\big]_{1\leq i\leq m},\label{eq:defn-A-sensing}
+\end{equation}
+\end_inset
+
+and 
+\begin_inset Formula $\mathcal{A}^\ast$
+\end_inset
+
+ denotes its adjoint. The generic version of the spectral method then proceeds by computing (i) two matrices 
+\begin_inset Formula $\bm{U}\in \mathbb{R}^{n_1\times r}$
+\end_inset
+
+ and 
+\begin_inset Formula $\bm{V}\in \mathbb{R}^{n_2\times r}$
+\end_inset
+
+ whose columns consist of the top-
+\begin_inset Formula $r$
+\end_inset
+
+ left and right singular vectors of 
+\begin_inset Formula $\bm{Y}$
+\end_inset
+
+, respectively, and (ii) a diagonal matrix 
+\begin_inset Formula $\bm{\Sigma}\in \mathbb{R}^{r\times r}$
+\end_inset
+
+ that contains the corresponding top-
+\begin_inset Formula $r$
+\end_inset
+
+ singular values. In the hope that 
+\begin_inset Formula $\bm{U}$
+\end_inset
+
+, 
+\begin_inset Formula $\bm{V}$
+\end_inset
+
+ and 
+\begin_inset Formula $\bm{\Sigma}$
+\end_inset
+
+ are reasonably reliable estimates of 
+\begin_inset Formula $\bm{U}_{\star}$
+\end_inset
+
+, 
+\begin_inset Formula $\bm{V}_{\star}$
+\end_inset
+
+ and 
+\begin_inset Formula $\bm{\Sigma}_{\star}$
+\end_inset
+
+, respectively, we take 
+\begin_inset Formula \begin{align} \label{eq:initial_guess}
+	\bm{L}_0 = \bm{U}\bm{\Sigma}^{1/2} \qquad \text{and} \qquad \bm{R}_0 = \bm{V}\bm{\Sigma}^{1/2}
+\end{align}
+\end_inset
+
+as estimates of the low-rank factors 
+\begin_inset Formula $\bm{L}_{\star}$
+\end_inset
+
+ and 
+\begin_inset Formula $\bm{R}_{\star}$
+\end_inset
+
+ in 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:ground_truth_factors"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+. If 
+\begin_inset Formula $\bm{M}_{\star}\in \mathbb{R}^{n\times n}$
+\end_inset
+
+ is known to be positive semidefinite, then we can also let 
+\begin_inset Formula $\bm{U}\in \mathbb{R}^{n\times r}$
+\end_inset
+
+ be a matrix consisting of the top-
+\begin_inset Formula $r$
+\end_inset
+
+ leading eigenvectors, with 
+\begin_inset Formula $\bm{\Sigma}$
+\end_inset
+
+ being a diagonal matrix containing all top-
+\begin_inset Formula $r$
+\end_inset
+
+ eigenvalues.
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+noindent As an immediate consequence, the inner product between two low-rank matrices is also nearly preserved if $
+\backslash
+mathcal{A}$ satisfies the RIP. 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%Therefore, $
+\backslash
+mathcal{A}$ behaves approximately like an isometry when restricting its operations over low-rank matrices.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%%
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+begin{lemma}[
+\backslash
+cite{candes2008restricted}]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%	
+\backslash
+label{lemmq:RIP-cross}	
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%If an operator $
+\backslash
+mathcal{A}$ satisfies the $2r$-RIP with RIP constant $
+\backslash
+delta_{2r}<1$, then 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%	
+\backslash
+big|
+\backslash
+big
+\backslash
+langle
+\backslash
+mathcal{A}(
+\backslash
+bm{X}),
+\backslash
+mathcal{A}(
+\backslash
+bm{Y})
+\backslash
+big
+\backslash
+rangle-
+\backslash
+langle
+\backslash
+bm{X},
+\backslash
+bm{Y}
+\backslash
+rangle
+\backslash
+big|
+\backslash
+leq
+\backslash
+delta_{2r}
+\backslash
+|
+\backslash
+bm{X}
+\backslash
+|_{
+\backslash
+mathrm{F}}
+\backslash
+|
+\backslash
+bm{Y}
+\backslash
+|_{
+\backslash
+mathrm{F}}
+\backslash
+label{eq:defn-RIP2r}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+end{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%	holds simultaneously for all $
+\backslash
+bm{X}$ and $
+\backslash
+bm{Y}$ of rank at most $r$. 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+end{lemma}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%Notably, many random sensing designs are known to satisfy the RIP with high probability, with one remarkable example given below. 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%%
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+begin{fact}[$
+\backslash
+mathsf{RIP~for~Gaussian~matrices}$ 
+\backslash
+cite{recht2010guaranteed,candes2011tight}] 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+label{fact:gaussian_rip}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%	If the entries of $
+\backslash
+bm{A}_i$ are i.i.d.~Gaussian entries $
+\backslash
+mathcal{N}(0,1)$, then $
+\backslash
+mathcal{A}$ as defined in 
+\backslash
+eqref{eq:defn-A-sensing} satisfies the $r$-RIP with RIP constant $
+\backslash
+delta_{r}$ with high probability as soon as $m 
+\backslash
+gtrsim   (n_1+n_2)r/
+\backslash
+delta_r^2 $.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+end{fact}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Why would this be a good strategy? In view of Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:perturbation"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, the three matrices 
+\begin_inset Formula $\bm{U}$
+\end_inset
+
+, 
+\begin_inset Formula $\bm{V}$
+\end_inset
+
+ and 
+\begin_inset Formula $\bm{\Sigma}$
+\end_inset
+
+ become reliable estimates if 
+\begin_inset Formula $\|\bm{Y}-\bm{M}_{\star}\|$
+\end_inset
+
+ can be well-controlled. A simple way to control 
+\begin_inset Formula $\|\bm{Y}-\bm{M}_{\star}\|$
+\end_inset
+
+ arises when 
+\begin_inset Formula $\mathcal{A}$
+\end_inset
+
+ satisfies the 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+em
+\end_layout
+
+\end_inset
+
+ Restricted Isometry Property (RIP)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+, which says that the operator preserves approximately the Euclidean norm of the input matrix when restricted to the set of low-rank matrices. More formally: 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{definition}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+[
+\end_layout
+
+\end_inset
+
+
+\family sans
+Restricted isometry property
+\family default
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+citep{candes2008restricted}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+]
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "defn:RIPs"
+
+\end_inset
+
+ An operator 
+\begin_inset Formula $\mathcal{A}:\mathbb{R}^{n_1\times n_2}\mapsto\mathbb{R}^{m}$
+\end_inset
+
+ is said to satisfy the 
+\begin_inset Formula $r$
+\end_inset
+
+-RIP with RIP constant 
+\begin_inset Formula $\delta_r<1$
+\end_inset
+
+ if 
+\begin_inset Formula \begin{equation}
+(1-\delta_{r})\|\bm{X}\|_{\mathrm{F}}^2\leq\|\mathcal{A}(\bm{X})\|_{2}^2\leq(1+\delta_{r})\|\bm{X}\|_{\mathrm{F}}^2 \label{eq:defn-RIPr}
+\end{equation}
+\end_inset
+
+holds simultaneously for all 
+\begin_inset Formula $\bm{X}$
+\end_inset
+
+ of rank at most 
+\begin_inset Formula $r$
+\end_inset
+
+. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{definition}
+\end_layout
+
+\end_inset
+
+ Notably, many random sensing designs are known to satisfy the RIP with high probability from a minimal number of measurements, for example, when the entries of 
+\begin_inset Formula $\bm{A}_i$
+\end_inset
+
+ are i.i.d.
+\begin_inset space ~
+
+\end_inset
+
+Gaussian random variables. Given the RIP of 
+\begin_inset Formula $\mathcal{A}$
+\end_inset
+
+, we have the following lemma. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{lemma}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:perturbation-sensing"
+
+\end_inset
+
+ Suppose that 
+\begin_inset Formula $\bm{M}_{\star}$
+\end_inset
+
+ is a rank-
+\begin_inset Formula $r$
+\end_inset
+
+ matrix, and assume that 
+\begin_inset Formula $\mathcal{A}$
+\end_inset
+
+ satisfies 
+\begin_inset Formula $2r$
+\end_inset
+
+-RIP with RIP constant 
+\begin_inset Formula $\delta_{2r} < 1$
+\end_inset
+
+. Then 
+\begin_inset Formula \begin{equation}
+	\label{eq:msense_pert}
+	\|\bm{Y}-\bm{M}_{\star}\|  \leq \delta_{2r} \| \bm{M}_{\star} \|_{\mathrm{F}} \leq \delta_{2r} \sqrt{r} \| \bm{M}_{\star} \| .
+\end{equation}
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{lemma}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+[
+\end_layout
+
+\end_inset
+
+Proof of Lemma
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:perturbation-sensing"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+]
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+begin{IEEEproof}[Proof of Lemma~
+\backslash
+ref{lem:perturbation-sensing}]% 
+\backslash
+label{appendix:proof-lem:perturbation-sensing}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+Let 
+\begin_inset Formula $\vx, \vy$
+\end_inset
+
+ be two arbitrary vectors, then 
+\begin_inset Formula \[
+\begin{aligned}
+	 \vx^\top (\mMp- \bm{Y})\vy 
+	&=   \vx^\top \left(\mMp - \mathcal{A}^* \mathcal{A}(\mMp) \right) \vy \\
+	&=   \inprod{\vx \vy^\top, \mMp - \mathcal{A}^*\mathcal{A}(\mMp)} \\
+	&=   \inprod{\vx \vy^\top, \mMp} - \inprod{\mathcal{A}(\vx \vy^{\top}), \mathcal{A}(\mMp)} \\
+	&\le \delta_{2r} ( \|\vx\|_2 \cdot \| \vy \|_2 ) \norm{\mMp}_{\mathrm{F}},
+\end{aligned}
+\]
+\end_inset
+
+where the last inequality is due to the fact 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+citep{candes2008restricted}
+\end_layout
+
+\end_inset
+
+ that if an operator 
+\begin_inset Formula $\mathcal{A}$
+\end_inset
+
+ satisfies the 
+\begin_inset Formula $2r$
+\end_inset
+
+-RIP with RIP constant 
+\begin_inset Formula $\delta_{2r}<1$
+\end_inset
+
+, then 
+\begin_inset Formula \begin{equation}
+	\big|\big\langle\mathcal{A}(\bm{X}),\mathcal{A}(\bm{Y})\big\rangle-\langle\bm{X},\bm{Y}\rangle\big|\leq\delta_{2r}\|\bm{X}\|_{\mathrm{F}}\|\bm{Y}\|_{\mathrm{F}}\label{eq:defn-RIP2r}
+\end{equation}
+\end_inset
+
+holds simultaneously for all 
+\begin_inset Formula $\bm{X}$
+\end_inset
+
+ and 
+\begin_inset Formula $\bm{Y}$
+\end_inset
+
+ of rank at most 
+\begin_inset Formula $r$
+\end_inset
+
+. Using a variational characterization of 
+\begin_inset Formula $\|\cdot\|$
+\end_inset
+
+, we have 
+\begin_inset Formula \begin{align}
+	\norm{\mMp - \bm{Y}} &= \max_{\| \vx \|_2 = \|\vy\|_2 = 1} \vx^{\top} (\boldsymbol{M}_{\star} - \bm{Y}) \vy \le \delta_{2r} \norm{\mMp}_{\mathrm{F}}  \leq  \delta_{2r}  \sqrt{r} \norm{\mMp} ,\nonumber
+\end{align}
+\end_inset
+
+from which 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:msense_pert"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ follows. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+end{IEEEproof}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+yxc{This part might need to be edited.}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In what follows, we first illustrate how to control the estimation error in the 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+em
+\end_layout
+
+\end_inset
+
+ rank-1
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+ case where 
+\begin_inset Formula $\bm{M}_{\star}=\lambda_{\star}\bm{u}_{\star}\bm{u}_{\star}^{\top}\succeq \bm{0}$
+\end_inset
+
+. In this case, the leading eigenvector 
+\begin_inset Formula $\bm{u}$
+\end_inset
+
+ of 
+\begin_inset Formula $\bm{Y}$
+\end_inset
+
+ obeys 
+\begin_inset Formula \begin{align}
+	\mathsf{dist}_{\mathrm{p}}(\bm{u},\bm{u}_{\star}) & \overset{\mathrm{(i)}}{\leq}\frac{\|\bm{Y}-\bm{M}_{\star}\|}{\sigma_{1}(\bm{M}_{\star})-\|\bm{Y}-\bm{M}_{\star}\|} \overset{\mathrm{(ii)}}{\leq} \frac{2\|\bm{Y}-\bm{M}_{\star}\|}{\sigma_{1}(\bm{M}_{\star})} \leq 2\delta_2,  \label{eq:rank1-spectral-example-u}
+\end{align}
+\end_inset
+
+where (i) comes from Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:DK"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, and (ii) holds if 
+\begin_inset Formula $\|\bm{Y}-\bm{M}_{\star}\| \leq \sigma_{1}(\bm{M}_{\star})/2$
+\end_inset
+
+ (which is guaranteed if 
+\begin_inset Formula $\delta_{2}\le 1/2$
+\end_inset
+
+ according to Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:perturbation-sensing"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+). 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%Here, $
+\backslash
+bm{u}$ denotes the leading eigenvector of $
+\backslash
+bm{Y}$. 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+Similarly, we can invoke Weyl's inequality and Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:perturbation-sensing"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ to control the gap between the leading eigenvalue 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ of 
+\begin_inset Formula $\bm{Y}$
+\end_inset
+
+ and 
+\begin_inset Formula $\lambda_{\star}$
+\end_inset
+
+: 
+\begin_inset Formula \begin{equation}
+	\label{eq:rank1-spectral-example-lambda}
+	| \lambda - \lambda_{\star} | \leq \| \bm{Y} - \bm{M}_{\star} \| \leq \delta_2 \|\bm{M}_{\star}\|.
+\end{equation}
+\end_inset
+
+Combining the preceding two bounds, we see that: if 
+\begin_inset Formula $\bm{u}^{\top} \bm{u}_{\star} \geq 0$
+\end_inset
+
+, then 
+\begin_inset Formula \begin{align*}
+\big\|\sqrt{\lambda}\bm{u}-\sqrt{\lambda_{\star}}\bm{u}_{\star}\big\|_{2} & \leq\big\|\sqrt{\lambda}(\bm{u}-\bm{u}_{\star})\big\|_{2}+\big\|(\sqrt{\lambda}-\sqrt{\lambda_{\star}})\bm{u}_{\star}\big\|_{2}\\
+ & =\sqrt{\lambda}\mathsf{dist}(\bm{u},\bm{u}_{\star})+\frac{|\lambda-\lambda_{\star}|}{\sqrt{\lambda}+\sqrt{\lambda_{\star}}}\\
+ & \lesssim\sqrt{\lambda_{\star}}\delta_{2},
+\end{align*}
+\end_inset
+
+where the last inequality makes use of 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:rank1-spectral-example-u"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:rank1-spectral-example-lambda"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, and 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:dist-equivalent"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+. This characterizes the difference between our estimate 
+\begin_inset Formula $\sqrt{\lambda}\bm{u}$
+\end_inset
+
+ and the true low-rank factor 
+\begin_inset Formula $\sqrt{\lambda_{\star}}\bm{u}_{\star}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+% Combining the two further allows to obtain perturbation bounds for the low-rank factors. 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+Moving beyond this simple rank-1 case, a more general (and often tighter) bound can be obtained by using a refined argument from 
+\begin_inset CommandInset citation
+LatexCommand cite
+after "Lemma 5.14"
+key "tu2015low"
+literal "false"
+
+\end_inset
+
+. We present the theory below. The proof can be found in Appendix
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "appendix:proof-lem:perturbation-sensing"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+yc
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+copy the proof in the appendix?
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{theorem}[$
+\backslash
+mathsfSpectral~method~for~matrix~sensing$ 
+\backslash
+citetu2015low]
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:spectral-sensing"
+
+\end_inset
+
+ Fix 
+\begin_inset Formula $\zeta > 0$
+\end_inset
+
+. Suppose 
+\begin_inset Formula $\mathcal{A}$
+\end_inset
+
+ satisfies 
+\begin_inset Formula $2r$
+\end_inset
+
+-RIP with RIP constant 
+\begin_inset Formula $\delta_{2r} < c_0 \sqrt{\zeta} / (\sqrt{r} \kappa)$
+\end_inset
+
+ for some sufficiently small constant 
+\begin_inset Formula $c_0>0$
+\end_inset
+
+. Then the spectral estimate 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:initial_guess"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ obeys 
+\begin_inset Formula \[
+		\mathsf{dist}^2\left({\footnotesize\begin{bmatrix}
+\bm{L}_{0} \\
+\bm{R}_{0}
+	\end{bmatrix}} , {\footnotesize\begin{bmatrix}
+\bm{L}_{\star} \\
+\bm{R}_{\star}
+		\end{bmatrix} }\right)  \leq  \zeta \sigma_{r}(\bm{M}_{\star}) .
+	\]
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{theorem}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Despite its usefulness, the RIP does not hold for the sensing matrices occurred in many problems. Nevertheless, one may still be able to show that the leading singular subspace of the surrogate matrix 
+\begin_inset Formula $\bm{Y}$
+\end_inset
+
+ contains useful information about the truth 
+\begin_inset Formula $\mMp$
+\end_inset
+
+. In the sequel, we will go over several examples to demonstrate this point.
+\end_layout
+
+\begin_layout Section
+Phase retrieval and quadratic sensing
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:PR_init"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Imagine that we have access to 
+\begin_inset Formula $m$
+\end_inset
+
+ quadratic measurements of a signal 
+\begin_inset Formula $\bm{x}_{\star}\in \mathbb{R}^{n}$
+\end_inset
+
+ as: 
+\begin_inset Formula \begin{equation}
+	\label{eq:PR-samples}
+	y_i = (\bm{a}_i^{\top} \bm{x}_{\star})^2  ,  \qquad 1\leq i\leq m,
+\end{equation}
+\end_inset
+
+where 
+\begin_inset Formula $\bm{a}_i\in \mathbb{R}^n$
+\end_inset
+
+ is the design vector known 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+em
+\end_layout
+
+\end_inset
+
+ a priori
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+. How can we reconstruct 
+\begin_inset Formula $\bm{x}_{\star}\in \mathbb{R}^n$
+\end_inset
+
+ from this collection of quadratic equations about 
+\begin_inset Formula $\bm{x}_{\star}$
+\end_inset
+
+? This problem, often dubbed as 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+em
+\end_layout
+
+\end_inset
+
+ phase retrieval
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+, arises for example in X-ray crystallography, where one needs to recover a specimen based on intensities of the diffracted waves scattered by the object 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+citep{fienup1982phase,shechtman2015phase,candes2012phaselift,jaganathan2015phase}
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset Float figure
+placement ht
+wide false
+sideways false
+status open
+
+
+\begin_layout Standard
+\align center
+
+\begin_inset Graphics 
+	filename figures/quadratic
+	width 60text%
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Illustration of phase retrieval.
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:phase_retrieval"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The phase retrieval problem in 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:PR-samples"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ can be viewed as a matrix sensing problem, where we seek to recover a rank-1 matrix 
+\begin_inset Formula $\mMp = \vxp \vxp^\top$
+\end_inset
+
+ with sensing matrices 
+\begin_inset Formula $\mA_i = \va_i \va_i^\top$
+\end_inset
+
+. We assume i.i.d.
+\begin_inset space ~
+
+\end_inset
+
+Gaussian design as follows, a tractable model that has been extensively studied recently. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{assumption}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+[
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\mathsf{Gaussian~design~in~phase~retrieval}$
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+]
+\end_layout
+
+\end_inset
+
+ Suppose that the design vectors 
+\begin_inset Formula $\bm{a}_i \overset{\text{i.i.d.}}{\sim} \mathcal{N}(\bm{0},\bm{I}_n)$
+\end_inset
+
+. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{assumption}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The spectral method allows us to find an initial guess 
+\begin_inset Formula $\bm{x}_0$
+\end_inset
+
+ that is close to the truth 
+\begin_inset Formula $\bm{x}_{\star}$
+\end_inset
+
+, by estimating the leading eigenvector 
+\begin_inset Formula $\bm{u}$
+\end_inset
+
+ and leading eigenvalue 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ of a surrogate matrix 
+\begin_inset Formula \begin{equation}
+	\label{eq:D_PR_org}
+	\bm{Y} = \frac{1}{m} \sum_{i=1}^m y_i \va_i \va_i^\top.
+\end{equation}
+\end_inset
+
+The initial guess is then formed as
+\begin_inset Foot
+status collapsed
+
+
+\begin_layout Standard
+In the sample-limited regime with 
+\begin_inset Formula $m \asymp n$
+\end_inset
+
+, one should replace 
+\begin_inset Formula $\sqrt{\lambda/3}$
+\end_inset
+
+ in 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:init-PR"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ by 
+\begin_inset Formula $\sqrt{{\sum_{i=1}^m y_i}/{m}}$
+\end_inset
+
+. The latter provides a more accurate estimate. See the discussions in Section
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:improved-spectral-truncated"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula \begin{align}
+	\label{eq:init-PR}
+	\bm{x}_0 = \sqrt{\lambda/3} \, \bm{u}.  
+\end{align}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Unfortunately, the RIP does not hold for the sensing operator in phase retrieval, which precludes us from invoking Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:spectral-sensing"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+. There is, however, a simple and intuitive explanation regarding why 
+\begin_inset Formula $\bm{x}_0$
+\end_inset
+
+ is a reasonably good estimate of 
+\begin_inset Formula $\vx_{\star}$
+\end_inset
+
+. Under the Gaussian design, the surrogate matrix 
+\begin_inset Formula $\bm{Y}$
+\end_inset
+
+ in 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:D_PR_org"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ can be viewed as the sample average of 
+\begin_inset Formula $m$
+\end_inset
+
+ i.i.d.
+\begin_inset space ~
+
+\end_inset
+
+random rank-one matrices 
+\begin_inset Formula $\set{y_i \va_i \va_i^{\top}}_{1\le i \le m}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{assumption}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+[
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\mathsf{Gaussian~design~in~phase~retrieval}$
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+]
+\end_layout
+
+\end_inset
+
+ Suppose that the design vectors 
+\begin_inset Formula $\bm{a}_i \overset{\text{i.i.d.}}{\sim} \mathcal{N}(\bm{0},\bm{I}_n)$
+\end_inset
+
+. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{assumption}
+\end_layout
+
+\end_inset
+
+ When the number of samples 
+\begin_inset Formula $m$
+\end_inset
+
+ is large, this sample average should be 
+\begin_inset Quotes eld
+\end_inset
+
+close
+\begin_inset Quotes erd
+\end_inset
+
+ to its expectation, which is, 
+\begin_inset Formula \begin{equation}\label{eq:mtx_LLN}
+	\mathbb{E}[\bm{Y}] = \mathbb{E} \left[y_i \, \va_i \va_i^\top\right] = 2 \vxp \vxp^\top + \|\vxp\|_2^2\, \mI_n.
+\end{equation}
+\end_inset
+
+The best rank-1 approximation of 
+\begin_inset Formula $\mathbb{E}[\bm{Y}]$
+\end_inset
+
+ is precisely 
+\begin_inset Formula $3 \bm{x}_{\star}\bm{x}_{\star}^{\top} $
+\end_inset
+
+. Now that 
+\begin_inset Formula $\bm{Y}$
+\end_inset
+
+ is an approximated version of 
+\begin_inset Formula $\mathbb{E}[\bm{Y}]$
+\end_inset
+
+, we expect 
+\begin_inset Formula $\bm{x}_0$
+\end_inset
+
+ in 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:init-PR"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ to carry useful information about 
+\begin_inset Formula $\vxp$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The above intuitive arguments can be made precise. Applying standard matrix concentration inequalities 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+citep{vershynin2010nonasym}
+\end_layout
+
+\end_inset
+
+ to the surrogate matrix in 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:D_PR_org"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ and invoking the Davis-Kahan 
+\begin_inset Formula $\sin\bm{\Theta}$
+\end_inset
+
+ theorem, one arrives at the following estimates: 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{theorem}[$
+\backslash
+mathsfSpectral~method~for~phase~retrieval$ 
+\backslash
+citepcandes2015phase]
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:spectral_PR"
+
+\end_inset
+
+ Let 
+\begin_inset Formula $\vxp \in \R^n$
+\end_inset
+
+ be any given vector. Fix any 
+\begin_inset Formula $\zeta > 0$
+\end_inset
+
+, and suppose 
+\begin_inset Formula $m \ge c_0 n \log n$
+\end_inset
+
+ for some sufficiently large constant 
+\begin_inset Formula $c_0>0$
+\end_inset
+
+. Then the spectral estimate 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:init-PR"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ obeys 
+\begin_inset Formula \[
+	\min\set{ \| \vxp - \vx_0 \|_2,  \| \vxp + \vx_0 \|_2 } \le \zeta \| \vxp \|_2
+\]
+\end_inset
+
+with probability at least 
+\begin_inset Formula $1 - O(n^{-2})$
+\end_inset
+
+. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{theorem}
+\end_layout
+
+\end_inset
+
+ More generally, consider the 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+em
+\end_layout
+
+\end_inset
+
+ quadratic sensing
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+ problem, where we collect 
+\begin_inset Formula $m$
+\end_inset
+
+ quadratic measurements of a rank-
+\begin_inset Formula $r$
+\end_inset
+
+ matrix 
+\begin_inset Formula $\bm{M}_{\star}:=\bm{X}_{\star}\bm{X}_{\star}^{\top}$
+\end_inset
+
+ with 
+\begin_inset Formula $\bm{X}_{\star}\in\mathbb{R}^{n\times r}$
+\end_inset
+
+: 
+\begin_inset Formula \begin{equation}
+	y_i =  \| \bm{a}_i^{\top} \bm{X}_{\star} \|_2^2 = \bm{a}_i^{\top} \bm{M}_{\star} \bm{a}_i,  \qquad 1\leq i\leq m.
+\end{equation}
+\end_inset
+
+This subsumes phase retrieval as a special case, and comes up in applications such as covariance sketching for streaming data 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+citep{chen2015exact,cai2015rop}
+\end_layout
+
+\end_inset
+
+, and phase space tomography under the name 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+em
+\end_layout
+
+\end_inset
+
+ coherence retrieval
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+citep{tian2012experimental,bao2018coherence}
+\end_layout
+
+\end_inset
+
+. An argument similar to phase retrieval can be applied, recognizing that the expectation of the surrogate matrix 
+\begin_inset Formula $\bY$
+\end_inset
+
+ in 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:D_PR_org"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ now becomes 
+\begin_inset Formula \begin{equation}
+\mathbb{E}[\bY] = 2 \bX_{\star}\bX_{\star}^{\top} + \|\bX_{\star}\|_{\mathrm{F}}^2\, \bm{I}_n.
+\end{equation}
+\end_inset
+
+The spectral method then proceeds by computing 
+\begin_inset Formula $\bm{U}$
+\end_inset
+
+ (which consists of the top-
+\begin_inset Formula $r$
+\end_inset
+
+ eigenvectors of 
+\begin_inset Formula $\bm{Y}$
+\end_inset
+
+), and a diagonal matrix 
+\begin_inset Formula $\bm{\Sigma}$
+\end_inset
+
+ whose 
+\begin_inset Formula $i$
+\end_inset
+
+th diagonal value is given as 
+\begin_inset Formula $(\lambda_i(\bm{Y})-\sigma)/2$
+\end_inset
+
+, where 
+\begin_inset Formula $\sigma = \frac{1}{m} \sum_{i=1}^{m} y_{i}$
+\end_inset
+
+ serves as an estimate of 
+\begin_inset Formula $\|\bX_{\star}\|_{\mathrm{F}}^2$
+\end_inset
+
+. In words, the diagonal entries of 
+\begin_inset Formula $\bm{\Sigma}$
+\end_inset
+
+ can be approximately viewed as the top-
+\begin_inset Formula $r$
+\end_inset
+
+ eigenvalues of 
+\begin_inset Formula $\frac{1}{2} \big( \bm{Y}-\|\bX_{\star}\|_{\mathrm{F}}^2\, \bm{I}_n \big)$
+\end_inset
+
+. The initial guess is then set as 
+\begin_inset Formula \begin{align} 
+	\label{eq:initial_guess_qs}
+	\bm{X}_0 = \bm{U}\bm{\Sigma}^{1/2}
+\end{align}
+\end_inset
+
+for estimating the low-rank factor 
+\begin_inset Formula $\bm{X}_{\star}$
+\end_inset
+
+. The theory is as follows.
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{theorem}[$
+\backslash
+mathsfSpectral~method~for~quadratic~sensing$ 
+\backslash
+citepli2018nonconvex]
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "li2018nonconvex"
+
+\end_inset
+
+ Let 
+\begin_inset Formula $\boldsymbol{X}_{\star} \in \R^{n\times r}$
+\end_inset
+
+ be fixed. Fix any 
+\begin_inset Formula $\zeta > 0$
+\end_inset
+
+, and suppose 
+\begin_inset Formula $m \ge c_0 nr^4 \log n$
+\end_inset
+
+ for some sufficiently large constant 
+\begin_inset Formula $c_0>0$
+\end_inset
+
+. Then the spectral estimate 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:initial_guess_qs"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ obeys 
+\begin_inset Formula \[
+	\mathsf{dist}^2( \bm{X}_0, \bm{X}_{\star})  \le  \zeta \sigma_{r}(\bm{M}_{\star}) 
+\]
+\end_inset
+
+with probability at least 
+\begin_inset Formula $1-O(n^{-2})$
+\end_inset
+
+. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{theorem}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%To compute the above expectation, it will be convenient to assume that the underlying signal $
+\backslash
+vxp = 
+\backslash
+ve_1$, where $
+\backslash
+ve_1$ is the first vector of the canonical basis of $
+\backslash
+R^n$. (This assumption can be made without loss of generality, due to the rotational invariance of the multivariate normal distribution.)  
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%Correspondingly, we can partition each sensing vector into two parts, as
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+begin{equation}
+\backslash
+label{eq:a_splitting}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+va_i^T = 
+\backslash
+begin{bmatrix} s_i & 
+\backslash
+vu_i^T 
+\backslash
+end{bmatrix},
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+end{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%so that $
+\backslash
+va_i^T 
+\backslash
+vxi = 
+\backslash
+nrm s_i$ and the conditional density of $y_i$ given $s_i$ is $f(y 
+\backslash
+,
+\backslash
+vert
+\backslash
+, 
+\backslash
+nrm s_i)$. Since $s_i, y_i$ and $z_i$ are all independent of $
+\backslash
+vu_i$, 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+begin{align}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+mathbb{E} (z_i 
+\backslash
+, 
+\backslash
+va_i 
+\backslash
+va_i^T) &= 
+\backslash
+mathbb{E}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+begin{bmatrix}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%z_i s_i^2 & z_i s_i 
+\backslash
+vu_i^T
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%z_i s_i 
+\backslash
+vu_i & z_i 
+\backslash
+vu_i 
+\backslash
+vu_i^T
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+end{bmatrix} 
+\backslash
+nonumber
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%&=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+begin{bmatrix}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+mathbb{E}
+\backslash
+,z s^2 & 
+\backslash
+vzero
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+vzero & 
+\backslash
+mathbb{E} z 
+\backslash
+,
+\backslash
+mI_{n-1}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+end{bmatrix},
+\backslash
+label{eq:expectation_mtx}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+end{align}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%where $
+\backslash
+mI_{n-1}$ is the identity matrix of size $(n-1)$. If the inequality $
+\backslash
+mathbb{E}
+\backslash
+,z s^2 > 
+\backslash
+mathbb{E}z$, as required in (A5), indeed holds, the principal eigenvector of the expected matrix will be $
+\backslash
+ve_1$, which is perfectly aligned with the target vector $
+\backslash
+vxi$. Now since the data matrix $
+\backslash
+mD_m$ is an approximation of the expectation, the sample eigenvector should also be an approximation of $
+\backslash
+vxi$.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset Note Comment
+status open
+
+\begin_layout Section
+Blind deconvolution
+\end_layout
+
+\begin_layout Standard
+Suppose that we want to recover two objects 
+\begin_inset Formula $\bm{h}_{\star}\in \mathbb{C}^K$
+\end_inset
+
+ and 
+\begin_inset Formula $\bm{x}_{\star}\in \mathbb{C}^N$
+\end_inset
+
+ — or equivalently, the outer product 
+\begin_inset Formula $\bm{M}_{\star} = \bm{h}_{\star} \bm{x}_{\star}^{\conj}$
+\end_inset
+
+ — from 
+\begin_inset Formula $m$
+\end_inset
+
+ bilinear measurements of the form 
+\begin_inset Formula \begin{equation}
+	y_i = \bm{b}_i^{\conj}\bm{h}_{\star} \bm{x}_{\star}^{\conj} \bm{a}_i,  \quad i = 1,\cdots,m. 
+	\label{eq:samples-BD}
+\end{equation}
+\end_inset
+
+To explain why this is called blind deconvolution, imagine we would like to recover two signals 
+\begin_inset Formula $\bm{g}\in\mathbb{C}^m$
+\end_inset
+
+ and 
+\begin_inset Formula $\bm{d}\in\mathbb{C}^m$
+\end_inset
+
+ from their circulant convolution 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+citep{ahmed2014blind}
+\end_layout
+
+\end_inset
+
+. In the frequency domain, the outputs can be written as 
+\begin_inset Formula $\bm{y} = \mbox{diag}(\hat{\bm{g}})\, \hat{\bm{d}}$
+\end_inset
+
+, where 
+\begin_inset Formula $\hat{\bm{g}}$
+\end_inset
+
+ (resp.
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset Formula $\hat{\bm{d}}$
+\end_inset
+
+) is the Fourier transform of 
+\begin_inset Formula $\bm{g}$
+\end_inset
+
+ (resp.
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset Formula $\bm{d}$
+\end_inset
+
+). If we have additional knowledge that 
+\begin_inset Formula $\hat{\bm{g}}=\overline{\bm{A}\bm{x}_{\star}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\hat{\bm{d}}=\bm{B}\bm{h}_{\star}$
+\end_inset
+
+ lie in some known subspace characterized by 
+\begin_inset Formula $\bm{A}=[\bm{a}_{1},\cdots,\bm{a}_{m}]^{\conj}$
+\end_inset
+
+ and 
+\begin_inset Formula $\bm{B}=[\bm{b}_{1},\cdots,\bm{b}_{m}]^{\conj}$
+\end_inset
+
+, then 
+\begin_inset Formula $\bm{y}$
+\end_inset
+
+ reduces to the bilinear form 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:samples-BD"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+. In this paper, we assume the following 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+em
+\end_layout
+
+\end_inset
+
+ semi-random
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+ design, a common 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+em
+\end_layout
+
+\end_inset
+
+ subspace model
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+ studied in the literature 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+citep{ahmed2014blind,li2016deconvolution}
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{assumption}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+[
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\mathsf{Semi}\text{-}\mathsf{random~design~in~blind~deconvolution}$
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+]
+\end_layout
+
+\end_inset
+
+ Suppose that 
+\begin_inset Formula $\bm{a}_{j}\overset{\mathrm{i.i.d.}}{\sim}\mathcal{N}\left(\bm{0},\frac{1}{2}\bm{I}_{N}\right)+i\mathcal{N}\left(\bm{0},\frac{1}{2}\bm{I}_{N}\right)$
+\end_inset
+
+, and that 
+\begin_inset Formula $\bm{B} \in\mathbb{C}^{m\times K}$
+\end_inset
+
+ is formed by the first 
+\begin_inset Formula $K$
+\end_inset
+
+ columns of a unitary discrete Fourier transform (DFT) matrix 
+\begin_inset Formula $\bm{F}\in\mathbb{C}^{m\times m}$
+\end_inset
+
+. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{assumption}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The recovery performance typically depends on an incoherence measure crucial for blind deconvolution. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{definition}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+[
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\mathsf{Incoherence~for~blind~deconvolution}$
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+]
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "def:BD-mu"
+
+\end_inset
+
+ Let the incoherence parameter 
+\begin_inset Formula $\mu$
+\end_inset
+
+ of 
+\begin_inset Formula $\bh_{\star}$
+\end_inset
+
+ be the smallest number such that 
+\begin_inset Formula \begin{equation}
+\max_{1\leq j\leq m}\left|\bm{b}_{j}^{\conj}\bm{h}_{\star}\right|\leq\frac{\mu}{\sqrt{m}}\left\Vert \bm{h}_{\star}\right\Vert _{2}.\label{eq:incoherence-BD}
+\end{equation}
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{definition}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The blind deconvolution problem has a similar mathematical structure to that of phase retrieval. Recall the sensing model in 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:samples-BD"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+. Instead of reconstructing a symmetric rank-1 matrix, we now aim to recover an 
+\emph on
+asymmetric
+\emph default
+ rank-1 matrix 
+\begin_inset Formula $\vhp \vxp^\mathsf{H}$
+\end_inset
+
+ with sensing matrices 
+\begin_inset Formula $\mA_i = \vb_i \va_i^\mathsf{H}$
+\end_inset
+
+ 
+\begin_inset Formula $(1 \le i \le m)$
+\end_inset
+
+. Following 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:surrogate"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, we form a surrogate matrix 
+\begin_inset Formula \[
+	\bm{Y} = \frac{1}{m} \sum_{i=1}^m y_i \vb_i \va_i^\mathsf{H}.
+\]
+\end_inset
+
+Let 
+\begin_inset Formula $\bm{u}$
+\end_inset
+
+, 
+\begin_inset Formula $\bm{v}$
+\end_inset
+
+, and 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ denote the leading left singular vector, right singular vector, and singular value, respectively. The initial guess is then formed as 
+\begin_inset Formula \begin{align}
+	\label{eq:init-BD}
+	\bm{h}_0 = \sqrt{\sigma} \, \bm{u} \qquad \text{and} \qquad \bm{x}_0 = \sqrt{\sigma} \, \bm{v}.
+\end{align}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This estimate provably reveals sufficient information about the truth, provided that the sample size 
+\begin_inset Formula $m$
+\end_inset
+
+ is sufficiently large. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{theorem}[$
+\backslash
+mathsfSpectral~method~for~blind~deconvolution$ 
+\backslash
+citepli2016deconvolution,ma2017implicit]
+\end_layout
+
+\end_inset
+
+ Suppose 
+\begin_inset Formula $\vhp$
+\end_inset
+
+ satisfies the incoherence condition in Definition
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "def:BD-mu"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ with parameter 
+\begin_inset Formula $\mu$
+\end_inset
+
+, and assume 
+\begin_inset Formula $\|\vhp\|_2=\|\bm{x}_{\star}\|_2$
+\end_inset
+
+. For any 
+\begin_inset Formula $\zeta > 0$
+\end_inset
+
+, if 
+\begin_inset Formula $m \ge c_0 \zeta^{-2} \mu^2 K \log^2 m $
+\end_inset
+
+ for some sufficiently large constant 
+\begin_inset Formula $c_0 > 0$
+\end_inset
+
+, then the spectral estimate 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:init-BD"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ obeys 
+\begin_inset Formula \[
+	\min_{\alpha \in \C, \abs{\alpha} = 1} \big\{ \| \alpha \vh_0 - \vhp \|_2 + \| \alpha \vx_0 - \vxp\|_2 \big\}  \le \zeta \|\vhp\|_2
+\]
+\end_inset
+
+with probability at least 
+\begin_inset Formula $1 - O(m^{-10})$
+\end_inset
+
+. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{theorem}
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset Float figure
+placement ht
+wide false
+sideways false
+status open
+
+
+\begin_layout Standard
+\align center
+
+\begin_inset Graphics 
+	filename figures/matrix_completion
+	width 50text%
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Illustration of matrix completion.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Matrix completion
+\end_layout
+
+\begin_layout Standard
+Imagine that one observes a small subset of the entries of a matrix and seeks to recover the full matrix. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+cm
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+Add a few words on applications.
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Setup
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $\bm{M}^{\star}\in\mathbb{R}^{n_{1}\times n_{2}}$
+\end_inset
+
+ be the rank-
+\begin_inset Formula $r$
+\end_inset
+
+ matrix we hope to recover. Without loss of generality, we assume that 
+\begin_inset Formula $n_{1}\leq n_{2}$
+\end_inset
+
+. Denote by 
+\begin_inset Formula $\Omega\subseteq\{1,2\cdots n_{1}\}]\times\{1,2,\cdots,n_{2}\}$
+\end_inset
+
+ the index set for the observed entries, and correpondingly define the projection operator 
+\begin_inset Formula $\mathcal{P}_{\Omega}:\mathbb{R}^{n_{1}\times n_{2}}\mapsto\mathbb{R}^{n_{1}\times n_{2}}$
+\end_inset
+
+ to be 
+\begin_inset Formula \[
+[\mathcal{P}_{\Omega}(\bm{A})]_{i,j}=\begin{cases}
+A_{i,j}, & \text{if }(i,j)\in\Omega,\\
+0, & \text{else},
+\end{cases}
+\]
+\end_inset
+
+where 
+\begin_inset Formula $\bm{A}\in\mathbb{R}^{n_{1}\times n_{2}}$
+\end_inset
+
+ denotes the input matrix. With this notation in place, matrix completion amounts to recovering 
+\begin_inset Formula $\bm{M}^{\star}$
+\end_inset
+
+ from its partial entries 
+\begin_inset Formula $\mathcal{P}_{\Omega}(\bm{M}^{\star})$
+\end_inset
+
+. Throughout this paper, we impose the Bernoulli observation model detailed in the following assumption.
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{assumption}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+[
+\end_layout
+
+\end_inset
+
+Bernoulli observation model for matrix completion
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+]
+\end_layout
+
+\end_inset
+
+We assume that each entry in 
+\begin_inset Formula $\bm{M}^{\star}$
+\end_inset
+
+ is observed independentlywith probability 
+\begin_inset Formula $0<p\leq1$
+\end_inset
+
+, i.e.
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset Formula $(i,j)\in\Omega$
+\end_inset
+
+ independently with probability 
+\begin_inset Formula $p$
+\end_inset
+
+ for each 
+\begin_inset Formula $1\leq i\leq n_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $1\leq j\leq n_{2}$
+\end_inset
+
+. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{assumption}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The random observation model alone does not guarantee effective recovery of the underlying matrix 
+\begin_inset Formula $\bm{M}^{\star}$
+\end_inset
+
+. It turns out the following incoherence property of 
+\begin_inset Formula $\bm{M}^{\star}$
+\end_inset
+
+ plays a crutial role in recovering low-rank matrices from partial observations.
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{definition}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+[
+\end_layout
+
+\end_inset
+
+Incoherence for matrix completion
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+]
+\end_layout
+
+\end_inset
+
+A rank-
+\begin_inset Formula $r$
+\end_inset
+
+ matrix 
+\begin_inset Formula $\bm{M}^{\star}\in\mathbb{R}^{n_{1}\times n_{2}}$
+\end_inset
+
+ with compact SVD 
+\begin_inset Formula $\bm{M}^{\star}=\bm{U}^{\star}\bm{\Sigma}^{\star}\bm{V}^{\star}$
+\end_inset
+
+ is said to be 
+\begin_inset Formula $\mu$
+\end_inset
+
+-incoherent for some 
+\begin_inset Formula $\mu\geq1$
+\end_inset
+
+ if 
+\begin_inset Formula \begin{align*}
+\|\bm{U}^{\star}\|_{2,\infty} & \leq\sqrt{\mu/n_{1}}\|\bm{U}^{\star}\|_{\mathrm{F}}=\sqrt{\mu r/n_{1}};\\
+\|\bm{V}^{\star}\|_{2,\infty} & \leq\sqrt{\mu/n_{2}}\|\bm{V}^{\star}\|_{\mathrm{F}}=\sqrt{\mu r/n_{2}}.
+\end{align*}
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{definition}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Before introducing the spectral method for matrix completion, we single out a few immediate consequences of 
+\begin_inset Formula $\mu$
+\end_inset
+
+-incoherence. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{claim}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "claim:mu-incoherence"
+
+\end_inset
+
+Assume that a rank-
+\begin_inset Formula $r$
+\end_inset
+
+ matrix 
+\begin_inset Formula $\bm{M}^{\star}\in\mathbb{R}^{n_{1}\times n_{2}}$
+\end_inset
+
+ with compact SVD 
+\begin_inset Formula $\bm{U}^{\star}\bm{\Sigma}^{\star}\bm{V}^{\star}$
+\end_inset
+
+ is 
+\begin_inset Formula $\mu$
+\end_inset
+
+-incoherent. Then one has 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{subequations}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "subeq:mu-incoherence"
+
+\end_inset
+
+ 
+\begin_inset Formula \begin{align*}
+\|\bm{M}^{\star}\|_{2,\infty} & \leq\sqrt{\mu r/n_{1}}\sigma_{1}(\bm{M}^{\star});\\
+\|\bm{M}^{\star\top}\|_{2,\infty} & \leq\sqrt{\mu r/n_{2}}\sigma_{1}(\bm{M}^{\star});\\
+\|\bm{M}^{\star}\|_{\infty} & \leq\mu r/\sqrt{n_{1}n_{2}}\sigma_{1}(\bm{M}^{\star}).
+\end{align*}
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{subequations}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{claim}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Spectral method for matrix completion
+\end_layout
+
+\begin_layout Standard
+Recall that the idea of spectral method is to first form a good approximation 
+\begin_inset Formula $\bm{M}$
+\end_inset
+
+ to the unknown matrix 
+\begin_inset Formula $\bm{M}^{\star}$
+\end_inset
+
+ we care about, and then perform spectral decomposition on 
+\begin_inset Formula $\bm{M}$
+\end_inset
+
+ to approximately recover the singular spaces (spectral properties) of 
+\begin_inset Formula $\bm{M}^{\star}$
+\end_inset
+
+. Given our random sampling model, such a good approximation is readily available: 
+\begin_inset Formula \[
+\bm{M}\coloneqq p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star}).
+\]
+\end_inset
+
+Indeed, one can check that 
+\begin_inset Formula $\mathbb{E}[\bm{M}]=\bm{M}^{\star}$
+\end_inset
+
+ where the expectation is taken over the randomness in 
+\begin_inset Formula $\Omega$
+\end_inset
+
+. As a result, it is reasonble to use 
+\begin_inset Formula $\bm{U}\bm{\Sigma}\bm{V}^{\top}$
+\end_inset
+
+, the top-
+\begin_inset Formula $r$
+\end_inset
+
+ SVD of 
+\begin_inset Formula $p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})$
+\end_inset
+
+ as an approximation to the groundtruth 
+\begin_inset Formula $\bm{M}^{\star}$
+\end_inset
+
+. We learned from Wedin's 
+\begin_inset Formula $\sin\Theta$
+\end_inset
+
+ theorem that whether or not 
+\begin_inset Formula $\bm{U}$
+\end_inset
+
+ (resp.
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset Formula $\bm{V}$
+\end_inset
+
+) is close to 
+\begin_inset Formula $\bm{U}^{\star}$
+\end_inset
+
+ (resp.
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset Formula $\bm{V}^{\star}$
+\end_inset
+
+) relies crutially on the size of the perturbation 
+\begin_inset Formula $\|p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}\|$
+\end_inset
+
+. Therefore we begin with offering an upper bound on 
+\begin_inset Formula $\|p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}\|$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{lemma}
+\end_layout
+
+\end_inset
+
+Suppose that 
+\begin_inset Formula $n_{2}p\geq C\mu r\log n_{2}$
+\end_inset
+
+ for some sufficiently large constant 
+\begin_inset Formula $C>0$
+\end_inset
+
+. Then with probability at least 
+\begin_inset Formula $1-O(n_{2}^{-10})$
+\end_inset
+
+, one has 
+\begin_inset Formula \[
+\|p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}\|\lesssim\sqrt{\frac{\mu r}{n_{1}p}\log n_{2}}\,\sigma_{1}(\bm{M}^{\star}).
+\]
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{lemma}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+Note that the term 
+\begin_inset Formula $p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}$
+\end_inset
+
+ can be expressed as the sum of 
+\begin_inset Formula $n_{1}n_{2}$
+\end_inset
+
+ i.i.d.
+\begin_inset space ~
+
+\end_inset
+
+random matrices: 
+\begin_inset Formula \[
+p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}=\sum_{i=1}^{n_{1}}\sum_{j=1}^{n_{2}}\underbrace{(p^{-1}\mathbbm{1}\{\delta_{ij}=1\}-1)M_{ij}^{\star}\bm{e}_{i}\bm{e}_{j}^{\top}}_{\eqqcolon\bm{X}_{ij}},
+\]
+\end_inset
+
+where 
+\begin_inset Formula $\delta_{ij}$
+\end_inset
+
+ follows an independent Bernoulli distribution with parameter 
+\begin_inset Formula $p$
+\end_inset
+
+, and 
+\begin_inset Formula $\bm{e}_{i}$
+\end_inset
+
+ stands for the 
+\begin_inset Formula $i$
+\end_inset
+
+-th standard basis vector. It is easily seen that for each 
+\begin_inset Formula $i,j$
+\end_inset
+
+ 
+\begin_inset Formula \[
+\mathbb{E}[\bm{X}_{ij}]=\bm{0},\quad\text{and}\quad\|\bm{X}_{ij}\|\leq p^{-1}\|\bm{M}^{\star}\|_{\infty}\leq\frac{\mu r}{p\sqrt{n_{1}n_{2}}}\sigma_{1}(\bm{M}^{\star}),
+\]
+\end_inset
+
+where the last relation uses the entrywise upper bound (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:mc-entry-upper"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) on 
+\begin_inset Formula $\bm{M}^{\star}$
+\end_inset
+
+. In order to apply the matrix Bernstein inequality, we need to control the variance statistics 
+\begin_inset Formula \[
+v\coloneqq\max\left\{ \left\Vert \sum_{i=1}^{n_{1}}\sum_{j=1}^{n_{2}}\mathbb{E}\left[\bm{X}_{ij}\bm{X}_{ij}^{\top}\right]\right\Vert ,\left\Vert \sum_{i=1}^{n_{1}}\sum_{j=1}^{n_{2}}\mathbb{E}\left[\bm{X}_{ij}^{\top}\bm{X}_{ij}\right]\right\Vert \right\} .
+\]
+\end_inset
+
+Regarding the first variance term, we have 
+\begin_inset Formula \begin{align*}
+\sum_{i=1}^{n_{1}}\sum_{j=1}^{n_{2}}\mathbb{E}\left[\bm{X}_{ij}\bm{X}_{ij}^{\top}\right] & =\sum_{i=1}^{n_{1}}\sum_{j=1}^{n_{2}}\mathbb{E}\left[(p^{-1}\mathbbm{1}\{\delta_{ij}=1\}-1)^{2}(M_{ij}^{\star})^{2}\bm{e}_{i}\bm{e}_{j}^{\top}\bm{e}_{j}\bm{e}_{i}^{\top}\right]\\
+ & =\frac{1-p}{p}\sum_{i=1}^{n_{1}}\sum_{j=1}^{n_{2}}(M_{ij}^{\star})^{2}\bm{e}_{i}\bm{e}_{i}^{\top}=\frac{1-p}{p}\sum_{i=1}^{n_{1}}\|\bm{M}_{i,\cdot}^{\star}\|_{2}^{2}\bm{e}_{i}\bm{e}_{i}^{\top}.
+\end{align*}
+\end_inset
+
+Here, the first identity arises from the definition of 
+\begin_inset Formula $\bm{X}_{ij}$
+\end_inset
+
+, the second one calculated the variance of a Bernoulli random variable, and the last equation follows from a direct calculation. Similarly, the second term in the variance statistics enjoys the following characterization: 
+\begin_inset Formula \[
+\sum_{i=1}^{n_{1}}\sum_{j=1}^{n_{2}}\mathbb{E}\left[\bm{X}_{ij}^{\top}\bm{X}_{ij}\right]=\frac{1-p}{p}\sum_{j=1}^{n_{2}}\|\bm{M}_{\cdot,j}^{\star}\|_{2}^{2}\bm{e}_{j}\bm{e}_{j}^{\top}.
+\]
+\end_inset
+
+Taking the above two relations together, we obtain the following upper bound 
+\begin_inset Formula \begin{align*}
+v & \leq\frac{1}{p}\max\left\{ \|\bm{M}^{\star}\|_{2,\infty}^{2},\|\bm{M}^{\star\top}\|_{2,\infty}^{2}\right\} \leq\frac{1}{p}\left\{ \frac{\mu r}{n_{1}}\sigma_{1}^{2}(\bm{M}^{\star}),\frac{\mu r}{n_{2}}\sigma_{1}^{2}(\bm{M}^{\star})\right\} \\
+&\leq\frac{\mu r}{n_{1}p}\sigma_{1}^{2}(\bm{M}^{\star}),
+\end{align*}
+\end_inset
+
+where the second relation stems from the upper bounds
+\begin_inset space ~
+
+\end_inset
+
+(
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:mc-row-norm-upper"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) and
+\begin_inset space ~
+
+\end_inset
+
+(
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:mc-column-norm-upper"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) and the last inequality uses the assumption 
+\begin_inset Formula $n_{1}\leq n_{2}$
+\end_inset
+
+. Now we are in position to invoke the matrix Bernstein inequality and arrive at the conclusion that 
+\begin_inset Formula \[
+\|p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}\|\lesssim\sqrt{\frac{\mu r}{n_{1}p}\sigma_{1}^{2}(\bm{M}^{\star})\log n_{2}}+\frac{\mu r}{p\sqrt{n_{1}n_{2}}}\sigma_{1}(\bm{M}^{\star})\log n_{2}
+\]
+\end_inset
+
+holds with probability at least 
+\begin_inset Formula $1-O(n^{-10})$
+\end_inset
+
+. To further simplify the matter, note that when 
+\begin_inset Formula $n_{2}p\geq C\mu r\log n_{2}$
+\end_inset
+
+ for some sufficiently large constant 
+\begin_inset Formula $C>0$
+\end_inset
+
+, one has 
+\begin_inset Formula \[
+\frac{\mu r}{p\sqrt{n_{1}n_{2}}}\sigma_{1}(\bm{M}^{\star})\log n_{2}\leq\sqrt{\frac{\mu r}{n_{1}p}\sigma_{1}^{2}(\bm{M}^{\star})\log n_{2}},
+\]
+\end_inset
+
+which further implies the desired claim. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As a consequence of Lemma XXX, one has 
+\begin_inset Formula \[
+\|p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}\|\lesssim\sqrt{\frac{\mu r}{n_{1}p}\log n_{2}}\sigma_{1}(\bm{M}^{\star})\le\frac{1}{2}\sigma_{r}(\bm{M}^{\star}),
+\]
+\end_inset
+
+as long as 
+\begin_inset Formula $n_{1}p\geq C_{1}\kappa^{2}\mu r\log n_{2}$
+\end_inset
+
+ for some sufficiently large constant 
+\begin_inset Formula $C_{1}>0$
+\end_inset
+
+. We are now prepared to apply Wedin's 
+\begin_inset Formula $\sin\Theta$
+\end_inset
+
+ theorem to obtain the following upper bounds on the singular space variations.
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{theorem}[Spectral method for matrix completion]
+\end_layout
+
+\end_inset
+
+Suppose that 
+\begin_inset Formula $n_{1}p\geq C_{1}\kappa^{2}\mu r\log n_{2}$
+\end_inset
+
+ for some sufficiently large constant 
+\begin_inset Formula $C_{1}>0$
+\end_inset
+
+. Then with probability exceeding 
+\begin_inset Formula $1-O(n^{-10})$
+\end_inset
+
+, 
+\begin_inset Formula \begin{align*}
+\max\left\{ \mathsf{dist}\left(\bm{U},\bm{U}^{\star}\right),\mathsf{dist}\left(\bm{V},\bm{V}^{\star}\right)\right\}  & \lesssim\kappa\sqrt{\frac{\mu r}{n_{1}p}\log n_{2}};\\
+\max\left\{ \mathsf{dist}_{\mathrm{F}}\left(\bm{U},\bm{U}^{\star}\right),\mathsf{dist}_{\mathrm{F}}\left(\bm{V},\bm{V}^{\star}\right)\right\}  & \lesssim\kappa\sqrt{\frac{\mu r^{2}}{n_{1}p}\log n_{2}}.
+\end{align*}
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{theorem}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{theorem}[Matrix completion: recovered matrix]
+\end_layout
+
+\end_inset
+
+Suppose that 
+\begin_inset Formula $n_{2}p\geq C\mu r\log n_{2}$
+\end_inset
+
+ for some sufficiently large constant 
+\begin_inset Formula $C>0$
+\end_inset
+
+. Then with probability at least 
+\begin_inset Formula $1-O(n_{2}^{-10})$
+\end_inset
+
+, one has 
+\begin_inset Formula \begin{align*}
+\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star}\| & \lesssim\sqrt{\frac{\mu r}{n_{1}p}\log n_{2}}\,\sigma_{1}(\bm{M}^{\star});\\
+\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star}\|_{\mathrm{F}} & \lesssim\sqrt{\frac{\mu r^{2}}{n_{1}p}\log n_{2}}\,\sigma_{1}(\bm{M}^{\star}).
+\end{align*}
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{theorem}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+By definition, 
+\begin_inset Formula $\bm{U}\bm{\Sigma}\bm{V}^{\top}$
+\end_inset
+
+ is the best rank-
+\begin_inset Formula $r$
+\end_inset
+
+ approximation to 
+\begin_inset Formula $p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})$
+\end_inset
+
+, i.e.
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset Formula $\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})\|=\min_{\bm{A}:\mathsf{rank}(\bm{A})\leq r}\|\bm{A}-p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})\|$
+\end_inset
+
+. As a consequence, 
+\begin_inset Formula \begin{align*}
+\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star}\| &\leq\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})\|+\|p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}\| \\ 
+&\leq2\|p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}\|,
+\end{align*}
+\end_inset
+
+where the first relation is the triangle inequality. This combined with Lemma XXX finishes the proof of the first part. Regarding the second part, i.e.
+\begin_inset space ~
+
+\end_inset
+
+the bound on the Frobenius norm, we make the observation that 
+\begin_inset Formula $\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star}$
+\end_inset
+
+ has rank at most 
+\begin_inset Formula $2r$
+\end_inset
+
+, which immediately implies 
+\begin_inset Formula \[
+\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star}\|_{\mathrm{F}}\leq\sqrt{2r}\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star}\|\lesssim\sqrt{\frac{\mu r^{2}}{n_{1}p}\log n_{2}}\sigma_{1}(\bm{M}^{\star}).
+\]
+\end_inset
+
+This completes the proof of the second part. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+[
+\end_layout
+
+\end_inset
+
+Proof of Claim
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "claim:mu-incoherence"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+]
+\end_layout
+
+\end_inset
+
+First, the maximum row norm 
+\begin_inset Formula $\|\bm{M}^{\star}\|_{2,\infty}$
+\end_inset
+
+ of 
+\begin_inset Formula $\bm{M}^{\star}$
+\end_inset
+
+ cannot be two large, i.e. 
+\begin_inset Formula \begin{equation}
+\|\bm{M}^{\star}\|_{2,\infty}=\|\bm{U}^{\star}\bm{\Sigma}^{\star}\bm{V}^{\star\top}\|_{2,\infty}\leq\|\bm{U}^{\star}\|_{2,\infty}\|\bm{\Sigma}^{\star}\|\|\bm{V}^{\star}\|\leq\sqrt{\frac{\mu r}{n_{1}}}\sigma_{1}(\bm{M}^{\star}),\label{eq:mc-row-norm-upper}
+\end{equation}
+\end_inset
+
+where the first inequality arises from the elementary inequalities 
+\begin_inset Formula $\|\bm{A}\bm{B}\|_{2,\infty}\leq\|\bm{A}\|_{2,\infty}\|\bm{B}\|$
+\end_inset
+
+ and 
+\begin_inset Formula $\|\bm{A}\bm{B}\|\leq\|\bm{A}\|\|\bm{B}\|$
+\end_inset
+
+. The last relation uses the incoherence assumption on 
+\begin_inset Formula $\bm{M}^{\star}$
+\end_inset
+
+, the orthogonality of 
+\begin_inset Formula $\bm{V}^{\star}$
+\end_inset
+
+, and identifies 
+\begin_inset Formula $\|\bm{\Sigma}^{\star}\|$
+\end_inset
+
+ with 
+\begin_inset Formula $\sigma_{1}(\bm{M}^{\star})$
+\end_inset
+
+. An analogous upper bound holds for 
+\begin_inset Formula $\|\bm{M}^{\star\top}\|_{2,\infty}$
+\end_inset
+
+: 
+\begin_inset Formula \begin{equation}
+\|\bm{M}^{\star\top}\|_{2,\infty}=\|\bm{V}^{\star}\bm{\Sigma}^{\star}\bm{U}^{\star\top}\|_{2,\infty}\leq\|\bm{V}^{\star}\|_{2,\infty}\|\bm{\Sigma}^{\star}\|\|\bm{U}^{\star}\|\leq\sqrt{\frac{\mu r}{n_{2}}}\sigma_{1}(\bm{M}^{\star}).\label{eq:mc-column-norm-upper}
+\end{equation}
+\end_inset
+
+In addition, the matrix 
+\begin_inset Formula $\bm{M}^{\star}$
+\end_inset
+
+ is element-wise bounded in the sense that 
+\begin_inset Formula \begin{equation}
+\|\bm{M}^{\star}\|_{\infty}=\|\bm{U}^{\star}\bm{\Sigma}^{\star}\bm{V}^{\star\top}\|_{\infty}\leq\|\bm{U}^{\star}\|_{2,\infty}\|\bm{\Sigma}^{\star}\|\|\bm{V}^{\star}\|_{2,\infty}\leq\frac{\mu r}{\sqrt{n_{1}n_{2}}}\sigma_{1}(\bm{M}^{\star}).\label{eq:mc-entry-upper}
+\end{equation}
+\end_inset
+
+Here, the first inequality follows from the relation 
+\begin_inset Formula $\|\bm{A}\bm{B}^{\top}\|_{\infty}\leq\|\bm{A}\|_{2,\infty}\|\bm{B}\|_{2,\infty}$
+\end_inset
+
+ and the aforementioned 
+\begin_inset Formula $\|\bm{A}\bm{B}\|_{2,\infty}\leq\|\bm{A}\|_{2,\infty}\|\bm{B}\|$
+\end_inset
+
+, while the last one again utilizes the incoherence assumption. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Tensor completion
+\end_layout
+
+\begin_layout Section
+Community detection
+\end_layout
+
+\begin_layout Section
+Gaussian mixture models
+\end_layout
+
+\begin_layout Section
+Joint graph matching
+\end_layout
+
+\begin_layout Section
+Notes
+\end_layout
+
+\begin_layout Standard
+The idea of spectral methods can be traced back to the early work of Li 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+citep{Li:92}
+\end_layout
+
+\end_inset
+
+, under the name of 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+em
+\end_layout
+
+\end_inset
+
+ Principal Hessian Directions
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+ for general multi-index models, and the work of McSherry 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+citep{mcsherry2001spectral,achlioptas2007fast}
+\end_layout
+
+\end_inset
+
+ for graph partitioning. Similar spectral techniques were also proposed in 
+\begin_inset CommandInset citation
+LatexCommand cite
+after ""
+key "keshavan2010matrix, jain2013low"
+literal "false"
+
+\end_inset
+
+, for initializing algorithms for low-rank matrix completion. Regarding phase retrieval, Netrapalli et al.
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+after ""
+key "netrapalli2015phase"
+literal "false"
+
+\end_inset
+
+ first used this method to address the problem of phase retrieval, the theoretical guarantee of which was tightened in 
+\begin_inset CommandInset citation
+LatexCommand cite
+after ""
+key "candes2015phase"
+literal "false"
+
+\end_inset
+
+. Similar guarantees were also provided for the randomly coded diffraction pattern model in 
+\begin_inset CommandInset citation
+LatexCommand cite
+after ""
+key "candes2015phase"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Finally, the spectral method has been applied to many other problems beyond the ones discussed here, including but not limited to community detection 
+\begin_inset CommandInset citation
+LatexCommand cite
+after ""
+key "rohe2011spectral,abbe2017community"
+literal "false"
+
+\end_inset
+
+, phase synchronization 
+\begin_inset CommandInset citation
+LatexCommand cite
+after ""
+key "singer2011angular"
+literal "false"
+
+\end_inset
+
+, joint alignment 
+\begin_inset CommandInset citation
+LatexCommand cite
+after ""
+key "chen2016projected"
+literal "false"
+
+\end_inset
+
+, ranking from pairwise comparisons 
+\begin_inset CommandInset citation
+LatexCommand cite
+after ""
+key "negahban2016rank,chen2015spectral,chen2017spectral"
+literal "false"
+
+\end_inset
+
+, tensor estimation 
+\begin_inset CommandInset citation
+LatexCommand cite
+after ""
+key "montanari2016spectral,hao2018sparse,zhang2018tensor,cai2019tensor"
+literal "false"
+
+\end_inset
+
+. We have to omit these due to the space limit.
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset CommandInset citation
+LatexCommand cite
+after ""
+key "nadler2008finite, el2008operator"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+blind deconvolution 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+citep{li2016deconvolution,ma2017implicit}
+\end_layout
+
+\end_inset
+
+, passive imaging 
+\begin_inset CommandInset citation
+LatexCommand cite
+after ""
+key "lee2018spectral"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+PCA 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+citep{cai2019subspace}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+citep{lei2015consistency}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+citep{rohe2011spectral}
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\end_body
+\end_document

@@ -1,0 +1,34 @@
+\chapter{Generalizations and additional considerations}
+\label{cha:generalized-spectral}
+
+So far, we have seen that the spectral method, along with appropriate statistical models, provides a simple yet effective workhorse for statistical estimation. However, the vanilla form of the spectral method, which directly extracts the top eigenspace or singular space of certain data matrices, may not be sufficient. In this chapter, we illustrate modifications to the spectral method, which are often found necessary to further enhance sample efficiency, increase robustness to outliers, incorporate signal priors, and deal with asymmetric perturbations.
+
+%\input{chapters/truncatedWF.tex}
+
+%\input{chapters/truncated_outliers.tex}
+
+%\input{chapters/sparse.tex}
+
+\input{chapters/asymmetric.tex}
+
+\section{Notes}
+
+The first order-wise optimal spectral method  for phase retrieval was proposed by  \citet{chen2015solving}, based on the truncation idea. This method has multiple variants \citep{li2017nonconvex, wang2017solving}, and has been shown to be robust against noise. The precise asymptotic characterization of the spectral method was first obtained in \citet{lu2020phase}, where its sensitivity to model mismatch is studied in \citet{monardo2019sensitivity}. Based on this characterization, \citep{mondelli2017fundamental,luo2019optimal} later devised optimal designs of spectral methods in phase retrieval when the sensing matrix follows the Gaussian design. \cite{ma2019spectral,dudeja2020analysis} considered similar questions when the sensing matrix
+is Haar distributed (e.g. an isotropically random unitary matrix).
+
+\citep{fannjiang2020numerics} provided an extensive discussion on initialization strategies for algorithmic phase retrieval, including but not limited to various forms of the spectral method.
+
+Sparse phase retrieval \citep{jagatap2019sample} 
+
+sparse phase retrieval \citep{ma2019spectral}
+ 
+\cite{yuan2013truncated}
+
+sparse spectral method for blind calibration \cite{li2018blind}
+
+Lee and Wu \cite{lee2017near}
+
+
+ ranking from pairwise comparisons \citep{negahban2016rank,chen2015spectral,chen2017spectral}, 
+
+sparse PCA \cite{amini2008high,JohLu09}

@@ -1,0 +1,658 @@
+
+
+\section{Phase retrieval and solving quadratic systems of equations}
+\label{sec:phase_retrieval}
+
+Phase retrieval is a fundamental problem arising in numerous imaging applications such as X-ray crystallography,  diffraction imaging, and so on \citep{fienup1982phase,shechtman2015phase,candes2012phaselift,candes2015phase,jaganathan2015phase}.
+In physics, phase retrieval is concerned with estimating a specimen by observing the intensities (or squared modulus) of the diffracted
+waves scattered by the object without knowing their phases. The advent of this problem is attributed to the physical limitation that the optical sensors are unable to record the phases of the diffracted waves. Put another way, in phase retrieval, we only have access to  measurements that are quadratic functions of the object of interest, and aim at estimating the unknown object up to global phase.  This gives rise to the problem of solving quadratic systems of equations, to be formulated below.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.8\textwidth]{figures/quadratic}
+\end{center}
+	\caption{Illustration of phase retrieval and solving quadratic systems of equations, where only the intensities of linear measurements are collected. Here, $\bm{A}=[\bm{a}_1,\cdots,\bm{a}_m]^{\top}$, and $|\bm{z}|^2\coloneqq [|z_1|^2, \cdots, |z_m|^2]^{\top}$ for any vector $\bm{z}=[z_i]_{1\leq i\leq m}$. } \label{fig:phase_retrieval}
+\end{figure}
+
+
+\subsection{Problem formulation and assumptions}
+\label{sec:formulation-PR}
+
+Suppose that we are interested in reconstructing an unknown signal
+$\bm{x}^{\star}\in\mathbb{R}^{n}$, but only have access to a collection of $m$
+quadratic measurements on the linear combinations of its entries as follows:
+%
+\begin{equation}
+	y_{i}=(\bm{a}_{i}^{\top}\bm{x}^{\star})^{2},\qquad1\leq i\leq m,
+	\label{eq:PR-samples}
+\end{equation}
+%
+where $\bm{a}_{i}=[a_{i,1},\cdots,a_{i,n}]^{\top} \in\mathbb{R}^{n}$ is the design vector known {\em a priori}. 
+See Figure~\ref{fig:phase_retrieval} for an illustration of this measurement model.
+The question is: when can we hope to reconstruct $\bm{x}^{\star}$, in an accurate and efficient fashion, on the basis of these nonlinear equations?
+
+
+
+%
+% In addition to physical science, solving quadratic systems of equations
+% is also closely related to mixed linear regression \citep{chen2014convex}
+% and learning neural nets with quadratic activations \citep{soltanolkotabi2017theoretical,li2017algorithmic}.
+%
+
+
+As is well known, solving quadratic systems of equations is, in general, NP hard.\footnote{See the reduction to the NP-hard stone problem in~\citet{chen2015solving}.}
+Additional assumptions are therefore needed to enable tractable recovery.
+Here, we adopt a Gaussian design model commonly studied in the literature.
+%
+\begin{assumption}
+\label{assump:pr-gaussian}
+	The design vectors $\{\bm{a}_i\}_{1\leq i\leq m}$ are independently generated  obeying $\bm{a}_{i}\overset{\text{i.i.d.}}{\sim}\mathcal{N}(\bm{0},\bm{I}_{n})$.
+\end{assumption}
+
+
+
+
+
+\subsection{Algorithm}\label{sec:pr-alg}
+
+
+The Gaussian design model (cf.~Assumption~\ref{assump:pr-gaussian}) allows meaningful estimation of the unknown object~$\bm{x}^{\star}$ via the (by now) familiar spectral method.
+Let us start by arranging the data into the following matrix
+%
+\begin{equation}
+\bm{M}\coloneqq\frac{1}{m}\sum_{i=1}^{m}y_{i}\bm{a}_{i}\bm{a}_{i}^{\top}=\frac{1}{m}\sum_{i=1}^{m}(\bm{a}_{i}^{\top}\bm{x}^{\star})^{2}\bm{a}_{i}\bm{a}_{i}^{\top},\label{eq:D_PR_org}
+\end{equation}
+%
+which can be viewed as a weighted sample covariance matrix of the design
+vectors $\{\bm{a}_{i}\}$. The spectral method then estimates $\bm{x}^{\star}$ by
+%
+\begin{align}
+	\bm{x}=\sqrt{\frac{\lambda_{1}}{3}}\,\bm{u}_{1},\label{eq:init-PR}
+\end{align}
+%
+where $\bm{u}_{1}$ (resp.~$\lambda_{1}=\lambda_{1}(\bm{M})$) indicates
+the leading eigenvector (resp.~eigenvalue) of the matrix
+$\bm{M}$. This simple approach has been suggested for phase retrieval since the work of~\citet{netrapalli2015phase}.
+
+
+To explain the rationale of this approach, it is instrumental
+to look at the mean of $\bm{M}$ under Assumption~\ref{assump:pr-gaussian}.
+Specifically, simple calculation (which we include at the end of this subsection) gives
+%
+\begin{equation}
+	\bm{M}^{\star}\coloneqq \mathbb{E}[\bm{M}] = \mathbb{E}\big[(\bm{a}_{i}^{\top}\bm{x}^{\star})^{2}\bm{a}_{i}\bm{a}_{i}^{\top}\big]=2\bm{x}^{\star}\bm{x}^{\star\top}+\|\bm{x}^{\star}\|_{2}^{2}\,\bm{I}_{n}.
+	\label{eq:mtx_LLN}
+\end{equation}
+%
+It is self-evident that (a) the leading eigenvector of $\bm{M}^{\star}$ is precisely given by $\pm \bm{x}^{\star} / \|\bm{x}^{\star} \|_2$, and (b) the leading eigenvalue of $\bm{M}^{\star}$ is given by $3\|\bm{x}^{\star}\|_{2}^{2}$ by \eqref{eq:mtx_LLN}.
+From now on, we shall set
+%
+\begin{align}
+	\bm{u}_{1}^{\star} \coloneqq \bm{x}^{\star} / \|\bm{x}^{\star} \|_2,
+	\qquad \text{and} \qquad
+	\lambda_1^{\star} \coloneqq 3\|\bm{x}^{\star}\|_{2}^{2},
+	\label{defn:u1-lambda1-star-PR}
+\end{align}
+%
+which implies $\bm{x}^{\star} = \sqrt{\lambda_1^\star/3} \,\bm{u}_{1}^{\star}$ and hence explains the estimator constructed in \eqref{eq:init-PR}.
+The above argument further hints that: the spectral estimate $\bm{x}$ converges to the ground truth $\pm \bm{x}^{\star}$ in the large-sample limit with $m\rightarrow \infty$ (so that $\bm{M}\rightarrow \mathbb{E}[\bm{M}] =\bm{M}^{\star}$). The question, however, boils down to  where this algorithm stands in the more realistic finite-sample scenario.
+%
+\begin{remark}
+The expression \eqref{defn:u1-lambda1-star-PR} indicates that $\bm{x}^{\star} =  \|\bm{x}^{\star} \|_2\,  \bu_1^\star$.
+From the law of large numbers, one expects
+$$
+	\frac{1}{m} \sum_{i=1}^m y_i  ~\to~   \mathbb{E}[ y_i] = \mathbb {E} \big[ (\ba^{\top} \bx^\star )^2 \big] =   \|  \bx^\star\|^2_2,
+$$
+with probability approaching one.
+Thus, an alternative estimator is
+%
+\begin{equation}
+	\label{eq3.43}
+	\widehat{\bx} =  \Big( \frac{1}{m} \sum\nolimits_{i=1}^m y_i  \Big)^{1/2} \bu_1.
+\end{equation}
+%
+%which is precisely the version analyzed in \citet{candes2015phase}.
+\end{remark}
+
+
+
+
+
+\paragraph{Derivation of \eqref{eq:mtx_LLN}.}
+
+The $(i,j)$-th entry of  $\mathbb{E}[\bm{M}]$ is given by
+%
+$$
+\mathbb{E}[M_{j,k}]=\mathbb{E}
+\big[\big(\big(\bm{a}_{i}^{\top}\bm{x}^{\star}\big)^{2}\bm{x}^{\star}\bm{x}^{\star\top}\big)_{j,k} \big]
+=\mathbb{E}\big[(a_{i,1}x_{i,1}^{\star}+\cdots+a_{i,n}x_{i,n}^{\star})^{2}a_{i,j}a_{i,k}\big] .
+$$
+%
+Expanding  terms and using the moments of Gaussian variables yield
+%
+\begin{align*}
+\mathbb{E}[M_{j,k}] & =\mathbb{E}\big[2a_{i,j}^{2}a_{i,k}^{2}x_{i,j}^{\star}x_{i,k}^{\star}\big]=2x_{i,j}^{\star}x_{i,k}^{\star}\qquad\text{if }j\neq k;\\
+\mathbb{E}[M_{j,j}] & =\mathbb{E}\big[a_{i,j}^{4}\big(x_{i,j}^{\star}\big)^{2}\big]+\sum_{l:\,l\neq j}\mathbb{E}\big[a_{i,l}^{2}a_{i,j}^{2}\big(x_{i,l}^{\star}\big)^{2}\big]=3\big(x_{i,j}^{\star}\big)^{2}+\sum_{l:\,l\neq j}\big(x_{i,l}^{\star}\big)^{2}\\
+ & = 2\big(x_{i,j}^{\star}\big)^{2} + \|\bm{x}^{\star}\|_{2}^{2}.
+\end{align*}
+%
+Putting these together leads to the expression \eqref{eq:mtx_LLN}.
+
+
+
+
+
+
+%
+%after expanding the quadratic term is $2 \mathbb{E} a_i^2 a_j^2 x_i^\star x_j^\star = 2 x_i^\star x_j^\star$ for $i\not = j$ and $\mathbb{E} a_i^4 (x_i^\star)^2 = 3 (x_i^\star)^2$ for $i = j$.  Putting this in the matrix form, we get
+
+
+%The derivation of 	\eqref{eq:mtx_LLN}  reveals more generally that
+%$$ \mathbb{E}[\bm{M}] =2\bm{x}^{\star}\bm{x}^{\star\top}+(\mathbb{E} a_1^4 - 2)\|\bm{x}^{\star}\|_{2}^{2}\,\bm{I}_{n}
+%$$
+%when $\{a_i\}_{i=1}^n$ are independent with
+%$$
+%\E a_i = 0, \quad \E a_i^2 = 0, \quad \E a_i^3 = 0, \quad \mbox{and} \quad  \E a_i^4 = E a_1^4
+%$$
+%so that $\bm{x}^{\star} = \pm  \|\bm{x}^{\star} \|_2  \bu_1^\star$ continue to hold.
+
+
+
+\subsection{Performance guarantees}
+
+Developing theoretical support for the aforementioned spectral method hinges upon characterizing the proximity of $\lambda_{1}$ and $\lambda_{1}^{\star}$
+and that of $\bm{u}_{1}$ and $\bm{u}_{1}^{\star}$, both of which rely largely on bounding $\bm{M}-\bm{M}^{\star}$.
+In what follows, we start by controlling  $\|\bm{M}-\bm{M}^{\star}\|$, with the proof  postponed to Section~\ref{sec:proof-auxiliary-lemmas-PR-L2}.
+%
+\begin{lemma}
+\label{lemma:pr-noise-bound}
+Consider the settings in Section~\ref{sec:formulation-PR}.
+There exist  sufficiently large constants $c,C>0$ such that if $m\geq Cn\log^{3}m$, then with probability at least $1-O(m^{-10})$ one has
+%
+\begin{equation}
+	\|\bm{M}-\bm{M}^{\star}\|\leq c\sqrt{\frac{n\log^{3}m}{m}}\|\bm{x}^{\star}\|_{2}^{2} \leq\frac{1}{10}\|\bm{x}^{\star}\|_{2}^{2}.
+	\label{eq:pr-noise-bound}
+\end{equation}
+%
+\end{lemma}
+%
+\begin{remark}
+	The sample size requirement can be further relaxed to $m\geq Cn\log n$ with a more careful treatment \citep{candes2015phase,ma2017implicit}.
+	For the sake of conciseness, however, we do not strive to shave the log factors here.
+\end{remark}
+%
+
+With the above bound in mind, we are ready to characterize the statistical accuracy of the spectral method for phase retrieval.
+
+
+
+
+\begin{theorem}
+\label{thm:PR-L2-performance}
+Suppose the assumptions of Lemma~\ref{lemma:pr-noise-bound} hold, then with probability at least $1-O(m^{-10})$, the following holds
+\[
+	\min \{ \| \bm{x} - \bm{x}^{\star}\|_2, \| \bm{x} + \bm{x}^{\star}\|_2 \} \leq3c\sqrt{\frac{n\log^3 m}{m}}\|\bm{x}^{\star}\|_{2} .
+	%\leq \frac{3}{10}\|\bm{x}^{\star}\|_{2}
+\]
+%Here $c>0$ is the same universal constant as in Lemma~\ref{lemma:pr-noise-bound}.
+\end{theorem}
+%\begin{remark} The log factors in Theorem~\ref{thm:PR-L2-performance} can be eliminated by a truncated spectral method designed to handle the heavy-tailed nature of quadratic Gaussian measurements; see Section~\ref{sec:improved-spectral-truncated}.
+%\end{remark}
+
+
+As can be seen from Theorem~\ref{thm:PR-L2-performance}, when the number $m$ of measurements obeys $m\gg n\log^{3}m$, the relative accuracy of the spectral estimates (i.e., $\min \{ \| \bm{x} - \bm{x}^{\star}\|_2, \| \bm{x} + \bm{x}^{\star}\|_2 \}  / \|\bm{x}^{\star}\|_{2}$) becomes considerably smaller than $1$, thus indicating consistent estimation. This should be contrasted with the minimax lower bounds derived in the literature \citep{cai2015rop,eldar2014phase}, which assert that no estimator can achieve a vanishingly small relative estimation error if $m$ is orderwise smaller than $n$. All this corroborates the power of spectral methods for solving the phase retrieval problem.
+
+
+
+\paragraph{Proof of Theorem~\ref{thm:PR-L2-performance}.}
+
+Lemma~\ref{lemma:pr-noise-bound} and Weyl's inequality (see Lemma~\ref{lemma:weyl}) yield
+%
+\begin{align}
+	 |\lambda_{1}-\lambda_{1}^{\star}|\leq\|\bm{M}-\bm{M}^{\star}\|\leq c\sqrt{\frac{n\log^3 m}{m}}\|\bm{x}^{\star}\|_{2}^{2}
+	& \leq\|\bm{x}^{\star}\|_{2}^{2},\label{eq:pr-eig-pert}
+\end{align}
+%
+As a result,  by using $\lambda_{1}^\star = 3\|\bm{x}^{\star}\|_{2}^{2}$, we have
+%
+\begin{equation}
+	\lambda_{1} \geq \lambda_{1}^\star - \|\bm{x}^{\star}\|_{2}^{2} = 3\|\bm{x}^{\star}\|_{2}^{2}-\|\bm{x}^{\star}\|_{2}^{2} = 2\|\bm{x}^{\star}\|_{2}^{2}.
+	\label{eq:pr-eig-lower-bound}
+\end{equation}
+%
+In addition, note that $\lambda_{1}^{\star}=\lambda_{1}(\bm{M}^{\star})=3\|\bm{x}^{\star}\|_{2}^{2}$
+and $\lambda_{i}(\bm{M}^{\star})=\|\bm{x}^{\star}\|_{2}^{2}$ for all $i\geq 2$. The
+bound (\ref{eq:pr-noise-bound}) on $\bm{M}-\bm{M}^{\star}$ indicates that
+%
+\[
+\|\bm{M}-\bm{M}^{\star}\|\leq(1-1/\sqrt{2})\big[ \lambda_{1}(\bm{M}^{\star})-\lambda_{2}(\bm{M}^{\star}) \big],
+\]
+%
+which allows one to invoke the Davis-Kahan $\sin\bm{\Theta}$ theorem (cf.~Corollary~\ref{cor:davis-kahan-conclusion-corollary}) to obtain
+%
+\begin{align}
+	\mathsf{dist}(\bm{u}_{1},\bm{u}_{1}^{\star})\leq\frac{2\|\bm{M}-\bm{M}^{\star}\|}{ \lambda_{1}(\bm{M}^{\star})-\lambda_{2}(\bm{M}^{\star}) }\leq2c\sqrt{\frac{n\log^3 m}{m}}.
+	\label{eq:dist-u1-u1star-PR}
+\end{align}
+Without loss of generality, we shall assume $\|\bm{u}_{1}-\bm{u}_{1}^{\star}\|_{2}=\mathsf{dist}(\bm{u}_{1},\bm{u}_{1}^{\star})$ in the sequel.
+
+
+Now we are ready to control our target quantity $\mathsf{dist}(\bm{x},\bm{x}^{\star})$.
+In view of the definition (\ref{eq:init-PR}) of $\bm{x}$, one has
+%
+\begin{align}
+\|\bm{x}-\bm{x}^{\star}\|_{2}
+ & = \Big\| \sqrt{\lambda_{1}/3}\,\bm{u}_{1}-\|\bm{x}^{\star}\|_{2}\bm{u}_{1}^{\star} \Big\|_{2}\nonumber \\
+ & \leq \Big\| \Big(\sqrt{\lambda_{1}/3}-\|\bm{x}^{\star}\|_{2} \Big)\,\bm{u}_{1} \Big\|_{2}+\|\bm{x}^{\star}\|_{2}\|\bm{u}_{1}-\bm{u}_{1}^{\star}\|_{2}\nonumber \\
+ & \leq \Big|\sqrt{\lambda_{1}/3}-\|\bm{x}^{\star}\|_{2} \Big| + 2c \sqrt{\frac{n\log^3 m}{m}}\|\bm{x}^{\star}\|_{2}.\label{eq:pr-first-step}
+\end{align}
+%
+Here, the second line applies the triangle inequality, and the last line
+arises from the facts $\|\bm{u}_{1}\|_{2}=1$ and 
+\eqref{eq:dist-u1-u1star-PR}. %$\|\bm{u}_{1}-\bm{u}_{1}^{\star}\|_{2}=\mathsf{dist}(\bm{u}_{1},\bm{u}_{1}^{\star})\leq2c\sqrt{(n\log^3 m)/m}$.
+It then boils down to controlling $|\sqrt{\lambda_{1}/3}-\|\bm{x}^{\star}\|_{2}|$,
+for which (\ref{eq:pr-eig-pert}) and (\ref{eq:pr-eig-lower-bound})
+prove useful. A little algebra reveals that
+%
+\begin{align}
+	\Big|\sqrt{\lambda_{1}/3}\,-\|\bm{x}^{\star}\|_{2} \Big|
+	%& =\frac{1}{\sqrt{3}}\left|\sqrt{\lambda_{1}}-\sqrt{3}\|\bm{x}^{\star}\|_{2}\right|
+	=\frac{1}{\sqrt{3}}\frac{\big|\lambda_{1}-3\|\bm{x}^{\star}\|_{2}^{2} \big|}{\sqrt{\lambda_{1}}+\sqrt{3}\|\bm{x}^{\star}\|_{2}}
+	\leq c\sqrt{\frac{n\log^3 m}{m}}\|\bm{x}^{\star}\|_{2},
+	\label{eq:pr-second-step}
+\end{align}
+%
+where the last relation relies on the bounds (\ref{eq:pr-eig-pert})
+and (\ref{eq:pr-eig-lower-bound}).
+
+
+Taking collectively (\ref{eq:pr-first-step}) and (\ref{eq:pr-second-step})
+concludes the proof.
+
+
+
+
+
+\subsection{Extensions}
+\label{sec:improved-spectral-truncated}
+
+
+
+
+The spectral algorithm described in Section~\ref{sec:pr-alg}, while enjoying appealing statistical guarantees, is improvable in multiple aspects.
+In this subsection, we briefly discuss two central issues:  sample efficiency and robustness against outliers.
+
+
+
+\subsubsection{Improving sample efficiency}
+
+
+Thus far, the spectral algorithm we have discussed requires the sample size to exceed $m \gtrsim n  \log^3 m$.
+While this can be improved to $m \gtrsim n \log n$ via tighter analysis \citep{candes2015phase,ma2017implicit},
+it remains suboptimal due to the presence of the log factor.
+What happens in the sample-starved regime where the sample size $m$ is on the same order as the number $n$ of unknowns?
+Is it possible to achieve the information-theoretic sampling limit for this problem?
+As it turns out, in order to attain the desired statistical accuracy in the sample-starved regime,
+we have to modify the standard recipe by applying appropriate preprocessing steps before forming the data matrix $\bm{M}$, as we shall explain momentarily.
+
+
+%By the triangle inequality, it suffice to give a lower bound for  the spectrum of the matrix $\bm{M}$ previously constructed in \eqref{eq:D_PR_org}.
+
+\paragraph{Why is the algorithm in Section~\ref{sec:pr-alg} suboptimal?}
+
+Before introducing the improved spectral algorithm, we take a closer look at the lower bound of the approximation error $\|\bm{M} - \bm{M}^\star\|$ for the sample-starved regime.  
+Clearly,
+%
+\begin{equation*}
+	\norm{\bm{M}} \ge \frac{\va_j^\top \bm{M} \va_j}{\| \va_j \|_2^2}
+	=  \frac{1}{m} \sum_{i=1}^m y_i \frac{(\va_i^\top \va_j)^2}{\| \va_j \|_2^2} \geq \frac{1}{m}  y_j  \| \va_j \|_2^2
+\end{equation*}
+%
+holds for any $1\leq j\leq m$. Taking $j = i^\ast  \coloneqq \arg \max_i  y_i$, we obtain
+%
+\begin{equation}
+	\label{eq:bound_id2}
+	\norm{\bm{M}} \ge \frac{(\max_i y_i) \, \| \va_{i^\ast} \|_2^2}{m}.
+\end{equation}
+%
+Under the i.i.d.~Gaussian design, $\set{y_i / \| \bm{x}^{\star} \|_2^2}_{1\leq i\leq m}$ forms a collection of i.i.d.~$\chi^2$ random variables with 1 degree of freedom. Classical  Gaussian concentration results \citep{Ferguson:1996,vershynin2016high} tell us that
+%
+\begin{align*}
+	\max_{1\le i\le m}\,y_{i}  =(2+o(1))\|\bm{x}^{\star}\|_{2}^{2}\log m,\quad
+	\|\bm{a}_{i}\|_{2}^{2}  = (1+o(1)) n, ~~ 1 \leq i\leq m
+\end{align*}
+%
+with probability approaching one as $n$ grows, as long as $m=\mathrm{poly}(n)$.
+Substitution into \eqref{eq:bound_id2} implies that
+%
+\begin{equation*}
+	%\label{eq:PR_sc}
+	\norm{\bm{M}} \ge \big(2+o(1)\big)  \frac{ n \log m}{  m} \|\bm{x}^{\star}\|_2^2  \gg \|\bm{x}^{\star}\|_2^2
+\end{equation*}
+%
+once $m\ll n \log m$, which combined with \eqref{eq:mtx_LLN} further yields
+%
+\[
+	\norm{\bm{M} - \bm{M}^{\star}} \geq \norm{\bm{M}} - \norm{\bm{M}^{\star}}
+	= \norm{\bm{M}} - 3\|\bm{x}^{\star}\|_2^2 \gg \norm{\bm{M}^{\star}}.
+\]
+%
+In other words, the deviation between $\bm{M}$ and $\bm{M}^{\star}$ is not as well-controlled as desired in the regime with $m\ll n \log m$, and hence classical matrix perturbation theory (e.g., the Davis-Kahan theorem) does not support the use of the spectral algorithm based on $\bm{M}$ in this case.
+
+
+
+
+ 
+
+
+
+
+
+\paragraph{Spectral methods with data preprocessing.}
+
+
+
+The above diagnosis  suggests a natural remedy:
+since the culprit lies in the  large influence $\max_i y_i$  has brought to bear on the leading eigenvector,
+it is advisable to downweight the effect of any excessively large $y_i$.
+This is precisely the key idea behind the {\em truncated spectral method} proposed by \citet{chen2015solving}---as well as other variations proposed thereafter---that provably improves the sample efficiency of spectral methods.
+
+
+More specifically, instead of using the matrix $\bm{M}$ constructed in \eqref{eq:D_PR_org},
+we resort to a properly preprocessed data matrix
+%
+\begin{equation}
+	\label{eq:D_PR_T}
+	\bm{M}_{\mathcal{T}} \coloneqq \frac{1}{m} \sum_{i=1}^m \mathcal{T}(y_i) \,\va_i \va_i^\top
+\end{equation}
+%
+with $\mathcal{T}$ some preprocessing function, and produce, by \eqref{eq3.43}, an estimate%\footnote{Here, $\frac{1}{m} \sum_{i=1}^m y_i $ serves as an  estimate of $\|\bm{x}^{\star}\|_2^2$ since $\frac{1}{m} \sum_{i=1}^m y_i  \to   E y_i = \mathbb {E} (\ba^T \bx^\star )^2 =   \|  \bx^\star\|^2$.}
+%
+\begin{equation}
+	\label{eq:estimate-preprocess-PR}
+	\bm{x}_{\mathcal{T}} = \Big( \frac{1}{m} \sum\nolimits_{i=1}^m y_i \Big)^{1/2} \, \bm{u}_{1,\mathcal{T}},
+\end{equation}
+%
+where  $\bm{u}_{1,\mathcal{T}}$  denotes  the leading eigenvector of $\bm{M}_{\mathcal{T}}$.
+A few representative examples of $\mathcal{T}$ are in order.
+%, where $c_{\tau}>0$ denotes some sufficiently large constant:
+%
+\begin{itemize}
+	\item {\em mean-based truncation} \citep{chen2015solving}:
+	\begin{equation}
+		\label{eq:trimming}
+		\mathcal{T}(y) \coloneqq y \mathbbm{1} \big\{ y \leq \alpha_1 \overline{y} \big\}, \quad
+		\overline{y} \coloneqq \frac{1}{m} \sum\nolimits_{i=1}^m y_i,
+	\end{equation}
+	%
+	where $\alpha_1>0$ is some sufficiently large constant;
+
+	\item {\em median-based truncation} \citep{zhang2016provable,zhang2018median}:
+	\begin{equation}
+		\label{eq:median-truncation}
+		\mathcal{T}(y) \coloneqq y \mathbbm{1}\big\{ y \leq \alpha_2 y_{\mathsf{med}} \big\}, \quad
+		y_{\mathsf{med}}  \coloneqq \mathsf{median}\big(\, \{ y_i \} \,\big),
+	\end{equation}
+	%
+	where $\alpha_2>0$ is some sufficiently large constant; 	
+	
+	\item {\em orthogonality promotion} \citep{wang2017solving,duchi2019solving}
+	\begin{equation}
+		\label{eq:TAF}
+		\mathcal{T}(y) \coloneqq  \mathbbm{1}\big\{ y \geq y_{(\alpha_3 m)} \big\},
+	\end{equation}
+	%
+	where $y_{(1)}\geq y_{(2)}\geq \cdots \geq y_{(m)}$ denote the order statistics of $\{y_i\}$,
+	and $0<\alpha_3<1$ is some properly chosen constant;
+
+	\item {\em optimal preprocessing} \citep{mondelli2017fundamental,luo2019optimal}:
+	\begin{equation}
+		\label{eq:optimal-truncation}
+		\mathcal{T}(y) \coloneqq \frac{y\,/\,\overline{y} -1}{ y\,/\,\overline{y} +\sqrt{2m/n}-1},\quad
+		\overline{y} \coloneqq \frac{1}{m} \sum\nolimits_{i=1}^m y_i.
+	\end{equation}
+		
+\end{itemize}
+%
+\begin{remark}
+	To be more precise, $\mathcal{T}(y)$ depends not only on $y$ but also some statistics about $\{y_i\}$ (e.g., empirical mean).
+	Here, we suppress the dependency on such additional statistics mainly to simplify notation.
+\end{remark}
+%
+In words, the first two choices discard any measurement $y_i$ that is too large (compared to the order of either the empirical mean or empirical median),
+the third one selects a subset of measurements that are most aligned with the unknown signal and scales their contributions to a measurement-invariant level,
+while the last one effectively behaves as a shrinkage operator once $y_i$ rises above the empirical mean.
+The following theorem---which was first established in \citet{chen2015solving} for the version \eqref{eq:trimming} and subsequently extended to other alternatives \citep{zhang2016provable,wang2017solving,lu2020phase,mondelli2017fundamental,luo2019optimal}---confirms the effectiveness and importance of proper preprocessing  in enabling order-optimal sample complexity.
+The interested reader is referred to these papers for the proofs.
+%
+\begin{theorem}
+	\label{thm:truncated-PR}
+	Consider the settings in Section~\ref{sec:phase_retrieval}. Fix any constant $\varepsilon > 0$, and suppose  $m \ge c_0 n $ for some sufficiently large constant $c_0>0$ that is independent of $n$ and $m$ but possibly dependent on $\varepsilon$.  Then the spectral estimate \eqref{eq:estimate-preprocess-PR} equipped with the above choices of $\mathcal{T}$ obeys
+\[
+	\min \{ \| \bm{x}_{\mathcal{T}} - \bm{x}^{\star}\|_2, \| \bm{x}_{\mathcal{T}} + \bm{x}^{\star}\|_2 \} \le \varepsilon \,\| \bm{x}^{\star} \|_2
+\]
+with probability at least $1 - O(n^{-2})$, provided that the parameters $\alpha_1,\alpha_2,\alpha_3$ are suitably chosen in \eqref{eq:trimming}--\eqref{eq:TAF}.
+\end{theorem}
+
+\begin{figure}
+\begin{center}
+	\begin{tabular}{c}
+	\includegraphics[width=0.55\textwidth]{figures/princeton_original.pdf}
+	\tabularnewline
+	(a)
+	\tabularnewline
+	\includegraphics[width=0.55\textwidth]{figures/princeton_WF.pdf}
+	\tabularnewline
+	(b)
+	\tabularnewline
+	\includegraphics[width=0.55\textwidth]{figures/princeton_TWF.pdf}
+	\tabularnewline
+	(c)
+	\tabularnewline
+\end{tabular}
+\end{center}
+	\caption{Numerical performance of spectral methods for phase retrieval under coded diffraction patterns (see~\citet{candes2015phase} for details) when $m=10n$. (a) the original image $\bm{x}^{\star}$ (which is $613,760$-dimensional); (b) the estimate of the spectral method in Section~\ref{sec:pr-alg}; (c) the estimate of the mean-truncated spectral method (cf.~\eqref{eq:trimming}). 
+	There are in total $10$ groups of measurements each of size $n$; to generate each group of measurements, the entries of the signal $\bm{x}^{\star}$ are first independently multiplied by random variables uniformly over $\{1,-1,i,-i\}$, followed by an application of the discrete Fourier transform. 
+	\label{fig:phase_retrieval_twf}} 
+\end{figure}
+
+%
+%% paragraph about simulation
+
+To demonstrate the practicability of preprocessing, we depict in
+Figure~\ref{fig:phase_retrieval_twf} the numerical performance of  the mean-truncated spectral method (i.e., the choice \eqref{eq:trimming}) in comparison to the vanilla version described in Section~\ref{sec:pr-alg}.
+These numerical experiments corroborate the clear advantage of proper preprocessing in the sample-starved regime.
+
+
+Finally, we remark that in addition to order-wise statistical guarantees,  \citet{lu2020phase} further pinned down sharp characterization of the error bounds (including the pre-constants) in this sample-starved regime. Leveraging such sharp analyses,  \citet{mondelli2017fundamental} identified the information-theoretic optimal choice \eqref{eq:optimal-truncation}, in the sense that it leads to an estimate strictly better than a random guess (a.k.a.~weak recovery) whenever it is information-theoretically possible. \citet{luo2019optimal} further showed that this choice is uniformly optimal, meaning that it leads to the smallest principal angle between $\bm{x}_{\mathcal{T}}$ and $\bm{x}^{\star}$ uniformly over all sampling ratios when $m$ is on the same order of $n$.
+
+
+
+
+\subsubsection{Robustness vis-\`a-vis adversarial outliers}
+
+Another practical consideration that merits special attention is that
+the collected samples are sometimes susceptible to adversarial entries
+(due to, say, sensor failures or malicious attacks).
+To formulate this in more formal terms, consider the following modified measurement model \citep{zhang2016provable,hand2017phaselift,hand2016corruption}:
+%
+\begin{equation}
+	\label{eq:robust_pr_model}
+	y_i = \begin{cases}
+	(\ba_i^\top\bx^{\star})^2, \qquad  & i \notin \mathcal{S}_{\mathsf{outlier}}, \\
+		\mathsf{arbitrary} ,\qquad & i \in \mathcal{S}_{\mathsf{outlier}}.
+	\end{cases}
+\end{equation}
+%
+Here, $\mathcal{S}_{\mathsf{outlier}} \subseteq \{1,\cdots,m\}$ represents the unknown subset of indices associated with outliers,
+which is of cardinality  $|\mathcal{S}_{\mathsf{outlier}}|=\alpha  m$ for some $0<\alpha<1$.
+In particular, the  measurements coming from $\mathcal{S}_{\mathsf{outlier}}$ might be corrupted arbitrarily.
+The goal is to reliably estimate $\bm{x}^{\star}$ even when the measurements are grossly corrupted.
+
+
+
+
+
+Unfortunately, the vanilla spectral method presented in Section~\ref{sec:pr-alg} might not function properly
+even in the presence of a single outlier; for instance, if the magnitude of this outlier is excessively large, then the leading eigenvector of $\bm{M}$ will be heavily biased by this outlier.
+As a result, the spectral method needs to be properly adjusted in order to combat  the adverse effect of outliers.
+
+
+
+To circumvent this issue,  we first remind the readers of a classical finding in robust statistics \citep{huber2004robust}: the median statistic is oftentimes robust against adversarial outliers.
+Leveraging this finding to the phase retrieval context,
+one might naturally employ the median of the measurements $\{y_i\}_{1\leq i\leq m}$ as a tool to help detect any excessively large outlier. In fact, this is precisely the idea behind the median-truncated scheme presented
+in \eqref{eq:median-truncation}, whose capability in dealing with outliers has been established in \citet{zhang2016provable} for phase retrieval and \citet{li2017nonconvex} for low-rank matrix recovery.
+%
+\begin{theorem}
+	\label{thm:truncated-PR-init}
+	Consider the measurement model in \eqref{eq:robust_pr_model},
+	and the i.i.d.~Gaussian design in Assumption~\ref{assump:pr-gaussian}.
+	Fix any  $\varepsilon > 0$. There exist some constants  $c_0>0$ and $0<c_1<1$ such that
+	if  $m\geq c_{0}n$ and $\alpha\leq c_1$,
+	then the spectral estimate \eqref{eq:estimate-preprocess-PR} equipped with \eqref{eq:median-truncation} obeys
+%
+\[
+	\min \{ \| \bm{x}_{\mathcal{T}} - \bm{x}^{\star}\|_2, \| \bm{x}_{\mathcal{T}} + \bm{x}^{\star}\|_2 \}  \le \varepsilon \| \bm{x}^{\star} \|_2
+\]
+%
+with probability at least $1 - O(n^{-2})$.
+\end{theorem}
+%
+In a nutshell, Theorem~\ref{thm:truncated-PR-init} reveals that a median-truncated spectral method  achieves consistent estimation even when a constant fraction of the measurements are corrupted in an arbitrary manner.  All this is guaranteed to happen even when the number $m$ of samples is on the same order as $n$,  thus further enhancing the resilience of spectral methods in the presence of adversarial corruptions. The interested reader is referred to \citet{zhang2016provable} for the proof of this theorem.
+
+
+
+
+
+\subsection{Proof of auxiliary lemmas}
+\label{sec:proof-auxiliary-lemmas-PR-L2}
+
+
+
+
+\paragraph{Proof of Lemma~\ref{lemma:pr-noise-bound}.}
+Given that $\{\bm{a}_{i}\}$ is rotationally invariant,  we  assume without
+loss of generality that $\bm{x}^{\star}=\bm{e}_{1}$, where
+$\bm{e}_{1}$ is the first standard basis vector. Thus, our task can be translated into bounding
+%
+\[
+	\bm{M}-\bm{M}^{\star} =  \frac{1}{m}\sum_{i=1}^{m} \Big\{ a_{i,1}^{2}\bm{a}_{i}\bm{a}_{i}^{\top}-\big(2\bm{e}_{1}\bm{e}_{1}^{\top}+\bm{I}_{n}\big) \Big\}
+	\eqqcolon \frac{1}{m}\sum_{i=1}^{m} \Big( \bm{B}_i - \mathbb{E}\big[\bm{B}_i \big] \Big),
+\]
+%
+where $a_{i,1}$ denotes the first entry of the vector $\bm{a}_i$, and $\bm{B}_i\coloneqq a_{i,1}^{2}\bm{a}_{i}\bm{a}_{i}^{\top}$.
+
+
+% Preview source code from paragraph 6 to 7
+
+In order to deal with the unboundedness of Gaussian random variables,
+we resort to the truncated matrix Bernstein inequality, which requires
+us to first set a proper truncation level. In view of the Gaussianity
+of $\bm{a}_{i}$ and the union bound, one has $\|\bm{a}_{i}\|_{\infty}\leq 5\sqrt{\log m}$ for all $1\leq i\leq m$
+with probability at least $1-m^{-11.5}$; on this event, one would have
+%This in turn reveals that
+%
+\begin{equation}
+\label{eq:Bi-norm-early}
+\big\|\bm{B}_{i}\big\|=\big|a_{i,1}\big|^{2}\big\|\bm{a}_{i}\big\|_{2}^{2}\leq n\big\|\bm{a}_{i}\big\|_{\infty}^{4}\leq5^4 n\log^{2}m .
+\end{equation}
+%
+%holds with probability greater than $1-m^{-11.5}$.
+Therefore, taking
+$L\coloneqq 5^4 n\log^{2}m$ leads to
+\[
+\mathbb{P}\big\{\big\|\bm{B}_{i}\big\|\geq L\big\}\leq m^{-11.5}\eqqcolon q_{0}.
+\]
+Further, truncating at this level does not incur much bias; to be precise, we claim that (with the proof deferred to the end of this subsection)
+%
+\begin{align}
+	q_{1} & \coloneqq\big\|\mathbb{E}\big[\bm{B}_{i}\mathbbm1\{\|\bm{B}_{i}\|<L\}-\mathbb{E}[\bm{B}_{i}]\big]\big\| \lesssim m^{-3}.
+	\label{eq:q1-bound-UB-PR}
+\end{align}
+
+
+
+
+The next step is to characterize the variance statistic. Towards
+this end, it is first seen from the definition of $\bm{B}_i$ that
+%
+\begin{equation}
+\mathbb{E}\big[\left(\bm{B}_{i}-\mathbb{E}[\bm{B}_{i}]\right)^{2}\big]\preceq\mathbb{E}[\bm{B}_{i}^{2}]
+% =\mathbb{E}\big[a_{i,1}^{4}\bm{a}_{i}\bm{a}_{i}^{\top}\bm{a}_{i}\bm{a}_{i}^{\top}\big]
+=\mathbb{E}\big[a_{i,1}^{4}\big\|\bm{a}_{i}\big\|_{2}^{2}\bm{a}_{i}\bm{a}_{i}^{\top}\big].\label{eq:E-Bi-square-PR}
+\end{equation}
+%
+As can be easily verified, $\mathbb{E}\big[a_{i,1}^{4}\big\|\bm{a}_{i}\big\|_{2}^{2}\bm{a}_{i}\bm{a}_{i}^{\top}\big]$
+is a diagonal matrix, whose diagonal entries obey
+\[
+\Big(\mathbb{E}\big[a_{i,1}^{4}\big\|\bm{a}_{i}\big\|_{2}^{2}\bm{a}_{i}\bm{a}_{i}^{\top}\big]\Big)_{l,l}=\mathbb{E}\big[a_{i,1}^{4}a_{i,l}^{2}\sum\nolimits _{j}a_{i,j}^{2}\big]=\sum\nolimits _{j}\mathbb{E}\big[a_{i,1}^{4}a_{i,l}^{2}a_{i,j}^{2}\big]\lesssim n
+\]
+for any $1\leq l\leq n$, where the last relation follows from the
+property of standard Gaussians. This taken together with
+(\ref{eq:E-Bi-square-PR}) gives
+%
+\[
+v\coloneqq\Big\|\sum_{i}\mathbb{E}\big[\left(\bm{B}_{i}-\mathbb{E}[\bm{B}_{i}]\right)^{2}\big]  \Big \|\leq \sum_{i} \max _{l}\Big|\Big(\mathbb{E}\big[a_{i,1}^{4}\big\|\bm{a}_{i}\big\|_{2}^{2}\bm{a}_{i}\bm{a}_{i}^{\top}\big]\Big)_{l,l}\Big|\lesssim mn.
+\]
+%
+%\[
+%\Longrightarrow\qquad v\coloneqq\Big\|\sum\nolimits _{i}\mathbb{E}\big[\left(\bm{B}_{i}-\mathbb{E}[\bm{B}_{i}]\right)^{2}\big]\Big\|\lesssim mn.
+%\]
+%
+Invoking the truncated Bernstein inequality
+in Corollary \ref{thm:matrix-Bernstein-friendly-truncated} then yields: with probability at least $1-O(m^{-10})-mq_0=1-O(m^{-10})$, one has
+\begin{align*}
+\big\|\bm{M}-\bm{M}^{\star}\big\| & \lesssim\frac{1}{m}\sqrt{v\log m}+\frac{L}{m}\log m + \frac{mq_1}{m} \\
+ & \lesssim\sqrt{\frac{n\log m}{m}}+\frac{n\log^{3}m}{m} +\frac{1}{m^3} \lesssim\sqrt{\frac{n\log^{3}m}{m}}
+\end{align*}
+%
+as desired, with the proviso that $m\gtrsim n\log^{3}m$.
+
+
+
+\begin{proof}[Proof of the inequality~\eqref{eq:q1-bound-UB-PR}] We begin by employing the relation \eqref{eq:Bi-norm-early} to help modify the truncation event as follows:
+%
+\begin{align*}
+q_{1} & = \big\|\mathbb{E}\big[\bm{B}_{i}\mathbbm1\{\|\bm{B}_{i}\|<L\}-\mathbb{E}[\bm{B}_{i}]\big]\big\|
+=\big\|\mathbb{E}\big[\bm{B}_{i}\mathbbm1\{\|\bm{B}_{i}\|\geq L\}\big]\big\|\\
+ & \leq\big\|\mathbb{E}\big[\bm{B}_{i}\mathbbm1\{n\|\bm{a}_{i}\|_{\infty}^{4}\geq L\}\big]\big\|
+  =\big\|\mathbb{E}\big[\bm{B}_{i}\mathbbm1\{\|\bm{a}_{i}\|_{\infty}\geq\overline{L}\}\big]\big\|,
+\end{align*}
+%
+where
+%the inequality arises from , and
+we define $\overline{L}\coloneqq(L/n)^{1/4}=5 \sqrt{\log m}$. It
+is easily seen that $\mathbb{E}\big[\bm{B}_{i}\mathbbm1\{\|\bm{a}_{i}\|_{\infty}\geq\overline{L}\}\big]$
+is a diagonal matrix and, therefore,
+%
+\begin{align}
+ q_{1}  & \leq \max_l \Big|\Big(\mathbb{E}\big[\bm{B}_{i}\mathbbm1\{\|\bm{a}_{i}\|_{\infty}\geq\overline{L}\}\big]\Big)_{l,l}\Big|
+	\overset{\mathrm{(i)}}{=} \max_l  \mathbb{E}\big[a_{i,1}^{2}a_{i,l}^{2}\mathbbm1\{\|\bm{a}_{i}\|_{\infty}\geq\overline{L}\}\big] \nonumber\\
+	& \overset{\mathrm{(ii)}}{\leq} 0.5 \max_l  \mathbb{E}\big[(a_{i,1}^{4}+a_{i,l}^{4})\mathbbm1\{\|\bm{a}_{i}\|_{\infty}\geq\overline{L}\}\big]
+   = \mathbb{E}\big[a_{i,1}^{4}\mathbbm1\{\|\bm{a}_{i}\|_{\infty}\geq\overline{L}\}\big] \nonumber\\
+ & \leq \mathbb{E}\big[a_{i,1}^{4}\mathbbm1\{\big|a_{i,1}\big|\geq\overline{L}\}\big]+ \mathbb{E}\big[a_{i,1}^{4}\mathbbm1\{\max\nolimits_{j\neq1}\big|a_{i,j}\big|\geq\overline{L}\}\big],
+\label{eq:q1-UB-PR-1234}
+\end{align}
+%
+where (i) relies on the definition of $\bm{B}_i$, and (ii) comes from the AM-GM inequality. With regards to the first term of \eqref{eq:q1-UB-PR-1234}, observe that
+%
+\begin{align*}
+	& \mathbb{E}\big[a_{i,1}^{4}\mathbbm{1}\{|a_{i,1}|\geq 5\sqrt{\log m}\}\big]
+		=\int_{5\sqrt{\log m}}^{\infty}\frac{2\xi^{4}}{\sqrt{2\pi}}e^{-\xi^{2}/2} \mathrm{d}\xi \\
+	& \quad \leq2\int_{5\sqrt{\log m}}^{\infty}\frac{e^{-\xi^{2}/4}}{\sqrt{2\pi}} \mathrm{d}\xi=2\mathbb{P}\big\{|a_{i,1}|\geq2.5\sqrt{\log m} \big\}\lesssim\frac{1}{m^3}
+\end{align*}
+%
+for $m$ sufficiently large,
+where we have used the fact that $\xi^{4}e^{-\xi^{2}/2}\leq e^{-\xi^{2}/4}$
+for $\xi\geq5\sqrt{\log m}$. Regarding the second term of \eqref{eq:q1-UB-PR-1234}, note that
+%
+\begin{align*}
+	& \mathbb{E}\Big[a_{i,1}^{4}\mathbbm1\Big\{\max_{j\neq1}\big|a_{i,j}\big|\geq\overline{L}\Big\}\Big]  =\mathbb{E}\big[a_{i,1}^{4}\big]\mathbb{E}\Big[\mathbbm1\Big\{\max_{j\neq1}\big|a_{i,j}\big|\geq\overline{L}\Big\}\Big]\\
+ 	& \qquad\qquad =3\mathbb{P}\Big\{\max_{j\neq1}\big|a_{i,j}\big|\geq5\sqrt{\log m}\Big\}\lesssim m^{-10},
+\end{align*}
+%
+where the first identity uses the independence between $a_{i,1}$ and $\{a_{i,j}\}_{j\neq 1}$.
+Substituting the preceding bounds into \eqref{eq:q1-UB-PR-1234} establishes \eqref{eq:q1-bound-UB-PR}. \end{proof}
+
+

@@ -1,0 +1,24 @@
+
+\section{Truncated spectral method for sparse phase retrieval}\label{sec:spectral_init_spr}
+
+Next, we briefly discuss how the spectral method can be modified to incorporate structural priors. In many problems of practical interest, we might be given some prior knowledge about the signal of interest, encoded by a constraint set $\bm{x}_{\star}\in\mathcal{C}\subset \mathbb{R}^n$. Therefore, it is natural to apply projection to enforce the desired structural constraints. A special structure that will receive special attention is the sparsity prior, where it is known {\em a priori} that the signal of interest $\bm{x}_{\star} $ is $k$-sparse, where $k\ll n$. We shall illustrate this idea through the application of sparse phase retrieval.
+
+
+\paragraph{Sparse phase retrieval.} Consider the phase retrieval problem formulated in Section~\ref{sec:formulation-PR}, where we now additionally assume $\bx_{\star}$ is  $k$-sparse, i.e. $\| \bx_{\star}\|_0 = k$.  The sparse phase retrieval problem has numerous applications in computational imaging \citep{soltanolkotabi2017structured,shechtman2014gespar,chen2015exact}, as it offers the premise to further reducing the sampling cost by exploiting the sparsity structure.
+A simple idea is to first identify the support of $\bx_{\star}$, and then try to estimate  the nonzero values by applying the spectral method over the submatrix of $\bM$ on the estimated support. Towards this end, we recall that 
+$$\mathbb{E}[\bM] = 2\bx_{\star}\bx_{\star}^{\top}+ \|\bx_{\star}\|_2^2\bI_n, $$ 
+and therefore the larger ones of the diagonal entries of $\bM$ are more likely to be in the support of $\bx_{\star}$. In light of this, a simple thresholding strategy adopted in \cite{cai2016optimal} is to compare $M_{i,i}$ against some preset threshold $\gamma$:
+$$ \hat{\mathcal{S}} = \{i: \; Y_{i,i}> \gamma \} .$$
+The nonzero part of $\bx_{\star}$ is then found by applying the spectral method outlined in Section~\ref{sec:phase_retrieval} to 
+$$\bm{M}_{\hat{\mathcal{S}}} =\frac{1}{m}\sum_{i=1}^m y_i \bm{a}_{i,\hat{\mathcal{S}}}\bm{a}_{i,\hat{\mathcal{S}}}^{\top}, $$ 
+where $\bm{a}_{i,\hat{\mathcal{S}}}$ is the subvector of $\bm{a}_{i}$ coming from the support $\hat{\mathcal{S}}$. 
+In short, this strategy provably leads to a reasonably good initial estimate, as long as the sample size $m \gtrsim k^2 \log m$ is sufficiently large; the exact form of the theory can be found in \cite{cai2016optimal}. 
+See also \citep{wang66sparse} for a more involved approach, which provides better empirical performance.
+ 
+ 
+\begin{remark}
+Careful readers might realize that the sample complexity of the sparse spectral method is much larger than the information-theoretical lower bound established in, e.g., \cite{eldar2014phase}. 
+Unfortunately, to date there is no tractable  procedure that can provably guarantee a consistent estimate of $\bm{x}_\star$ when $m = O( k\log n) $. Rather, all known computationally feasible algorithms (both convex and nonconvex)  require a sample complexity at least on the order of $k^2 \log n$ under the Gaussian design (i.e. Assumption~\ref{assump:pr-gaussian}), unless $k$ is sufficiently large or other structural information is available \citep{li2013sparse,oymak2012simultaneously,chen2015exact,cai2016optimal,jagatap2017fast}.  All in all, there seems to exist a computational barrier for sparse phase retrieval between the sample complexity requirements for computationally efficient procedures and the information-theoretic limit. 
+\end{remark}
+
+ 

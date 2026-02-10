@@ -1,0 +1,236 @@
+\section{Appendix C: Proof of Theorem~\ref{thm:2-inf-asymm}}
+\label{sec:proof-inf-rect}
+
+\paragraph{A symmetrization trick. }
+
+As alluded to previously, the proof is built  on a ``symmetric dilation'' trick that helps symmetrize a general matrix. We start with the following definition.  
+
+\begin{definition}[Symmetric dilation]
+\label{defn:sym-dilation}
+For any matrix $\bm{A}\in\mathbb{R}^{n_{1}\times n_{2}}$, its symmetric dilation $\mathcal{S}(\bm{A})\in\mathbb{R}^{(n_{1}+n_{2})\times(n_{1}+n_{2})}$ is defined to be 
+%
+\[
+\mathcal{S}(\bm{A})=\left[\begin{array}{cc}
+\bm{0} & \bm{A}\\
+\bm{A}^{\top} & \bm{0}
+\end{array}\right].
+\]
+%
+ \end{definition}
+ %
+Apart from the symmetry of $\mathcal{S}(\bm{A})$,
+which is immediate from its definition, the main benefit of the symmetric
+dilation lies in the correspondence between the eigendecomposition
+of $\mathcal{S}(\bm{A})$ and the singular value decomposition of
+$\bm{A}$. More specifically, let $\bm{U}\bm{\Sigma}\bm{V}^{\top}$
+be the SVD of $\bm{A}$. Then one has the following eigendecomposition
+for $\mathcal{S}(\bm{A})$: 
+\begin{equation}
+\mathcal{S}(\bm{A})=\frac{1}{\sqrt{2}}\left[\begin{array}{cc}
+\bm{U} & \bm{U}\\
+\bm{V} & -\bm{V}
+\end{array}\right]\cdot\left[\begin{array}{cc}
+\bm{\Sigma} & \bm{0}\\
+\bm{0} & -\bm{\Sigma}
+\end{array}\right]\cdot\frac{1}{\sqrt{2}}\left[\begin{array}{cc}
+\bm{U} & \bm{U}\\
+\bm{V} & -\bm{V}
+\end{array}\right]^{\top}. \label{eq:dilation-eigen}
+\end{equation}
+%
+Here, the columns of $\frac{1}{\sqrt{2}}\left[{\scriptsize \begin{array}{cc}
+\bm{U} & \bm{U}\\
+\bm{V} & -\bm{V}
+\end{array}}\right]$
+%
+are orthonormal and represent the eigenvectors of $\mathcal{S}(\bm{A})$, whereas
+$\left[{\scriptsize \begin{array}{cc}
+\bm{\Sigma} & \bm{0}\\
+\bm{0} & -\bm{\Sigma}
+\end{array}}\right]$ contains all (non-zero) eigenvalues
+of $\mathcal{S}(\bm{A})$. 
+
+Utilizing this ``symmetric dilation'' trick, we can translate the observation
+model $\bm{M}=\bm{M}^{\star}+\bm{E}$ into the following equivalent
+form
+\[
+\mathcal{S}(\bm{M})=\mathcal{S}(\bm{M}^{\star})+\mathcal{S}(\bm{E}),
+\]
+which is in line with the symmetric observation model stated in
+(\ref{eq:M-noisy-copy-general}). 
+
+
+
+\paragraph{Verifying conditions. }
+
+% (cf.~Theorem~\ref{thm:UsgnH-Ustar-MUstar-general} and Corollary~\ref{cor:entrywise-error-general})
+To invoke the general theory in Section \ref{sec:setup-general-theory-independent},
+one is required to first examine the spectral properties of $\mathcal{S}(\bm{M}^{\star})$
+and $\mathcal{S}(\bm{M})$, as well as the  assumptions on the noise part
+$\mathcal{S}(\bm{E})$. 
+
+%from Section~\ref{sec:general-theory-setup-asymm} 
+
+Recall that $\bm{M}^{\star}=\bm{U}^{\star}\bm{\Sigma}^{\star}\bm{V}^{\star\top}$, which together with the relation (\ref{eq:dilation-eigen}) reveals that: (i) $\mathcal{S}(\bm{M}^{\star})$ has rank $2r$ and condition number $\kappa$; (ii) the nonzero eigenvalues of $\mathcal{S}(\bm{M}^{\star})$ and the corresponding eigenvectors are reflected respectively in the  matrices
+	%
+\begin{equation}
+\overline{\bm{\Lambda}}^{\star}\coloneqq\left[\begin{array}{cc}
+\bm{\Sigma}^{\star} & \bm{0}\\
+\bm{0} & -\bm{\Sigma}^{\star}
+\end{array}\right]	
+\quad\text{and}\quad
+\overline{\bm{U}}^{\star}\coloneqq\frac{1}{\sqrt{2}}\left[\begin{array}{cc}
+\bm{U}^{\star} & \bm{U}^{\star}\\
+\bm{V}^{\star} & -\bm{V}^{\star}
+\end{array}\right]
+	\label{eq:defn-spectral-S-M-star}
+\end{equation}
+%
+Similarly, given that the SVD of $\bm{M}$ is $\bm{M}=\bm{U}\bm{\Sigma}\bm{V}^{\top}+\bm{U}_{\perp}\bm{\Sigma}_{\perp}\bm{V}_{\perp}^{\top}$, we see that the $2r$-leading eigenvalues of $\mathcal{S}(\bm{M})$ and the corresponding eigenvectors are represented respectively by the matrices
+\[
+\overline{\bm{\Lambda}}\coloneqq\left[\begin{array}{cc}
+\bm{\Sigma} & \bm{0}\\
+\bm{0} & -\bm{\Sigma}
+\end{array}\right]
+\quad\text{and}\quad
+\overline{\bm{U}}\coloneqq\frac{1}{\sqrt{2}}\left[\begin{array}{cc}
+\bm{U} & \bm{U}\\
+\bm{V} & -\bm{V}
+\end{array}\right]. 
+\]
+%
+ Further, the incoherence parameter $\overline{\mu}$
+of $\mathcal{S}(\bm{M}^{\star})$ (cf.~(\ref{eq:defn-Ustar-incoherence}))
+obeys
+\begin{align}
+\overline{\mu} & \coloneqq\frac{(n_{1}+n_{2})}{2r}\|\overline{\bm{U}}^{\star}\|_{2,\infty}^{2}
+	\overset{(\text{i})}{=}  \frac{(n_{1}+n_{2})}{2r}\max\big\{\|\bm{U}^{\star}\|_{2,\infty}^{2},\|\bm{V}^{\star}\|_{2,\infty}^{2}\big\} \notag\\
+ & \overset{(\text{ii})}{\leq}\frac{(n_{1}+n_{2})}{\min\{n_{1},n_{2}\}}\frac{\mu}{2}\overset{(\text{iii})}{=}\frac{(n_{1}+n_{2})}{2n_{1}}\mu.
+	\label{eq:mu-bar-general}
+\end{align}
+Here, the relation (i) is based on the definition (\ref{eq:defn-spectral-S-M-star}),
+the  inequality (ii) follows from the incoherence of $\bm{M}^{\star}$
+(cf.~Definition~\ref{assump:mc-incoherence}), while the last one (iii)
+holds under the assumption $n_{1}\leq n_{2}$. 
+
+When it comes to the ``symmetrized'' noise part, it is straightforward to verify
+that under Assumption~\ref{assump:noise-general-rect}, 
+the matrix
+$\mathcal{S}(\bm{E})$ satisfies Assumption~\ref{assumption-noise-general}
+with precisely the quantities $\sigma, B$ and $c_{\mathsf{b}}$. 
+
+
+
+%
+%(resp.~$\bm{M}=\bm{U}\bm{\Sigma}\bm{V}^{\top}+\bm{U}_{\perp}\bm{\Sigma}_{\perp}\bm{V}_{\perp}^{\top}$)
+%is the SVD of $\bm{M}^{\star}$ (resp.~$\bm{M}$), which together
+%with the relation (\ref{eq:dilation-eigen}) reveals the eigendecompositions
+%of $\mathcal{S}(\bm{M}^{\star})$ and $\mathcal{S}(\bm{M})$: 
+%\begin{align*}
+%\mathcal{S}(\bm{M}^{\star}) & =\frac{1}{\sqrt{2}}\left[\begin{array}{cc}
+%\bm{U}^{\star} & \bm{U}^{\star}\\
+%\bm{V}^{\star} & -\bm{V}^{\star}
+%\end{array}\right]\cdot\left[\begin{array}{cc}
+%\bm{\Sigma}^{\star} & \bm{0}\\
+%\bm{0} & -\bm{\Sigma}^{\star}
+%\end{array}\right]\cdot\frac{1}{\sqrt{2}}\left[\begin{array}{cc}
+%\bm{U}^{\star} & \bm{U}^{\star}\\
+%\bm{V}^{\star} & -\bm{V}^{\star}
+%\end{array}\right]^{\top};\\
+%\mathcal{S}(\bm{M}) & =\frac{1}{\sqrt{2}}\left[\begin{array}{cccc}
+%\bm{U} & \bm{U} & \bm{U}_{\perp} & \bm{U}_{\perp}\\
+%\bm{V} & -\bm{V} & \bm{V}_{\perp} & -\bm{V}_{\perp}
+%\end{array}\right]\cdot\left[\begin{array}{cccc}
+%\bm{\Sigma}\\
+% & -\bm{\Sigma}\\
+% &  & \bm{\Sigma}_{\perp}\\
+% &  &  & -\bm{\Sigma}_{\perp}
+%\end{array}\right]\\
+% & \quad\cdot\frac{1}{\sqrt{2}}\left[\begin{array}{cccc}
+%\bm{U} & \bm{U} & \bm{U}_{\perp} & \bm{U}_{\perp}\\
+%\bm{V} & -\bm{V} & \bm{V}_{\perp} & -\bm{V}_{\perp}
+%\end{array}\right]^{\top}.
+%\end{align*}
+%In words, $\mathcal{S}(\bm{M}^{\star})$ has rank $2r$, and 
+%%
+%
+%are the leading eigenvectors and eigenvalues (in magnitude) of $\mathcal{S}(\bm{M}^{\star})$,
+%respectively. Similarly, 
+%\[
+%\overline{\bm{U}}\coloneqq\frac{1}{\sqrt{2}}\left[\begin{array}{cc}
+%\bm{U} & \bm{U}\\
+%\bm{V} & -\bm{V}
+%\end{array}\right],\qquad\text{and}\qquad\overline{\bm{\Lambda}}\coloneqq\left[\begin{array}{cc}
+%\bm{\Sigma} & \bm{0}\\
+%\bm{0} & -\bm{\Sigma}
+%\end{array}\right]
+%\]
+%are the leading eigenvectors and eigenvalues (in magnitude) of $\mathcal{S}(\bm{M})$,
+%respectively. Here the last assertion arises since $\bm{U}\bm{\Sigma}\bm{V}^{\top}$
+%is the top-$r$ SVD of $\bm{M}$, and hence the singular values in
+%$\bm{\Sigma}$ are larger than those in $\bm{\Sigma}_{\perp}$. In
+%addition, the condition number of $\mathcal{S}(\bm{M}^{\star})$ (see
+%the definition in (\ref{eq:defn-kappa})) corresponds exactly to that
+%of $\bm{M}^{\star}$.
+
+
+
+
+\paragraph{$\ell_{2,\infty}$ and $\ell_{\infty}$ guarantees. }
+
+With the above preparations in place, 
+%we are ready to invoke Theorem~\ref{thm:UsgnH-Ustar-MUstar-general} and Corollary~\ref{cor:entrywise-error-general}
+%to demonstrate finer performance guarantees for the spectral
+%estimates $\bm{U},\bm{V}$.
+%
+apply Theorem~\ref{thm:UsgnH-Ustar-MUstar-general} (more specifically (\ref{eq:UH-MUstar-Lambda-star-2inf}))
+ to demonstrate that
+ %
+ \begin{align}
+\|\overline{\bm{U}}\,\overline{\bm{U}}^{\top}\overline{\bm{U}}^{\star}-\overline{\bm{U}}^{\star}\|_{2,\infty} & \lesssim\frac{\sigma\kappa\sqrt{\overline{\mu}r}+\sigma\sqrt{r\log n}}{\sigma_{r}^{\star}} \notag\\
+ & \lesssim \frac{\sigma\kappa\sqrt{n_{2}\mu r/n_{1}}+\sigma\sqrt{r\log n}}{\sigma_{r}^{\star}}, 
+	 \label{eq:mc-inf-first-step}
+\end{align}
+%
+where the last relation follows from \eqref{eq:mu-bar-general}. Further, note that 
+%
+\begin{align*}
+\overline{\bm{U}}\,\overline{\bm{U}}^{\top}\overline{\bm{U}}^{\star}-\overline{\bm{U}}^{\star} & =\frac{1}{\sqrt{2}}\left[\begin{array}{cc}
+\bm{U}\bm{H}_{\bm{U}}-\bm{U}^{\star}, & \bm{U}\bm{H}_{\bm{U}}-\bm{U}^{\star}\\
+\bm{V}\bm{H}_{\bm{V}}-\bm{V}^{\star}, & -(\bm{V}\bm{H}_{\bm{V}}-\bm{V}^{\star})
+\end{array}\right],
+%\overline{\bm{U}}\overline{\bm{U}}^{\top}\overline{\bm{U}}^{\star}-\overline{\bm{U}}^{\star}  =\frac{1}{\sqrt{2}}\left[\begin{array}{cc}
+%\bm{U}\bm{U}^{\top}\bm{U}^{\star}-\bm{U}^{\star}, & \bm{U}\bm{U}^{\top}\bm{U}^{\star}-\bm{U}^{\star}\\
+%\bm{V}\bm{V}^{\top}\bm{V}^{\star}-\bm{V}^{\star}, & -(\bm{V}\bm{V}^{\top}\bm{V}^{\star}-\bm{V}^{\star})
+%\end{array}\right],
+\end{align*}
+%
+where $\bm{H}_{\bm{U}}\coloneqq \bm{U}^{\top} \bm{U}^{\star}$ and $\bm{H}_{\bm{V}}\coloneqq \bm{V}^{\top} \bm{V}^{\star}$. Combining this with the upper bound (\ref{eq:mc-inf-first-step}) then yields
+%
+\[
+	\max\big\{\|\bm{U}\bm{H}_{\bm{U}}-\bm{U}^{\star}\|_{2,\infty},\|\bm{V}\bm{H}_{\bm{V}}-\bm{V}^{\star}\|_{2,\infty} \big\}
+	\lesssim \frac{\sigma\kappa\sqrt{n_{2}\mu r/n_{1}}+\sigma\sqrt{r\log n}}{\sigma_{r}^{\star}}.
+\]
+%
+We can then repeat the same analysis  as in the proof of Lemma~\ref{lem:UH-sequence-bounds-E123}
+to connect $\|\bm{U}\bm{H}_{\bm{U}}-\bm{U}^{\star}\|_{2,\infty}$
+(resp.~$\|\bm{V}\bm{H}_{\bm{V}}-\bm{V}^{\star}\|_{2,\infty}$)
+with $\|\bm{U}\mathsf{sgn}(\bm{H}_{\bm{U}})-\bm{U}^{\star}\|_{2,\infty}$
+(resp.~$\|\bm{V}\mathsf{sgn}(\bm{H}_{\bm{V}})-\bm{V}^{\star}\|_{2,\infty}$),
+and obtain the desired bound in (\ref{eq:main-result-2-infty-general-asymm}); the details are omitted here for the sake of conciseness. 
+
+We now proceed to the second claim (\ref{eq:main-result-infty-general-asymm}).
+Towards this, invoke Corollary~\ref{cor:entrywise-error-general} and the inequality \eqref{eq:mu-bar-general} to obtain 
+\[
+	\big\|\overline{\bm{U}}\,\overline{\bm{\Lambda}}\,\overline{\bm{U}}^{\top}-\mathcal{S}(\bm{M}^{\star}) \big\|_{\infty}\lesssim\sigma\kappa^{2}\overline{\mu}r\sqrt{\frac{\log n}{n}}
+	\lesssim \sigma\kappa^{2}\mu r\sqrt{\frac{n\log n}{n_{1}^{2}}}. 
+\]
+This in conjunction with the following observations 
+%
+\begin{align*}
+	\overline{\bm{U}}\,\overline{\bm{\Lambda}}\,\overline{\bm{U}}^{\top} & =\mathcal{S}\big(\bm{U}\bm{\Sigma}\bm{V}^{\top} \big) \\
+	\big\|\mathcal{S} \big(\bm{U}\bm{\Sigma}\bm{V}^{\top}\big)- \mathcal{S}\big(\bm{M}^{\star}\big) \big\|_{\infty} &=  \big\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star} \big\|_{\infty}
+\end{align*}
+%
+immediately establishes the second claim.
+

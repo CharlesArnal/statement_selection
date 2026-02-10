@@ -1,0 +1,157 @@
+% Common commands and definitions
+
+\providecommand{\eref}[1]{\eqref{eq:#1}}  % call \eqref from amstex
+\providecommand{\cref}[1]{Chapter~\ref{chap:#1}}
+\providecommand{\sref}[1]{Section~\ref{sec:#1}}
+\providecommand{\fref}[1]{Figure~\ref{fig:#1}}
+\providecommand{\tref}[1]{Table~\ref{tab:#1}}
+\providecommand{\thref}[1]{Theorem~\ref{thm:#1}}
+
+\providecommand{\abs}[1]{\lvert#1\rvert}
+\providecommand{\norm}[1]{\lVert#1\rVert}
+\providecommand{\inprod}[1]{\langle#1\rangle}
+\providecommand{\set}[1]{\left\{#1\right\}}
+\providecommand{\seq}[1]{\left<#1\right>}
+\providecommand{\bydef}{\overset{\text{def}}{=}}
+
+
+\providecommand{\mD}{\bm{D}}
+\providecommand{\mA}{\bm{A}}
+\providecommand{\mB}{\bm{B}}
+\providecommand{\mM}{\bm{M}}
+\providecommand{\mX}{\bm{X}}
+\providecommand{\mP}{\bm{P}}
+\providecommand{\mSp}{\bm{S}_{\star}}
+\providecommand{\mI}{\bm{I}}
+\providecommand{\mU}{\bm{U}}
+\providecommand{\mV}{\bm{V}}
+\providecommand{\mSigma}{\bm{\Sigma}}
+\providecommand{\mMp}{\bm{M}^{\star}}
+\providecommand{\mGmp}{\bm{\Gamma}_{\star}}
+\providecommand{\mLambda}{\bm{\Lambda}}
+\providecommand{\mZero}{\bm{0}}
+
+\providecommand{\va}{\bm{a}}
+\providecommand{\vb}{\bm{b}}
+\providecommand{\vh}{\bm{h}}
+\providecommand{\vv}{\bm{v}}
+\providecommand{\vx}{\bm{x}}
+\providecommand{\vxp}{\bm{x}_{\star}}
+\providecommand{\vhp}{\bm{h}_{\star}}
+\providecommand{\vq}{\bm{q}}
+\providecommand{\vy}{\bm{y}}
+\providecommand{\ve}{\bm{e}}
+
+\providecommand{\bydef}{\overset{\text{def}}{=}}
+\providecommand{\muf}{\phi}
+\providecommand{\uf}{\psi}
+\providecommand{\lf}{\zeta}
+\providecommand{\ub}{\tau}
+\providecommand{\lm}{\lambda}
+\providecommand{\blm}{\overline{\lambda}}
+\providecommand{\slm}{{\lambda}^\ast}
+\providecommand{\slma}{\lambda^\ast_\alpha}
+
+\newcommand{\cip}{\overset{\mathbb{P}}{\longrightarrow}}
+
+\providecommand{\EE}{\mathbb{E}}
+
+\usepackage{dsfont}
+\newcommand{\charfn}{\mathds{1}}
+
+%
+%\usepackage{amsmath}
+%\usepackage{amssymb}
+%\usepackage{latexsym}
+%\usepackage{verbatim}
+%\usepackage{subfigure}
+%\usepackage[final]{graphicx}
+%\usepackage{psfrag}
+%
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{proposition}{Proposition}
+%\newtheorem{lemma}{Lemma}
+%\newtheorem{corollary}{Corollary}
+%\newtheorem{remark}{Remark}
+%\newtheorem{assumption}{Assumption}
+%\newtheorem{property}{Property}
+%\newtheorem{conjecture}{Conjecture}
+%\newtheorem{definition}{Definition}
+%\newtheorem{example}{Example}
+%\newtheorem{condition}{Condition}
+%\newtheorem{fact}{Fact}
+%\newtheorem{procedure}{Procedure}
+%
+%\newenvironment{densitemize}%    Densely printed itemized list,
+%{\begin{list}               %    with flush left bullets.
+%    {$\bullet$ \hfill}{
+%        \setlength{\leftmargin}{\parindent}
+%        \setlength{\parsep}{0.04\baselineskip}
+%        \setlength{\itemsep}{0.5\parsep}
+%        \setlength{\labelwidth}{\leftmargin}
+%        \setlength{\labelsep}{0em}}
+%    }
+%{\end{list}}
+%
+%\providecommand{\eref}[1]{\eqref{eq:#1}}  % call \eqref from amstex
+%\providecommand{\cref}[1]{Chapter~\ref{chap:#1}}
+%\providecommand{\sref}[1]{Section~\ref{sec:#1}}
+%\providecommand{\fref}[1]{Figure~\ref{fig:#1}}
+%\providecommand{\tref}[1]{Table~\ref{tab:#1}}
+%\providecommand{\thref}[1]{Theorem~\ref{thm:#1}}
+%
+%\providecommand{\R}{\ensuremath{\mathbb{R}}}
+%\providecommand{\C}{\ensuremath{\mathbb{C}}}
+%\providecommand{\N}{\ensuremath{\mathbb{N}}}
+%\providecommand{\Z}{\ensuremath{\mathbb{Z}}}
+%
+%\providecommand{\bfP}{\mathbf{P}}
+%
+%
+%\renewcommand{\vec}[1]{\ensuremath{\boldsymbol{#1}}}
+%\providecommand{\mat}[1]{\ensuremath{\boldsymbol{#1}}}
+%
+%% Some calligraphic letters
+%\providecommand{\calS}{\mathcal{S}}
+%\providecommand{\calP}{\mathcal{P}}
+%\providecommand{\calH}{\mathcal{H}}
+%\providecommand{\calM}{\mathcal{M}}
+%\providecommand{\calF}{\mathcal{F}}
+%\providecommand{\calO}{\mathcal{O}}
+%
+%% Common matrices and vectors
+%\providecommand{\mA}{\mat{A}} \providecommand{\mB}{\mat{B}}
+%\providecommand{\mC}{\mat{C}} 
+%\providecommand{\mD}{\mat{D}}
+%\providecommand{\mH}{\mat{H}}
+%\providecommand{\mI}{\mat{I}} \providecommand{\mJ}{\mat{J}} 
+%\providecommand{\mK}{\mat{K}} \providecommand{\mL}{\mat{L}} 
+%\providecommand{\mM}{\mat{M}} \providecommand{\mP}{\mat{P}} 
+%\providecommand{\mQ}{\mat{Q}} \providecommand{\mR}{\mat{R}}
+%\providecommand{\mS}{\mat{S}} \providecommand{\mU}{\mat{U}} 
+%\providecommand{\mV}{\mat{V}}
+%\providecommand{\mW}{\mat{W}}
+%\providecommand{\mT}{\mat{T}}
+%\providecommand{\mZ}{\mat{Z}}
+%\providecommand{\mSigma}{\mat{\Sigma}}
+%\providecommand{\mGm}{\mat{\Gamma}} \providecommand{\mG}{\mat{G}}
+%
+%\providecommand{\va}{\vec{a}} \providecommand{\vb}{\vec{b}}
+%\providecommand{\vc}{\vec{c}} \providecommand{\ve}{\vec{e}}
+%\providecommand{\vh}{\vec{h}} \providecommand{\vk}{\vec{k}}
+%\providecommand{\vm}{\vec{m}} \providecommand{\vn}{\vec{n}} 
+%\providecommand{\vl}{\vec{l}} \providecommand{\vp}{\vec{p}}
+%\providecommand{\vq}{\vec{q}} \providecommand{\vs}{\vec{s}}
+%\providecommand{\vt}{\vec{t}}
+%\providecommand{\vu}{\vec{u}} \providecommand{\vw}{\vec{w}}
+%\providecommand{\vx}{\vec{x}} \providecommand{\vy}{\vec{y}}
+%\providecommand{\vz}{\vec{z}} \providecommand{\vi}{\vec{i}}
+%\providecommand{\vj}{\vec{j}} \providecommand{\vzero}{\vec{0}}
+%\providecommand{\vgm}{\vec{\gamma}} \providecommand{\vv}{\vec{v}}
+%\providecommand{\vomg}{\vec{\omega}}
+%
+%
+%\providecommand{\w}{\omega}
+%
+%\providecommand{\conv}{\ast}
+%\providecommand{\circonv}[1]{\circledast_{#1}}

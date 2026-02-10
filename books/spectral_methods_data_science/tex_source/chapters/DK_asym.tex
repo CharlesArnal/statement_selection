@@ -1,0 +1,212 @@
+\section{Eigenvector perturbation for probability transition matrices}
+\label{sec:eigenvector-theory-DK}
+
+
+Thus far, our eigenvector perturbation analysis has been constrained to the set of \emph{symmetric}
+matrices. Note, however, that the utility of eigenvectors is by no means confined to symmetric matrices.
+In fact, eigenvector analysis  plays a vital role in studying  asymmetric matrices as well, most notably the family of probability transition matrices of Markov chains.  This section explores how to extend eigenvector perturbation theory to accommodate an important class of probability transition matrices associated with \emph{reversible} Markov chains.
+
+
+
+
+\subsection{Background, setup and notation}
+\label{subsec:Setup-and-notation-prob-matrix}
+
+Before presenting the formulation, we remind the readers that a matrix $\bm{P}\in\mathbb{R}^{n\times n}$
+is a probability transition matrix if it is composed of non-negative entries with
+each row summing to $1$, which is used to describe the state transition of a Markov chain over a set of $n$ states.
+Of special interest is the stationary distribution of $\bm{P}$, denoted by a probability vector $\bm{\pi}=[\pi_i]_{1\leq i\leq n}$,
+that satisfies
+%
+\begin{equation}\label{eq2.30}
+\bm{\pi}\geq\bm{0},\qquad\bm{1}^{\top}\bm{\pi}=1,\qquad\text{and}\qquad\bm{\pi}^{\top}\bm{P}=\bm{\pi}^{\top}.
+\end{equation}
+%
+In words, the distribution $\bm{\pi}$ is invariant with respect to $\bm{P}$.
+Clearly, $\bm{\pi}$ is the left eigenvector of $\bm{P}$ associated with eigenvalue $1$, with the corresponding right eigenvector given by $\bm{1}$.  By the  Gershgorin circle theorem (see, e.g., \citet{olver2006applied}), the modulus of all eigenvalues must be bounded by the maximum of the row sum, which is  1.  Given that $1$ is an eigenvalue of $\bm{P}$, the largest modulus of the eigenvalues of $\bm{P}$ is precisely 1, and therefore $\bm{\pi}$ is the {\em leading} left eigenvector of $\bm{P}$.
+In addition, a Markov chain is said to be reversible when the following {\em detailed balance} equations are satisfied:
+%
+\begin{equation}
+	\pi_{i} P_{i,j} =\pi_{j} P_{j,i},  \qquad \text{for all }1\leq i,j\leq n, \label{eq:detailed-balance}
+\end{equation}
+%
+where $\bm{\pi}=[\pi_i]_{1\leq i\leq n}$ is the stationary distribution obeying~\eqref{eq2.30}.  It will be seen in the proof of Theorem~\ref{thm:DK_asym} that all eigenvalues of such a matrix $\bP$ are real. For readers who wish  an introduction to the basics of Markov chains, 
+we recommend  the monograph by \citet{bremaud2013markov}.
+
+
+
+In this section, we consider the probability transition matrix $\bm{P}^{\star} \in \mathbb{R}^{n\times n}$ of a reversible Markov chain, as well as its perturbed version---also in the form of a probability transition matrix:
+%
+\begin{align*}
+	\bm{P}=\bm{P}^{\star}+\bm{E} \in \mathbb{R}^{n\times n}.
+\end{align*}
+%
+The leading left eigenvectors of $\bm{P}^{\star}$ and $\bm{P}$---or equivalently, the vectors representing their stationary distributions---are denoted by $\bm{\pi}^{\star}$ and $\bm{\pi}$, respectively.
+Here, we allow $\bm{E}$ to be fairly general, meaning that $\bm{P}$ does not necessarily represent a reversible Markov chain. The question is: how does the matrix $\bm{E}$ affect the perturbation $\bm{\pi} - \bm{\pi}^{\star}$ of the leading left eigenvector of interest?
+
+
+
+Additionally, we find it helpful to introduce several notation frequently used in the studies of Markov chains.
+Instead of operating under the usual $\ell_{2}$ norm, the stationary
+distribution $\bm{\pi}$ equips us with a new set of norms.
+Specifically,  for a strictly positive probability vector $\bm{\pi}=[\pi_i]_{1\leq i\leq n}$, any vector $\bm{x}=[x_i]_{1\leq i\leq n}$ and any matrix $\bm{A}$,
+it is useful to introduce the vector norm $\|\bm{x}\|_{\bm{\pi}} \coloneqq \sqrt{\sum_i \pi_i x_i^2}$
+and the corresponding matrix norm $\|\bm{A}\|_{\bm{\pi}} \coloneqq  \sup_{\|\bm{x}\|_{\bm{\pi}}=1}\|\bm{A}\bm{x}\|_{\bm{\pi}}$.
+
+
+
+
+
+\subsection{Perturbation of the leading eigenvector}
+\label{sec:perturbation-theory-MC}
+
+Now we are ready to present the perturbation bound for the leading left
+eigenvector of a probability transition matrix, a result originally developed in \citet{chen2017spectral}.
+
+\begin{theorem}
+\label{thm:DK_asym}
+	Consider the settings in Section~\ref{subsec:Setup-and-notation-prob-matrix}. Suppose that $\bm{P}^{\star}$ represents a reversible Markov chain, whose stationary distribution vector $\bm{\pi}^{\star}$ is strictly positive.  Assume that
+%
+\begin{equation}
+	\left\Vert \bm{E}\right\Vert _{\bm{\pi}^{\star}}
+	< 1-\max\big\{ \lambda_{2}(\bm{P}^{\star}),-\lambda_{n}(\bm{P}^{\star})\big\} .
+	\label{eq:spectral-gap-condition}
+\end{equation}
+%
+Then one has
+%
+\[
+	\|\bm{\pi}-\bm{\pi}^{\star}\|_{\bm{\pi}^{\star}}
+	\leq
+	\frac{\big\Vert \bm{\pi}^{\star\top}\bm{E}\big\Vert _{\bm{\pi}^{\star}}}{1-\max\big\{ \lambda_{2}(\bm{P}^{\star}),-\lambda_{n}(\bm{P}^{\star})\big\}
+	-\left\Vert \bm{E}\right\Vert _{\bm{\pi}^{\star}}}.
+\]
+%
+\end{theorem}
+%
+The similarity between Theorem~\ref{thm:DK_asym}
+and Corollary~\ref{cor:davis-kahan-conclusion-corollary} is noteworthy. Indeed,
+recalling that the largest eigenvalue of the probability transition matrix $\bm{P}^{\star}$ is precisely 1,
+one might view $1-\max\left\{ \lambda_{2}(\bm{P}^{\star}),-\lambda_{n}(\bm{P}^{\star})\right\} $
+as the gap between the first and the second largest eigenvalues of
+$\bm{P}^{\star}$ (in magnitude),
+akin to the eigengap $|\lambda_{r}^{\star}|-|\lambda_{r+1}^{\star}|$ in Corollary~\ref{cor:davis-kahan-conclusion-corollary} (with $r=1$).
+In words, Theorem~\ref{thm:DK_asym} guarantees that as long as the size of the
+perturbation matrix $\bm{E}$ is not too large, 
+the  perturbation of the leading left eigenvector---or equivalently, the perturbation of the stationary distribution of the associated Markov chain---is proportional to the size of the noise when projected onto the direction $\bm{\pi}^{\star}$, as measured by $\Vert \bm{\pi}^{\star\top}\bm{E}\Vert _{\bm{\pi}^{\star}}$.
+As we shall demonstrate in Section~\ref{sec:ranking}, this perturbation theory delivers powerful techniques for analyzing the ranking problem  described previously in Chapter~\ref{cha:introduction}.
+
+
+\begin{remark}
+	Sensitivity and perturbation analyses for the steady-state distributions of Markov chains have been studied in the literature; see, e.g., \citet{mitrophanov2005sensitivity,liu2012perturbation,jiang2017unified,rudolf2018perturbation} and the references therein. 
+\end{remark}
+
+
+
+\subsection{Proof of Theorem~\ref{thm:DK_asym}} \label{subsec:proof-DK-asym}
+
+Since $\bm{\pi}^{\star}$ and $\bm{\pi}$ denote respectively the leading left eigenvectors of $\bm{P}^{\star}$ and $\bm{P}$, namely,
+%
+\[
+\bm{\pi}^{\star\top}\bm{P}^{\star}=\bm{\pi}^{\star\top},\qquad\text{and}\qquad\bm{\pi}^{\top}\bm{P}=\bm{\pi}^{\top},
+\]
+%
+the perturbation $\bm{\pi}-\bm{\pi}^{\star}$ admits the following decomposition
+%
+\begin{align*}
+&\bm{\pi}^{\top}-\bm{\pi}^{\star\top}  =\bm{\pi}^{\top}\bm{P}-\bm{\pi}^{\star\top}\bm{P}^{\star}=\left(\bm{\pi}-\bm{\pi}^{\star}\right)^{\top}\bm{P}+\bm{\pi}^{\star\top}\left(\bm{P}-\bm{P}^{\star}\right)\\
+ &\quad =\left(\bm{\pi}-\bm{\pi}^{\star}\right)^{\top}\left(\bm{P}-\bm{P}^{\star}\right)+\left(\bm{\pi}-\bm{\pi}^{\star}\right)^{\top}\bm{P}^{\star}+\bm{\pi}^{\star\top}\left(\bm{P}-\bm{P}^{\star}\right)\\
+ &\quad =\left(\bm{\pi}-\bm{\pi}^{\star}\right)^{\top}\left(\bm{P}-\bm{P}^{\star}\right)
+	+\left(\bm{\pi}-\bm{\pi}^{\star}\right)^{\top}\big(\bm{P}^{\star}-\bm{1}\bm{\pi}^{\star\top}\big) + \bm{\pi}^{\star\top}\left(\bm{P}-\bm{P}^{\star}\right).
+\end{align*}
+%
+Here, the last relation hinges upon the fact that $\bm{\pi}$ and $\bm{\pi}^{\star}$
+are probability vectors, and hence $\left(\bm{\pi}-\bm{\pi}^{\star}\right)^{\top}\bm{1}= 1 - 1 = 0$.
+Apply the triangle inequality with respect to the norm $\|\cdot\|_{\bm{\pi}^{\star}}$ to obtain
+%
+\begin{align*}
+\|\bm{\pi}-\bm{\pi}^{\star}\|_{\bm{\pi}^{\star}}
+  & \leq \big\|\left(\bm{\pi}-\bm{\pi}^{\star}\right)^{\top}\left(\bm{P}-\bm{P}^{\star}\right) \big\|_{\bm{\pi}^{\star}}
+	+ \big\|\left(\bm{\pi}-\bm{\pi}^{\star}\right)^{\top}\big(\bm{P}^{\star}-\bm{1}\bm{\pi}^{\star\top}\big) \big\|_{\bm{\pi}^{\star}} \nonumber\\
+&\qquad\quad + \big\|\bm{\pi}^{\star\top}\left(\bm{P}-\bm{P}^{\star}\right) \big\|_{\bm{\pi}^{\star}}\nonumber \\
+ & \leq\left( \|\bm{P}-\bm{P}^{\star}\|_{\bm{\pi}^{\star}}+ \big\|\bm{P}^{\star}-\bm{1}\bm{\pi}^{\star\top} \big\|_{\bm{\pi}^{\star}}\right)  \|\bm{\pi}-\bm{\pi}^{\star}\|_{\bm{\pi}^{\star}}\nonumber\\
+ &\qquad\quad + \big\|\bm{\pi}^{\star\top}\left(\bm{P}-\bm{P}^{\star}\right) \big\|_{\bm{\pi}^{\star}},
+%\label{eq:proof-dk-asymm}
+\end{align*}
+%
+where the last line relies on the definition of the matrix norm $\|\cdot\|_{\bm{\pi}^{\star}}$. Rearranging terms, we are left with
+%
+\[
+	\|\bm{\pi}-\bm{\pi}^{\star}\|_{\bm{\pi}^{\star}}
+	\leq\frac{\big\|\bm{\pi}^{\star\top}\left(\bm{P}-\bm{P}^{\star}\right)\big\|_{\bm{\pi}^{\star}}}{1-\|\bm{P}-\bm{P}^{\star}\|_{\bm{\pi}^{\star}}-\big\|\bm{P}^{\star}-\bm{1}\bm{\pi}^{\star\top}\big\|_{\bm{\pi}^{\star}}},
+\]
+%
+with the proviso that $\|\bm{P}-\bm{P}^{\star}\|_{\bm{\pi}^{\star}}+ \|\bm{P}^{\star}-\bm{1}\bm{\pi}^{\star\top}\|_{\bm{\pi}^{\star}}<1$.
+The proof would then be completed as long as one could justify that
+%
+\begin{equation}
+	\big\|\bm{P}^{\star}-\bm{1}\bm{\pi}^{\star\top} \big\|_{\bm{\pi}^{\star}}
+	=\max\big\{ \lambda_{2}(\bm{P}^{\star}),-\lambda_{n}(\bm{P}^{\star}) \big\} .
+	\label{eq:spectral-gap}
+\end{equation}
+%
+
+
+
+
+\begin{proof}[Proof of the identity (\ref{eq:spectral-gap})]
+%
+Let $\bm{\pi}^{\star}=[\pi_i^{\star}]_{1\leq i\leq n}$, and define a diagonal matrix $\bm{\Pi}^{\star} = \mathsf{diag}([\pi_{1}^{\star}, \cdots, \pi_{n}^{\star}])\in\mathbb{R}^{n\times n}$.
+%whose diagonal entries are given by
+%
+%\[
+%\Pi_{i,i}^{\star}=\pi_{i}^{\star} \qquad\text{for all }1\leq i\leq n.
+%\]
+%
+From the definition of the norm $\|\cdot\|_{\bm{\pi}^{\star}}$ (both the matrix version and the vector version), it is easily seen that for any matrix $\bm{A}$,
+%
+\begin{align}
+	& \|\bm{A}\|_{\bm{\pi}^{\star}}  =\sup_{\bm{x}\neq\bm{0}}\frac{\|\bm{A}\bm{x}\|_{\bm{\pi}^{\star}}}{\|\bm{x}\|_{\bm{\pi}^{\star}}}=\sup_{\bm{x}\neq\bm{0}}\frac{\big\|\big(\bm{\Pi}^{\star}\big)^{1/2}\bm{A}\big(\bm{\Pi}^{\star}\big)^{-1/2}\big(\bm{\Pi}^{\star}\big)^{1/2}\bm{x}\big\|_{2}}{\big\|\big(\bm{\Pi}^{\star}\big)^{1/2}\bm{x}\big\|_{2}} \notag\\
+	& \quad =\sup_{\bm{v}\neq\bm{0}}\frac{\big\|\big(\bm{\Pi}^{\star}\big)^{1/2}\bm{A}\big(\bm{\Pi}^{\star}\big)^{-1/2}\bm{v}\big\|_{2}}{\big\|\bm{v}\big\|_{2}}=\big\|\big(\bm{\Pi}^{\star}\big)^{1/2}\bm{A}\big(\bm{\Pi}^{\star}\big)^{-1/2}\big\|,  \label{eq:pi-norm-matrix-equation}
+\end{align}
+%
+with $\|\cdot\|$ the usual spectral norm,  where the last line replaces $\big(\bm{\Pi}^{\star}\big)^{1/2}\bm{x}$ with $\bm{v}$.
+Consequently, we obtain
+%
+\begin{align*}
+\|\bm{P}^{\star}-\bm{1}\bm{\pi}^{\star\top}\|_{\bm{\pi}^{\star}} & =\|\left(\bm{\Pi}^{\star}\right)^{1/2}\big(\bm{P}^{\star}-\bm{1}\bm{\pi}^{\star\top}\big)\left(\bm{\Pi}^{\star}\right)^{-1/2}\|\\
+	& =\big\Vert \bm{S}^{\star}- \bm{\pi}^{\star}_{1/2}(\bm{\pi}^{\star}_{1/2})^{\top} \big\Vert ,
+\end{align*}
+%
+where we define $\bm{S}^{\star}\coloneqq\left(\bm{\Pi}^{\star}\right)^{1/2}\bm{P}^{\star}\left(\bm{\Pi}^{\star}\right)^{-1/2}$ and $\bm{\pi}^{\star}_{1/2} \coloneqq \big[ \sqrt{\pi_i^{\star} } \, \big]_{1\leq i\leq n}$.
+%
+Several basic properties regarding $\bm{S}^{\star}$ are in order; see \citet[Chapter 6.2]{bremaud2013markov}.
+%
+\begin{itemize}
+	\item[(a)] Since $\bm{P}^{\star}$ represents a reversible Markov chain with stationary distribution $\bm{\pi}^{\star}$,   			
+		the matrix $\bm{S}^{\star}$ is symmetric, whose eigenvalues are real-valued. This can be verified by the detailed balance equations~(\ref{eq:detailed-balance}).
+	\item[(b)] Given that $\bm{S}^{\star}$ is obtained via a similarity transformation of $\bm{P}^{\star}$,
+		we see that $\bm{S}^{\star}$ and $\bm{P}^{\star}$ share the same set of eigenvalues.
+		This can easily be verified from the definition of eigenvectors:
+	$$
+	   \bm{S}^{\star} \bm{\xi} = \lambda \bm{\xi}  \quad \Longleftrightarrow \quad
+	   \bm{P}^{\star}\left(\bm{\Pi}^{\star}\right)^{-1/2} \bm{\xi} = \lambda \left(\bm{\Pi}^{\star}\right)^{-1/2}  \bm{\xi}.
+	$$
+	\item[(c)] In particular, $\lambda_{1}(\bm{S}^{\star})=\lambda_{1}(\bm{P}^{\star})=1$,
+		and  $\bm{\pi}^{\star}_{1/2}$ is precisely the eigenvector of $\bm{S}^{\star}$ associated with  $\lambda_{1}(\bm{S}^{\star})=1$.
+		Thus, from the eigendecomposition of the symmetric matrix $\bm{S}^{\star}$,
+		it is easy to see that the eigenvalues of $\bm{S}^{\star} - \bm{\pi}^{\star}_{1/2}(\bm{\pi}^{\star}_{1/2})^{\top}$ are $0,
+	\lambda_{2}(\bm{S}^{\star}), \cdots, \lambda_{n}(\bm{S}^{\star})$.
+\end{itemize}
+%
+Taking the preceding facts collectively, we reach
+%
+\begin{align*}
+	& \big\Vert \bm{S}^{\star} - \bm{\pi}^{\star}_{1/2}(\bm{\pi}^{\star}_{1/2})^{\top} \big\Vert
+	\overset{(\mathrm{i})}{=} \max \big\{ \big| \lambda_{2}(\bm{S}^{\star}) \big|, \big| \lambda_{n}(\bm{S}^{\star}) \big| \big\}  \\
+	& \qquad = \max \big\{ \lambda_{2}(\bm{S}^{\star}),-\lambda_{n}(\bm{S}^{\star}) \big\}
+	 \overset{\mathrm{(ii)}}{=}\max\big\{ \lambda_{2}(\bm{P}^{\star}),-\lambda_{n}(\bm{P}^{\star}) \big\} .
+\end{align*}
+%
+Here, (i) relies on Property (c), while (ii) follows from Property (b). This concludes the proof. \end{proof}
+

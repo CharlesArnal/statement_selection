@@ -1,0 +1,533 @@
+
+
+\section{Ranking from pairwise comparisons}
+\label{sec:ranking}
+
+
+
+
+The ranking task---which seeks to identify a consistent ordering of several items based on
+(partially) revealed preference information about them---is encountered in numerous contexts
+including web search, crowd sourcing, social choice, peer grading, and so on \citep{dwork2001rank,chen2013pairwise,caplin1991aggregation,shah2013case}.
+Of particular interest is the ``preference-based'' observation model,
+in which we are only given relative comparisons of a few items (as opposed to individual scores of them).
+In practice, comparison data of this kind abound,
+partly because humans often find it easier to make a preference over two or a couple of items than to assign specific ratings to many individual ones.
+The emergence of crowdsourcing platforms such as Amazon Mechanical Turk further widens the availability of comparison data,
+where binary judgments over pairs of items are often solicited from a pool of non-experts.
+In this section, we concentrate on pairwise comparisons and
+explore the potential of spectral methods for the ranking task.
+
+
+
+
+\subsection{The Bradley-Terry-Luce model and assumptions \label{subsec:Problem-setup-and-ranking}}
+
+To formulate the problem in a statistically sound manner, we introduce a classical parametric model,
+called the Bradley-Terry-Luce (BTL) model~\citep{bradley1952rank,ford1957solution,luce2012individual},
+to describe the generating process of pairwise comparisons.
+
+
+\paragraph{Latent preference scores.}
+Imagine that there are $n$ items to be ranked.
+A key component of the BTL model is the assignment of a latent preference score to each item; more concretely, the BTL model hypothesizes on the existence of an unseen preference score vector
+%
+\begin{equation}
+	\bm{w}^{\star}=[w_{1}^{\star},w_{2}^{\star},\cdots, w_{n}^{\star}]^{\top},
+	\label{eq:ranking-score}
+\end{equation}
+%
+with $w_{i}^{\star}>0$ assigned to the $i$-th item ($1\leq i\leq n$).
+The ranks of these items are therefore determined exclusively by their (relative) preference scores: an item with a larger score is ranked higher.
+Throughout this section, we denote by $\kappa$ a sort of  condition number as follows
+%
+\begin{equation}
+	\kappa \coloneqq\frac{\max_{1\leq i\leq n}w_{i}^{\star}}{\min_{1\leq i\leq n}w_{i}^{\star}}.
+	\label{eq:ranking-well-condition}
+\end{equation}
+
+%$[w_{\min}, w_{\max}]$ the dynamic range of the scores (so that  $w_i[w_{\min}, w_{\max}]$ for all $1\leq i\leq n$), and let
+
+
+
+\paragraph{Pairwise comparisons.}
+Equipped with the aforementioned score
+vector, the BTL model posits that: the probability of an item winning a paired comparison is determined entirely by the
+relative scores of the two items involved. To be precise, when comparing  every pair $(i,j)$ of items, the model assumes that
+%
+\begin{equation}
+	\mathbb{P} \big\{ \text{item }j\text{ is preferred over item }i \big\}
+	= \frac{w_{j}^{\star}}{w_{i}^{\star}+ w_{j}^{\star}},
+	\label{eq:BTL}
+\end{equation}
+%
+asserting that an item assigned a higher preference score is more likely to win.
+In this section, we assume access to a comparison between every pair of items. To be precise, for each pair
+$(i,j)$ ($1\le i<j\le n$), we observe an independent binary comparison outcome $y_{i,j}$ following the BTL model \eqref{eq:BTL}:
+%
+\[
+y_{i,j}=\begin{cases}
+1, & \text{with probability }\frac{w_{j}^{\star}}{w_{i}^{\star}+w_{j}^{\star}},\\
+0, & \text{otherwise},
+\end{cases}
+\]
+%
+where $y_{i,j}=1$ means item $j$ beats item $i$ and $y_{i,j}=0$ otherwise.
+By convention, we set $y_{i,j}=1-y_{j,i}$ for all $i>j$.
+%
+%To simplify the notation hereafter, we denote
+%%
+%\begin{equation}
+%	y_{i,j}^{\star}\coloneqq\frac{w_{j}^{\star}}{w_{i}^{\star}+w_{j}^{\star}}.
+%	\label{eq:true-comparison-prob}
+%\end{equation}
+%%
+%
+
+%
+
+\paragraph{Goal. }
+With the BTL parametric model in mind,
+a natural strategy is to start by estimating the underlying scores $\{ w_i^{\star}\}$ based on the pairwise comparisons in hand, followed by a ranking step performed in  accordance with the estimated scores.
+In this section, we shall focus on characterizing the statistical accuracy of spectral methods in accomplishing the meta task of preference score estimation,
+and will remark in passing on the ranking step that follows. Obviously, from \eqref{eq:BTL}, we can only hope for estimating $\{ w_i^{\star}\}$ up to some global scaling ambiguity.
+
+
+% Motivated by this idea, this section explores the capability of spectral methods in accomplishing the meta task of score estimation.
+%
+%Due to the scale invariance of the BTL observation model (see~(\ref{eq:BTL})),
+%it is assumed without loss of generality that
+%%
+%\begin{equation}
+% 	\sum_{i=1}^{n}w_{i}^{\star}=1.
+%	\label{eq:BTL-normalization}
+%\end{equation}
+%%
+
+
+
+\subsection{A spectral ranking algorithm \label{subsec:Spectral-method-for-ranking}}
+
+At first glance, the recipe we have introduced for designing  spectral methods seems to have no direct bearing on the BTL model.
+Somewhat unexpectedly, a closer inspection unveils an intimate connection between the BTL model and a reversible Markov chain,
+whose stationary distribution embodies crucial information about the score vector of interest.
+This in turn lays a solid foundation for the spectral algorithm described below, originally developed by \citet{negahban2016rank}.
+
+The first step is to convert the pairwise comparison data
+$\{y_{i,j}\}_{i\neq j}$ into a probability transition matrix $\bm{P}=[P_{i,j}]_{1\leq i,j\leq n}$, in a way that
+%
+\begin{equation}
+P_{i,j}=\begin{cases}
+\frac{1}{n}y_{i,j}, & \text{if }i\neq j,\\
+1-\sum_{j:j\neq i}\frac{1}{n}y_{i,j}, & \text{otherwise}.
+\end{cases}
+\label{defn:ranking-P-empirical}
+\end{equation}
+%
+By construction of $\bm{P}$, all of its entries are non-negative and the entries in each row sum up to one,
+thus confirming that  $\bm{P}$ is a probability transition matrix.
+The spectral algorithm then computes the leading left eigenvector $\bm{\pi}$ of  $\bm{P}$, returning it as
+ the estimate for the underlying score vector $\bm{w}^{\star}$.
+
+To make sense of the rationale behind this algorithm, it is helpful to
+look at the mean $\bm{P}^{\star} =[P_{i,j}^{\star}]_{1\leq i,j\leq n} \coloneqq\mathbb{E}[\bm{P}]$, which obeys
+%
+\begin{equation}
+P_{i,j}^{\star}=\begin{cases}
+	\frac{1}{n} \frac{w_j^{\star}}{w_i^{\star}+w_j^{\star}}, & \text{if }i\neq j,\\
+	1- \frac{1}{n}  \sum_{j:j\neq i}\frac{w_j^{\star}}{w_i^{\star}+w_j^{\star}}, & \text{otherwise}.
+\end{cases}\label{defn:ranking-P-star}
+\end{equation}
+%
+Clearly, this matrix $\bm{P}^{\star}$ is a probability transition matrix as well.
+As can be straightforwardly verified, the vector $\bm{\pi}^{\star}=[\pi_{i}^{\star}]_{1\leq i\leq n}$ defined by
+%
+\begin{align}
+	%\pi_i^{\star} = \frac{w_i^{\star}}{\sum_{l=1}^n w_l^{\star}},\quad 1\leq i\leq n
+	%\qquad \text{or} \qquad
+	\bm{\pi}^{\star} = \frac{1}{\bm{1}^{\top}\bm{w}^{\star}} \bm{w}^{\star}
+	\label{defn:pi-i-star-BTL}
+\end{align}
+%
+satisfies the following conditions:
+%
+\begin{itemize}
+	\item $\bm{\pi}^{\star}$ is a probability vector (i.e., $\pi_i^{\star}\geq 0$ for all $i$ and $\sum_i\pi_i^{\star}=1$);
+	\item $\bm{\pi}^{\star}$ satisfies the detailed balance equations as follows:
+%
+\[
+	\pi_{i}^{\star}P_{i,j}^{\star} = \pi_{j}^{\star}P_{j,i}^{\star},\qquad\text{for all }(i,j).
+\]
+%
+\end{itemize}
+%
+Classical Markov chain theory \citep{bremaud2013markov} thus tells us that
+$\bm{P}^{\star}$ represents a reversible Markov chain, whose stationary distribution is precisely given by $\bm{\pi}^{\star}$ (this can easily be verified using the definition of the stationary distribution) and corresponds to the normalized preference scores.
+As a consequence, we hold the intuition that:  $\bm{\pi}$ is close to $\bm{\pi}^{\star}$---and hence $\bm{w}^{\star}$ up to some global scaling---as long as $\bm{P}$ approximates $\bm{P}^{\star}$ reasonably well.
+
+
+
+
+
+
+\subsection{Performance guarantees}
+\label{sec:theory-ranking}
+
+
+This subsection develops theoretical support for the above spectral ranking algorithm,
+based on the eigenvector perturbation theory developed previously for probability transition matrices in Section~\ref{sec:eigenvector-theory-DK}.
+For notational convenience, we shall use $\bm{E}\coloneqq\bm{P}-\bm{P}^{\star}$ to
+denote the difference of the above two transition matrices of interest.
+
+
+By virtue of Theorem~\ref{thm:DK_asym},
+the perturbation of the stationary distribution of a reversible Markov
+chain $\bm{P}^{\star}$ is dictated by two important quantities: (i)
+the spectral gap $1-\max\left\{ \lambda_{2}(\bm{P}^{\star}),-\lambda_{n}(\bm{P}^{\star})\right\} $,
+and (ii) the noise size $\|\bm{E}\|_{\bm{\pi}^{\star}}$ (recall the definition of $\|\cdot\|_{\bm{\pi}^{\star}}$  in Section~\ref{subsec:Setup-and-notation-prob-matrix}).
+These two quantities are controlled respectively via the following two lemmas, whose
+proofs can be found in Section~\ref{subsec:Proof-of-auxilliary-ranking}.
+
+\begin{lemma}
+	\label{lemma:ranking-gap}
+	Consider the settings and notation in Sections~\ref{subsec:Problem-setup-and-ranking} and~\ref{subsec:Spectral-method-for-ranking}. It follows that
+%
+\[
+1-\max\big\{ \lambda_{2}(\bm{P}^{\star}),-\lambda_{n}(\bm{P}^{\star}) \big\} \geq\frac{1}{2\kappa^{2}},
+\]
+%
+where we recall the definition of $\kappa$  in (\ref{eq:ranking-well-condition}).
+\end{lemma}
+%
+\begin{lemma}
+	\label{lemma:ranking-noise}
+Consider the settings and notation in
+Sections~\ref{subsec:Problem-setup-and-ranking} and \ref{subsec:Spectral-method-for-ranking}, and recall that $\bm{E}\coloneqq\bm{P}-\bm{P}^{\star}$.
+With probability at least $1-O(n^{-8})$,
+%
+\[
+	\|\bm{E}\|_{\bm{\pi}^{\star}}\leq \sqrt{\kappa}\,\|\bm{E}\| \lesssim\sqrt{\frac{\kappa\log n}{n}}.
+\]
+%
+\end{lemma}
+%
+Now we are well prepared to assess the quality of the spectral estimate, as summarized below, whose proof is given at the end of this subsection.
+%
+\begin{theorem}
+\label{thm:ranking}
+Consider the settings and algorithm in Sections~\ref{subsec:Problem-setup-and-ranking}
+and \ref{subsec:Spectral-method-for-ranking}. Suppose that $n\geq C\kappa^{5}\log n$
+for some sufficiently large constant $C>0$. Then with probability
+exceeding $1-O(n^{-8})$, one has
+%
+\begin{align}
+	\frac{\|\bm{\pi}-\bm{\pi}^{\star}\|_{2}}{\|\bm{\pi}^{\star}\|_{2}}\lesssim\kappa^{2.5}\sqrt{\frac{\log n}{n}}.
+	\label{eq:pi-pistar-quality-ranking}
+\end{align}
+%
+\end{theorem}
+%
+Given the construction \eqref{defn:pi-i-star-BTL} of $\bm{\pi}^{\star}$, this theorem implies the existence of a scalar $z>0$ such that
+%
+\[
+	\frac{\| z\bm{\pi} - \bm{w}^{\star}\|_{2}}{\|\bm{w}^{\star}\|_{2}}\lesssim\kappa^{2.5}\sqrt{\frac{\log n}{n}}
+\]
+%
+holds with high probability. It is worth noting that one cannot possibly retrieve the global scaling factor $z$, due to the invariance of the BTL observation model under global scaling (cf.~(\ref{eq:BTL})).
+
+
+
+To interpret the effectiveness of this theorem, consider, for example, the case when $\kappa=O(1)$ (so that all the latent scores
+$w_{i}^{\star}$ are about the same order). Theorem~\ref{thm:ranking}
+tells us that the relative estimation error of $\bm{\pi}$ is vanishing
+as the number $n$ of items increases. As it turns out, this statistical error rate \eqref{eq:pi-pistar-quality-ranking}
+ is near minimax-optimal up to a logarithmic
+factor; see~\citet[Theorem 3]{negahban2016rank}. In fact, with a more careful
+analysis, one can further eliminate this extra $\log n$ factor and establish (orderwise) minimax optimality of this algorithm,
+as has been done in \citet[Theorem 5.2]{chen2017spectral}.
+
+Caution needs to be exercised, however, that high score estimation accuracy alone does not necessarily imply appealing ranking accuracy.
+For instance, if the goal is to identify the top-$K$ ranked items---a problem commonly referred to as ``top-$K$ ranking'' \citep{chen2015spectral}---then the ranking accuracy also relies heavily on the separation between the score of the $K$-th ranked item and that of the $(K+1)$-th ranked item (namely, whether the set of top-$K$ ranked items is sufficiently distinguishable from the remaining ones). Fortunately, the spectral ranking algorithm introduced in this section remains minimax optimal when it comes to top-$K$ ranking, through a refined $\ell_\infty$ perturbation theory to be introduced in Chapter~\ref{cha:Linf-theory}. The interested reader is referred to \citet{chen2017spectral} for details.
+
+
+\begin{proof}[Proof of Theorem~\ref{thm:ranking}]
+%Recall that $\bm{E}=\bm{P}-\bm{P}^{\star}$ denotes
+%the noise matrix.
+Invoke Theorem~\ref{thm:DK_asym} to see that
+%
+\begin{align}
+	\|\bm{\pi}-\bm{\pi}^{\star}\|_{\bm{\pi}^{\star}}
+	& \leq \frac{\big\Vert \bm{\pi}^{\star\top}\bm{E}\big\Vert _{\bm{\pi}^{\star}}}
+	{1-\max\left\{ \lambda_{2}(\bm{P}^{\star}),-\lambda_{n}(\bm{P}^{\star})\right\} -\left\Vert \bm{E}\right\Vert _{\bm{\pi}^{\star}}} \nonumber\\
+	& \leq 4 \kappa^{2}\big\Vert \bm{\pi}^{\star\top}\bm{E}\big\Vert _{\bm{\pi}^{\star}},
+	\label{eq:pi-perturbation-UB1-ranking}
+\end{align}
+%
+provided that
+%
+\begin{align}
+	1-\max\big\{ \lambda_{2}(\bm{P}^{\star}),-\lambda_{n}(\bm{P}^{\star})\big\}
+	-\left\Vert \bm{E}\right\Vert _{\bm{\pi}^{\star}}\geq1/(4\kappa^{2}) .
+	\label{eq:condition-E-eigen-gap-bound-ranking}
+\end{align}
+%
+From Lemma~\ref{lemma:ranking-gap} and Lemma~\ref{lemma:ranking-noise},
+we know that Condition~\eqref{eq:condition-E-eigen-gap-bound-ranking} holds true with probability at least $1-O(n^{-8})$,
+with the proviso that $n\geq C\kappa^{5}\log n$ for some sufficiently large constant $C>0$.
+
+
+Additionally, letting $\pi_{\min}^{\star} \coloneqq \min_i\pi_i^{\star} $ and $\pi_{\max}^{\star} \coloneqq \max_i\pi_i^{\star} $,
+we can easily see from the definition of $\|\cdot\|_{\bm{\pi}^{\star}}$ (i.e., $\|\bm{v}\|_{\bm{\pi}^{\star}}=\sqrt{\sum_i \pi_i^{\star}v_i^2 }$ for any vector $\bm{v}$)  that
+%
+\[
+	\|\bm{v}\|_{\bm{\pi}^{\star}} \overset{\mathrm{(i)}}{\leq} \sqrt{\pi^{\star}_{\max }} \, \|\bm{v}\|_2 , \qquad \text{and} \qquad
+	\|\bm{v}\|_2  \overset{\mathrm{(ii)}}{\leq}  \frac{1}{\sqrt{  \pi^{\star}_{\min} } } \, \|\bm{v}\|_{\bm{\pi}^{\star}} ,
+\]
+%
+which allows us to further obtain
+%
+\begin{align*}
+\|\bm{\pi}-\bm{\pi}^{\star}\|_{2} & \leq\frac{1}{\sqrt{\pi_{\min}^{\star}}}\|\bm{\pi}-\bm{\pi}^{\star}\|_{\bm{\pi}^{\star}}\leq\frac{4\kappa^{2}}{\sqrt{\pi_{\min}^{\star}}}\|\bm{\pi}^{\star\top}\bm{E}\|_{\bm{\pi}^{\star}}\leq4\kappa^{2.5}\|\bm{\pi}^{\star\top}\bm{E}\|_{2}\\
+ & \leq4\kappa^{2.5}\|\bm{E}\|\,\|\bm{\pi}^{\star}\|_{2}.
+\end{align*}
+%
+Here, the first inequality comes from (ii), the second inequality is a consequence of \eqref{eq:pi-perturbation-UB1-ranking}, whereas the third one results from (i).
+The proof is then completed by applying the high-probability bound $\|\bm{E}\|\lesssim\sqrt{(\log n)/n}$ derived in Lemma~\ref{lemma:ranking-noise}.
+\end{proof}
+
+
+
+
+
+\subsection{Proof of auxiliary lemmas \label{subsec:Proof-of-auxilliary-ranking}}
+
+Before delving into the proof, we state a general comparison theorem, which is attributed to \citet{diaconis1993comparison},
+that relates the spectral gap of a reversible Markov chain with that
+of another (possibly more tractable) reversible chain. We refer the interested reader
+to \citet[Lemma 6]{negahban2016rank} for a proof of the following result.
+%
+\begin{lemma}
+	\label{lemma:gap-comparison}
+	Consider two reversible Markov chains over the state space $\{1,2,\cdots,n\}$.
+	Let $\bm{P}$ and $\bm{\pi}$ (resp.~$\widetilde{\bm{P}}$ and $\widetilde{\bm{\pi}}$) denote
+	the transition matrix and the stationary distribution of the first (resp.~second) chain.
+	In addition, set
+	%
+\[
+	\alpha\coloneqq\min_{i,j}
+	\frac{\pi_i P_{i,j}}{\widetilde{\pi}_i \widetilde{P}_{i,j}},
+	\qquad\text{and}\qquad
+	\beta\coloneqq\max_i\frac{\pi_i}{\widetilde{\pi}_i}.
+\]
+%
+Then one has
+%
+\[
+	\frac{1-\max\left\{ \lambda_{2}(\bm{P}),-\lambda_{n}(\bm{P})\right\} }{1-\max\big\{ \lambda_{2}(\widetilde{\bm{P}}),-\lambda_{n}(\widetilde{\bm{P}})\big\} }
+	\geq\frac{\alpha}{\beta}.
+\]
+%
+\end{lemma}
+%
+Armed with this comparison lemma, we are ready to present the proof of Lemma \ref{lemma:ranking-gap}.
+
+
+
+
+\paragraph{Proof of Lemma \ref{lemma:ranking-gap}.}
+In order to control the spectral gap with the aid of Lemma~\ref{lemma:gap-comparison}, we construct an auxiliary transition matrix
+%
+\[
+\bm{Q}^{\star}=\frac{1}{n}\bm{1}\bm{1}^{\top},
+\]
+%
+which clearly corresponds to a reversible Markov chain with  stationary distribution $\bm{u}^{\star}=(1/n)\cdot\bm{1}$.  The eigengap of this newly constructed reversible Markov chain is
+$$1-\max\left\{ \lambda_{2}(\bm{Q}^{\star}),-\lambda_{n}(\bm{Q}^{\star})\right\} =1,$$
+since $\lambda_{2}(\bm{Q}^{\star})=\lambda_{n}(\bm{Q}^{\star})=0$.  Therefore, we only need to bound $\alpha$ and $\beta$.
+
+
+Recalling the construction of $\bm{P}^{\star}$ in (\ref{defn:ranking-P-star}),
+we can straightforwardly check that
+%
+\[
+	\pi_{i}^{\star}P^{\star}_{i,j} %= \pi_{i}^{\star} \frac{1}{n}\frac{w_{j}^{\star}}{w_{i}^{\star}+w_{j}^{\star}}
+	= \frac{1}{n}\frac{\pi_{i}^{\star}\pi_{j}^{\star}}{\pi_{i}^{\star}+\pi_{j}^{\star}} \geq\frac{1}{2n}\min\{\pi_{i}^{\star},\pi_{j}^{\star}\}
+\]
+%
+for every $i\neq j$,  and in addition,
+%
+\[
+\pi_{i}^{\star}P_{i,i}^{\star}=\pi_{i}^{\star}\Bigg[1-\sum_{j:j\neq i}\frac{1}{n}\frac{w_{j}^{\star}}{w_{i}^{\star}+w_{j}^{\star}}\Bigg]\geq\pi_{i}^{\star}\Bigg[1-\sum_{j:j\neq i}\frac{1}{n}\Bigg]=\frac{1}{n}\pi_{i}^{\star}.
+\]
+%
+Combining the previous two inequalities, we obtain
+%
+\[
+	\min_{i,j} \big( \pi^{\star}_i P^{\star}_{i,j} \big)
+	\geq\frac{1}{2n}\min_{1\leq i\leq n}\pi_{i}^{\star}
+	= \frac{1}{2n\kappa}\max_{1\leq i\leq n}\pi_{i}^{\star}
+	\geq\frac{1}{2n^{2}\kappa},
+\]
+%
+where the last relation holds since $\max_{ i}\pi_{i}^{\star}\geq \frac{1}{n}\sum_i\pi_i^{\star} = \frac{1}{n}$.
+This together with the construction of $\bm{Q}^{\star}$ further leads to
+%
+\[
+	\alpha \coloneqq \min_{i,j}\frac{\pi_{i}^{\star}P^{\star}_{i,j}}{u_{i}^{\star}Q^{\star}_{i,j}}
+	=n^{2}\min_{i,j} \big( \pi^{\star}_i P^{\star}_{i,j} \big)
+	\geq\frac{1}{2\kappa}.
+\]
+%
+In regard to $\beta$, it is seen that
+%
+\[
+	\beta\coloneqq \max_i \frac{\pi^{\star}_i}{u^{\star}_i} = n\max_{ i}\pi_{i}^{\star}
+	= n\kappa \min_{i}\pi_{i}^{\star}
+	\leq \kappa,
+\]
+%
+where the final inequality follows since $\min_i\pi_i\leq \frac{1}{n}\sum_i\pi_i = \frac{1}{n}$. With the preceding bounds on $\alpha$ and $\beta$ in place,
+Lemma~\ref{lemma:gap-comparison} informs us that
+%
+\[
+\frac{1-\max\left\{ \lambda_{2}(\bm{P}^{\star}),-\lambda_{n}(\bm{P}^{\star})\right\} }{1-\max\left\{ \lambda_{2}(\bm{Q}^{\star}),-\lambda_{n}(\bm{Q}^{\star})\right\} }\geq\frac{\alpha}{\beta}\geq\frac{1}{2\kappa^{2}}.
+\]
+%
+This together with the aforementioned  eigengap for $\bm{Q}^{\star}$
+establishes the advertised result.
+
+
+
+\paragraph{Proof of Lemma \ref{lemma:ranking-noise}.}
+
+Let $\bm{D} \coloneqq \mathsf{diag}(\sqrt{\pi_1^{\star}},\cdots,\sqrt{\pi_n^{\star}})$. We have seen from the proof in Section~\ref{subsec:proof-DK-asym} (cf.~\eqref{eq:pi-norm-matrix-equation}) that
+\[
+	\|\bm{E}\|_{\bm{\pi}^{\star}} =\|\bm{D}\bm{E}\bm{D}^{-1}\| \leq  \|\bm{D}\|\, \|\bm{E}\| \, \|\bm{D}^{-1}\| = \frac{  \sqrt{\max_i \pi_i^{\star}} } {  \sqrt{\min_i \pi_i^{\star}} }  \|\bm{E}\|
+	=  \sqrt{\kappa} \, \|\bm{E}\|,
+\]
+%
+where $\kappa$ is defined in (\ref{eq:ranking-well-condition}).
+Therefore, it suffices to bound $\|\bm{E}\|$.
+
+% We first make the observation that
+% %
+% \begin{align*}
+% \|\bm{E}\|_{\bm{\pi}^{\star}} & =\sup_{\bm{x}\neq\bm{0}}\frac{\|\bm{E}\bm{x}\|_{\bm{\pi}^{\star}}}{\|\bm{x}\|_{\bm{\pi}^{\star}}}=\sup_{\bm{x}\neq\bm{0}}\frac{\|\bm{D}\bm{E}\bm{D}^{-1}\bm{D}\bm{x}\|_{2}}{\|\bm{D}\bm{x}\|_{2}}=\sup_{\bm{v}\neq\bm{0}}\frac{\|\bm{D}\bm{E}\bm{D}^{-1}\bm{v}\|_{2}}{\|\bm{v}\|_{2}}\\
+%  & =\|\bm{D}\bm{E}\bm{D}^{-1}\|,
+% \end{align*}
+%
+% where $\bm{D} \coloneqq \mathsf{diag}(\sqrt{\pi_1^{\star}},\cdots,\sqrt{\pi_n^{\star}})$. Here, the second relation makes use of the identity $\|\bm{x}\|_{\bm{\pi}^{\star}} = \|\bm{D}\bm{x}\|_2$ (see the definition of the vector norm $\|\cdot\|_{\bm{\pi}^{\star}}$), the third relation replaces $\bm{D}\bm{x}$ with $\bm{v}$,  while the last one holds true due to the definition of the spectral norm.  As a result,
+% %
+
+
+
+By construction of $\bm{P}$ and $\bm{P}^{\star}$ (see \eqref{defn:ranking-P-empirical} and \eqref{defn:ranking-P-star}), we see that
+%
+\begin{equation}
+	E_{i,j}=P_{i,j}-P_{i,j}^{\star}=\frac{1}{n} \big( y_{i,j}- \mathbb{E} [ y_{i,j}] \big) \label{eq:ranking-noise-off-diag}
+\end{equation}
+%
+for any $i\neq j$.
+In addition, for all $1\leq i\leq n$, it follows that
+%
+\begin{align}
+E_{i,i} & =P_{i,i}-P_{i,i}^{\star}
+%=\Big(1-\sum_{j:j\neq i}P_{i,j}\Big)-\Big(1-\sum_{j:j\neq i}P_{i,j}^{\star}\Big)
+= -\sum_{j:j\neq i}E_{i,j}
+  =-\frac{1}{n}\sum_{j:j\neq i}\big( y_{i,j}- \mathbb{E} [ y_{i,j}] \big) .\label{eq:ranking-noise-diag}
+\end{align}
+%
+In view of these identities, we shall decompose the matrix $\bm{E}$
+into three parts: the upper triangular part (denoted by $\bm{E}_{\mathsf{upper}}$),
+the diagonal part (denoted by $\bm{E}_{\mathsf{diag}}$), and the lower triangular
+part (denoted by $\bm{E}_{\mathsf{lower}}$). Clearly,  the triangle inequality gives
+%
+\begin{equation}
+\|\bm{E}\|\leq\|\bm{E}_{\mathsf{upper}}\|+\|\bm{E}_{\mathsf{diag}}\|+\|\bm{E}_{\mathsf{lower}}\|.\label{eq:ranking-triangle}
+\end{equation}
+%
+In the sequel, we deal with these three terms separately.
+
+Let us start with the diagonal part $\bm{E}_{\mathsf{diag}}$.
+In view of the definition of the spectral norm, we know that
+%
+\[
+\|\bm{E}_{\mathsf{diag}}\|=\max_{1\leq i\leq n}|E_{i,i}|=\max_{1\leq i\leq n} \Big| \sum_{j:j\neq i}E_{i,j} \Big|,
+\]
+%
+where the last relation arises from (\ref{eq:ranking-noise-diag}). Fix any
+$i$, then it is easily seen that $\sum_{j:j\neq i}E_{i,j}$ is a sum of
+independent zero-mean random variables $\{E_{i,j}\}$, which can be controlled via the Bernstein inequality.
+Specifically, observe that
+%
+\[
+\max_{j:j\neq i}|E_{i,j}|=\max_{j:j\neq i} \frac{1}{n} \big| y_{i,j}-\mathbb{E} [ y_{i,j}]   \big|
+\leq\frac{1}{n} \eqqcolon B_1
+\]
+%
+and,  in addition,
+%
+\[
+	v_1\coloneqq\sum_{j:j\neq i}\mathbb{E}[E_{i,j}^{2}]=\frac{1}{n^{2}}\sum_{j:j\neq i}\mathsf{Var}\left(y_{i,j}\right)\leq\frac{1}{n},
+\]
+%
+where the last inequality follows since the variance of a Bernoulli random variable is no larger than $1$.
+Apply the Bernstein inequality (cf.~Corollary~\ref{thm:matrix-Bernstein-friendly}) and the union
+bound over $1\leq i\leq n$ to demonstrate that
+%
+\begin{align*}
+	\|\bm{E}_{\mathsf{diag}}\| & =\max_{1\leq i\leq n} \Big|\sum_{j:j\neq i}E_{i,j} \Big|
+	\lesssim \sqrt{v_1\log n} + B_1 \log n   \\
+	& \lesssim  \sqrt{\frac{\log n}{n}}+\frac{\log n}{n}\asymp\sqrt{\frac{\log n}{n}}
+\end{align*}
+%
+holds with probability at least $1-O(n^{-8})$.
+% This finishes the upper bound on the diagonal part.
+
+We now move on to the upper triangular part $\bm{E}_{\mathsf{upper}}$,
+whose entries $\{E_{i,j}\}_{i<j}$ are independent. Invoking Theorem~\ref{thm:tighter-spectral-normal-ramon} (see the remark about asymmetric version right after Theorem~\ref{thm:tighter-spectral-normal-ramon}) with the bounds on $B_1$ and $v_1$ established above,
+we arrive at
+%
+\[
+	\|\bm{E}_{\mathsf{upper}}\|\lesssim \sqrt{v_1 } + B_1 \log n \lesssim \sqrt{\frac{1}{n}} + \frac{\log n}{n} \asymp  \sqrt{\frac{1}{n}}
+\]
+with probability at least $1-O(n^{-8})$. Similar arguments lead to
+the same upper bound on $\|\bm{E}_{\mathsf{lower}}\|$, which
+we omit  for brevity.
+
+Substituting the upper bounds on $\|\bm{E}_{\mathsf{diag}}\|$, $\|\bm{E}_{\mathsf{upper}}\|$ and $\|\bm{E}_{\mathsf{lower}}\|$ into (\ref{eq:ranking-triangle}), we immediately establish
+the desired bound.
+
+%This entrywise independence renders Theorem~\ref{thm:tighter-spectral-normal-ramon} particularly useful, with the only caveat that Theorem~\ref{thm:tighter-spectral-normal-ramon} applies to symmetric matrices.
+%To address this issue, we introduce the symmetric dilation $\mathcal{S}(\bm{E}_{\mathsf{upper}})$ of $\bm{E}_{\mathsf{upper}}$:
+%\[
+%\mathcal{S}(\bm{E}_{\mathsf{upper}})\coloneqq\left[\begin{array}{cc}
+%\bm{0} & \bm{E}_{\mathsf{upper}}\\
+%\bm{E}_{\mathsf{upper}}^{\top} & \bm{0}
+%\end{array}\right],
+%\]
+%which has the desired symmetry. But more importantly, $\|\mathcal{S}(\bm{E}_{\mathsf{upper}})\| = \|\bm{E}_{\mathsf{upper}}\|$.
+
+%In light of (\ref{eq:ranking-noise-off-diag}), it can be written as
+%%
+%\[
+%\bm{E}_{\mathsf{upper}}=\sum_{i<j}E_{i,j}\bm{e}_{i}\bm{e}_{j}^{\top}=  \sum_{i<j} \frac{1}{n} \big(y_{i,j}-\mathbb{E} [ y_{i,j}] \big)\bm{e}_{i}\bm{e}_{j}^{\top}
+%\eqqcolon \sum_{i<j} \bm{Z}_{i,j}
+%\]
+%%
+%which is composed of independent zero-mean random matrices $\{\bm{Z}_{i,j}\}$. These matrices obey
+%%
+%\[
+%	\max_{i<j}\|\bm{Z}_{i,j}\|\leq\max_{i<j}|E_{i,j}|\leq \frac{1}{n} \eqqcolon B_{2}
+%\]
+%%
+%and, in addition,
+%%
+%\begin{align*}
+%v_{2} & \coloneqq\max\Bigg\{ \Big\|\sum_{i<j}\mathbb{E}\big[\bm{Z}_{i,j}\bm{Z}_{i,j}^{\top}\big]\Big\|,\,\Big\|\sum_{i<j}\mathbb{E}\big[\bm{Z}_{i,j}^{\top}\bm{Z}_{i,j}\big]\Big\|\Bigg\} \\
+% & =\max\Bigg\{ \Big\|\sum_{i<j}\mathbb{E}\big[E_{i,j}^{2}\bm{e}_{i}\bm{e}_{i}^{\top}\big]\Big\|,\,\Big\|\sum_{i<j}\mathbb{E}\big[E_{i,j}^{2}\bm{e}_{j}\bm{e}_{j}^{\top}\big]\Big\|\Bigg\} \\
+%	& \leq \frac{1}{n^2} \max\Bigg\{ \Big\|\sum_{i<j}\bm{e}_{i}\bm{e}_{i}^{\top}\Big\|,\,\Big\|\sum_{i<j}\bm{e}_{j}\bm{e}_{j}^{\top}\Big\|\Bigg\}
+%	\leq \frac{1}{n^2}\|n\bm{I}\|= \frac{1}{n}.
+%\end{align*}
+%%
+%Here, the last line again invokes the condition $\mathsf{Var}(y_{i,j})\leq 1$.

@@ -1,0 +1,555 @@
+
+
+
+\section{Distributional theory and uncertainty quantification}
+\label{sec:distribution-theory}
+
+
+Thus far, we have demonstrated intriguing statistical performance of estimators developed based on spectral methods. 
+As one can anticipate, the quality of a spectral estimator is largely affected by the imperfectness of data generating mechanisms (e.g., noise corruption, missing data). 
+The uncertainty of the estimator due to these factors would inevitably influence any subsequent decision making based on it. 
+Viewed in this light, it is recommended to accompany the estimator in hand with valid measures of uncertainty (or ``confidence''), 
+in order to better inform decision makers.  
+
+
+Take the low-rank matrix estimation problem in Section~\ref{sec:setup-general-theory} for instance:  
+an important uncertainty quantification task can be posed as the construction of a valid confidence
+interval---based on the spectral estimator---that is likely to cover an unseen entry of the matrix of interest $\bm{M}^{\star}$. 
+More precisely, for any location $(i,j)$ and any target coverage level $1-\alpha \in (0,1)$ (e.g., 95\%), we aim to identify a short interval---denoted by $\mathsf{CI}_{i,j}^{1-\alpha}$---based on the spectral estimator such that
+%
+\begin{equation}
+	\mathbb{P}\big( M_{i,j}^{\star} \in \mathsf{CI}_{i,j}^{1-\alpha} \big) \approx 1-\alpha,  
+\end{equation}
+%
+which essentially augments a point estimate into an interval that is guaranteed to cover the unknown with the pre-specified target probability.  
+Note that the problem of constructing a valid confidence interval falls within the realm of {\em statistical inference} in the statistics literature,
+which constitutes an important step beyond statistical estimation. 
+Accomplishing this task in high dimension often calls for a refined statistical reasoning toolbox that offers quantitative distributional characterizations of the estimator. 
+
+%The $\ell_{\infty}$ and $\ell_{2,\infty}$ theory presented in this chapter becomes particularly effective for this purpose.    
+
+
+%calls for a modern suite
+%of statistical reasoning tools, with the aim of providing comprehensive uncertainty evaluations for the estimation
+%algorithms in use.
+%i
+%
+
+
+%quantitative characterization of 
+
+%statistical validity 
+
+
+
+\subsection{Entrywise distributional guarantees}
+\label{sec:distribution-general}
+
+
+As a natural starting point to build confidence intervals, 
+we seek to develop comprehensive understanding about the distribution of the spectral estimator. 
+In general, obtaining a non-asymptotic yet tractable distributional characterization of a nonconvex estimator like the spectral method 
+could be remarkably challenging. 
+Fortunately, the $\ell_{\infty}$ and $\ell_{2,\infty}$ perturbation theory introduced previously (e.g., Theorem~\ref{thm:UsgnH-Ustar-MUstar-general}) allows one to make progress for some important scenarios. 
+
+
+
+Let us revisit the setting in Section~\ref{sec:setup-general-theory}, and consider the following estimator of the unknown low-rank matrix $\bm{M}^{\star}$:
+%
+\begin{align}
+	\widehat{\bm{M}}=\big[\widehat{M}_{i,j} \big]_{1\leq i,j\leq n}=\bm{U}\bm{\Lambda}\bm{U}^{\top} ,
+	\label{eq:estimator-M-hat-distribution}
+\end{align}
+%
+obtained via the spectral method. The aim is to develop tractable distributional guarantees for each entry of $\widehat{\bm{M}}-\bm{M}^{\star}$. 
+
+
+Towards this end, we first examine whether our previous results shed light on certain distributional properties of $\widehat{\bm{M}}-\bm{M}^{\star}$. 
+Informally,  Theorem~\ref{thm:UsgnH-Ustar-MUstar-general} (in particular, \eqref{eq:UsgnH-MUstar-bound-theorem-general}) reveals that
+%
+\begin{align}
+	\bm{U}\mathsf{sgn}(\bm{H}) \approx \bm{M} \bm{U}^{\star} \big(\bm{\Lambda}^{\star}\big)^{-1} 
+	= \bm{U}^{\star} + \bm{E} \bm{U}^{\star} \big(\bm{\Lambda}^{\star}\big)^{-1}. 
+	\label{eq:U-sgn-H-first-order-approx-discuss}
+\end{align}
+%
+Assuming tightness of this first-order approximation, one further derives 
+%
+\begin{align}
+\bm{U}\bm{\Lambda}\bm{U}^{\top}-\bm{M}^{\star} & \overset{(\mathrm{i})}{\approx}\bm{U}\mathsf{sgn}(\bm{H})\bm{\Lambda}^{\star}\big(\bm{U}\mathsf{sgn}(\bm{H})\big)^{\top}-\bm{U}^{\star}\bm{\Lambda}^{\star}\bm{U}^{\star\top} \notag\\
+ & \overset{(\mathrm{ii})}{\approx}\big(\bm{U}\mathsf{sgn}(\bm{H})-\bm{U}^{\star}\big)\bm{\Lambda}^{\star}\bm{U}^{\star\top}+\bm{U}^{\star}\bm{\Lambda}^{\star}\big(\bm{U}\mathsf{sgn}(\bm{H})-\bm{U}^{\star}\big)^{\top} 
+ \notag\\
+ & \overset{(\mathrm{iii})}{\approx}\bm{E}\bm{U}^{\star}\big(\bm{\Lambda}^{\star}\big)^{-1}\bm{\Lambda}^{\star}\bm{U}^{\star\top}+\bm{U}^{\star}\bm{\Lambda}^{\star}\big(\bm{E}\bm{U}^{\star}\big(\bm{\Lambda}^{\star}\big)^{-1}\big)^{\top} \notag\\
+ & =\bm{E}\bm{U}^{\star}\bm{U}^{\star\top}+\bm{U}^{\star}\bm{U}^{\star\top}\bm{E}, 
+	\label{eq:approx-ULambdaU-Mstar-discuss}
+\end{align}
+%
+where (i) holds as long as $\mathsf{sgn}(\bm{H})\bm{\Lambda}^{\star} \mathsf{sgn}(\bm{H})^{\top} \approx \bm{\Lambda}$ (which has already been illuminated in the analysis 
+of Corollary~\ref{cor:entrywise-error-general} and will be solidified momentarily),  
+(ii) is obtained by dropping the higher-order term $\big(\bm{U}\mathsf{sgn}(\bm{H})-\bm{U}^{\star}\big)\bm{\Lambda}^{\star}\big(\bm{U}\mathsf{sgn}(\bm{H})-\bm{U}^{\star}\big)^{\top}$, and (iii) relies upon the approximation \eqref{eq:U-sgn-H-first-order-approx-discuss}.  
+
+
+Given that \eqref{eq:approx-ULambdaU-Mstar-discuss} is a linear map of the noise matrix $\bm{E}$, 
+this essentially forms a first-order approximation of $\widehat{\bm{M}}$,
+which in turn enables a tractable distributional theory for $\widehat{\bm{M}}$. 
+Observe that each entry of the matrix in \eqref{eq:approx-ULambdaU-Mstar-discuss} 
+is a weighted superposition of the independent zero-mean entries of $\bm{E}$.   
+Equipped with this observation, some variant of the central limit theorem
+suggests that each entry of $\widehat{\bm{M}} - \bm{M}^{\star}$ is approximately zero-mean Gaussian,
+as formalized by the theorem below. For notational convenience, we shall define a projection matrix
+	%
+	\begin{equation}
+	%\bm{P}\coloneqq\bm{U}^{\star}\bm{U}^{\star\top},
+		\bm{P}^{\star}= \big[ P_{i,j}^{\star} \big]_{1\leq i,j\leq n} \coloneqq \bm{U}^{\star}\bm{U}^{\star\top},
+		\label{eq:defn-P-UU-T}
+	\end{equation}	
+	%
+and impose a lower bound requirement on the noise variance: 
+%
+\begin{equation}
+	 \sigma_{\min}^2 \leq \sigma_{i,j}^2 \leq \sigma^2, \qquad 1\leq i,j\leq n. 
+	 \label{eq:sigma-min-definition}
+\end{equation}
+%
+\begin{theorem}
+\label{thm:matrix-distribution-complete}
+%
+Suppose that the assumptions of Theorem~\ref{thm:UsgnH-Ustar-MUstar-general} hold. For any $1\leq i,j\leq n$, set
+%
+\begin{align}
+	v_{i,j}^{\star}=
+		\begin{cases}
+			\sum_{l=1}^{n}\sigma_{i,l}^{2}P^{\star 2}_{l,j}+\sum_{l=1}^{n}P^{\star 2}_{i,l}\sigma_{l,j}^{2}+2\sigma_{i,j}^{2}P^{\star}_{i,i}P^{\star}_{j,j}, & \text{if }i\neq j,\\
+			4\sum_{l=1}^{n}\sigma_{i,l}^{2}P^{\star 2}_{l,i}, & \text{if }i=j. 
+		\end{cases}
+	\label{eq:variance-formula-Mij-lem}
+\end{align}
+%
+Assume that $\sigma/\sigma_{\min}=O(1)$, and that
+%
+\begin{equation}
+	\frac{\big\|\bm{U}_{j,\cdot}^{\star}\big\|_{2}^{2}+\big\|\bm{U}_{i,\cdot}^{\star}\big\|_{2}^{2}}{\big\|\bm{U}^{\star}\big\|_{\mathrm{F}}^{2}}
+	\gtrsim \frac{B^{2}\kappa^{2}\mu^{2}r^{2}\log^{2}n}{\sigma^{2}n^{2}}+\frac{\sigma^{2}\mu^{2}r\kappa^{4}\log^{3}n}{(\lambda_{r}^{\star})^{2}}.
+	%\frac{B^{2}\mu^{2}r\log n}{n^{2}\sigma^{2}}+\frac{\sigma^{2}\mu^{2}r\kappa^{4}\log^{3}n}{(\lambda_{r}^{\star})^{2}}+\frac{\kappa^{2}\mu^{2}r^{2}\log^{2}n}{n^{2}}.
+	\label{eq:Ui-Uj-condition-thm-distribution-1}
+\end{equation}
+%
+Then the estimator \eqref{eq:estimator-M-hat-distribution} obeys
+%
+\[
+	\sup_{z\in\mathbb{R}}\left|\mathbb{P}\left(\widehat{M}_{i,j}-M_{i,j}^{\star}\leq z\sqrt{v_{i,j}^{\star}}\,\right)-\Phi(z)\right|=o(1) ,
+\]
+where $\Phi(\cdot)$ represents the cumulative density function (CDF) of the standard Gaussian distribution.
+% 
+\end{theorem}
+%
+The proof of this theorem is postponed to Section~\ref{sec:proof-thm:matrix-distribution-complete}. 
+In a nutshell, Theorem~\ref{thm:matrix-distribution-complete} tells us that $\widehat{\bm{M}}$ is a nearly unbiased estimator of the truth $\bm{M}^{\star}$, as long as the signal strength---as captured by $\|\bm{U}^{\star}_{i,\cdot}\|_2$ and $\|\bm{U}^{\star}_{j,\cdot}\|_2$ when estimating the $(i,j)$-th entry---is sufficiently large (cf.~\eqref{eq:Ui-Uj-condition-thm-distribution-1}).  
+The resulting estimation error in each entry is well approximated by a zero-mean Gaussian random variable, 
+whose variance can be determined in a tractable fashion.  
+As can be easily verified, the variance $v_{i,j}^{\star}$ is precisely the variance of the $(i,j)$-th entry of $\bm{E}\bm{U}^{\star}\bm{U}^{\star\top}+\bm{U}^{\star}\bm{U}^{\star\top}\bm{E}$ (as singled out in \eqref{eq:approx-ULambdaU-Mstar-discuss}). 
+%In stark contrast to classical large-sample asymptotic analysis \citep{van2000asymptotic}, 
+The above distributional theory is non-asymptotic, 
+which lends itself well to high-dimensional applications.  
+
+
+
+
+
+\subsection{Inference and uncertainty quantification}
+\label{sec:UQ-general}
+
+
+
+The Gaussian approximation unveiled in Theorem~\ref{thm:matrix-distribution-complete},
+which is dictated by a single parameter ${v}_{i,j}^{\star}$, 
+paves the way for statistical inference and uncertainty quantification tailored to this model. 
+In order to construct a valid confidence interval for each entry of $\bm{M}^{\star}$, 
+everything boils down to identifying an estimator that approximates the variance parameter ${v}_{i,j}^{\star}$, ideally in a data-driven yet faithful manner. 
+
+In view of the variance characterization \eqref{eq:variance-formula-Mij-lem}, 
+computing ${v}_{i,j}^{\star}$ requires information about both the noise variances $\{\sigma_{i,j}^2\}_{1\leq i,j\leq n}$ and the projection matrix $\bm{P}^{\star}$ (cf.~\eqref{eq:defn-P-UU-T}). However, estimating the noise variances is in general statistically infeasible, given that we only have access to a single observation (i.e., $M_{i,j}$) related to each individual variance $\sigma_{i,j}^2$.  Fortunately, the variance  ${v}_{i,j}^{\star}$ involves only the summation or equivalently the average of these individual variances, whose stochastic errors will be averaged out.  This leads us to the following surrogate
+%
+\begin{equation}
+	\widetilde{v}_{i,j}=\begin{cases}
+		\sum_{l=1}^{n}{E}_{i,l}^{2}{P}_{l,j}^{\star 2}+\sum_{l=1}^{n}{P}_{i,l}^{\star 2}{E}_{l,j}^{2}+2{E}_{i,j}^{2}{P}^{\star}_{i,i}{P}_{j,j}^{\star}, & \text{if }i\neq j,\\
+	4\sum_{l=1}^{n}{E}_{i,l}^{2}{P}_{l,i}^{\star 2}, & \text{if }i=j, 
+\end{cases}
+	\label{eq:v-ij-plugin-surrogate-123}
+\end{equation}
+%
+which is clearly an unbiased estimator of ${v}_{i,j}^{\star}$. 
+Given the statistical independence of $\{E_{i,j}\}_{i\geq j}$, 
+we can expect to have $\widetilde{v}_{i,j}\approx v_{i,j}^{\star}$, owing to the concentration of measure.  
+
+
+
+%we propose to replace $\sigma_{i,j}^2$ by the corresponding entry $E_{i,j}^2$, or more realistically, an estimator $\widehat{E}_{i,j}^2$ of $E_{i,j}^2$. 
+
+
+
+However, the above surrogate $\widetilde{v}_{i,j}$ remains practically incomputable, 
+due to the absence of knowledge about both $\bm{E}$ and $\bm{P}^{\star}$.   
+To address this issue, we propose the following plug-in estimator:
+%
+\begin{equation}
+	\widehat{v}_{i,j}=\begin{cases}
+	\sum_{l=1}^{n}\widehat{E}_{i,l}^{2}\widehat{P}_{l,j}^{2}+\sum_{l=1}^{n}\widehat{P}_{i,l}^{2}\widehat{E}_{l,j}^{2}+2\widehat{E}_{i,j}^{2}\widehat{P}_{i,i}\widehat{P}_{j,j}, & \text{if }i\neq j,\\
+	4\sum_{l=1}^{n}\widehat{E}_{i,l}^{2}\widehat{P}_{l,i}^{2}, & \text{if }i=j, 
+\end{cases}
+	\label{eq:v-ij-plugin-estimator}
+\end{equation}
+%
+where $\widehat{\bm{E}}=[\widehat{E}_{i,j}]_{1\leq i,j\leq n}$ and $\widehat{\bm{P}}=[\widehat{P}_{i,j}]_{1\leq i,j\leq n}$ stand for estimators of $\bm{E}$ and $\bm{P}^{\star}$, respectively. 
+In particular, we employ the following specific estimators of $\bm{E}$ and $\bm{P}^{\star}$, again adopting the plug-in strategy:
+%
+\begin{subequations}
+\label{eq:estimators-E-and-P}
+\begin{align}
+\widehat{\bm{E}} & \coloneqq\bm{M}-\bm{U}\bm{\Lambda}\bm{U}^{\top},\label{eq:estimator-noise-matrix-E}\\
+\widehat{\bm{P}} & \coloneqq\bm{U}\bm{U}^{\top},\label{eq:estimator-projection-P}
+\end{align}
+\end{subequations}
+%
+where $\bm{U}$ and $\bm{\Lambda}$ are, as usual, computed via eigendecomposition of $\bm{M}$. 
+For a prescribed coverage level $1-\alpha$ (with $0<\alpha <1$), we construct the following confidence interval for the $(i,j)$-th entry of $\bm{M}^{\star}$, 
+motivated by the Gaussian approximation in Theorem~\ref{thm:matrix-distribution-complete}: 
+%
+\begin{align}
+	\label{eq:confidence-interval-construction-general}
+	\mathsf{CI}_{i,j}^{1-\alpha} \coloneqq \Big[\widehat{M}_{i,j}\pm\Phi^{-1}(1-\alpha/2)\sqrt{\widehat{v}_{i,j}}\,\Big].
+\end{align}
+%
+Here and throughout, for any $b>0$, we let $[a\pm b]$ abbreviate the interval $[a-b,a+b]$, and we use $\Phi^{-1}(\cdot)$ to represent the inverse CDF of the standard Gaussian distribution. 
+
+
+As encouraging news, the above construction of entrywise confidence intervals is provably valid with high probability, as revealed by the following theorem. The proof is postponed to Section~\ref{sec:proof-thm:CI-general}. 
+%
+\begin{theorem}
+	\label{thm:CI-general}
+	Consider the settings and assumptions in Section~\ref{sec:setup-general-theory},  
+	%the assumptions of Theorem~\ref{thm:UsgnH-Ustar-MUstar-general} hold.
+	and suppose that $\sigma / \sigma_{\min} = O(1)$,  $\kappa^{4}\mu^{2}r^{2}\log n\leq n$ and $\sigma \kappa\sqrt{n\log n}\lesssim |\lambda_{r}^{\star}|$. Consider any $1\leq i,j\leq n$, and assume that
+	%
+	\begin{align}
+		\frac{\big\|\bm{U}_{j,\cdot}^{\star}\big\|_{2}^{2}+\big\|\bm{U}_{i,\cdot}^{\star}\big\|_{2}^{2}}{\big\|\bm{U}^{\star}\big\|_{\mathrm{F}}^{2}}\gtrsim\frac{B\kappa^{2}\mu^{2}r^{2}\log^{2}n}{\sigma n^{3/2}}+\frac{\sigma\mu^{2}r\kappa^{3}\log^{3}n}{|\lambda_{r}^{\star}|\sqrt{n}}.  
+		\label{eq:Uj-Ui-lower-bound-thm}
+	\end{align}
+	%
+	For any fixed coverage level $1-\alpha \in (0,1)$, 
+	the confidence interval $\mathsf{CI}_{i,j}^{1-\alpha}$ constructed in \eqref{eq:confidence-interval-construction-general} obeys
+	%
+	\begin{align}
+		%\left| 
+		\mathbb{P} \Big( M_{i,j}^{\star} \in \mathsf{CI}_{i,j}^{1-\alpha}  
+		\Big) 
+		= 1-\alpha + o(1).
+		% \right| =o(1).
+	\end{align}
+	%
+\end{theorem}
+%
+%It is noteworthy that: 
+Theorem~\ref{thm:CI-general} confirms that the confidence interval proposed above meets the prescribed coverage requirement,
+provided that the associated signal strength is not too low (see \eqref{eq:Uj-Ui-lower-bound-thm}). 
+In addition to its statistical validity, the proposed procedure enjoys several features that make it practically appealing: 
+%
+\begin{itemize}
+	\item {\em Adaptive to unknown noise levels and distributions.} The above inference procedure is fully data-driven, which does not require prior knowledge about the noise levels or noise distributions. As alluded to previously, it is in general impossible to estimate the noise variance in each entry, and hence a data-driven yet valid approach is of critical value. 
+
+	\item {\em Adaptive to heteroskedastic noise.} Our statistical guarantees hold without relying on homogeneity of noise components. In other words, this inference procedure automatically accommodates heteroskedastic noise, a scenario where the variance of the noise components might vary across different locations.   
+\end{itemize}
+
+
+Careful readers might remark that Theorem~\ref{thm:CI-general} is concerned with statistical inference for a single entry. 
+Interestingly, the distributional theory presented in Section~\ref{sec:distribution-general} (see also Lemma~\ref{thm:matrix-distribution} in the proof of Theorem~\ref{thm:matrix-distribution-complete}) might also be instrumental in pursuing simultaneous inference, namely, the problem of constructing a confidence region that simultaneously accounts for more than one unknown entries. We omit such an extension for the sake of conciseness. 
+
+
+%
+%\end{proof}
+
+%%
+%\begin{align*}
+% & \big\|\mathsf{sgn}(\bm{H})\bm{\Lambda}^{\star}\mathsf{sgn}(\bm{H})^{\top}-\bm{\Lambda}\big\|\\
+% & \qquad\leq\big\|\mathsf{sgn}(\bm{H})\bm{\Lambda}^{\star}\mathsf{sgn}(\bm{H})^{\top}-\bm{H}\bm{\Lambda}^{\star}\bm{H}^{\top}\big\|+\big\|\bm{H}\bm{\Lambda}^{\star}\bm{H}^{\top}-\bm{\Lambda}\big\|\\
+% & \qquad\lesssim\frac{\kappa\sigma^{2}n}{\lambda_{r}^{\star}}+\sigma\sqrt{r\log n}.
+%\end{align*}
+
+
+
+%\input{chapters/matrix_completion.tex}
+
+
+
+\section{Application: Confidence intervals for matrix completion}
+\label{sec:CI-matrix-completion}
+
+As an illustration of the applicability of the inference procedure described in Section~\ref{sec:UQ-general}, 
+we develop concrete consequences of Theorem~\ref{thm:CI-general} in application to noisy matrix completion---an extension of the formulation
+in Section~\ref{sec:mc-l2} to noisy settings. 
+
+
+\paragraph{Model: noisy matrix completion.} 
+
+Suppose that we are asked to reconstruct a symmetric rank-$r$ matrix
+ $\bm{M}^{\star}=[M_{i,j}^{\star}]_{1\leq k,l \leq n}\in \mathbb{R}^{n\times n}$  
+ with eigendecomposition $\bm{M}^{\star}=\bm{U}^{\star}\bm{\Lambda}^{\star}\bm{U}^{\star\top}$.
+ We only get to acquire noisy observations of a subset of the entries of $\bm{M}^{\star}$; more precisely, 
+there exists a sampling set $\Omega \subseteq [n]\times [n]$ such that we observe
+%
+\begin{align}
+	M_{k,l}^{\star} + \eta_{k,l} \qquad & \text{if } (k,l)\in \Omega. 
+	% M_{i,j} = \begin{cases} , \qquad & \text{if } (i,j)\in \Omega, \\ 0, &\text{else.}  \end{cases}
+\end{align}
+%
+Here, $\{\eta_{k,l}\mid k\geq l\}$ denotes independent Gaussian noise obeying  
+%
+\begin{align}
+	\eta_{k,l} = \eta_{l,k} \overset{\mathrm{i.i.d.}}{\sim} \mathcal{N}(0, \sigma_{\eta}^2), \qquad k\geq l. 
+\end{align}
+%
+As before, we focus on the random sampling model such that each location $(k,l)$ with $k\geq l$ is included in the sampling set $\Omega$ independently with probability $p$. Further,
+ assume that $\bm{M}^{\star}$ has eigenvalues obeying \eqref{eq:assumption-lambda-r-positive-setup}, condition number $\kappa$ (cf.~\eqref{eq:defn-kappa}), and  incoherence parameter $\mu$ (cf.~\eqref{eq:defn-Ustar-incoherence}). 
+Can we build a confidence interval for each entry $M_{i,j}^{\star}$, on the basis of the output of the spectral method?  
+
+
+
+
+
+
+\paragraph{Computing entrywise confidence intervals.} 
+%
+In order to apply the inference procedure in Section~\ref{sec:UQ-general}, it suffices to determine the data matrix $\bm{M}=[M_{i,j}]_{1\leq i,j\leq n}$, which can be selected as usual. Specifically, a possible inference procedure proceeds as follows:
+%
+\begin{itemize}
+	\item  Set $\bm{M}$ such that for any $1\leq i,j \leq n$, 
+%
+\begin{align}
+	M_{i,j} = \begin{cases} \frac{1}{p} \big( M_{i,j}^{\star} + \eta_{i,j} \big), \qquad & \text{if } (i,j)\in \Omega, \\ 0, &\text{else}, \end{cases}
+\end{align}
+%
+which clearly obeys $\mathbb{E}[\bm{M}]=\bm{M}^{\star}$. 
+
+	\item Compute the estimate $\widehat{\bm{M}}$ (cf.~\eqref{eq:estimator-M-hat-distribution}) via the spectral method.
+
+	\item For a given coverage level $1-\alpha$ and a given pair $(i,j)$, 
+		construct the confidence interval $\mathsf{CI}_{i,j}^{1-\alpha}$ according to \eqref{eq:confidence-interval-construction-general}, 
+		with auxiliary parameters provided in \eqref{eq:v-ij-plugin-estimator} and \eqref{eq:estimators-E-and-P}. 
+
+\end{itemize}
+ 
+
+
+\paragraph{Performance guarantees and implications.}
+When specialized to noisy matrix completion, our inference theory in Theorem~\ref{thm:CI-general} leads to the following statistical guarantees. 
+%
+\begin{theorem}
+	\label{thm:CI-noisy-matrix-completion}
+	Consider the noisy matrix completion setting in this section. 
+	Suppose that $\kappa^{4}\mu^{2}r^{2}\log n\leq n$, 
+	%$\sigma \kappa\sqrt{n\log n}\lesssim |\lambda_{r}^{\star}|$ and 
+	$\frac{\max_{k,l}|M_{k,l}^{\star}|}{\min_{k,l}|M_{k,l}^{\star}|}=O(1)$, 
+	%
+	\begin{equation}
+		np\gtrsim \kappa^{4}r\log n\quad\text{and}\quad\sigma_{\eta}\kappa\sqrt{\frac{n\log n}{p}}\lesssim|\lambda_{r}^{\star}|.  
+		\label{eq:Mstar-noise-requirement-noisy-MC}
+	\end{equation}
+	%	
+	Consider any $1\leq i,j\leq n$, and assume that
+	%
+\begin{align}
+	\frac{\big\|\bm{U}_{j,\cdot}^{\star}\big\|_{2}^{2}+\big\|\bm{U}_{i,\cdot}^{\star}\big\|_{2}^{2}}{\big\|\bm{U}^{\star}\big\|_{\mathrm{F}}^{2}} & \gtrsim\frac{\mu^{2}r^{2}\kappa^{4}\log^{3}n}{n\sqrt{np}}+\frac{\sigma_{\eta}\mu^{2}r\kappa^{3}\log^{3}n}{|\lambda_{r}^{\star}|\sqrt{np}}.
+	\label{eq:Ui-Uj-lower-bound-thm-noisy-MC-146}
+\end{align}
+%
+	For any fixed coverage level $1-\alpha \in (0,1)$, 
+	the confidence interval $\mathsf{CI}_{i,j}^{1-\alpha}$ constructed in \eqref{eq:confidence-interval-construction-general} obeys
+	%
+	\begin{align}
+		\mathbb{P} \Big( M_{i,j}^{\star} \in \mathsf{CI}_{i,j}^{1-\alpha}  
+		\Big) 
+		= 1-\alpha + o(1).
+	\end{align}
+	%
+\end{theorem}
+%
+
+
+In order to help interpret the applicable range of Theorem~\ref{thm:CI-noisy-matrix-completion}, 
+let us focus on the simple scenario with $\kappa, \mu, r\asymp 1$ to simplify discussion. 
+
+\begin{itemize}
+
+	\item First of all, Condition~\eqref{eq:Mstar-noise-requirement-noisy-MC} can be simplified as
+	%
+	\[
+		np  \gtrsim  \log n\quad\text{and}\quad \sigma_{\eta}\sqrt{\frac{n\log n}{p}}\lesssim |\lambda_r^{\star}|. 
+	\]
+	%
+	The first condition on the sampling size coincides with the fundamental requirement even if the goal is merely to enable reliable estimation \citep{candes2010NearOptimalMC}, 
+	whereas the second condition on the signal-to-noise ratio is also necessary---up to some log factor---to ensure an estimation quality better than that of a random guess \citep[Theorem~3.3]{cai2019subspace}.  
+
+
+	\item Next, we move on to interpret the other condition \eqref{eq:Ui-Uj-lower-bound-thm-noisy-MC-146} imposed in our theory, which simplifies to
+	%
+	\[
+		\frac{\big\|\bm{U}_{j,\cdot}^{\star}\big\|_{2}^{2}+\big\|\bm{U}_{i,\cdot}^{\star}\big\|_{2}^{2}}{\big\|\bm{U}^{\star}\big\|_{\mathrm{F}}^{2}}
+		\gtrsim\frac{\log^{3}n}{n\sqrt{np}}+\frac{\sigma_{\eta}\log^{3}n}{|\lambda_{r}^{\star}|\sqrt{np}}.
+	\]
+	%
+	Let us consider the most challenging case where $np \gtrsim  \mathrm{poly}\log n$ and $\sigma_{\eta}\sqrt{\frac{n\mathrm{poly}\log n}{p}}\lesssim |\lambda_r^{\star}|$ (for some sufficiently large poly-log factor). 
+	In such a case, the above condition only requires 
+	%
+	\[
+		\frac{\big\|\bm{U}_{j,\cdot}^{\star}\big\|_{2}^{2}+\big\|\bm{U}_{i,\cdot}^{\star}\big\|_{2}^{2}}{\big\|\bm{U}^{\star}\big\|_{\mathrm{F}}^{2}}\gtrsim\frac{1}{n\mathrm{poly}\log n},
+	\]
+	%
+	indicating that the associated signal power $\|\bm{U}_{j,\cdot}^{\star}\|_{2}^{2}+\|\bm{U}_{i,\cdot}^{\star}\|_{2}^{2}$ 
+		is allowed to be much smaller than the average signal power across all rows (which can be captured by 
+		$\|\bm{U}^{\star}\|_{\mathrm{F}}^{2}/n$). 
+
+\end{itemize}
+%
+In a nutshell, the validity of our inference procedure is ensured for broad settings. 
+Additionally, we have conducted a series of numerical experiments to examine the entrywise distributions of $\bm{M}$. As illustrated in Figure~\ref{fig:MC-inference-numerics}, 
+the normalized estimation error $(\widehat{v}_{i,j})^{-1/2} (\widehat{M}_{i,j} - M_{i,j}^{\star})$ is close in distribution to a standard Gaussian random variable, 
+which corroborates our theory on the confidence interval construction. 
+
+
+
+Before concluding, we would like to remark that: 
+while the distributional theory for spectral methods allows for valid construction of confidence intervals for an unseen entry,  
+it is oftentimes not among the most effective statistical inference procedures that one can put forward. 
+There exist other alternatives that are provably more efficient, including but not limited to inference procedures based on convex relaxation and nonconvex optimization \citep{chen2019inference,xia2021statistical}, and the ones based on more refined spectral methods \citep{yan2021inference,chernozhukov2021inference}. 
+
+
+\begin{figure}
+
+	\begin{tabular}{cc}
+		\includegraphics[width=0.45\textwidth]{figures/mc_inference_histogram_plot.pdf} & \includegraphics[width=0.45\textwidth]{figures/mc_inference_QQ_plot.pdf} \tabularnewline
+		(a)  & (b) \tabularnewline
+	\end{tabular}
+	
+	\caption{Entrywise numerical distribution for noisy matrix completion. We generate $\bm{M}^{\star}=\bm{U}^{\star}\bm{U}^{\star\top}$ with $\bm{U}^{\star}$ being a random orthonormal matrix, and analyze the behavior of $Z_{1,2}= (\widehat{v}_{1,2})^{-0.5} ( \widehat{M}_{1,2}-M_{1,2}^{\star} )$, 
+		where $\widehat{\bm{M}}$ is defined in \eqref{eq:estimator-M-hat-distribution} and $\widehat{v}_{i,j}$ is defined in \eqref{eq:v-ij-plugin-estimator}.
+		The results are reported for 500 Monte Carlo trials when $p=0.3$, $n=1000$, $\sigma_{\eta} = 10^{-4}$, and $r=3$.  
+		 (a) Histogram of the empirical distribution of $Z_{1,2}$; (b)  Q-Q (quantile-quantile) plot of $Z_{1,2}$ vs.~the standard normal distribution. \label{fig:MC-inference-numerics}}  
+\end{figure}
+
+
+
+%\input{chapters/matrix_completion.tex}
+
+
+\paragraph{Proof of Theorem~\ref{thm:CI-noisy-matrix-completion}.} 
+
+Given that $\eta_{i,j}$ is a Gaussian random variable and hence possibly
+unbounded, we find it convenient to introduce a truncated version
+as follows
+%
+\[
+	\widetilde{\eta}_{i,j}=\eta_{i,j}\mathbbm{1}\big\{|\eta_{i,j}|\leq 5\sigma_{\eta}\sqrt{\log n}\big\},\qquad1\leq i,j\leq n.
+\]
+%
+and 
+%
+\[
+	\widetilde{M}_{i,j} = \begin{cases} \frac{1}{p} \big( M_{i,j}^{\star} + \widetilde{\eta}_{i,j} \big), \qquad & \text{if } (i,j)\in \Omega, \\ 0, &\text{else}. \end{cases}
+\]
+%
+Repeating the analysis in Section~\ref{sec:proof-eqn-noise-matrix-E-bound-denoising}, we can show that 
+%
+\[
+	\mathbb{P}\big\{ \bm{M} = \widetilde{\bm{M}} \big\}
+	= \mathbb{P} \big\{ \eta_{i,j} = \widetilde{\eta}_{i,j}, \forall i,j\in [n] \big\} 
+	\geq 1- n^{-10},
+\]
+%
+meaning that  $\bm{M}$ and $\widetilde{\bm{M}}$ are equivalent with high probability. 
+As a result, we shall concentrate on validating the confidence interval computed based on $\widetilde{\bm{M}}$ in the subsequent analysis. %, unless otherwise noted 
+Before proceeding, we record several key properties about  $\widetilde{\eta}_{i,j}$ as follows:
+%
+\begin{align}
+	\mathbb{E}[ \widetilde{\eta}_{i,j}] = 0, ~~~ \mathbb{E}[ \widetilde{\eta}^2_{i,j}]=(1-o(1)) \sigma_{\eta}^2, 
+	 ~~~ \big|\widetilde{\eta}_{i,j}\big|\leq  5\sigma_{\eta}\sqrt{\log n}.  
+	 \label{eq:eta-property-CI-MC}
+\end{align}
+%
+ 
+
+
+The proof follows by invoking Theorem~\ref{thm:CI-general}, as long as the conditions required therein are satisfied. 
+To begin with, the associated variance parameters are given by
+%
+\begin{align*}
+\sigma_{i,j}^{2} & \coloneqq\mathbb{E}\left[\big(\widetilde{M}_{i,j}-M_{i,j}^{\star}\big)^{2}\right]\\
+ & =p\mathbb{E}\left[\left(\frac{1-p}{p}M_{i,j}^{\star}+\frac{1}{p}\widetilde{\eta}_{i,j}\right)^{2}\right]+(1-p)\big(M_{i,j}^{\star}\big)^{2}\\
+ & = 
+\frac{\left(1-p\right)^{2}}{p} \big(M_{i,j}^{\star}\big)^{2}+\frac{1}{p}\mathbb{E}\left[\widetilde{\eta}_{i,j}^{2}\right]+(1-p)\big(M_{i,j}^{\star}\big)^{2} \\
+ & =\frac{1-p}{p}\big(M_{i,j}^{\star}\big)^{2}+\frac{1-o(1)}{p}\sigma_{\eta}^{2}, 
+\end{align*}
+%
+thus leading to
+%
+\begin{align*}
+\sigma_{\min}^{2} & \coloneqq \min_{i,j}\sigma_{i,j}^{2}=\frac{1-p}{p}\min_{i,j}\big(M_{i,j}^{\star}\big)^{2}+\frac{1-o(1)}{p}\sigma_{\eta}^{2},\\
+\sigma^{2} & \coloneqq \max_{i,j}\sigma_{i,j}^{2}=\frac{1-p}{p} \|\bm{M}^{\star}\|_{\infty}^2 +\frac{1-o(1)}{p}\sigma_{\eta}^{2}.
+\end{align*}
+%
+Apparently, $\sigma^2/\sigma_{\min}^{2}=O(1)$ holds true under the assumptions of Theorem~\ref{thm:CI-noisy-matrix-completion}. 
+In addition, the random variables $\{\widetilde{M}_{i,j}-M_{i,j}^{\star}\}$ are all bounded obeying
+%
+\[
+\big|\widetilde{M}_{i,j}-M_{i,j}^{\star}\big|\leq\frac{1-p}{p}\big|M_{i,j}^{\star}\big|+\frac{1}{p}\big|\widetilde{\eta}_{i,j}\big|
+\leq\frac{(1-p)\|\bm{M}^{\star}\|_{\infty}+\sigma_{\eta}\sqrt{5\log n}}{p}\eqqcolon B.
+\]
+%
+These bounds readily imply that
+%
+\begin{equation}
+	\frac{B}{\sigma}\asymp\frac{~\frac{(1-p)\|\bm{M}^{\star}\|_{\infty}+\sigma_{\eta}\sqrt{5\log n}}{p}~}{\sqrt{\frac{1-p}{p}}\|\bm{M}^{\star}\|_{\infty}+\frac{1}{\sqrt{p}}\sigma_{\eta}}\lesssim\sqrt{\frac{\log n}{p}}. 
+	\label{eq:B-sigma-ratio-noisy-MC}
+\end{equation}
+%
+
+
+
+Moving to the condition $\sigma \kappa\sqrt{n\log n}\lesssim |\lambda_{r}^{\star}|$ in Theorem~\ref{thm:CI-noisy-matrix-completion}, it can be guaranteed if
+	%
+	\begin{equation*}
+		\|\bm{M}^{\star}\|_{\infty}\kappa\sqrt{\frac{(1-p)n\log n}{p}}
+		\lesssim|\lambda_{r}^{\star}| 
+		\quad \text{and} \quad
+		\sigma_{\eta}\kappa\sqrt{\frac{n\log n}{p}}\lesssim|\lambda_{r}^{\star}|.  
+		\label{eq:Mstar-noise-requirement-noisy-MC-135}
+	\end{equation*}
+	%
+Given the assumption  $\frac{\max_{k,l}|M_{k,l}^{\star}|}{\min_{k,l}|M_{k,l}^{\star}|}=O(1)$, one has 
+%
+\begin{equation}
+	\label{eq:Mstar-inf-F-relation-noisy-MC}
+	\|\bm{M}^{\star}\|_{\infty} \asymp \frac{1}{n} \|\bm{M}^{\star}\|_{\mathrm{F}} 
+	\leq \frac{\sqrt{r}}{n} \|\bm{M}^{\star}\| 
+	= \frac{\kappa \sqrt{r}}{n} |\lambda_{r}^{\star}|. 
+\end{equation}
+%
+As a consequence, the condition $\sigma \kappa\sqrt{n\log n}\lesssim |\lambda_{r}^{\star}|$ can be ensured under Condition~\eqref{eq:Mstar-noise-requirement-noisy-MC}. 
+%
+
+
+It remains to certify Condition~\eqref{eq:Uj-Ui-lower-bound-thm}. 
+By virtue of the above calculations of $\sigma$ and $B$ as well as the property \eqref{eq:B-sigma-ratio-noisy-MC}, it is easily seen that Condition~\eqref{eq:Uj-Ui-lower-bound-thm} is valid as long as the following holds:
+%
+\begin{align*}
+\frac{\big\|\bm{U}_{j,\cdot}^{\star}\big\|_{2}^{2}+\big\|\bm{U}_{i,\cdot}^{\star}\big\|_{2}^{2}}{\big\|\bm{U}^{\star}\big\|_{\mathrm{F}}^{2}} & \gtrsim\frac{\kappa^{2}\mu^{2}r^{2}\log^{5/2}n}{n\sqrt{np}}+\frac{\sqrt{1-p}\,\|\bm{M}^{\star}\|_{\infty}\mu^{2}r\kappa^{3}\log^{3}n}{|\lambda_{r}^{\star}|\sqrt{np}}\\
+ & \qquad+\frac{\sigma_{\eta}\mu^{2}r\kappa^{3}\log^{3}n}{|\lambda_{r}^{\star}|\sqrt{np}}.
+\end{align*}
+%
+Taking this together with the relation \eqref{eq:Mstar-inf-F-relation-noisy-MC}, 
+we can demonstrate straightforwardly that Condition~\eqref{eq:Uj-Ui-lower-bound-thm} is guaranteed to hold as long as Condition~\eqref{eq:Ui-Uj-lower-bound-thm-noisy-MC-146} is satisfied. 
+This completes the proof. 
+
+
+
+
+%\paragraph{Statistical guarantees.} 

@@ -1,0 +1,365 @@
+
+\section{Matrix completion}\label{sec:mc-l2}
+
+A pressing challenge often encountered in data science applications is estimation and learning in the face of \emph{missing data}.
+To elucidate how to tackle this challenge via spectral methods, we delve into the renowned matrix completion problem in this section,
+followed by another application called tensor completion in Section~\ref{sec:tensor-completion}.
+
+
+Imagine that one observes a small subset of the entries in a large unknown matrix
+and seeks to fill in all missing entries. An archetypal example is collaborative filtering, where one aims to predict the users' preferences on a collection of products based on partially revealed user-product ratings.   See Figure~\ref{fig:completion} for an illustration.  The problem, often referred to as matrix completion, is apparently ill-posed in general, as there are (much) fewer measurements than the unknowns.
+
+%This is indeed a factor model in Section~\ref{sec:PCA} with missing data.  
+
+Fortunately, if the matrix of interest exhibits certain low-dimensional structure, then reliable recovery becomes feasible.
+A commonly encountered example of this kind concerns the case when the target matrix enjoys a low-rank structure. Again, take collaborative filtering for example:  the user-product rating matrix  might be well explained by a relatively small number of latent factors connecting users' preferences with products' attributes, thus resulting in an approximately low-rank matrix.  Motivated by its fundamental importance,  recent years have witnessed a flurry of research activity in studying low-rank matrix completion \citep{candes2009exact, keshavan2010matrix, gross2011recovering};
+see \citet{chen2018harnessing,davenport2016overview} for overviews of recent developments.
+In the sequel, we present a simple yet effective approach enabled by the spectral method, originally proposed in~\citet{achlioptas2007fast,keshavan2010matrix}.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.35\textwidth]{figures/matrix_completion}
+\end{center}
+\caption{Illustration of matrix completion, where each ``$\checkmark$'' stands for an observed entry and each ``$?$'' represents a missing entry.} \label{fig:completion}
+\end{figure}
+
+
+\subsection{Problem formulation and assumptions}
+\label{sec:problem-formulation-MC}
+
+Suppose that we are interested in estimating an $n_{1}\times n_{2}$  rank-$r$ matrix  $\bm{M}^{\star} = [{M}^{\star}_{i,j}]_{1\leq i\leq n_1, 1\leq j\leq n_2}$.
+Without loss of generality, we assume
+$$n_{1}\leq n_{2}.$$  Denote by  $\bm{M}^{\star}=\bm{U}^{\star}\bm{\Sigma}^{\star}\bm{V}^{\star\top}$ the SVD of $\bm{M}^{\star}$, where the columns of $\bm{U}^{\star}\in \mathbb{R}^{n_1\times r}$ (resp.~$\bm{V}^{\star}\in \mathbb{R}^{n_2\times r}$) are the left (resp.~right) singular vectors of $\bm{M}^{\star}$, and $\bm{\Sigma}^{\star}$ is a diagonal matrix whose diagonal entries are the singular values of $\bm{M}^{\star}$. We define the condition number of the matrix $\bm{M}^{\star}$ to be $\kappa \coloneqq \sigma_1(\bM^\star)/\sigma_r(\bM^\star)$.
+
+
+To capture the presence of missing data, we introduce an index subset $\Omega\subseteq [n_1]\times [n_2]$,
+such that each entry ${M}^{\star}_{i,j}$ is observed if and only if $(i,j)\in \Omega$.
+The goal is to reconstruct the singular subspaces $\bm{U}^{\star}$ and $\bm{V}^{\star}$, as well as the  full matrix $\bm{M}^{\star}$, based on entries observed over the sampling set $\Omega$.
+
+
+
+\paragraph{Random sampling.}
+Apparently, not all sampling patterns admit reliable estimation. For instance, if $\Omega$ contains only entries in the top half of the matrix,
+then there is in general no hope to predict the bottom half of the matrix. In order to allow for meaningful matrix completion,
+this monograph focuses on a natural random observation model commonly adopted in the literature, as formulated below.
+%
+\begin{assumption}[Random sampling]
+\label{assump:mc-bernoulli}
+Each entry of $\bm{M}^{\star}$ is observed independently with probability $0<p<1$, namely,
+each $(i,j)\in [ n_{1}] \times [n_{2}]$ is included in $\Omega$ independently with probability $p$.
+\end{assumption}
+%
+Under this model, we shall view the expected number of observed entries---namely, $pn_1n_2$---as the sample size. In truth, as long as $p$ is not overly small,  the number of observed entries is expected to concentrate  around its mean $pn_1n_2$.
+
+
+
+\paragraph{Incoherence conditions.}
+Caution needs to be exercised, however,  that the random sampling model alone does not guarantee effective recovery of an arbitrary low-rank matrix $\bm{M}^{\star}$.
+Consider, for example, the following rank-1 matrix $\bm{M}^{\star}$ containing a single nonzero entry:
+%
+\[
+%{\small
+\left[\begin{array}{cccc}
+1 & 0 & \cdots & 0\\
+0 & 0 & \cdots & 0\\
+\vdots & \vdots & \ddots & \vdots\\
+0 & 0 & \cdots & 0
+\end{array}\right] .
+%}
+\]
+%
+If $p=o(1)$, then with probability $1-p=1-o(1)$, the sampling pattern will fail to include the nonzero entry $M_{1,1}^{\star}$,
+thus ruling out the possibility of faithful matrix recovery.
+Consequently,  one needs to make sure that the sampling pattern does not suppress too much useful information.
+Towards this end, the pioneering work \citet{candes2009exact, candes2010NearOptimalMC} singled out an incoherence parameter that plays a vital role.
+%
+\begin{definition}
+\label{assump:mc-incoherence}
+The incoherence parameter $\mu$ of the matrix $\bm{M}^{\star}\in\mathbb{R}^{n_{1}\times n_{2}}$ is defined as
+%
+\begin{align*}
+	\mu\coloneqq \max\left\{  \frac{ n_1 \|\bm{U}^{\star}\|_{2,\infty}^2 }{r} ,  \frac{ n_2 \|\bm{V}^{\star}\|_{2,\infty}^2 }{r} \right\} .
+	%\\
+	%\|\bm{V}^{\star}\|_{2,\infty} & \leq\sqrt{\mu/n_{2}}\,\|\bm{V}^{\star}\|_{\mathrm{F}}=\sqrt{\mu r/n_{2}}.
+\end{align*}
+%
+\end{definition}
+%
+\begin{remark}
+\label{remark:range-mu-MC}
+%
+Recognizing the following basic relation
+%
+\[
+	\frac{r}{n_1}=\frac{1}{n_1} \|\bm{U}^{\star}\|_{\mathrm{F}}^2 \leq \|\bm{U}^{\star}\|_{2,\infty}^2 \leq \|\bm{U}^{\star}\|^2 = 1
+\]
+%
+and an analogous one for $\bm{V}^{\star}$, we have $1\leq \mu \leq \max\{n_1,n_2\}/r= n_2/r$.
+%
+\end{remark}
+
+
+In words, a small $\mu$ indicates that the energy of the singular vectors is spread out across different elements, namely,  the singular subspace of $\bm{M}^{\star}$ is not too ``aligned'' with any of the standard basis vectors,
+thus ensuring that entrywise observations provide somewhat equalized information about the full spectrum of $\bm{M}^{\star}$.
+The following lemma summarizes a few immediate consequences of this definition, with the proof deferred to Section~\ref{sec:proof-auxiliary-lemmas-MC-L2}.
+%
+\begin{lemma}\label{claim:mu-incoherence}
+Assume that  $\bm{M}^{\star}\in\mathbb{R}^{n_{1}\times n_{2}}$ is $\mu$-incoherent. Then the following relations hold
+%
+\begin{subequations}
+\label{subeq:mu-incoherence}
+\begin{align}
+	\|\bm{M}^{\star}\|_{2,\infty} & \leq\sqrt{\mu r/n_{1}}\, \big\| \bm{M}^{\star} \big\|; \quad
+	\|\bm{M}^{\star\top}\|_{2,\infty}  \leq\sqrt{\mu r/n_{2}}\, \big\| \bm{M}^{\star} \big\|;\label{eq:mc-row-norm-upper}\\
+	& \qquad\quad \|\bm{M}^{\star}\|_{\infty}  \leq\mu r  \big\| \bm{M}^{\star} \big\| /\sqrt{n_{1}n_{2}} . \label{eq:mc-entry-upper}
+\end{align}
+\end{subequations}
+%
+\end{lemma}
+
+
+
+\paragraph{Additional notation.}
+
+We find it convenient to introduce a Euclidean projection operator $\mathcal{P}_{\Omega}:\mathbb{R}^{n_{1}\times n_{2}}\mapsto\mathbb{R}^{n_{1}\times n_{2}}$ such that
+%
+\begin{equation}\label{defn:Pomega}
+\big[\mathcal{P}_{\Omega}(\bm{A}) \big]_{i,j}=\begin{cases}
+A_{i,j},\quad & \text{if }(i,j)\in\Omega \\
+0, & \text{else}
+\end{cases}
+\end{equation}
+%
+for any matrix $\bm{A} =[A_{i,j}]\in\mathbb{R}^{n_{1}\times n_{2}}$.
+With this notation in place, matrix completion amounts to recovering $\bm{M}^{\star}$ on the basis of $\mathcal{P}_{\Omega}(\bm{M}^{\star})$.
+
+
+
+
+\subsection{Algorithm}\label{sec:mc-alg}
+
+To apply the spectral method, the first step is to form a reasonable approximation $\bm{M}$ of the unknown matrix $\bm{M}^{\star}$.
+By virtue of the random sampling model (cf.~Assumption~\ref{assump:mc-bernoulli}), a candidate approximation can be obtained from the observed data matrix via inverse probability weighting:
+%
+\begin{align}
+	\bm{M}   \coloneqq p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star}).
+	\label{eq:rescaled-M-matrix-completion-l2}
+\end{align}
+%
+The rationale is that $\bm{M}$ forms an unbiased estimate of the ground truth, namely, $$\mathbb{E}[\bm{M}]=\bm{M}^{\star},$$ where
+the expectation is taken over the randomness in $\Omega$.
+
+
+As a result, the proposed spectral method proceeds by computing the rank-$r$ SVD $\bm{U}\bm{\Sigma}\bm{V}^{\top}$ of the matrix $\bm{M}$ constructed in \eqref{eq:rescaled-M-matrix-completion-l2}, and employing $\bm{U}\in \mathbb{R}^{n_1\times r}$, $\bm{V}\in \mathbb{R}^{n_2\times r}$  and $\bm{U}\bm{\Sigma}\bm{V}^{\top}$ as estimates of $\bm{U}^{\star}$, $\bm{V}^{\star}$ and $\bm{M}^{\star}$, respectively.
+
+
+
+
+
+
+\subsection{Performance guarantees}\label{sec:mc-l2-theory}
+
+As before, whether the subspace $\bm{U}$ (resp.~$\bm{V}$) is close
+to $\bm{U}^{\star}$ (resp.~$\bm{V}^{\star}$) relies crucially on
+the size of the perturbation $\|\bm{M}-\bm{M}^{\star}\|$.
+Therefore, we begin by developing an upper bound on this quantity; the proof is based on the matrix Bernstein inequality and is postponed to Section~\ref{sec:proof-auxiliary-lemmas-MC-L2}.
+
+\begin{lemma}
+\label{lemma:mc-noise-bound}
+Consider the settings in Section~\ref{sec:problem-formulation-MC}. Suppose that $n_{2}p\geq C\mu r\log n_{2}$ for some
+ constant $C>0$. Then with probability at least
+	$1-O(n_{2}^{-10})$, the matrix $\bm{M}$ constructed in \eqref{eq:rescaled-M-matrix-completion-l2} obeys
+%
+\[
+	\big\| \bm{M} -\bm{M}^{\star} \big\|
+	\lesssim\sqrt{\frac{\mu r\log n_{2}}{n_{1}p}}\, \big\| \bm{M}^{\star} \big\|.
+\]
+%
+\end{lemma}
+%
+With this perturbation bound in place, we are equipped to apply Wedin's $\sin\bm{\Theta}$ theorem to obtain the following results.  The condition on the sample size in Theorem~\ref{thm:mc-l2-subspace} is stronger than that in Lemma~\ref{lemma:mc-noise-bound}, as we need to control the eigengap in the following theorem.
+%
+\begin{theorem}
+\label{thm:mc-l2-subspace}
+Consider the settings in Section~\ref{sec:problem-formulation-MC}.
+Suppose that $n_{1}p\geq C_{1}\kappa^{2}\mu r\log n_{2}$ for some sufficiently
+large constant $C_{1}>0$. Then with probability exceeding $1-O(n_2^{-10})$,
+%
+\begin{align*}
+\max\Big\{ \mathsf{dist}\left(\bm{U},\bm{U}^{\star}\right),\mathsf{dist}\left(\bm{V},\bm{V}^{\star}\right)\Big\}  & \lesssim\kappa\sqrt{\frac{\mu r \log n_{2}}{n_{1}p}} .
+%;\\
+%\max\Big\{ \mathsf{dist}_{\mathrm{F}}\left(\bm{U},\bm{U}^{\star}\right),\mathsf{dist}_{\mathrm{F}}\left(\bm{V},\bm{V}^{\star}\right)\Big\}  & \lesssim\kappa\sqrt{\frac{\mu r^{2} \log n_{2}}{n_{1}p}}.
+\end{align*}
+%
+\end{theorem}
+%
+\begin{proof}
+%	
+As a direct consequence of Lemma \ref{lemma:mc-noise-bound}, one has
+%
+\[
+	\big\| \bm{M} -\bm{M}^{\star} \big\|
+	\lesssim\sqrt{\frac{\mu r\log n_{2}}{n_{1}p}} \,\big\| \bm{M}^{\star}\big\| \le \Big( 1 - \frac{1}{\sqrt{2}} \Big) \sigma_{r}(\bm{M}^{\star}),
+\]
+%
+provided that $n_{1}p\geq C_{1}\kappa^{2}\mu r\log n_{2}$ for some  large enough constant $C_{1}>0$.
+Apply Wedin's theorem (cf.~\eqref{eq:wedin-simpler-friendly}) and Lemma \ref{lemma:mc-noise-bound} to obtain
+%
+\begin{align*}
+ & \max\Big\{ \mathsf{dist}\left(\bm{U},\bm{U}^{\star}\right),\mathsf{dist}\left(\bm{V},\bm{V}^{\star}\right) \Big\}
+	\leq  \frac{2\big\|\bm{M} -\bm{M}^{\star}\big\|}{\sigma_{r}(\bm{M}^{\star})}
+	%\\ % & \qquad\qquad
+	%\lesssim\frac{\sqrt{\frac{\mu r\log n_{2}}{n_{1}p}}\,\big\|\bm{M}^{\star}\big\|}{\sigma_{r}(\bm{M}^{\star})}\asymp
+	\lesssim \kappa\sqrt{\frac{\mu r\log n_{2}}{n_{1}p}}
+\end{align*}
+%
+as claimed.
+%The proof for the $\mathsf{dist}_{\mathrm{F}}(\cdot,\cdot)$ bounds follows from the same argument and is hence omitted.
+%
+\end{proof}
+
+
+As an important implication of Theorem~\ref{thm:mc-l2-subspace}, once the sample size exceeds
+$$pn_1n_2 \gg \kappa^{2}\mu r n_2  \log n_{2}, $$
+then the spectral estimate achieves consistent estimation in the sense that
+%
+\[
+	\max\Big\{ \mathsf{dist}\left(\bm{U},\bm{U}^{\star}\right),\mathsf{dist}\left(\bm{V},\bm{V}^{\star}\right)\Big\} = o(1).
+\]
+%
+Given that $pn_1n_2\gtrsim \mu n_2 r \log n_2$ is an information-theoretic sampling requirement for reliable matrix completion when $r=o(n_1/\log n_2)$ \citep{candes2010NearOptimalMC},
+Theorem~\ref{thm:mc-l2-subspace} confirms the near optimality of spectral methods---in terms of the scaling with $n_1$, $n_2$ and $p$---when it comes to consistent subspace estimation.
+
+
+
+Before moving forward to the proof, we further characterize the statistical accuracy of $\bm{U}\bm{\Sigma}\bm{V}^{\top}$ in estimating the unknown matrix $\bm{M}^{\star}$. Accomplishing this only requires Lemma~\ref{lemma:mc-noise-bound}, without any need of the singular subspace perturbation theory. This result will also come in handy when we turn to discussing entrywise estimation accuracy in Chapter~\ref{cha:Linf-theory}.
+%
+\begin{theorem}
+\label{thm:mc-l2-matrix}
+Consider the settings in Section~\ref{sec:problem-formulation-MC}.
+Suppose that $n_{2}p\geq C\mu r\log n_{2}$ for some sufficiently large constant
+$C>0$. Then with probability at least $1-O(n_{2}^{-10})$, one has
+%
+\begin{align*}
+%\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star}\| & \lesssim\sqrt{\frac{\mu r}{n_{1}p}\log n_{2}}\,\sigma_{1}(\bm{M}^{\star});\\
+\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star}\|_{\mathrm{F}} & \lesssim\sqrt{\frac{\mu r^{2}\log n_{2}}{n_{1}p}}\, \big\| \bm{M}^{\star} \big\|.
+\end{align*}
+%
+\end{theorem}
+%
+\begin{proof}
+First, note
+%
+\begin{align*}
+\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star}\| &\leq\|\bm{U}\bm{\Sigma}\bm{V}^{\top}- \bm{M} \|+\|\bm{M} -\bm{M}^{\star}\| \leq2\|\bm{M}-\bm{M}^{\star}\|,
+\end{align*}
+%
+where the first inequality comes from the triangle inequality, and the second inequality follows from the fact that $\bm{U}\bm{\Sigma}\bm{V}^{\top}$ is the best rank-$r$ approximation to $\bm{M}$,
+i.e.,
+$$\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}\|=\min_{\bm{Z}: \mathsf{rank}(\bm{Z})\leq r}\|\bm{Z}-\bm{M}\| \leq \|\bm{M}-\bm{M}^{\star}\|. $$
+Additionally, it is observed that $\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star}$ has rank at most $2r$, which implies
+%
+\[
+	\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star}\|_{\mathrm{F}}\leq\sqrt{2r}\|\bm{U}\bm{\Sigma}\bm{V}^{\top}-\bm{M}^{\star}\| \leq 2\sqrt{2r} \big\|\bm{M} - \bm{M}^{\star} \big\|.
+\]
+%
+This combined with Lemma~\ref{lemma:mc-noise-bound} immediately concludes the proof. \end{proof}
+
+ 
+
+
+\subsection{Proof of auxiliary lemmas}
+\label{sec:proof-auxiliary-lemmas-MC-L2}
+
+\paragraph{Proof of Lemma~\ref{claim:mu-incoherence}.}
+First of all, the  $\|\cdot\|_{2,\infty}$ norm of $\bm{M}^{\star}$
+can be upper bounded by
+%
+\begin{equation*}
+\|\bm{M}^{\star}\|_{2,\infty}=\|\bm{U}^{\star}\bm{\Sigma}^{\star}\bm{V}^{\star\top}\|_{2,\infty}\leq\|\bm{U}^{\star}\|_{2,\infty}\|\bm{\Sigma}^{\star}\| \, \|\bm{V}^{\star}\|\leq\sqrt{\frac{\mu r}{n_{1}}} \big\| \bm{M}^{\star} \big\|.
+\end{equation*}
+%
+Here, the first inequality arises from the elementary bounds
+$\|\bm{A}\bm{B}\|_{2,\infty}\leq\|\bm{A}\|_{2,\infty}\|\bm{B}\|$
+and $\|\bm{A}\bm{B}\|\leq\|\bm{A}\|\, \|\bm{B}\|$, whereas the last relation
+uses Definition~\ref{assump:mc-incoherence}, the orthonormality
+of $\bm{V}^{\star}$, and identifies $\|\bm{\Sigma}^{\star}\|$ with
+$\| \bm{M}^{\star} \|$. The  bound on $\|\bm{M}^{\star\top}\|_{2,\infty}$ can be derived analogously and is omitted for brevity.
+
+
+
+In addition, the matrix $\bm{M}^{\star}$ is elementwise bounded by
+%
+\begin{equation*}
+\|\bm{M}^{\star}\|_{\infty}=\|\bm{U}^{\star}\bm{\Sigma}^{\star}\bm{V}^{\star\top}\|_{\infty}\leq\|\bm{U}^{\star}\|_{2,\infty}\|\bm{V}^{\star}\|_{2,\infty} \|\bm{\Sigma}^{\star}\|
+	\leq\frac{\mu r}{\sqrt{n_{1}n_{2}}} \big\| \bm{M}^{\star} \big\|.
+\end{equation*}
+%
+Here, the first inequality follows from the fact $\|\bm{A}\bm{B}^{\top}\|_{\infty}\leq\|\bm{A}\|_{2,\infty}\|\bm{B}\|_{2,\infty}$
+and the aforementioned one $\|\bm{A}\bm{B}\|_{2,\infty}\leq\|\bm{A}\|_{2,\infty}\|\bm{B}\|$,
+while the last inequality again relies on Definition~\ref{assump:mc-incoherence}.
+%\end{proof}
+
+
+\paragraph{Proof of Lemma~\ref{lemma:mc-noise-bound}.} Note that the matrix $\bm{E}\coloneqq p^{-1}\mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}$
+can be expressed as the sum of $n_{1}n_{2}$ i.i.d.~random matrices
+%
+\[
+  \frac{1}{p}  \mathcal{P}_{\Omega}(\bm{M}^{\star})-\bm{M}^{\star}=\sum_{i=1}^{n_{1}}\sum_{j=1}^{n_{2}}\underbrace{\big(p^{-1} \delta_{i,j} -1 \big)M_{i,j}^{\star}\bm{e}_{i}\bm{e}_{j}^{\top}}_{\eqqcolon\bm{X}_{i,j}}.
+\]
+%
+Here, $\delta_{i,j}$ (which indicates whether the $(i,j)$-th entry is observed) follows an independent Bernoulli distribution
+with parameter~$p$, and $\bm{e}_{i}$ stands for the $i$-th standard
+basis vector of appropriate dimensions. It is easily seen that for each $(i,j)$,
+%
+\[
+	\mathbb{E}[\bm{X}_{i,j}]=\bm{0}\quad\text{and}\quad\|\bm{X}_{i,j}\|\leq  \frac{1}{p} \|\bm{M}^{\star}\|_{\infty}\leq\frac{\mu r}{p\sqrt{n_{1}n_{2}}} \big\| \bm{M}^{\star} \big\|,
+\]
+%
+where the last relation results from the entrywise upper bound (\ref{eq:mc-entry-upper})
+on $\bm{M}^{\star}$. In order to apply the matrix Bernstein inequality (cf.~Corollary~\ref{thm:matrix-Bernstein-friendly}),
+we need to control the variance statistic
+%
+\[
+	v\coloneqq\max \Big\{ \Big\Vert \sum\nolimits _{i,j}\mathbb{E}\left[\bm{X}_{i,j}\bm{X}_{i,j}^{\top}\right]\Big\Vert ,\Big\Vert \sum\nolimits _{i,j}\mathbb{E}\left[\bm{X}_{i,j}^{\top}\bm{X}_{i,j}\right] \Big\Vert \Big\} .
+\]
+%
+Regarding the first variance term, we have
+%
+\begin{align*}
+\sum\nolimits _{i,j}\mathbb{E}\left[\bm{X}_{i,j}\bm{X}_{i,j}^{\top}\right]
+	& =\sum\nolimits _{i,j}\mathbb{E}\left[ \big( p^{-1} \delta_{i,j} -1 \big)^{2}(M_{i,j}^{\star})^{2}\bm{e}_{i}\bm{e}_{j}^{\top}\bm{e}_{j}\bm{e}_{i}^{\top}\right]\\
+ & =\frac{1-p}{p}\sum\nolimits _{i,j}\big(M_{i,j}^{\star}\big)^{2}\bm{e}_{i}\bm{e}_{i}^{\top}=\frac{1-p}{p}\sum_{i=1}^{n_{1}}\|\bm{M}_{i,\cdot}^{\star}\|_{2}^{2}\bm{e}_{i}\bm{e}_{i}^{\top} \\
+	& \preceq \frac{1-p}{p}  \|\bm{M}^{\star}\|_{2,\infty}^{2} \bm{I}_{n_1} \preceq \frac{\mu r}{n_1p}  \|\bm{M}^{\star}\|^{2} \,\bm{I}_{n_1} .
+\end{align*}
+%
+Here, the first identity arises from the definition of $\bm{X}_{i,j}$,
+the second one calculates the variance of Bernoulli random variables,
+and the last line relies on the upper bound~(\ref{eq:mc-row-norm-upper}).
+Similarly, the second term in the variance statistic enjoys the following characterization:
+%
+\[
+	\sum\nolimits _{i,j}\mathbb{E}\left[\bm{X}_{i,j}^{\top}\bm{X}_{i,j}\right] \preceq \frac{\mu r}{n_2p} \|\bm{M}^{\star}\|^{2} \,\bm{I}_{n_2}.
+\]
+%
+Taking the above  relations together and recalling that $n_1\leq n_2$ give
+%
+\begin{align*}
+v & %\leq\frac{1}{p}\max\left\{ \|\bm{M}^{\star}\|_{2,\infty}^{2},\|\bm{M}^{\star\top}\|_{2,\infty}^{2}\right\}
+	% \leq\frac{1}{p}\left\{ \frac{\mu r}{n_{1}} \big\| \bm{M}^{\star} \big\|^2,  \frac{\mu r}{n_{2}} \big\| \bm{M}^{\star} \big\|^2 \right\} \\
+	\leq\frac{\mu r}{n_{1}p} \big\| \bm{M}^{\star} \big\|^2.
+\end{align*}
+% 
+
+
+With the above bounds in place, invoking matrix Bernstein (see Corollary~\ref{thm:matrix-Bernstein-friendly}) reveals that: with probability at least $1-O(n_2^{-10})$,
+%
+\begin{align*}
+	\| \bm{E}\| & \lesssim \sqrt{\frac{\mu r \| \bm{M}^{\star} \|^2 \log n_{2}}{n_{1}p} }+\frac{\mu r \| \bm{M}^{\star} \| \log n_{2}}{p\sqrt{n_{1}n_{2}}}
+	\asymp \sqrt{\frac{\mu r \| \bm{M}^{\star} \|^2 \log n_{2}}{n_{1}p} } ,
+\end{align*}
+%
+where the last inequality is valid as long as  $n_{2}p \gtrsim \mu r\log n_{2}$.
+
+
+

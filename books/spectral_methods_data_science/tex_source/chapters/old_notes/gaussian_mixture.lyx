@@ -1,0 +1,1526 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{amsmath,amsthm}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+Imagine we have collected 
+\begin_inset Formula $n$
+\end_inset
+
+ independent samples 
+\begin_inset Formula $\{\bm{x}_{i}\in\mathbb{R}^{p}\}_{1\leq i\leq n}$
+\end_inset
+
+ generated from a mixture of 
+\begin_inset Formula $r$
+\end_inset
+
+ spherical Gaussians with centers 
+\begin_inset Formula $\bm{\mu}_{1}^{\star},\cdots,\bm{\mu}_{r}^{\star}\in\mathbb{R}^{p}$
+\end_inset
+
+.
+ More precisely, for each data sample 
+\begin_inset Formula $\bm{x}_{i}$
+\end_inset
+
+, there exists a cluster assignment variable 
+\begin_inset Formula $z_{i}^{\star}$
+\end_inset
+
+ such that
+\begin_inset Formula 
+\begin{equation}
+\bm{x}_{i}\sim\begin{cases}
+\bm{\mu}_{1}^{\star}+\bm{\eta}_{i},\quad & \text{if }z_{i}^{\star}=1,\\
+\quad\,\,\vdots & \quad\,\vdots\\
+\bm{\mu}_{r}^{\star}+\bm{\eta}_{i}, & \text{if }z_{i}^{\star}=r.
+\end{cases}\label{eq:data-model-r-Gaussian-GM}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\bm{\eta}_{i}\sim\mathcal{N}(\bm{0},\bm{I}_{p})$
+\end_inset
+
+ is independently generated.
+ 
+\begin_inset Formula 
+\begin{align*}
+\big\|\bm{\mu}_{i}^{\star}\big\|_{2}^{2} & =(1+o(1))\frac{\Delta^{2}}{2},\quad\big|\bm{\mu}_{i}^{\star\top}\bm{\mu}_{j}^{\star}\big|=O\left(\Delta\sqrt{\frac{\log n}{p}}\right),\\
+\big\|\bm{\mu}_{i}^{\star}-\bm{\mu}_{j}^{\star}\big\|_{2}^{2} & =\big\|\bm{\mu}_{i}^{\star}\big\|_{2}^{2}+\big\|\bm{\mu}_{j}^{\star}\big\|_{2}^{2}-2\bm{\mu}_{i}^{\star\top}\bm{\mu}_{j}^{\star}=(1+o(1))\Delta^{2}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+z_{i}^{\star}=l,\quad\text{if }\left\lceil \frac{i}{r}\right\rceil =l
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In order to develop a spectral clustering algorithm, we first examine the
+ spectral structure of the following data matrix 
+\begin_inset Formula 
+\[
+\bm{X}\coloneqq[\bm{x}_{1},\cdots,\bm{x}_{n}]=\mathbb{E}[\bm{X}]+\underset{\eqqcolon\,\bm{Z}}{\underbrace{[\bm{\eta}_{1},\cdots,\bm{\eta}_{n}]}}.
+\]
+
+\end_inset
+
+As can be easily seen, 
+\begin_inset Formula 
+\begin{align*}
+\mathbb{E}[\bm{X}] & =\big[\bm{\theta}_{1}^{\star},\cdots,\bm{\theta}_{1}^{\star},\bm{\theta}_{2}^{\star},\cdots,\bm{\theta}_{2}^{\star},\cdots,\bm{\theta}_{r}^{\star},\cdots,\bm{\theta}_{r}^{\star}\big]\\
+ & =\bm{\Theta}^{\star}\bm{F}^{\star\top},
+\end{align*}
+
+\end_inset
+
+where
+\begin_inset Formula 
+\[
+\bm{\Theta}^{\star}\coloneqq\left[\bm{\theta}_{1}^{\star},\cdots,\bm{\theta}_{r}^{\star}\right]\qquad\text{and}\qquad\bm{F}^{\star}\coloneqq\left[\begin{array}{cccc}
+\bm{1}_{r}\\
+ & \bm{1}_{r}\\
+ &  & \ddots\\
+ &  &  & \bm{1}_{r}
+\end{array}\right]
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\bm{\Theta}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\bm{e}_{i}$
+\end_inset
+
+ denotes the 
+\begin_inset Formula $i$
+\end_inset
+
+-th standard basis vector in 
+\begin_inset Formula $\mathbb{R}^{r}$
+\end_inset
+
+.
+ 
+\begin_inset Formula 
+\begin{align*}
+\mathbb{E}\big[\bm{X}^{\top}\bm{X}\big] & =\mathbb{E}\big[\bm{X}^{\top}\big]\mathbb{E}[\bm{X}]+\mathbb{E}\big[\bm{Z}^{\top}\bm{Z}\big]=\bm{F}^{\star}\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\bm{F}^{\star\top}+p\bm{I}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\Big(\big\{\widehat{\xi}_{i}\big\}_{i=1}^{n},\big\{\widehat{\bm{\theta}}_{i}\big\}_{i=i}^{r}\Big)\coloneqq\underset{\xi_{1},\cdots,\xi_{n}\in[r],\,\bm{\theta}_{1},\cdots,\bm{\theta}_{r}\in\mathbb{R}^{p}}{\arg\min}\sum_{i=1}^{n}\big\|\bm{y}_{i}-\bm{\theta}_{\xi_{i}}\big\|_{2}^{2}\label{eq:k-means-GMM}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Suppose that the eigendecomposition of 
+\begin_inset Formula $\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}$
+\end_inset
+
+ is given by 
+\begin_inset Formula $\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}=\bm{U}_{\theta}\bm{\Sigma}_{\theta}\bm{U}_{\theta}^{\top}$
+\end_inset
+
+, where 
+\begin_inset Formula $\bm{U}_{\theta}\in\mathbb{R}^{r\times r}$
+\end_inset
+
+ is an orthonormal matrix and 
+\begin_inset Formula $\bm{\Sigma}\in\mathbb{R}^{r\times r}$
+\end_inset
+
+ is a diagonal matrix.
+ It is then easily seen that
+\begin_inset Formula 
+\begin{equation}
+\bm{F}^{\star}\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\bm{F}^{\star\top}=\frac{n}{r}\cdot\Big(\underset{\eqqcolon\,\bm{U}^{\star}}{\underbrace{\sqrt{\frac{r}{n}}\bm{F}^{\star}\bm{U}_{\theta}}}\Big)\bm{\Sigma}_{\theta}\Big(\sqrt{\frac{r}{n}}\bm{F}^{\star}\bm{U}_{\theta}\Big)^{\top}.\label{eq:FTheta-Theta-F-eigenspace}
+\end{equation}
+
+\end_inset
+
+Apparently, the matrix 
+\begin_inset Formula $\bm{U}^{\star}\in\mathbb{R}^{n\times r}$
+\end_inset
+
+ defined above has orthonormal columns and, as a result, represents the
+ eigenspace of 
+\begin_inset Formula $\bm{F}^{\star}\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\bm{F}^{\star\top}$
+\end_inset
+
+.
+ 
+\begin_inset Formula $\left[\begin{array}{c}
+\bm{1}_{n/r}\\
+\bm{0}
+\end{array}\right]$
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\bm{Y}^{\star}\coloneqq\frac{n}{r}\bm{U}^{\star}\bm{U}^{\star\top}=\bm{F}^{\star}\bm{U}_{\theta}\bm{U}_{\theta}^{\top}\bm{F}^{\star\top}=\bm{F}^{\star}\bm{F}^{\star\top}=\left[\begin{array}{ccc}
+\bm{1}_{n/r}\bm{1}_{n/r}^{\top}\\
+ & \ddots\\
+ &  & \bm{1}_{n/r}\bm{1}_{n/r}^{\top}
+\end{array}\right].\label{eq:Ystar-definition-GMM}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\lambda_{r}\big(\bm{M}^{\star}\big)-\lambda_{r+1}\big(\bm{M}^{\star}\big)=\sigma_{\min}\big(\bm{F}^{\star}\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\bm{F}^{\star\top}\big)=\frac{n}{r}\sigma_{\min}\big(\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\big).\label{eq:eigen-gap-GMM}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Observe that for any 
+\begin_inset Formula $i\neq j$
+\end_inset
+
+, one can write
+\begin_inset Formula 
+\[
+\bm{\theta}_{i}^{\star\top}\bm{\theta}_{j}^{\star}=\sum_{l=1}^{p}\theta_{i,l}^{\star}\theta_{j,l}^{\star}\eqqcolon\sum_{l=1}^{p}z_{l},
+\]
+
+\end_inset
+
+which is a sum of independent random variables.
+ Taking 
+\begin_inset Formula $L_{1}=\frac{25\Delta^{2}\log p}{2p}$
+\end_inset
+
+, one has
+\begin_inset Formula 
+\begin{align*}
+\mathbb{P}\left\{ |z_{l}|\geq L\right\}  & \leq\mathbb{P}\left\{ |\theta_{i,l}^{\star}|\geq\sqrt{L}\text{ or }|\theta_{j,l}^{\star}|\geq\sqrt{L}\right\} \leq\mathbb{P}\left\{ |\theta_{i,l}^{\star}|\geq\sqrt{L}\right\} +\mathbb{P}\left\{ |\theta_{j,l}^{\star}|\geq\sqrt{L}\right\} \\
+ & =\mathbb{P}\left\{ \frac{|\theta_{i,l}^{\star}|}{\Delta/\sqrt{2p}}\geq5\sqrt{\log p}\right\} +\mathbb{P}\left\{ \frac{|\theta_{j,l}^{\star}|}{\Delta/\sqrt{2p}}\geq5\sqrt{\log p}\right\} \leq p^{-11}\eqqcolon q_{0}
+\end{align*}
+
+\end_inset
+
+Additionally, the variance statistic can be controlled by
+\begin_inset Formula 
+\[
+v_{1}\coloneqq p\mathbb{E}[z_{l}^{2}]=p\mathbb{E}\big[\big(\theta_{i,l}^{\star}\big)^{2}\big]\mathbb{E}\big[\big(\theta_{j,l}^{\star}\big)^{2}\big]=\frac{\Delta^{4}}{4p}.
+\]
+
+\end_inset
+
+Apply Corollary 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:matrix-Bernstein-friendly-truncated"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ to show that: with probability exceeding 
+\begin_inset Formula $1-O(p^{-10})$
+\end_inset
+
+,
+\begin_inset Formula 
+\[
+\big|\bm{\theta}_{i}^{\star\top}\bm{\theta}_{j}^{\star}\big|\lesssim\sqrt{v_{1}\log p}+L_{1}\log p\asymp\Delta^{2}\sqrt{\frac{\log p}{p}}.
+\]
+
+\end_inset
+
+Repeating a similar argument also yields
+\begin_inset Formula 
+\[
+\big|\bm{\theta}_{i}^{\star\top}\bm{\theta}_{i}^{\star}-\mathbb{E}\big[\bm{\theta}_{i}^{\star\top}\bm{\theta}_{i}^{\star}\big]\big|\lesssim\Delta^{2}\sqrt{\frac{\log p}{p}}
+\]
+
+\end_inset
+
+with probability at least 
+\begin_inset Formula $1-O(p^{-10})$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+ & \mathbb{P}\left\{ |z_{l}|\geq L\right\} \leq\mathbb{P}\left\{ |\theta_{i,l}^{\star}|\geq\sqrt{L}\text{ or }|\theta_{j,l}^{\star}|\geq\sqrt{L}\right\} \\
+ & \quad\leq\mathbb{P}\left\{ |\theta_{i,l}^{\star}|\geq\sqrt{L}\right\} +\mathbb{P}\left\{ |\theta_{j,l}^{\star}|\geq\sqrt{L}\right\} \\
+ & \quad=\mathbb{P}\left\{ \frac{|\theta_{i,l}^{\star}|}{\Delta/\sqrt{2p}}\geq5\sqrt{\log p}\right\} +\mathbb{P}\left\{ \frac{|\theta_{j,l}^{\star}|}{\Delta/\sqrt{2p}}\geq5\sqrt{\log p}\right\} \leq p^{-11}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\left\Vert \bm{\Theta}^{\star\top}\bm{\Theta}^{\star}-\mathbb{E}\big[\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\big]\right\Vert  & \leq r\left\Vert \bm{\Theta}^{\star\top}\bm{\Theta}^{\star}-\mathbb{E}\big[\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\big]\right\Vert _{\infty}\\
+ & \lesssim\Delta^{2}\sqrt{\frac{r^{2}\log p}{p}}\leq\frac{\Delta^{2}}{4}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In addition, it is self-evident that 
+\begin_inset Formula $\mathbb{E}\big[\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\big]=\frac{\Delta^{2}}{2}\bm{I}_{p}$
+\end_inset
+
+.
+ Invoke the Weyl inequality to demonstrate that 
+\begin_inset Formula 
+\begin{align*}
+\lambda_{\min}\big(\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\big) & \geq\lambda_{\min}\big(\mathbb{E}\big[\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\big]\big)-\left\Vert \bm{\Theta}^{\star\top}\bm{\Theta}^{\star}-\mathbb{E}\big[\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\big]\right\Vert \\
+ & \geq\frac{\Delta^{2}}{2}-\frac{\Delta^{2}}{4}=\frac{\Delta^{2}}{4}.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\bm{E} & =\bm{X}^{\top}\bm{X}-\mathbb{E}\big[\bm{X}^{\top}\bm{X}\big]=\big(\bm{\Theta}^{\star}+\bm{Z}\big)^{\top}\big(\bm{\Theta}^{\star}+\bm{Z}\big)-\mathbb{E}\big[\bm{X}^{\top}\bm{X}\big]\\
+ & =\bm{Z}^{\top}\bm{\Theta}^{\star}\bm{F}^{\star\top}+\bm{F}^{\star}\bm{\Theta}^{\star\top}\bm{Z}+\bm{Z}^{\top}\bm{Z}-p\bm{I}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As it turns out, similar terms have already been controlled in 
+\begin_inset Formula 
+\begin{align*}
+\big\|\bm{F}^{\star}\bm{\Theta}^{\star\top}\bm{Z}\big\| & \overset{(\mathrm{i})}{=}\big\|\bm{F}^{\star}\big\|\,\big\|\bm{\Theta}^{\star\top}\bm{Z}\big\|\overset{(\mathrm{ii})}{=}\sqrt{\frac{n}{r}}\big\|\bm{\Theta}^{\star\top}\bm{Z}\big\|\\
+ & \overset{(\mathrm{iii})}{\lesssim}\sqrt{\frac{n}{r}}\cdot\frac{\Delta}{\sqrt{p}}\sqrt{np\log(n+p)}\asymp\frac{\Delta n\sqrt{\log(n+p)}}{\sqrt{r}}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:norm-noise-bounds-PCA"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\big\|\bm{Z}^{\top}\bm{Z}-p\bm{I}\big\|\lesssim\sqrt{np\log(n+p)}+n\log^{2}(n+p)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\|\bm{E}\| & \leq2\big\|\bm{F}^{\star}\bm{\Theta}^{\star\top}\bm{Z}\big\|+\big\|\bm{Z}^{\top}\bm{Z}-p\bm{I}\big\|\\
+ & \lesssim\frac{\Delta n\sqrt{\log(n+p)}}{\sqrt{r}}+\sqrt{np\log(n+p)}+n\log^{2}(n+p)
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\frac{\Delta n\sqrt{\log(n+p)}}{\sqrt{r}}+\sqrt{np\log(n+p)}+n\log^{2}(n+p)\lesssim n\Delta^{2}/r
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\Delta\sqrt{r\log(n+p)}+r\sqrt{\frac{p\log(n+p)}{n}}+r\log^{2}(n+p)\lesssim\Delta^{2}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\sqrt{r\log(n+p)}\lesssim\Delta
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\Delta\geq C_{1}\max\left\{ \Big(\frac{r^{2}p\log(n+p)}{n}\Big)^{1/4},\sqrt{r}\log(n+p)\right\} 
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\Delta\gtrsim\sqrt{r}\log(n+p)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align}
+ & \big\|\bm{U}\bm{U}^{\top}-\bm{U}^{\star}\bm{U}^{\star}\big\|\leq\frac{\sqrt{2}\|\bm{E}\|}{\lambda_{r}\big(\bm{M}^{\star}\big)-\lambda_{r+1}\big(\bm{M}^{\star}\big)}\nonumber \\
+ & \qquad\lesssim\frac{\Delta\sqrt{r\log(n+p)}+r\sqrt{\frac{p\log(n+p)}{n}}+r\log^{2}(n+p)}{\Delta^{2}}\label{eq:U-Ustar-dist-GMM}
+\end{align}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\big\|\bm{Y}-\bm{Y}^{\star}\big\| & =\frac{n}{r}\big\|\bm{U}\bm{U}^{\top}-\bm{U}^{\star}\bm{U}^{\star}\big\|\\
+ & \lesssim\frac{\Delta\sqrt{\frac{\log(n+p)}{r}}+\sqrt{\frac{p\log(n+p)}{n}}+\log^{2}(n+p)}{\Delta^{2}}\,n
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+ & \big\|\bm{U}\bm{U}^{\top}-\bm{U}^{\star}\bm{U}^{\star}\big\|_{\mathrm{F}}\leq\frac{\sqrt{2r}\|\bm{E}\|}{\lambda_{r}\big(\bm{M}^{\star}\big)-\lambda_{r+1}\big(\bm{M}^{\star}\big)}\nonumber\\
+ & \qquad\lesssim\frac{\Delta r\sqrt{\log(n+p)}+r^{1.5}\sqrt{\frac{p\log(n+p)}{n}}+r^{1.5}\log^{2}(n+p)}{\Delta^{2}}\label{eq:U-Ustar-dist-GMM}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\big\|\bm{Y}-\bm{Y}^{\star}\big\| & =\frac{n}{r}\big\|\bm{U}\bm{U}^{\top}-\bm{U}^{\star}\bm{U}^{\star}\big\|\\
+ & \lesssim\frac{\Delta\sqrt{\log(n+p)}+\sqrt{\frac{rp\log(n+p)}{n}}+\sqrt{r}\log^{2}(n+p)}{\Delta^{2}}\,n
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\sqrt{r}\Big(\frac{p\log(n+p)}{n}\Big)^{1/4}=o(\Delta)\quad\text{and}\quad\sqrt{r}\log(n+p)=o(\Delta).
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+Suppose that 
+\begin_inset Formula 
+\begin{equation}
+\big\|\bm{Y}-\bm{Y}^{\star}\big\|_{\mathrm{F}}^{2}\leq\varepsilon^{2}n\label{eq:assumption-Y-Ystar-Fro-GMM}
+\end{equation}
+
+\end_inset
+
+for some quantity 
+\begin_inset Formula $0<\varepsilon<1$
+\end_inset
+
+ that is allowed to be vanishingly small.
+ Before proceeding, let us take a quick look at how many columns of 
+\begin_inset Formula $\bm{Y}$
+\end_inset
+
+ might deviate considerably from their counterparts in 
+\begin_inset Formula $\bm{Y}^{\star}$
+\end_inset
+
+.
+ To be precise, consider the following set
+\begin_inset Formula 
+\begin{equation}
+\mathcal{N}_{\mathsf{large}}\coloneqq\left\{ i\mid\|\bm{y}_{i}-\bm{y}_{i}^{\star}\|_{2}^{2}\geq\varepsilon\right\} .\label{eq:defn-Nlarge-GMM}
+\end{equation}
+
+\end_inset
+
+Its cardinality is clearly bounded above by
+\begin_inset Formula 
+\begin{equation}
+\big|\mathcal{N}_{\mathsf{large}}\big|\leq\frac{\big\|\bm{Y}-\bm{Y}^{\star}\big\|_{\mathrm{F}}^{2}}{\varepsilon}\leq\frac{\varepsilon^{2}n}{\varepsilon}=\varepsilon n.\label{eq:size-Nlarge-UB-GMM}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Lemma
+\series default
+.
+ Consider any set 
+\begin_inset Formula $\mathcal{S}\subseteq[n]$
+\end_inset
+
+ with cardinality 
+\begin_inset Formula $c_{s}n$
+\end_inset
+
+.
+ Suppose that 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:assumption-Y-Ystar-Fro-GMM"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ holds with 
+\begin_inset Formula $\varepsilon\leq c_{s}^{2}/4$
+\end_inset
+
+.
+ Then one has
+\begin_inset Formula 
+\[
+\left|\sum_{i\in\mathcal{S}}\Big\|\bm{y}_{i}-\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}\Big\|_{2}^{2}-\sum_{i\in\mathcal{S}}\Big\|\bm{y}_{i}^{\star}-\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}\right|\leq12c_{s}\sqrt{\varepsilon}n.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+The starting point is the following identities
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{subequations}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "eq:sum-y-ystar-S-decompose-GMM"
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align}
+\sum_{i\in\mathcal{S}}\Big\|\bm{y}_{i}-\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}\Big\|_{2}^{2} & =\Big(\sum_{i\in\mathcal{S}}\big\|\bm{y}_{i}\big\|_{2}^{2}\Big)-|\mathcal{S}|\cdot\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}\Big\|_{2}^{2},\label{eq:sum-y-S-decompose-GMM}\\
+\sum_{i\in\mathcal{S}}\Big\|\bm{y}_{i}^{\star}-\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}^{\star}\Big\|_{2}^{2} & =\Big(\sum_{i\in\mathcal{S}}\big\|\bm{y}_{i}^{\star}\big\|_{2}^{2}\Big)-|\mathcal{S}|\cdot\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}^{\star}\Big\|_{2}^{2},\label{eq:sum-ystar-S-decompose-GMM}
+\end{align}
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{subequations}
+\end_layout
+
+\end_inset
+
+leaving us with two terms to control.
+ 
+\end_layout
+
+\begin_layout Standard
+Regarding the first term on the right-hand side of 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:sum-y-S-decompose-GMM"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, it is first seen that
+\begin_inset Formula 
+\[
+\big\|\bm{y}_{i}\big\|_{2}^{2}=\big\|\bm{y}_{i}^{\star}\big\|_{2}^{2}+\big\|\bm{y}_{i}-\bm{y}_{i}^{\star}\big\|_{2}^{2}+2\big(\bm{y}_{i}-\bm{y}_{i}^{\star}\big)^{\top}\bm{y}_{i}^{\star},
+\]
+
+\end_inset
+
+and hence for any 
+\begin_inset Formula $i\notin\mathcal{N}_{\mathsf{large}}$
+\end_inset
+
+ (i.e., 
+\begin_inset Formula $\|\bm{y}_{i}-\bm{y}_{i}^{\star}\|_{2}^{2}<\varepsilon$
+\end_inset
+
+) one has
+\begin_inset Formula 
+\begin{align}
+\left|\big\|\bm{y}_{i}\big\|_{2}^{2}-\big\|\bm{y}_{i}^{\star}\big\|_{2}^{2}\right| & \leq\big\|\bm{y}_{i}-\bm{y}_{i}^{\star}\big\|_{2}^{2}+2\big\|\bm{y}_{i}-\bm{y}_{i}^{\star}\big\|_{2}\big\|\bm{y}_{i}^{\star}\big\|_{2}\label{eq:expansion-y-i-123}\\
+ & \leq\varepsilon+2\sqrt{\varepsilon}\leq3\sqrt{\varepsilon}.\nonumber 
+\end{align}
+
+\end_inset
+
+In addition, for any 
+\begin_inset Formula $i\in\mathcal{N}_{\mathsf{large}}$
+\end_inset
+
+, we have the crude bound 
+\begin_inset Formula 
+\[
+\left|\big\|\bm{y}_{i}\big\|_{2}^{2}-\big\|\bm{y}_{i}^{\star}\big\|_{2}^{2}\right|\leq\max\left\{ \big\|\bm{y}_{i}\big\|_{2}^{2},\big\|\bm{y}_{i}^{\star}\big\|_{2}^{2}\right\} =1.
+\]
+
+\end_inset
+
+Putting the preceding bounds together yields
+\begin_inset Formula 
+\begin{align}
+\Bigg|\sum_{i\in\mathcal{S}}\big\|\bm{y}_{i}\big\|_{2}^{2}-\sum_{i\in\mathcal{S}}\big\|\bm{y}_{i}^{\star}\big\|_{2}^{2}\Bigg| & \leq\sum_{i\in\mathcal{S\backslash\mathcal{N}_{\mathsf{large}}}}\left|\big\|\bm{y}_{i}\big\|_{2}^{2}-\big\|\bm{y}_{i}^{\star}\big\|_{2}^{2}\right|+\sum_{i\in\mathcal{S\cap\mathcal{N}_{\mathsf{large}}}}\left|\big\|\bm{y}_{i}\big\|_{2}^{2}-\big\|\bm{y}_{i}^{\star}\big\|_{2}^{2}\right|\nonumber \\
+ & \leq3\sqrt{\varepsilon}|\mathcal{S}|+\big|\mathcal{N}_{\mathsf{large}}\big|\leq3\sqrt{\varepsilon}\cdot c_{s}n+\varepsilon n\leq4c_{s}\sqrt{\varepsilon}n,\label{eq:sum-difference-123-GMM}
+\end{align}
+
+\end_inset
+
+where the last relation is valid as long as 
+\begin_inset Formula $\varepsilon\leq c_{s}^{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+When it comes to the second term on the right-hand side of 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:sum-y-S-decompose-GMM"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, we make the observation that
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\big(\bm{y}_{j}-\bm{y}_{j}^{\star}\big)\Big\|_{2} & \leq\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}\backslash\mathcal{N}_{\mathsf{large}}}\big\|\bm{y}_{j}-\bm{y}_{j}^{\star}\big\|_{2}+\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}\cap\mathcal{N}_{\mathsf{large}}}\big\|\bm{y}_{j}-\bm{y}_{j}^{\star}\big\|_{2}\\
+ & \overset{(\mathrm{i})}{\leq}\sqrt{\varepsilon}+\frac{2\big|\mathcal{N}_{\mathsf{large}}\big|}{|\mathcal{S}|}\overset{(\mathrm{ii})}{\leq}\sqrt{\varepsilon}+\frac{2\varepsilon}{c_{s}}\leq2\sqrt{\varepsilon}.
+\end{align*}
+
+\end_inset
+
+Here, (i) holds true since any column outside 
+\begin_inset Formula $\mathcal{N}_{\mathsf{large}}$
+\end_inset
+
+ satisfies 
+\begin_inset Formula $\big\|\bm{y}_{j}-\bm{y}_{j}^{\star}\big\|_{2}\leq\sqrt{\varepsilon}$
+\end_inset
+
+, and any column coming from 
+\begin_inset Formula $\mathcal{N}_{\mathsf{large}}$
+\end_inset
+
+ obeys 
+\begin_inset Formula $\big\|\bm{y}_{j}-\bm{y}_{j}^{\star}\big\|_{2}\leq\big\|\bm{y}_{j}\big\|_{2}+\big\|\bm{y}_{j}^{\star}\big\|_{2}\leq2$
+\end_inset
+
+; (ii) follows from 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:size-Nlarge-UB-GMM"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ and the assumption 
+\begin_inset Formula $|\mathcal{S}|=c_{s}n$
+\end_inset
+
+; and the last inequality relies on the assumption 
+\begin_inset Formula $\varepsilon\leq c_{s}^{2}/4$
+\end_inset
+
+.Here, (iii) follows since 
+\begin_inset Formula $\langle\bm{y}_{(i)}^{\star},\bm{y}_{(j)}^{\star}\rangle=0$
+\end_inset
+
+ for any 
+\begin_inset Formula $i\neq j$
+\end_inset
+
+, (iv) arises from the fact that 
+\begin_inset Formula $\|\bm{y}_{(i)}^{\star}\|_{2}=1$
+\end_inset
+
+, the inequality comes from the Cauchy-Schwarz inequality, whereas the last
+ relation holds since 
+\begin_inset Formula $\sum_{i}n_{s,i}=|\mathcal{S}|$
+\end_inset
+
+.
+ In addition, 
+\begin_inset Formula 
+\[
+\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}^{\star}\Big\|_{2}\leq\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\big\|\bm{y}_{j}^{\star}\big\|_{2}=1.
+\]
+
+\end_inset
+
+Combining the above two inequalities and recalling the elementary expansion,
+ we arrive at
+\begin_inset Formula 
+\begin{align}
+\left|\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}\Big\|_{2}^{2}-\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}\right| & \leq\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}(\bm{y}_{j}-\bm{y}_{i}^{\star})\Big\|_{2}^{2}+2\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}(\bm{y}_{j}-\bm{y}_{i}^{\star})\Big\|_{2}\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}^{\star}\Big\|_{2}\nonumber \\
+ & \leq4\varepsilon+4\sqrt{\varepsilon}\leq8\sqrt{\varepsilon}.\label{eq:mean-difference-123-GMM}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Taking 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:sum-difference-123-GMM"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:mean-difference-123-GMM"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ collectively and making use of the idenitites 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:sum-y-ystar-S-decompose-GMM"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, we can immediately conclude that
+\begin_inset Formula 
+\begin{align*}
+ & \left|\sum_{i\in\mathcal{S}}\Big\|\bm{y}_{i}-\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}\Big\|_{2}^{2}-\sum_{i\in\mathcal{S}}\Big\|\bm{y}_{i}^{\star}-\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}\right|\\
+ & \quad\leq\Bigg|\sum_{i\in\mathcal{S}}\big\|\bm{y}_{i}\big\|_{2}^{2}-\sum_{i\in\mathcal{S}}\big\|\bm{y}_{i}^{\star}\big\|_{2}^{2}\Bigg|+|\mathcal{S}|\cdot\left|\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}\Big\|_{2}^{2}-\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}\right|\\
+ & \quad\leq4c_{s}\sqrt{\varepsilon}n+8\sqrt{\varepsilon}|\mathcal{S}|\leq12c_{s}\sqrt{\varepsilon}n
+\end{align*}
+
+\end_inset
+
+as claimed.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In addition, denote by 
+\begin_inset Formula $\mathcal{C}_{i}^{\star}$
+\end_inset
+
+ the 
+\begin_inset Formula $i$
+\end_inset
+
+-th ground-truth cluster, set 
+\begin_inset Formula $n_{s,i}=\big|\mathcal{S}\cap\mathcal{C}_{i}^{\star}\big|$
+\end_inset
+
+ as the number of samples in 
+\begin_inset Formula $\mathcal{S}$
+\end_inset
+
+ belonging to the 
+\begin_inset Formula $i$
+\end_inset
+
+-th true cluster, and let 
+\begin_inset Formula $\bm{y}_{(i)}^{\star}$
+\end_inset
+
+ represent the vector associated with the 
+\begin_inset Formula $i$
+\end_inset
+
+-th cluster (namely, 
+\begin_inset Formula $\bm{y}_{(\tau)}^{\star}=\bm{y}_{j}^{\star}$
+\end_inset
+
+ for any 
+\begin_inset Formula $j\in\mathcal{C}_{i}^{\star}$
+\end_inset
+
+).
+ Then one can write
+\begin_inset Formula 
+\begin{align*}
+\Big\|\frac{1}{|\mathcal{S}|}\sum_{j\in\mathcal{S}}\bm{y}_{j}^{\star}\Big\|_{2}^{2} & =\Big\|\sum_{i=1}^{r}\frac{n_{s,i}}{|\mathcal{S}|}\bm{y}_{(i)}^{\star}\Big\|_{2}^{2}\overset{(\mathrm{iii})}{=}\sum_{i=1}^{r}\Big\|\frac{n_{s,i}}{|\mathcal{S}|}\bm{y}_{(i)}^{\star}\Big\|_{2}^{2}\overset{(\mathrm{iv})}{=}\sum_{i=1}^{r}\frac{n_{s,i}^{2}}{|\mathcal{S}|^{2}}\\
+ & \geq\frac{1}{r}\left(\sum_{i=1}^{r}\frac{n_{s,i}}{|\mathcal{S}|}\right)^{2}=\frac{1}{r},
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+uppose that there exists a cluster with 
+\begin_inset Formula 
+\[
+|\mathcal{C}_{i}|\leq\frac{\big(1-\varepsilon(r-1)\big)n}{r},
+\]
+
+\end_inset
+
+then one can find another cluster 
+\begin_inset Formula $\mathcal{C}_{l}$
+\end_inset
+
+ with cardinality at least 
+\begin_inset Formula 
+\[
+|\mathcal{C}_{l}|\geq\frac{(1+\varepsilon)n}{r}.
+\]
+
+\end_inset
+
+As a result, 
+\begin_inset Formula 
+\begin{align*}
+\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\big(\bm{y}_{j}-\bm{y}_{j}^{\star}\big)\Big\|_{2} & \leq\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}\backslash\mathcal{N}_{\mathsf{large}}}\Big\|\bm{y}_{j}-\bm{y}_{j}^{\star}\Big\|_{2}+\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}\cap\mathcal{N}_{\mathsf{large}}}\Big\|\bm{y}_{j}-\bm{y}_{j}^{\star}\Big\|_{2}\\
+ & \leq\sqrt{\varepsilon}+\frac{2\varepsilon n}{|\mathcal{C}_{l}|}\leq\sqrt{\varepsilon}+\frac{2\varepsilon r}{1+\varepsilon}\leq2\sqrt{\varepsilon},
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Suppose that there exists a cluster 
+\begin_inset Formula $\mathcal{C}_{l}$
+\end_inset
+
+ obeying
+\begin_inset Formula 
+\[
+|\mathcal{C}_{l}|\geq\frac{(1+c_{\varepsilon})n}{r}
+\]
+
+\end_inset
+
+for some quantity 
+\begin_inset Formula $c_{\varepsilon}>0$
+\end_inset
+
+.
+ We start with the following elementary identity
+\begin_inset Formula 
+\begin{align}
+\sum_{i\in\mathcal{C}_{l}}\Big\|\bm{y}_{i}^{\star}-\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2} & =\Bigg(\sum_{i\in\mathcal{C}_{l}}\big\|\bm{y}_{i}^{\star}\big\|_{2}^{2}\Bigg)-|\mathcal{C}_{l}|\cdot\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}\nonumber \\
+ & =|\mathcal{C}_{l}|\cdot\Big(1-\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}\Big),\label{eq:fitting-error-cluster-GMM-123}
+\end{align}
+
+\end_inset
+
+where we have invoked the fact that 
+\begin_inset Formula $\big\|\bm{y}_{i}^{\star}\big\|_{2}=1$
+\end_inset
+
+.
+ It thus boils down to controlling 
+\begin_inset Formula $\big\|\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\big\|_{2}^{2}$
+\end_inset
+
+.
+ For notational convenience, for any 
+\begin_inset Formula $1\leq\tau\leq r$
+\end_inset
+
+, we set 
+\begin_inset Formula $n_{l,\tau}=\big|\mathcal{C}_{l}\cap\mathcal{C}_{\tau}^{\star}\big|$
+\end_inset
+
+ (namely, the number of points in 
+\begin_inset Formula $\mathcal{C}_{l}$
+\end_inset
+
+ coming from the 
+\begin_inset Formula $\tau$
+\end_inset
+
+-th true cluster), and let 
+\begin_inset Formula $\bm{y}_{(\tau)}^{\star}$
+\end_inset
+
+ represent the vector associated with the 
+\begin_inset Formula $\tau$
+\end_inset
+
+-th cluster (namely, 
+\begin_inset Formula $\bm{y}_{(\tau)}^{\star}=\bm{y}_{j}^{\star}$
+\end_inset
+
+ for any 
+\begin_inset Formula $j\in\mathcal{C}_{\tau}^{\star}$
+\end_inset
+
+).
+ Armed with this set of notation, we can write
+\begin_inset Formula 
+\begin{equation}
+\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}=\Big\|\sum_{\tau=1}^{r}\frac{n_{l,\tau}}{|\mathcal{C}_{l}|}\bm{y}_{(\tau)}^{\star}\Big\|_{2}^{2}=\sum_{\tau=1}^{r}\Big\|\frac{n_{l,\tau}}{|\mathcal{C}_{l}|}\bm{y}_{(\tau)}^{\star}\Big\|_{2}^{2}=\frac{1}{|\mathcal{C}_{l}|^{2}}\sum_{\tau=1}^{r}n_{l,\tau}^{2},\label{eq:mean-yjstar-decompose-456-GMM}
+\end{equation}
+
+\end_inset
+
+where the penultimate identity holds since 
+\begin_inset Formula $\langle\bm{y}_{(i)}^{\star},\bm{y}_{(j)}^{\star}\rangle=0$
+\end_inset
+
+ for any 
+\begin_inset Formula $i\neq j$
+\end_inset
+
+, and the last relation relies on the fact that 
+\begin_inset Formula $\big\|\bm{y}_{(\tau)}^{\star}\big\|_{2}=1$
+\end_inset
+
+.
+ To further upper bound 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:mean-yjstar-decompose-456-GMM"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, let us look at the following optimization problem
+\begin_inset Formula 
+\begin{align*}
+\text{maximize}_{\{a_{\tau}\}}\  & \sum_{i=1}^{r}a_{\tau}^{2}\\
+\text{subject to}\  & \sum_{\tau=1}^{r}a_{\tau}=A,\ 0\leq a_{\tau}\leq A_{0}\ (1\leq\tau\leq r).
+\end{align*}
+
+\end_inset
+
+As can be easily verified, a maximizer for this simple optimization problem
+ is given by
+\begin_inset Formula 
+\[
+a_{\tau}=\begin{cases}
+A_{0},\qquad & \text{if }1\leq\tau\leq\left\lfloor \frac{A}{A_{0}}\right\rfloor ,\\
+A-\left\lfloor \frac{A}{A_{0}}\right\rfloor \cdot A_{0},\quad & \text{if }\tau=\left\lfloor \frac{A}{A_{0}}\right\rfloor +1,\\
+0, & \text{else}.
+\end{cases}
+\]
+
+\end_inset
+
+Consequently, one has
+\begin_inset Formula 
+\begin{align*}
+\eqref{eq:mean-yjstar-decompose-456-GMM} & \leq\frac{1}{|\mathcal{C}_{l}|^{2}}\left\{ \left\lfloor \frac{|\mathcal{C}_{l}|}{n/r}\right\rfloor \left(\frac{n}{r}\right)^{2}+\left(|\mathcal{C}_{l}|-\left\lfloor \frac{|\mathcal{C}_{l}|}{n/r}\right\rfloor \frac{n}{r}\right)^{2}\right\} \leq\frac{1}{|\mathcal{C}_{l}|^{2}}\cdot\frac{|\mathcal{C}_{l}|}{n/r}\left(\frac{n}{r}\right)^{2}\\
+ & \leq\frac{n/r}{|\mathcal{C}_{l}|}\leq\frac{1}{1+c_{\varepsilon}}.
+\end{align*}
+
+\end_inset
+
+Substitution into 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:fitting-error-cluster-GMM-123"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ yields
+\begin_inset Formula 
+\begin{align}
+\sum_{i\in\mathcal{C}_{l}}\Big\|\bm{y}_{i}^{\star}-\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2} & \geq|\mathcal{C}_{l}|\cdot\Big(1-\frac{1}{1+c_{\varepsilon}}\Big)\geq\frac{c_{\varepsilon}}{1+c_{\varepsilon}}\frac{n}{r}.\label{eq:fitting-error-cluster-GMM-123-1}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\sum_{i\in\mathcal{C}_{l}}\Big\|\Big(1-\frac{n_{l,\tau}}{|\mathcal{C}_{l}|}\Big)\bm{y}_{(\tau)}^{\star}+\sum\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2} & =\Big\|\sum_{i=1}^{r}\frac{n_{l,i}}{|\mathcal{C}_{l}|}\bm{y}_{\mathcal{C}_{i}^{\star}}^{\star}\Big\|_{2}^{2}=\sum_{i=1}^{r}\Big\|\frac{n_{l,i}}{|\mathcal{C}_{l}|}\bm{y}_{\mathcal{C}_{i}^{\star}}^{\star}\Big\|_{2}^{2}=\sum_{i=1}^{r}\frac{n_{l,i}^{2}}{|\mathcal{C}_{l}|^{2}}\\
+ & \geq\frac{1}{r}\left(\sum_{i=1}^{r}\frac{n_{l,i}}{|\mathcal{C}_{l}|}\right)^{2}=\frac{1}{r}.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Suppose that the 
+\begin_inset Formula $l$
+\end_inset
+
+-th cluster, denoted by 
+\begin_inset Formula $\mathcal{C}_{l}$
+\end_inset
+
+, is of cardinality 
+\begin_inset Formula $n_{l}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+provided that 
+\begin_inset Formula $\varepsilon\leq\frac{1}{4r^{2}}$
+\end_inset
+
+.
+ On the other hand, suppose that 
+\begin_inset Formula $n_{l,i}=\big|\mathcal{C}_{l}\cap\mathcal{C}_{i}^{\star}\big|$
+\end_inset
+
+, then
+\begin_inset Formula 
+\begin{align*}
+\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2} & =\Big\|\sum_{i=1}^{r}\frac{n_{l,i}}{|\mathcal{C}_{l}|}\bm{y}_{\mathcal{C}_{i}^{\star}}^{\star}\Big\|_{2}^{2}=\sum_{i=1}^{r}\Big\|\frac{n_{l,i}}{|\mathcal{C}_{l}|}\bm{y}_{\mathcal{C}_{i}^{\star}}^{\star}\Big\|_{2}^{2}=\sum_{i=1}^{r}\frac{n_{l,i}^{2}}{|\mathcal{C}_{l}|^{2}}\\
+ & \geq\frac{1}{r}\left(\sum_{i=1}^{r}\frac{n_{l,i}}{|\mathcal{C}_{l}|}\right)^{2}=\frac{1}{r}.
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2} & =\sum_{i=1}^{r}\frac{n_{l,i}^{2}}{|\mathcal{C}_{l}|^{2}}\\
+ & \geq\frac{1}{r}\left(\sum_{i=1}^{r}\frac{n_{l,i}}{|\mathcal{C}_{l}|}\right)^{2}=\frac{1}{r}.
+\end{align*}
+
+\end_inset
+
+As a result, 
+\begin_inset Formula 
+\begin{align*}
+\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}\Big\|_{2} & \geq\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}-\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\big(\bm{y}_{j}-\bm{y}_{j}^{\star}\big)\Big\|_{2}\geq\frac{1}{\sqrt{r}}-2\sqrt{\varepsilon}\\
+\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}\Big\|_{2} & \leq\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}+\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\big(\bm{y}_{j}-\bm{y}_{j}^{\star}\big)\Big\|_{2}\leq1+2\sqrt{\varepsilon}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}\Big\|_{2}^{2} & \leq\left(\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}+\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\big(\bm{y}_{j}-\bm{y}_{j}^{\star}\big)\Big\|_{2}\right)^{2}\\
+ & \leq\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}+\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\big(\bm{y}_{j}-\bm{y}_{j}^{\star}\big)\Big\|_{2}^{2}+2\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\big(\bm{y}_{j}-\bm{y}_{j}^{\star}\big)\Big\|_{2}\\
+ & \leq\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}+4\sqrt{\varepsilon}+4\varepsilon\leq\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}+8\sqrt{\varepsilon}.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This further yields
+\begin_inset Formula 
+\begin{align*}
+\sum_{i\in\mathcal{C}_{l}}\Big\|\bm{y}_{i}-\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}\Big\|_{2}^{2} & =\sum_{i\in\mathcal{C}_{l}}\|\bm{y}_{i}\|_{2}^{2}-|\mathcal{C}_{l}|\cdot\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}\Big\|_{2}^{2}\\
+ & \geq\sum_{i\in\mathcal{C}_{l}}\|\bm{y}_{i}\|_{2}^{2}-|\mathcal{C}_{l}|\cdot\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}-8|\mathcal{C}_{l}|\sqrt{\varepsilon}\\
+ & \geq\sum_{i\in\mathcal{C}_{l}}\|\bm{y}_{i}^{\star}\|_{2}^{2}-4|\mathcal{C}_{l}|\cdot\varepsilon-2\varepsilon n-|\mathcal{C}_{l}|\cdot\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}-8|\mathcal{C}_{l}|\sqrt{\varepsilon}\\
+ & \geq\sum_{i\in\mathcal{C}_{l}}\|\bm{y}_{i}^{\star}\|_{2}^{2}-|\mathcal{C}_{l}|\cdot\Big\|\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}-12|\mathcal{C}_{l}|\sqrt{\varepsilon}-2\varepsilon n\\
+ & =\sum_{i\in\mathcal{C}_{l}}\Big\|\bm{y}_{i}^{\star}-\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}-12|\mathcal{C}_{l}|\sqrt{\varepsilon}-2\varepsilon n.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In addition,
+\begin_inset Formula 
+\[
+\sum_{i\in\mathcal{C}_{l}}\Big\|\bm{y}_{i}^{\star}-\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula 
+\[
+\left|\sqrt{\sum_{i\in\mathcal{C}_{l}}\|\bm{y}_{i}\|_{2}^{2}}-\sqrt{\sum_{i\in\mathcal{C}_{l}}\|\bm{y}_{i}^{\star}\|_{2}^{2}}\right|\leq
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\sum_{j_{1},j_{2}\in\mathcal{C}_{l}}\bm{y}_{j_{1}}^{\star\top}\bm{y}_{j_{2}}^{\star}\geq\sum_{j_{1},j_{2}\in\mathcal{C}_{l}}\bm{y}_{j_{1}}^{\star\top}\bm{y}_{j_{2}}^{\star}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Bigg|\sum_{i\in\mathcal{C}_{l}^{\star}}\Big\|\bm{y}_{i}-\frac{1}{|\mathcal{C}_{l}^{\star}|}\sum_{j\in\mathcal{C}_{l}^{\star}}\bm{y}_{j}\Big\|_{2}^{2}-\sum_{i\in\mathcal{C}_{l}^{\star}}\Big\|\bm{y}_{i}^{\star}-\frac{1}{|\mathcal{C}_{l}^{\star}|}\sum_{j\in\mathcal{C}_{l}^{\star}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}\Bigg|\leq\frac{19\sqrt{\varepsilon}n}{r},
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align}
+\sum_{l=1}^{r}\sum_{i\in\mathcal{C}_{l}^{\star}}\Big\|\bm{y}_{i}-\frac{1}{|\mathcal{C}_{l}^{\star}|}\sum_{j\in\mathcal{C}_{l}^{\star}}\bm{y}_{j}\Big\|_{2}^{2} & \leq\sum_{l=1}^{r}\sum_{i\in\mathcal{C}_{l}^{\star}}\Big\|\bm{y}_{i}^{\star}-\frac{1}{|\mathcal{C}_{l}^{\star}|}\sum_{j\in\mathcal{C}_{l}^{\star}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}\Bigg|+r\cdot\frac{19\sqrt{\varepsilon}n}{r}\nonumber \\
+ & =19\sqrt{\varepsilon}n,\label{eq:error-true-cluster-GMM}
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+ & \sum_{b=1}^{r}\sum_{i\in\mathcal{C}_{b}}\Big\|\bm{y}_{i}-\frac{1}{|\mathcal{C}_{b}|}\sum_{j\in\mathcal{C}_{b}}\bm{y}_{j}\Big\|_{2}^{2}\geq\sum_{i\in\mathcal{C}_{l}}\Big\|\bm{y}_{i}-\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}\Big\|_{2}^{2}\\
+ & \quad\geq\sum_{i\in\mathcal{C}_{l}}\Big\|\bm{y}_{i}^{\star}-\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}-19\frac{|\mathcal{C}_{l}|}{n}\sqrt{\varepsilon}n\\
+ & \quad\geq\frac{c_{\varepsilon}}{1+c_{\varepsilon}}\frac{n}{r}-19\sqrt{\varepsilon}n\\
+ & \quad\geq19\sqrt{\varepsilon}n
+\end{align*}
+
+\end_inset
+
+where the last inequality follows as long as 
+\begin_inset Formula 
+\[
+38\sqrt{\varepsilon}\leq\frac{c_{\varepsilon}}{1+c_{\varepsilon}}\frac{1}{r}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+On the other hand, if there exists a cluster 
+\begin_inset Formula $\mathcal{C}_{i}$
+\end_inset
+
+ obeying
+\begin_inset Formula 
+\[
+|\mathcal{C}_{i}|\leq\frac{\big(1-c_{\varepsilon}(r-1)\big)n}{r},
+\]
+
+\end_inset
+
+then from the pigeonhole principle, one can find another cluster 
+\begin_inset Formula $\mathcal{C}_{l}$
+\end_inset
+
+ with cardinality at least
+\begin_inset Formula 
+\[
+|\mathcal{C}_{l}|\geq\frac{(1+c_{\varepsilon})n}{r},
+\]
+
+\end_inset
+
+which results in contradiction according to our previous arguments.
+ 
+\begin_inset Formula 
+\[
+\varepsilon\leq c_{3}r^{-4}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In addition, in any cluster 
+\begin_inset Formula $\mathcal{C}_{l}$
+\end_inset
+
+, if the dominant component 
+\begin_inset Formula 
+\[
+\max_{1\leq\tau\leq r}n_{l,\tau}\leq(1-2rc_{\varepsilon})n/r,
+\]
+
+\end_inset
+
+then one has
+\begin_inset Formula 
+\begin{align*}
+\eqref{eq:mean-yjstar-decompose-456-GMM} & \leq\frac{(1-2rc_{\varepsilon})n/r}{|\mathcal{C}_{l}|}\leq\frac{(1-2rc_{\varepsilon})n/r}{(1-rc_{\varepsilon})n/r}.
+\end{align*}
+
+\end_inset
+
+Substituting this into 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:fitting-error-cluster-GMM-123"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ yields
+\begin_inset Formula 
+\begin{align*}
+\sum_{i\in\mathcal{C}_{l}}\Big\|\bm{y}_{i}^{\star}-\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2} & \geq|\mathcal{C}_{l}|\cdot\Big(1-\frac{1-2rc_{\varepsilon}}{1-rc_{\varepsilon}}\Big)\geq\frac{rc_{\varepsilon}}{1-rc_{\varepsilon}}\cdot\frac{(1-rc_{\varepsilon})n}{r}\\
+ & =\frac{c_{\varepsilon}n}{r}>19\sqrt{\varepsilon}n,
+\end{align*}
+
+\end_inset
+
+provided that 
+\begin_inset Formula $c_{\varepsilon}>19r\sqrt{\varepsilon}$
+\end_inset
+
+, resulting in contradition.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left\Vert \bm{\Theta}^{\star\top}\bm{\Theta}^{\star}-\mathbb{E}\big[\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\big]\right\Vert \leq r\left\Vert \bm{\Theta}^{\star\top}\bm{\Theta}^{\star}-\mathbb{E}\big[\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\big]\right\Vert _{\infty}\lesssim r\Delta^{2}\sqrt{\frac{\log p}{p}}\leq\frac{\Delta^{2}}{4},
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Invoking the bound 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:norm-bound-ZZt-PCA"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ with proper rescaling reveals that
+\begin_inset Formula 
+\[
+\left\Vert \bm{\Theta}^{\star\top}\bm{\Theta}^{\star}-\mathbb{E}\big[\bm{\Theta}^{\star\top}\bm{\Theta}^{\star}\big]\right\Vert \lesssim\Delta^{2}\left(\sqrt{\frac{r\log p}{p}}+\frac{r\log^{2}p}{p}\right)\leq\frac{\Delta^{2}}{4}
+\]
+
+\end_inset
+
+with probability exceeding 
+\begin_inset Formula $1-O(p^{-10})$
+\end_inset
+
+, provided that 
+\begin_inset Formula $p\geq C_{2}r\log^{2}p$
+\end_inset
+
+ for some sufficiently large constant 
+\begin_inset Formula $C_{2}>0$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\Delta^{2}}{p}\left(\sqrt{rp\log p}+r\log^{2}p\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\sqrt{r}\Bigg(\frac{p\log(n+p)}{n}\Bigg)^{1/4}=o(\Delta)\quad\text{and}\quad\sqrt{r}\log(n+p)=o(\Delta).
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+r^{9/2}\log(n+p)=o(\Delta)\quad\text{and}\quad\Big(\frac{r^{10}p\log(n+p)}{n}\Big)^{1/4}=o(\Delta).\label{eq:condition-Delta-thm-GMM}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The mis-clustering rate is defined as
+\begin_inset Formula 
+\[
+\ell_{\mathsf{mis}}\big(\{\widehat{\xi}_{i}\},\{\xi_{i}^{\star}\}\big)=\min_{\phi\in\Phi}\frac{1}{n}\sum_{i=1}^{n}\mathbbm\left\{ \phi(\widehat{\xi}_{i})\neq\xi_{i}^{\star}\right\} ,
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\Phi$
+\end_inset
+
+ is the set of permutation of 
+\begin_inset Formula $[r]$
+\end_inset
+
+.
+ 
+\begin_inset Formula 
+\[
+\mathcal{P}(\bm{Z})=\big[\mathcal{P}(\bm{z}_{1}),\cdots,\mathcal{P}(\bm{z}_{n})\big],\quad\mathcal{P}(\bm{z}_{i})\coloneqq\arg\min_{\bm{w}:\,\|\bm{w}\|_{2}\leq1}\|\bm{z}_{i}-\bm{w}\|_{2}^{2};
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\sum_{b=1}^{r}\sum_{i\in\mathcal{C}_{b}}\Big\|\bm{y}_{i}-\frac{1}{|\mathcal{C}_{b}|}\sum_{j\in\mathcal{C}_{b}}\bm{y}_{j}\Big\|_{2}^{2} & \geq\sum_{i\in\mathcal{C}_{l}}\Big\|\bm{y}_{i}^{\star}-\frac{1}{|\mathcal{C}_{l}|}\sum_{j\in\mathcal{C}_{l}}\bm{y}_{j}^{\star}\Big\|_{2}^{2}-19\sqrt{\varepsilon}n\\
+ & >19\sqrt{\varepsilon}n
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\ell_{\mathsf{mis}}\big(\{\widehat{\xi}_{i}\},\{\xi_{i}^{\star}\}\big)\leq1-\frac{\sum_{l=1}^{r}\max_{1\leq\tau\leq r}n_{l,\tau}}{n}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

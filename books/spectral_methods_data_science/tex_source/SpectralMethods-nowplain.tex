@@ -1,0 +1,310 @@
+\PassOptionsToClass {plain,biber}{nowfnt}
+% !Mode:: "TeX:DE:UTF-8:Main"
+%
+%
+%JOURNAL CODE  SEE DOCUMENTATION
+
+\documentclass[MAL,biber]{nowfnt} % creates the journal version, needs biber version
+%wrapper for book and ebook are created automatically.
+
+%\usepackage[utf]{inputenc}
+
+
+\usepackage{amsmath,amsbsy,amstext,amssymb,amsthm,mathtools,comment,dsfont}
+\usepackage{color}
+\usepackage{bbm}
+\usepackage{algorithm,bm} 
+
+%\usepackage[utf8x]{inputenc}
+
+\usepackage{appendix}
+
+\input{chapters/commands.tex}
+
+
+
+\DeclareMathOperator{\ind}{\mathds{1}}  % Indicator
+
+\newcommand{\mylinebreak}{}
+\newcommand{\myalign}{}
+\newcommand{\myaligninv}{&}
+\newcommand{\myquad}{}
+\newcommand{\myquadinv}{\quad}
+\newcommand{\mynonumber}{}
+\newcommand{\mycommentbegin}{\begin{comment}} 
+\newcommand{\mycommentend}{\end{comment}}
+
+
+\newcommand{\conj}{\mathsf{H}}
+\newcommand{\bLambda}{{\boldsymbol{\Lambda}}}
+\newcommand{\blambda}{{\bm{\lambda}}}
+\newcommand{\balpha}{{\bm{\alpha}}}
+\newcommand{\bOmega}{{\bm{\Omega}}}
+\newcommand{\bPsi}{{\bm{\Psi}}}
+\newcommand{\bDelta}{{\bm{\Delta}}}
+\newcommand{\bTheta}{{\bm{\Theta}}}
+\newcommand{\cTheta}{{\mathcal{\Theta}}}
+\newcommand{\cA}{{\mathcal{A}}}
+\newcommand{\cP}{{\mathcal{P}}}
+\newcommand{\cE}{{\mathcal{E}}}
+\newcommand{\cS}{{\mathcal{S}}}
+\newcommand{\cR}{{\mathcal{R}}}
+\newcommand{\bPhi}{{\bm{\Phi}}}
+\newcommand{\bphi}{{\bm{\phi}}}
+\newcommand{\bT}{{\boldsymbol T}}
+\newcommand{\bC}{{\boldsymbol C}}
+\newcommand{\bc}{{\boldsymbol c}}
+\newcommand{\bD}{{\boldsymbol D}}
+\newcommand{\bd}{{\boldsymbol d}}
+\newcommand{\bSigma}{{\boldsymbol \Sigma}}
+\newcommand{\be}{{\boldsymbol e}}
+\newcommand{\bz}{{\boldsymbol z}}
+\newcommand{\bq}{{\boldsymbol q}}
+\newcommand{\f}{{\boldsymbol f}}
+\newcommand{\bh}{{\boldsymbol h}}
+\newcommand{\bu}{{\boldsymbol u}}
+\newcommand{\bv}{{\boldsymbol v}}
+\newcommand{\bE}{{\boldsymbol E}}
+\newcommand{\bM}{{\boldsymbol M}}
+\newcommand{\E}{{\mathbb E}}
+%\newcommand{\ind}{{\mathbb I}}
+\newcommand{\bA}{{\boldsymbol A}}
+\newcommand{\bG}{{\boldsymbol G}}
+\newcommand{\bQ}{{\boldsymbol Q}}
+\newcommand{\bn}{{\boldsymbol n}}
+\newcommand{\ba}{{\boldsymbol a}}
+\newcommand{\bb}{{\boldsymbol b}}
+\newcommand{\bw}{{\boldsymbol w}}
+\newcommand{\bS}{{\boldsymbol S}}
+\newcommand{\bx}{{\boldsymbol x}}
+\newcommand{\bU}{{\boldsymbol U}}
+\newcommand{\by}{{\boldsymbol y}}
+\newcommand{\br}{{\boldsymbol r}}
+\newcommand{\bt}{{\boldsymbol t}}
+\newcommand{\bg}{{\boldsymbol g}}
+\newcommand{\bL}{{\boldsymbol L}}
+\newcommand{\bR}{{\boldsymbol R}}
+\newcommand{\bX}{{\boldsymbol X}}
+\newcommand{\bH}{{\boldsymbol H}}
+\newcommand{\bV}{{\boldsymbol V}}
+\newcommand{\bW}{{\boldsymbol W}}
+\newcommand{\bB}{{\boldsymbol B}}
+\newcommand{\bs}{{\boldsymbol s}}
+\newcommand{\bY}{{\boldsymbol Y}}
+\newcommand{\bP}{{\boldsymbol P}}
+\newcommand{\bF}{{\boldsymbol F}}
+\newcommand{\bp}{{\boldsymbol p}}
+\newcommand{\bI}{{\boldsymbol I}}
+\newcommand{\bZ}{{\boldsymbol Z}}
+\newcommand{\Tr}{\mathop{\rm Tr}}
+\newcommand{\T}{{\sf T}}
+\newcommand{\F}{{\sf F}}
+\newcommand{\argmax}{\mathop{\rm argmax}}
+\newcommand{\argmin}{\mathop{\rm argmin}}
+\newcommand{\HTP}{\mathop{\tt HTP}}
+\newcommand{\diag}{\mathop{\rm diag}}
+\newcommand{\dist}{\mathop{\rm dist}}
+\newcommand{\phase}{\mathop{\rm Phase}}
+\newcommand{\sgn}{\mathop{\rm sgn}}
+\newcommand{\vect}{\mathop{\rm vec}}
+
+
+\newcommand{\vertiii}[1]{{\left\vert\kern-0.25ex\left\vert\kern-0.25ex\left\vert #1 
+    \right\vert\kern-0.25ex\right\vert\kern-0.25ex\right\vert}}
+
+\newcommand{\vertiiibig}[1]{{\big\vert\kern-0.25ex\big\vert\kern-0.25ex\big\vert #1 
+    \big\vert\kern-0.25ex\big\vert\kern-0.25ex\big\vert}}
+
+\newcommand{\vertiiiplain}[1]{{\vert\kern-0.25ex\vert\kern-0.25ex\vert #1 
+    \vert\kern-0.25ex\vert\kern-0.25ex\vert}}
+
+
+    
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}} 
+\newcommand{\C}{{\mathbb{C}}}
+\newcommand{\R}{{\mathbb{R}}}
+
+
+\newcommand{\CC}{\mathbb{C}}
+
+\definecolor{yxc}{RGB}{255,0,0}
+\definecolor{yjc}{RGB}{125,0,0}
+\definecolor{cm}{RGB}{0,0,200}
+\definecolor{yly}{RGB}{0,150,0}
+\definecolor{dacong}{RGB}{88,178,220}
+\newcommand{\yxc}[1]{\textcolor{yxc}{[Yuxin: #1]}}
+\newcommand{\yc}[1]{\textcolor{yjc}{[Yuejie: #1]}}
+\newcommand{\cm}[1]{\textcolor{cm}{[Cong: #1]}} 
+
+ 
+\newtheorem{assumption}{\textbf{Assumption}}[chapter]
+\newtheorem{claim}{\textbf{Claim}}[chapter]
+
+% a few definitions that are *not* needed in general:
+\newcommand{\ie}{\emph{i.e.}}
+\newcommand{\eg}{\emph{e.g.}}
+\newcommand{\etc}{\emph{etc}}
+\newcommand{\now}{\textsc{now}}
+
+%ARTICLE TITLE
+
+\newcommand{\mynewline}{} 
+
+
+\title{Spectral Methods for Data Science: A Statistical Perspective}
+%A Statistical Perspective
+
+
+
+
+
+
+%ARTICLE SUB-TITLE
+%\subtitle{A Statistical Perspective}
+
+
+%AUTHORS FOR COVER PAGE 
+% separate authors by \and, item by \\
+% Don't use verbatim or problematic symbols.
+% _ in mail address should be entered as \_
+% Pay attention to large mail-addresses ...
+
+%if there are many author twocolumn mode can be activated.
+%\booltrue{authortwocolumn} %SEE DOCUMENTATION
+\maintitleauthorlist{
+Yuxin Chen \\
+Princeton University \\
+yuxin.chen@princeton.edu \\
+\and
+Yuejie Chi \\
+Carnegie Mellon University \\
+yuejiechi@cmu.edu \\
+\and
+Jianqing Fan\\
+Princeton University \\
+jqfan@princeton.edu \\
+\and
+Cong Ma\\
+University of Chicago \\
+congm@uchicago.edu
+}
+
+%ISSUE DATA AS PROVIDED BY NOW
+\issuesetup
+{%
+ copyrightowner={A.~Heezemans and M.~Casey},
+ %volume        = xx,
+ %issue         = xx,
+ pubyear       = 2020,
+ %isbn          = xxx-x-xxxxx-xxx-x,
+ %eisbn         = xxx-x-xxxxx-xxx-x,
+ %doi           = 10.1561/XXXXXXXXX,
+ %firstpage     = 1, %Explain
+ %lastpage      = 18
+ }
+
+%BIBLIOGRAPHY FILE
+%\addbibresource{sample.bib}
+%\addbibresource{testfnt.bib}
+\addbibresource{bibfile_Spectral.bib}
+ 
+
+\usepackage{mwe}
+
+%AUTHORS FOR ABSTRACT PAGE
+\author[1]{Chen,Yuxin}
+\author[2]{Chi,Yuejie}
+\author[3]{Fan,Jianqing}
+\author[4]{Ma,Cong}
+
+\affil[1]{Princeton University; yuxin.chen@princeton.edu}
+\affil[2]{Carnegie Mellon University; yuejiechi@cmu.edu}
+\affil[3]{Princeton University; jqfan@princeton.edu}
+\affil[4]{University of Chicago; congm@uchicago.edu}
+
+\articledatabox{\nowfntstandardcitation}
+
+\begin{document}
+
+
+\makeabstracttitle
+\renewcommand{\mynewline}{} 
+
+
+\begin{abstract}
+
+
+\input{chapters/abstract.tex}
+
+\end{abstract}
+
+
+
+
+
+\input{chapters/intro.tex}
+
+\newpage
+
+\input{chapters/L2.tex}
+
+
+\newpage
+
+\input{chapters/matrix_recovery.tex}
+
+
+\newpage
+
+\input{chapters/Linf.tex}
+
+
+
+
+
+%\newpage
+%\input{chapters/generalization.tex}
+
+\newpage
+\input{chapters/conclusion.tex}
+
+
+ 
+
+
+%\newpage
+%\input{chapters/tensors.tex}
+
+%\newpage
+%\input{chapters/algorithms.tex}
+ 
+ 
+\newpage
+
+ % end of main matter
+
+\input{chapters/ack.tex}
+
+%\appendix 
+
+
+
+
+
+
+
+
+
+
+
+
+%\end{document}
+
+%BACKMATTER SEE DOCUMENTATION
+\backmatter  % references, restarts sample
+
+\printbibliography
+
+\end{document}
+
