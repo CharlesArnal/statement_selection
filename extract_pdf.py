@@ -9,9 +9,24 @@ Dependencies: pip install marker-pdf
 """
 
 import argparse
+import gc
 import re
-import sys
 from pathlib import Path
+
+import pypdfium2 as pdfium
+from marker.config.parser import ConfigParser
+from marker.converters.pdf import PdfConverter
+from marker.models import create_model_dict
+from marker.output import text_from_rendered
+
+
+LLM_SERVICES = {
+    "gemini": "marker.services.gemini.GoogleGeminiService",
+    "claude": "marker.services.claude.ClaudeService",
+    "openai": "marker.services.openai.OpenAIService",
+    "azure": "marker.services.azure_openai.AzureOpenAIService",
+    "ollama": "marker.services.ollama.OllamaService",
+}
 
 
 def discover_pdfs(path: Path, force: bool) -> list[Path]:
@@ -108,19 +123,15 @@ def merge_parts(directory: Path, verbose: bool):
 
 def load_models():
     """Load marker-pdf ML models once."""
-    from marker.models import create_model_dict
-
     print("Loading marker-pdf models...")
     model_dict = create_model_dict()
     print("Models loaded.")
     return model_dict
 
 
-def build_converter(model_dict, *, force_ocr: bool = False, use_llm: bool = False):
+def build_converter(model_dict, *, force_ocr: bool = False, use_llm: bool = False,
+                    page_range: str | None = None, llm_service: str | None = None):
     """Build a PdfConverter with the given options."""
-    from marker.config.parser import ConfigParser
-    from marker.converters.pdf import PdfConverter
-
     config = {
         "output_format": "markdown",
         "disable_image_extraction": True,
@@ -129,6 +140,10 @@ def build_converter(model_dict, *, force_ocr: bool = False, use_llm: bool = Fals
         config["force_ocr"] = True
     if use_llm:
         config["use_llm"] = True
+    if llm_service:
+        config["llm_service"] = llm_service
+    if page_range is not None:
+        config["page_range"] = page_range
 
     config_parser = ConfigParser(config)
 
@@ -142,19 +157,74 @@ def build_converter(model_dict, *, force_ocr: bool = False, use_llm: bool = Fals
     return converter
 
 
-def convert_one(converter, pdf_path: Path, verbose: bool) -> bool:
-    """Convert a single PDF to markdown. Returns True on success."""
-    from marker.output import text_from_rendered
+def _get_page_count(pdf_path: Path) -> int:
+    """Get the number of pages in a PDF using pypdfium2."""
+    pdf = pdfium.PdfDocument(str(pdf_path))
+    count = len(pdf)
+    pdf.close()
+    return count
 
+
+def convert_one(model_dict, pdf_path: Path, verbose: bool, *,
+                force_ocr: bool = False, use_llm: bool = False,
+                chunk_size: int = 50, llm_service: str | None = None) -> bool:
+    """Convert a single PDF to markdown. Returns True on success.
+
+    For large PDFs, processes in chunks of `chunk_size` pages to avoid OOM.
+    Set chunk_size=0 to disable chunking.
+    """
     if verbose:
         print(f"  Converting {pdf_path} ...")
 
     try:
-        rendered = converter(str(pdf_path))
-        text, _, _ = text_from_rendered(rendered)
+        page_count = _get_page_count(pdf_path)
     except Exception as e:
-        print(f"  ERROR converting {pdf_path}: {e}")
+        print(f"  ERROR reading {pdf_path}: {e}")
         return False
+
+    if verbose:
+        print(f"  {page_count} pages")
+
+    # Decide whether to chunk
+    if chunk_size > 0 and page_count > chunk_size:
+        # Chunked conversion
+        chunks = []
+        for start in range(0, page_count, chunk_size):
+            end = min(start + chunk_size, page_count)
+            # ConfigParser expects a string like "0-49" (0-indexed, inclusive end)
+            page_range = f"{start}-{end - 1}"
+            chunk_label = f"pages {start + 1}-{end}/{page_count}"
+
+            if verbose:
+                print(f"  Chunk: {chunk_label}")
+
+            try:
+                converter = build_converter(
+                    model_dict, force_ocr=force_ocr, use_llm=use_llm,
+                    page_range=page_range, llm_service=llm_service,
+                )
+                rendered = converter(str(pdf_path))
+                text, _, _ = text_from_rendered(rendered)
+                chunks.append(text)
+            except Exception as e:
+                print(f"  ERROR converting {pdf_path} ({chunk_label}): {e}")
+                return False
+            finally:
+                gc.collect()
+
+        text = "\n\n".join(chunks)
+    else:
+        # Single-pass conversion
+        try:
+            converter = build_converter(
+                model_dict, force_ocr=force_ocr, use_llm=use_llm,
+                llm_service=llm_service,
+            )
+            rendered = converter(str(pdf_path))
+            text, _, _ = text_from_rendered(rendered)
+        except Exception as e:
+            print(f"  ERROR converting {pdf_path}: {e}")
+            return False
 
     text = postprocess(text)
 
@@ -182,12 +252,20 @@ def main():
                         help="Force OCR on all pages (better inline math → LaTeX)")
     parser.add_argument("--use-llm", action="store_true",
                         help="Use LLM-assisted conversion (highest quality, needs API key)")
+    parser.add_argument("--llm-service", type=str, default=None,
+                        choices=["gemini", "claude", "openai", "azure", "ollama"],
+                        help="LLM provider to use with --use-llm (default: gemini)")
     parser.add_argument("--dry-run", action="store_true",
                         help="List PDFs that would be processed without converting")
     parser.add_argument("--verbose", "-v", action="store_true",
                         help="Detailed progress output")
+    parser.add_argument("--chunk-size", type=int, default=50,
+                        help="Max pages per conversion pass to limit memory (default 50, 0=no chunking)")
 
     args = parser.parse_args()
+
+    # Resolve LLM service name to full import path
+    llm_service = LLM_SERVICES.get(args.llm_service) if args.llm_service else None
 
     # Stage 1: PDF Discovery
     pdfs = discover_pdfs(args.path, args.force)
@@ -205,16 +283,15 @@ def main():
     # Stage 2: Model Loading
     model_dict = load_models()
 
-    # Stage 3: Build converter
-    converter = build_converter(model_dict, force_ocr=args.force_ocr, use_llm=args.use_llm)
-
-    # Stage 4: Conversion + Post-processing
+    # Stage 3: Conversion + Post-processing
     successes = 0
     failures = []
 
     for i, pdf in enumerate(pdfs, 1):
         print(f"[{i}/{len(pdfs)}] {pdf}")
-        if convert_one(converter, pdf, args.verbose):
+        if convert_one(model_dict, pdf, args.verbose,
+                       force_ocr=args.force_ocr, use_llm=args.use_llm,
+                       chunk_size=args.chunk_size, llm_service=llm_service):
             successes += 1
         else:
             failures.append(pdf)
@@ -225,7 +302,7 @@ def main():
         for f in failures:
             print(f"  {f}")
 
-    # Stage 5: Optional merge
+    # Stage 4: Optional merge
     if args.merge_parts:
         # Collect unique directories that contain part*.md
         dirs_seen = set()
