@@ -1,0 +1,90 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-012 Algebra II Student Notes, Spring 2022
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\rhead{\rightmark}
+\lhead{Appendix: Dimensions of Irreducible Characters}
+
+\section{Dimensions of Irreducible Characters}
+
+In this section, we provide a proof of the final part of the main theorem of representation theory:
+
+\begin{theorem} \label{final part of thm}
+If $\rho : G \to \operatorname{GL}(V)$ is an irreducible representation of dimension $d$, then $d$ divides $|G|$. 
+\end{theorem}
+
+These notes are based on a writeup by Professor Bezrukavnikov posted to Canvas. 
+
+Recall that we extended the definition of $\rho$ to all \emph{linear combinations} of elements in $G$, or equivalently functions $f : G \to \CC$, using the natural formula \[\rho(f) = \sum_{g \in G} f(g)\rho(g).\] Then $\rho(f)$ is in $\operatorname{End}(V)$ for any function $f$. 
+
+To start with, we find a natural construction in which $|G|/d$ arises. 
+
+\begin{proposition}
+    For any irreducible representation $\rho : G \to \operatorname{GL}(V)$ of dimension $d$, we have  \[\rho(\overline{\chi_\rho}) = \frac{|G|}{d} \cdot \operatorname{Id}.\] 
+\end{proposition}
+
+\begin{proof}
+    Since $\overline{\chi_\rho}$ is a class function, then $\rho(\overline{\chi_\rho})$ is $G$-equivariant. But by Schur's Lemma, since $\rho$ is scalar, the only $G$-equivariant endomorphisms are scalar maps; so $\rho(\overline{\chi_\rho})$ must be of the form $\lambda\cdot \operatorname{Id}$ for some $\lambda \in \CC$. Now we can compute $\lambda$ by taking the trace: we saw earlier that $\trace \rho(f) = |G|\langle \chi_\rho, \overline{f}\rangle$, so \[\trace \rho(\overline{\chi_\rho}) = |G|\langle \chi_\rho, \chi_\rho \rangle = |G|,\] using the fact that the irreducible characters are orthonormal and therefore $\langle \chi_\rho, \chi_\rho \rangle = 1$. But this trace must also be $d\lambda$, so $\lambda = |G|/d$. (The properties used in this proof are discussed in more detail in Lecture $7$.)
+\end{proof}
+
+Now in order to prove that $|G|/d$ is an integer from here, we use a bit of theory about algebraic integers. 
+
+% natural construction where $|G|/d$ comes up. In order to prove it is an integer, we will use algebraic integers:
+
+\begin{definition}
+    A complex number is a \textbf{algebraic integer} if it is the root of a monic polynomial with integer coefficients. 
+\end{definition}
+
+\begin{lemma}
+    Algebraic integers have the following standard properties:
+    \begin{enumerate}[label=(\alph*)]
+        \item If $\alpha$ and $\beta$ are algebraic integers, so are $\alpha + \beta$ and $\alpha\beta$. 
+        \item If $\alpha \in \QQ$ is an algebraic integer, then $\alpha \in \ZZ$. 
+    \end{enumerate}
+\end{lemma}
+
+The course discusses algebraic integers in more detail in future lectures; the two properties listed here are proved in Lectures $14$ and $25$, respectively.  
+
+It is now enough to prove the following proposition:
+
+\begin{proposition}
+    Let $\rho : G \to \operatorname{GL}(V)$ be any representation of $G$. Then if $f : G \to \CC$ is a function such that $f(g)$ is an algebraic integer for every $g$, and $\rho(f) = r\cdot \operatorname{Id}$ for a rational number $r$, then $r$ must be an integer. 
+\end{proposition}
+
+It's clear that the two propositions together imply our theorem --- by the first proposition, we have that $\rho(\overline{\chi_\rho}) = |G|/d\cdot \operatorname{Id}$, and we know that $\overline{\chi_\rho}(g)$ is an algebraic integer for all $g$, since $\chi_\rho(g)$ is a sum of roots of unity (and roots of unity are all algebraic integers). So by the second proposition, $|G|/d$ must be an integer. 
+
+In fact, a stronger statement is true --- if $f$ is \emph{any} function on $G$ such that $f(g)$ is an algebraic integer for all $g \in G$, then every eigenvalue of $\rho(f)$ is an algebraic integer. But this is much harder to prove, so we will only prove the special case necessary for our theorem.
+
+\begin{proof}
+    We will show that $\trace \rho(f)^n$ is an integer for all $n$, which suffices --- this is because $\rho(f)^n = r^n\cdot \operatorname{Id}$, so $dr^n$ is an integer for all $n$, and therefore $r$ must be an integer (if a prime $p$ divided its denominator, then for sufficiently large $n$ the power of $p$ in the denominator of $r^n$ would be greater than the power of $p$ dividing $d$). 
+
+    When $n = 1$, we have \[\trace \rho(f) = \sum_{g \in G} f(g)\chi_\rho(g),\] and $f(g)$ and $\chi_\rho(g)$ are both algebraic integers. So $\trace \rho(f)$ is an algebraic integer. But this trace is also rational, as it is equal to $dr$; therefore $\trace \rho(f)$ is an integer. 
+    
+    Now for the case of general $n$, it is enough to find a function $f_n$ such that $\rho(f)^n = \rho(f_n)$ and $f_n(g)$ is again an algebraic integer for all $g \in G$ --- then we can apply the above reasoning to $f_n$ instead. To find such a function, we use the following construction: 
+    
+    \begin{definition}
+    Given two functions $\phi : G \to \CC$ and $\psi : G \to \CC$, their \textbf{convolution} is the function $\phi * \psi$ defined as \[(\phi * \psi)(g) = \sum_{h \in G} \phi(h)\psi(h^{-1}g).\] 
+    \end{definition}
+    
+    \begin{lemma}
+        For any two functions $\phi$ and $\psi$, we have \[\rho(\phi * \psi) = \rho(\phi)\rho(\psi).\] 
+    \end{lemma}
+    
+    \begin{proof}
+    The space of functions on $G$ has a basis consisting of the functions $\delta_g$ which map $g$ to $1$ and all other elements to $0$, where $\rho(\delta_g) = \rho(g)$ for each $g \in G$. Then convolution is defined by setting $\delta_g * \delta_h = \delta_g\delta_h$ for all $g, h \in G$ and extending to all functions using linearity. So we have \[\rho(\delta_g * \delta_h) = \rho_{gh} = \rho_g\rho_h = \rho(\delta_g)\rho(\delta_h),\] and the statement for general functions $\phi$ and $\psi$ then follows from linearity. 
+    \end{proof}
+    
+    Then we can take \[f_n = \underbrace{f * f * \cdots * f}_{n \text{ times}}.\] This satisfies $\rho(f_n) = \rho(f)^n$, and since $f_n$ is constructed by repeatedly taking sums and products of algebraic integers, $f_n(g)$ must be an algebraic integer for all $g$ as well. 
+    
+    So then $\trace \rho(f)^n = \trace \rho(f_n)$ is an integer for all $n$, as desired. 
+\end{proof}    
+
+%     For $n > 1$, it suffices to find a function $f_n$ with $\rho(f)^n = \rho(f_n)$, where $f_n(g)$ is also always an algebraic integer. 
+
+%     But given two functions on $G$, we can consider their \vocab{convolution}: \[(\phi * \psi)(g) = \sum_{h \in G} \phi(h)\psi(h^{-1}g).\] We can check that $\rho(\phi * \psi) = \rho(\phi)\rho(\psi)$, so then \[f_n = \underbrace{f * f * \cdots * f}_n\] satisfies $\rho(f)^n = \rho(f_n)$, as desired (and $f_n$ consists of sums and products of algebraic integers, so is always an algebraic integer). 
+% \end{proof}
+
+This concludes the proof of the theorem. 
+
+

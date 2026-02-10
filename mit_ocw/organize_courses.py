@@ -22,7 +22,7 @@ COURSES = [
     # 1
     {"folder": "algebra_ii_student_notes", "source": "RES.18-012-spring-2022",
      "strategy": "full", "target": "full_lec.pdf",
-     "tex": {"strategy": "parts", "pattern": r"lec(\d+)\.tex$"}},
+     "tex": {"strategy": "parts", "pattern": r"lec(\d+)\.tex$", "extra": ["append.tex"]}},
     # 2
     {"folder": "real_analysis_18100a", "source": "18-100a-fall-2020",
      "strategy": "full", "target": "lec_full.pdf",
@@ -407,6 +407,11 @@ def process_course(course: dict) -> dict:
         else:  # parts
             tex_pattern = tex_cfg["pattern"]
             tex_ordered = filter_and_sort_parts(tex_files, tex_pattern)
+            # Append extra tex files (e.g., appendix) after pattern-matched ones
+            for extra_name in tex_cfg.get("extra", []):
+                extra_match = find_full_match(tex_files, extra_name)
+                if extra_match and extra_match not in tex_ordered:
+                    tex_ordered.append(extra_match)
             if tex_ordered:
                 course_dir.mkdir(parents=True, exist_ok=True)
                 for i, path in enumerate(tex_ordered, 1):
