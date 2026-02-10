@@ -12,16 +12,126 @@ import argparse
 import gc
 import os
 import re
+import time
 from pathlib import Path
 
 import pypdfium2 as pdfium
 from dotenv import load_dotenv
 from marker.config.parser import ConfigParser
 from marker.converters.pdf import PdfConverter
+from marker.logger import get_logger
 from marker.models import create_model_dict
 from marker.output import text_from_rendered
+from marker.services.openai import OpenAIService
+from openai import APITimeoutError, RateLimitError
 
 load_dotenv()  # loads .env from cwd (or parent dirs)
+
+logger = get_logger()
+
+
+class PatchedOpenAIService(OpenAIService):
+    """OpenAI-compatible service that works with endpoints lacking structured outputs.
+
+    The stock OpenAIService uses client.beta.chat.completions.parse() with
+    response_format, which requires OpenAI structured-output support.  Many
+    compatible endpoints (e.g. Llama API) don't support that and instead return
+    free-form text with embedded JSON.  This subclass uses the plain
+    chat.completions.create() call and extracts JSON from the response.
+    """
+
+    openai_image_format: str = "png"  # WEBP not supported by many compat endpoints
+
+    def __call__(self, prompt, image, block, response_schema,
+                 max_retries=None, timeout=None):
+        if max_retries is None:
+            max_retries = self.max_retries
+        if timeout is None:
+            timeout = self.timeout
+
+        client = self.get_client()
+        image_data = self.format_image_for_llm(image)
+        messages = [
+            {
+                "role": "user",
+                "content": [
+                    *image_data,
+                    {"type": "text", "text": prompt},
+                ],
+            }
+        ]
+
+        total_tries = max_retries + 1
+        for tries in range(1, total_tries + 1):
+            try:
+                response = client.chat.completions.create(
+                    model=self.openai_model,
+                    messages=messages,
+                    timeout=timeout,
+                )
+                response_text = response.choices[0].message.content
+                if block:
+                    block.update_metadata(
+                        llm_tokens_used=response.usage.total_tokens,
+                        llm_request_count=1,
+                    )
+                return self._parse_response(response_text, response_schema)
+            except (APITimeoutError, RateLimitError) as e:
+                if tries == total_tries:
+                    logger.error(
+                        f"Rate limit error: {e}. Max retries reached. "
+                        f"(Attempt {tries}/{total_tries})"
+                    )
+                    break
+                wait_time = tries * self.retry_wait_time
+                logger.warning(
+                    f"Rate limit error: {e}. Retrying in {wait_time}s... "
+                    f"(Attempt {tries}/{total_tries})"
+                )
+                time.sleep(wait_time)
+            except Exception as e:
+                logger.error(f"OpenAI inference failed: {e}")
+                break
+        return {}
+
+    @staticmethod
+    def _parse_response(text, schema):
+        """Extract and validate JSON from a potentially verbose LLM response."""
+        text = text.strip()
+
+        # Strip markdown code fences
+        if text.startswith("```json"):
+            text = text[7:]
+        if text.startswith("```"):
+            text = text[3:]
+        if text.endswith("```"):
+            text = text[:-3]
+        text = text.strip()
+
+        # Try direct parse
+        try:
+            return schema.model_validate_json(text).model_dump()
+        except Exception:
+            pass
+
+        # Try extracting a JSON object or array from surrounding text
+        for start_char, end_char in [('{', '}'), ('[', ']')]:
+            start = text.find(start_char)
+            end = text.rfind(end_char)
+            if start != -1 and end > start:
+                candidate = text[start:end + 1]
+                try:
+                    return schema.model_validate_json(candidate).model_dump()
+                except Exception:
+                    pass
+
+        # Fallback: double-escape backslashes
+        try:
+            return schema.model_validate_json(
+                text.replace("\\", "\\\\")
+            ).model_dump()
+        except Exception:
+            return {}
 
 
 LLM_SERVICES = {
@@ -145,6 +255,11 @@ def build_converter(model_dict, *, force_ocr: bool = False, use_llm: bool = Fals
         config["force_ocr"] = True
     if use_llm:
         config["use_llm"] = True
+    # When using the openai service, substitute our PatchedOpenAIService so
+    # we use plain chat.completions.create() instead of the structured-output
+    # beta endpoint that non-OpenAI providers don't support.
+    if llm_service == LLM_SERVICES.get("openai"):
+        llm_service = f"{PatchedOpenAIService.__module__}.PatchedOpenAIService"
     if llm_service:
         config["llm_service"] = llm_service
     if page_range is not None:
