@@ -143,7 +143,7 @@ LLM_SERVICES = {
 }
 
 
-def discover_pdfs(path: Path, force: bool) -> list[Path]:
+def discover_pdfs(path: Path, force: bool, skip_if_tex: bool = True) -> list[Path]:
     """Find PDFs to process.
 
     Single file: return that file.
@@ -169,14 +169,17 @@ def discover_pdfs(path: Path, force: bool) -> list[Path]:
     for subdir in sorted(path.rglob("*")):
         if not subdir.is_dir():
             continue
-        _collect_from_dir(subdir, force, pdfs)
+        _collect_from_dir(subdir, force, pdfs, skip_if_tex)
     # Also check the given directory itself
-    _collect_from_dir(path, force, pdfs)
+    _collect_from_dir(path, force, pdfs, skip_if_tex)
     return pdfs
 
 
-def _collect_from_dir(directory: Path, force: bool, out: list[Path]):
+def _collect_from_dir(directory: Path, force: bool, out: list[Path],
+                      skip_if_tex: bool = True):
     """Collect book.pdf and part*.pdf from a single directory."""
+    if skip_if_tex and any(directory.glob("*.tex")):
+        return
     book = directory / "book.pdf"
     if book.exists():
         md_path = book.with_suffix(".md")
@@ -389,6 +392,8 @@ def main():
                         help="Detailed progress output")
     parser.add_argument("--chunk-size", type=int, default=50,
                         help="Max pages per conversion pass to limit memory (default 50, 0=no chunking)")
+    parser.add_argument("--no-skip-tex", action="store_true",
+                        help="Process PDFs even if .tex sources exist in the directory")
 
     args = parser.parse_args()
 
@@ -406,7 +411,7 @@ def main():
     openai_config["openai_model"] = args.openai_model
 
     # Stage 1: PDF Discovery
-    pdfs = discover_pdfs(args.path, args.force)
+    pdfs = discover_pdfs(args.path, args.force, skip_if_tex=not args.no_skip_tex)
     if not pdfs:
         print("No PDFs to process.")
         return
