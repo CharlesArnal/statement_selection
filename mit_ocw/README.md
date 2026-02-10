@@ -64,9 +64,9 @@ Claude prompted with
 ```
 I have a directory `mit_ocw/unzipped` containing folders for MIT OpenCourseWare courses.
 Each course folder is typically named `<class_number>-<semester_date>` and includes a `static_resources` subfolder containing course materials.
-My goal is to identify courses with the most suitable content for autoformalization in Lean4.  
+My goal is to identify courses with the most suitable content for autoformalization in Lean4. 
 Here are my criteria to filter out poor candidates:
-1. Content Quality: Filter out content that are not well-structured (e.g., slides only, too informal, not clear way to extract the main content of the course).  
+1. Content Quality: Filter out content that are not well-structured (e.g., slides only, too informal, not clear way to extract the main content of the course). 
 2. Formalization Potential: Exclude courses that are already well-represented in `mathlib` due to being too basic.
 
 Output a list of all MIT courses in the directory, annotated with their candidate status and a short rationale for rejections. E.g.,
@@ -74,20 +74,29 @@ Output a list of all MIT courses in the directory, annotated with their candidat
 18.417 | Graduate
 Introduction to Computational Molecular Biology
 Source: 18.417-fall-2004
-Status: ❌ Not a Candidate  
+Status: ❌ Not a Candidate 
 Reason: Not clear textbook, cluttered lectures, without strong formalization potential
 
 18.757 | Graduate
 Representations of Lie Groups
 Source: 18.755-sprint-2024
-Status: ✅ Good Candidate  
+Status: ✅ Good Candidate 
 Reason: Clear and well structured textbook `mit18-755-s24_lec_full.pdf` covering important subject missing in mathlib. 
 ```
 It was used to create `list_of_first_candidates.md`
 
 ### Extract and Organize PDFs
 
-See step 3 above. The `organize_courses.py` script contains the full configuration for all 69 courses (source directories, file matching patterns, and ordering).
+Claude prompted with
+```
+For all the course tagged in the list `mit_ocw/3_list_of_first_candidates.md` as either `Good candidate`, `Borderline candidate` or `To check`, can you create a dedicated folder with the course name (used the title, e.g. `representations_of_lie_groups` not the numbering version, e.g. `18.755-sprint-2024`)? Within this folder, create a subfolder `content`. Then, put all and only the ressources that will be autoformalized that you will find in `mit_ocw/unzipped/<course id>/static_resources` in this `content` subfolder. Ideally the resources should be a simple pdf, which you can rename `book.pdf`. Eventually it could be several pdf, which you should then order and named `partX.pdf` where X = 1, 2, ....
+```
+It was used to create the `organize_courses.py` script.
+
+Claude prompted with
+```
+I have a list of books that I want to study throughoutly with an LLM. They are Math textbooks in pdf format. I need some scripts in order to extract the content in a format that is LLM friendly
+```
 
 #### TODO: Run Charles' pipeline on each borderline and better candidate
 Once we have this list, let's extract everything in a cleaner format, the one we agreed before, and let's run the instruction.md on each of them.
