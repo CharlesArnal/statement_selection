@@ -1,15 +1,4 @@
 #!/bin/bash
-###############################################################################
-# Slurm job array: OCR all 69 MIT course directories
-#
-# Before submitting, edit the #SBATCH directives and variables below.
-#
-# Usage:
-#   Dry-run:       sbatch --test-only run_ocr.slurm
-#   Single course: sbatch --array=0 run_ocr.slurm
-#   Full launch:   sbatch run_ocr.slurm
-#   Monitor:       squeue -u $USER && ls logs/
-###############################################################################
 
 #SBATCH --job-name=ocr_mit
 #SBATCH --partition=scavenge
@@ -20,19 +9,7 @@
 #SBATCH --output=/checkpoint/%u/mit_ocr/%A_%a.out
 #SBATCH --error=/checkpoint/%u/mit_ocr/%A_%a.err
 
-# ─── User-configurable variables ────────────────────────────────────────────
-CONDA_ENV="ocr"                              # conda environment name
-PROJECT_DIR="/home/user/statement_selection"  # project path on cluster
-# ────────────────────────────────────────────────────────────────────────────
-
 set -euo pipefail
-
-cd "${PROJECT_DIR}"
-mkdir -p logs
-
-# Activate conda
-source "$(conda info --base)/etc/profile.d/conda.sh"
-conda activate "${CONDA_ENV}"
 
 # ─── Map task ID to course directory ────────────────────────────────────────
 COURSES=($(ls -d mit_books/*/ | sort))
