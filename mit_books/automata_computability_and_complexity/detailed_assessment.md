@@ -1,0 +1,521 @@
+# Detailed Assessment
+
+## Statement 1: Definition (DFA)
+**Status**: included
+**Explanation**: Mathlib has a formal definition of DFA as a structure with states, alphabet, step function, start state, and accept states.
+**Mathlib references**: `Mathlib/Computability/DFA.lean` -- `structure DFA`
+
+## Statement 2: Definition (Language of a DFA)
+**Status**: included
+**Explanation**: The language accepted by a DFA is formalized as `DFA.accepts` and `DFA.acceptsFrom`.
+**Mathlib references**: `Mathlib/Computability/DFA.lean` -- `def accepts`, `def acceptsFrom`
+
+## Statement 3: Definition (Regular Language)
+**Status**: included
+**Explanation**: Mathlib defines regular languages via DFA acceptance. The `IsRegular` predicate is defined in the Myhill-Nerode file.
+**Mathlib references**: `Mathlib/Computability/MyhillNerode.lean` -- `IsRegular`; `Mathlib/Computability/DFA.lean`
+
+## Statement 4: Theorem (Closure of Regular Languages under Union)
+**Status**: included
+**Explanation**: DFA union is formalized via the product construction, proving closure under union.
+**Mathlib references**: `Mathlib/Computability/DFA.lean` -- `def union`, `theorem accepts_union`
+
+## Statement 5: Theorem (Closure of Regular Languages under Intersection)
+**Status**: included
+**Explanation**: DFA intersection is formalized via the product construction.
+**Mathlib references**: `Mathlib/Computability/DFA.lean` -- `def inter`, `theorem acceptsFrom_inter`
+
+## Statement 6: Theorem (Closure of Regular Languages under Complement)
+**Status**: included
+**Explanation**: DFA complement is formalized by complementing the accept states.
+**Mathlib references**: `Mathlib/Computability/DFA.lean` -- `instance : HasCompl (DFA α σ)`, `theorem accepts_compl`
+
+## Statement 7: Definition (NFA)
+**Status**: included
+**Explanation**: Mathlib defines NFA as a structure. Epsilon-NFAs are also defined separately.
+**Mathlib references**: `Mathlib/Computability/NFA.lean` -- `structure NFA`; `Mathlib/Computability/EpsilonNFA.lean`
+
+## Statement 8: Theorem (Equivalence of NFAs and DFAs)
+**Status**: included
+**Explanation**: The subset construction converting NFA to DFA is formalized, and the equivalence of accepted languages is proved.
+**Mathlib references**: `Mathlib/Computability/NFA.lean` -- the NFA-to-DFA conversion and language equivalence theorems
+
+## Statement 9: Theorem (Closure of Regular Languages under Concatenation)
+**Status**: non-included
+**Explanation**: While the `Language` type supports multiplication (concatenation), and regular expressions support composition, there is no explicit proof that the class of regular languages (as recognized by DFAs/NFAs) is closed under concatenation in mathlib.
+**Mathlib references**: `Mathlib/Computability/Language.lean` -- `mul_def` (language concatenation defined); but no closure proof for regular languages
+
+## Statement 10: Theorem (Closure of Regular Languages under Kleene Star)
+**Status**: non-included
+**Explanation**: Kleene star is defined for languages and regular expressions, but there is no explicit proof that DFA/NFA-recognizable languages are closed under Kleene star.
+**Mathlib references**: `Mathlib/Computability/Language.lean` -- `kstar_def`; `Mathlib/Computability/RegularExpressions.lean` -- `matches'_star`
+
+## Statement 11: Definition (Regular Expressions)
+**Status**: included
+**Explanation**: Regular expressions are formalized as an inductive type with zero, epsilon, char, plus, comp, and star.
+**Mathlib references**: `Mathlib/Computability/RegularExpressions.lean` -- `inductive RegularExpression`
+
+## Statement 12: Theorem (Equivalence of Regular Expressions and Regular Languages)
+**Status**: non-included
+**Explanation**: While regular expressions are defined and their semantics (matches') is formalized, the full equivalence between regular expressions and DFA/NFA-recognizable languages is not yet proved in mathlib.
+**Mathlib references**: `Mathlib/Computability/RegularExpressions.lean` (partial); no full equivalence theorem
+
+## Statement 13: Theorem (Pumping Lemma for Regular Languages)
+**Status**: included
+**Explanation**: The pumping lemma is proved for both DFAs and NFAs in mathlib.
+**Mathlib references**: `Mathlib/Computability/DFA.lean` -- `theorem pumping_lemma`; `Mathlib/Computability/NFA.lean` -- `NFA.pumping_lemma`
+
+## Statement 14: Theorem (0^n 1^n is not regular)
+**Status**: non-included
+**Explanation**: This specific application of the pumping lemma is not formalized in mathlib, though the pumping lemma itself is available.
+**Mathlib references**: None
+
+## Statement 15: Definition (Context-Free Grammar / CFG)
+**Status**: included
+**Explanation**: Context-free grammars are formalized in mathlib with rules, derivations, and generated languages.
+**Mathlib references**: `Mathlib/Computability/ContextFreeGrammar.lean` -- `ContextFreeGrammar`, `ContextFreeRule`
+
+## Statement 16: Definition (Context-Free Language)
+**Status**: included
+**Explanation**: The language generated by a CFG is defined.
+**Mathlib references**: `Mathlib/Computability/ContextFreeGrammar.lean` -- `def language`
+
+## Statement 17: Definition (Pushdown Automaton / PDA)
+**Status**: non-included
+**Explanation**: Pushdown automata are not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 18: Theorem (Equivalence of CFGs and PDAs)
+**Status**: non-included
+**Explanation**: Since PDAs are not in mathlib, this equivalence is not formalized.
+**Mathlib references**: None
+
+## Statement 19: Theorem (Every regular language is context-free)
+**Status**: non-included
+**Explanation**: This containment result connecting regular and context-free languages is not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 20: Theorem (Pumping Lemma for Context-Free Languages)
+**Status**: non-included
+**Explanation**: The pumping lemma for context-free languages is not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 21: Definition (Turing Machine)
+**Status**: included
+**Explanation**: Turing machines are formalized in mathlib in multiple variants (basic TM, Post-style TM, multi-tape TM).
+**Mathlib references**: `Mathlib/Computability/TuringMachine.lean`; `Mathlib/Computability/PostTuringMachine.lean`; `Mathlib/Computability/TMConfig.lean`
+
+## Statement 22: Definition (Turing-recognizable)
+**Status**: included
+**Explanation**: Turing-recognizability is captured via `REPred` (recursively enumerable predicate) and partial recursive functions.
+**Mathlib references**: `Mathlib/Computability/Halting.lean` -- `def REPred`; `Mathlib/Computability/Partrec.lean`
+
+## Statement 23: Definition (Decidable / Turing-decidable)
+**Status**: included
+**Explanation**: Decidability is captured via `ComputablePred` (computable predicate).
+**Mathlib references**: `Mathlib/Computability/Halting.lean` -- `def ComputablePred`
+
+## Statement 24: Theorem (Every decidable language is Turing-recognizable)
+**Status**: included
+**Explanation**: This follows from the definition: `ComputablePred.to_re` shows every computable predicate is RE.
+**Mathlib references**: `Mathlib/Computability/Halting.lean` -- `theorem to_re`
+
+## Statement 25: Theorem (Multi-tape TM equivalence)
+**Status**: non-included
+**Explanation**: While mathlib has Turing machine definitions, the explicit simulation theorem showing multi-tape TMs can be simulated by single-tape TMs is not formalized.
+**Mathlib references**: None
+
+## Statement 26: Theorem (Nondeterministic TM equivalence)
+**Status**: non-included
+**Explanation**: The simulation of nondeterministic TMs by deterministic TMs is not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 27: Definition (Enumerator)
+**Status**: non-included
+**Explanation**: Enumerators as a computational model are not explicitly defined in mathlib.
+**Mathlib references**: None
+
+## Statement 28: Theorem (Enumerator characterization of Turing-recognizable)
+**Status**: non-included
+**Explanation**: This characterization is not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 29: Church-Turing Thesis
+**Status**: non-included
+**Explanation**: The Church-Turing Thesis is a philosophical/metamathematical statement, not a mathematical theorem, and cannot be formalized.
+**Mathlib references**: None
+
+## Statement 30: Definition (A_TM)
+**Status**: non-included
+**Explanation**: The specific language A_TM = { <M, w> | M accepts w } using string encodings of TMs is not explicitly defined as such in mathlib. However, the universal evaluation function `eval` in `Partrec` captures the essence.
+**Mathlib references**: `Mathlib/Computability/Halting.lean` -- `eval` used implicitly
+
+## Statement 31: Theorem (A_TM is Turing-recognizable)
+**Status**: included
+**Explanation**: The fact that the halting/acceptance predicate is RE is proved in mathlib.
+**Mathlib references**: `Mathlib/Computability/Halting.lean` -- `theorem halting_problem_re`
+
+## Statement 32: Theorem (A_TM is undecidable)
+**Status**: included
+**Explanation**: The undecidability of the halting/acceptance problem is proved via diagonalization.
+**Mathlib references**: `Mathlib/Computability/Halting.lean` -- `theorem halting_problem`
+
+## Statement 33: Corollary (Some languages are not Turing-recognizable)
+**Status**: non-included
+**Explanation**: While implied by the halting problem results (complement of A_TM is not RE), this is not stated as a standalone result about cardinality of languages vs TMs.
+**Mathlib references**: None (though `halting_problem_not_re` proves a specific non-RE language exists)
+
+## Statement 34: Theorem (Undecidability of the Halting Problem)
+**Status**: included
+**Explanation**: The halting problem is proved undecidable in mathlib.
+**Mathlib references**: `Mathlib/Computability/Halting.lean` -- `theorem halting_problem`
+
+## Statement 35: Theorem (Undecidability of E_TM)
+**Status**: non-included
+**Explanation**: The undecidability of the emptiness problem for TMs is not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 36: Theorem (Rice's Theorem)
+**Status**: included
+**Explanation**: Rice's theorem is formalized in mathlib in two versions.
+**Mathlib references**: `Mathlib/Computability/Halting.lean` -- `theorem rice`, `theorem rice₂`
+
+## Statement 37: Definition (Mapping Reducibility)
+**Status**: included
+**Explanation**: Many-one reducibility is formalized in mathlib.
+**Mathlib references**: `Mathlib/Computability/Reduce.lean` -- `def ManyOneReducible`
+
+## Statement 38: Theorem (Mapping reducibility and decidability)
+**Status**: included
+**Explanation**: The theorem that reducibility preserves computability is formalized.
+**Mathlib references**: `Mathlib/Computability/Reduce.lean` -- `theorem computable_of_manyOneReducible`
+
+## Statement 39: Theorem (Mapping reducibility and recognizability)
+**Status**: non-included
+**Explanation**: The preservation of Turing-recognizability under mapping reducibility is not explicitly stated in mathlib's Reduce.lean.
+**Mathlib references**: None
+
+## Statement 40: Theorem (Complement of A_TM is not Turing-recognizable)
+**Status**: included
+**Explanation**: The complement of the halting problem is shown not to be RE.
+**Mathlib references**: `Mathlib/Computability/Halting.lean` -- `theorem halting_problem_not_re`
+
+## Statement 41: Theorem (Decidable iff both L and complement are recognizable)
+**Status**: included
+**Explanation**: Post's theorem connecting decidability to being both RE and co-RE is formalized.
+**Mathlib references**: `Mathlib/Computability/Halting.lean` -- `theorem computable_iff_re_compl_re`, `theorem computable_iff_re_compl_re'`
+
+## Statement 42: Definition (TIME(t(n)))
+**Status**: non-included
+**Explanation**: Time-bounded complexity classes are not formalized in mathlib. Mathlib's computability library focuses on computability rather than complexity.
+**Mathlib references**: None
+
+## Statement 43: Definition (The class P)
+**Status**: non-included
+**Explanation**: The complexity class P is not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 44: Theorem (Polynomial-time reducibility and P)
+**Status**: non-included
+**Explanation**: Polynomial-time reducibility and its relationship to P are not in mathlib. Only general mapping reducibility is formalized.
+**Mathlib references**: None
+
+## Statement 45: Theorem (Transitivity of polynomial-time reducibility)
+**Status**: non-included
+**Explanation**: While many-one reducibility transitivity is proved in mathlib, the polynomial-time version is not.
+**Mathlib references**: `Mathlib/Computability/Reduce.lean` -- `theorem ManyOneReducible.trans` (for general case, not poly-time)
+
+## Statement 46: Theorem (Multi-tape to single-tape time simulation)
+**Status**: non-included
+**Explanation**: Time complexity analysis of TM simulations is not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 47: Theorem (Time hierarchy / diagonalization)
+**Status**: non-included
+**Explanation**: The time hierarchy theorem is not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 48: Definition (NP)
+**Status**: non-included
+**Explanation**: The complexity class NP is not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 49: Theorem (P is contained in NP)
+**Status**: non-included
+**Explanation**: Neither P nor NP is defined in mathlib, so their containment relation is absent.
+**Mathlib references**: None
+
+## Statement 50: Definition (Polynomial-time reducibility)
+**Status**: non-included
+**Explanation**: Polynomial-time reducibility is not defined in mathlib.
+**Mathlib references**: None
+
+## Statement 51: Definition (NP-complete)
+**Status**: non-included
+**Explanation**: NP-completeness is not defined in mathlib.
+**Mathlib references**: None
+
+## Statement 52: Definition (NP-hard)
+**Status**: non-included
+**Explanation**: NP-hardness is not defined in mathlib.
+**Mathlib references**: None
+
+## Statement 53: Theorem (NP-complete language in P implies P = NP)
+**Status**: non-included
+**Explanation**: This foundational result of complexity theory is not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 54: Theorem (Equivalence of P = NP conditions)
+**Status**: non-included
+**Explanation**: Not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 55: Theorem (SAT is NP-complete / Cook-Levin Theorem)
+**Status**: non-included
+**Explanation**: The Cook-Levin theorem is not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 56: Theorem (3SAT is NP-complete)
+**Status**: non-included
+**Explanation**: Not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 57: Theorem (CLIQUE is NP-complete)
+**Status**: non-included
+**Explanation**: Not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 58: Theorem (VERTEX-COVER is NP-complete)
+**Status**: non-included
+**Explanation**: Not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 59: Theorem (CLIQUE <=_p VERTEX-COVER)
+**Status**: non-included
+**Explanation**: Not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 60: Theorem (VERTEX-COVER <=_p CLIQUE)
+**Status**: non-included
+**Explanation**: Not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 61: Theorem (If A <=_p B and B in NP then A in NP)
+**Status**: non-included
+**Explanation**: Polynomial-time reducibility is not defined in mathlib, so this theorem is absent.
+**Mathlib references**: None
+
+## Statement 62: Theorem (DHAMPATH is NP-complete)
+**Status**: non-included
+**Explanation**: Not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 63: Theorem (UHAMPATH is NP-complete)
+**Status**: non-included
+**Explanation**: Not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 64: Theorem (DHAMCIRCUIT is NP-complete)
+**Status**: non-included
+**Explanation**: Not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 65: Theorem (UHAMCIRCUIT is NP-complete)
+**Status**: non-included
+**Explanation**: Not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 66: Theorem (TSP is NP-complete)
+**Status**: non-included
+**Explanation**: Not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 67: Theorem (SUBSET-SUM is NP-complete)
+**Status**: non-included
+**Explanation**: Not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 68: Theorem (PARTITION is NP-complete)
+**Status**: non-included
+**Explanation**: Not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 69: Theorem (MULTIPROCESSOR SCHEDULING is NP-complete)
+**Status**: non-included
+**Explanation**: Not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 70: Conjecture (P = BPP)
+**Status**: non-included
+**Explanation**: This is an open conjecture. Neither P nor BPP is defined in mathlib, so it cannot be stated.
+**Mathlib references**: None
+
+## Statement 71: Definition (CPRG)
+**Status**: non-included
+**Explanation**: Cryptographic pseudorandom generators are not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 72: Definition (One-Way Function)
+**Status**: non-included
+**Explanation**: One-way functions are not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 73: Claim (CPRG implies OWF)
+**Status**: non-included
+**Explanation**: Cryptographic concepts are not in mathlib.
+**Mathlib references**: None
+
+## Statement 74: Theorem (OWF iff CPRG)
+**Status**: non-included
+**Explanation**: Cryptographic concepts are not in mathlib.
+**Mathlib references**: None
+
+## Statement 75: Claim (Enhanced one-time pad security)
+**Status**: non-included
+**Explanation**: Cryptographic protocols and security proofs are not in mathlib.
+**Mathlib references**: None
+
+## Statement 76: Euler's Formula (RSA)
+**Status**: included
+**Explanation**: Euler's theorem / Fermat-Euler theorem (a^phi(n) = 1 mod n for gcd(a,n) = 1) is formalized in mathlib. The specific case for N = pq is a consequence.
+**Mathlib references**: `Mathlib/Data/Nat/Totient.lean` -- Euler's totient function; `Mathlib/FieldTheory/Finite/Basic.lean` -- `pow_card_sub_one_eq_one`; `Mathlib/NumberTheory/PowModTotient.lean`
+
+## Statement 77: Definition (BPP)
+**Status**: non-included
+**Explanation**: Probabilistic complexity classes are not defined in mathlib.
+**Mathlib references**: None
+
+## Statement 78: Definition (RP)
+**Status**: non-included
+**Explanation**: RP is not defined in mathlib.
+**Mathlib references**: None
+
+## Statement 79: Lemma (BPP Amplification)
+**Status**: non-included
+**Explanation**: Probability amplification for BPP is not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 80: Theorem (Characterization of BPP)
+**Status**: non-included
+**Explanation**: BPP is not defined in mathlib.
+**Mathlib references**: None
+
+## Statement 81: Lemma (RP Amplification)
+**Status**: non-included
+**Explanation**: RP amplification is not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 82: Theorem (RP contained in BPP)
+**Status**: non-included
+**Explanation**: Neither RP nor BPP is defined in mathlib.
+**Mathlib references**: None
+
+## Statement 83: Definition (coRP)
+**Status**: non-included
+**Explanation**: coRP is not defined in mathlib.
+**Mathlib references**: None
+
+## Statement 84: Theorem (coRP contained in BPP)
+**Status**: non-included
+**Explanation**: Neither coRP nor BPP is defined in mathlib.
+**Mathlib references**: None
+
+## Statement 85: Theorem (Fermat's Little Theorem)
+**Status**: included
+**Explanation**: Fermat's Little Theorem is formalized in mathlib in several forms, including for ZMod and finite fields.
+**Mathlib references**: `Mathlib/FieldTheory/Finite/Basic.lean` -- `theorem ZMod.pow_card_sub_one_eq_one`, `theorem units_pow_card_sub_one_eq_one`; `Mathlib/NumberTheory/Fermat.lean`
+
+## Statement 86: Fact (Non-Carmichael composites fail Fermat test)
+**Status**: non-included
+**Explanation**: While Carmichael numbers are discussed in mathlib (ArithmeticFunction.Carmichael), the specific probabilistic statement about Fermat test failure rates is not formalized.
+**Mathlib references**: `Mathlib/NumberTheory/ArithmeticFunction/Carmichael.lean` (partial, defines Carmichael function but not this fact)
+
+## Statement 87: Fact (Carmichael numbers have nontrivial square roots of 1)
+**Status**: non-included
+**Explanation**: This number-theoretic fact used in the Miller-Rabin test is not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 88: Theorem (Miller-Rabin primality test correctness)
+**Status**: non-included
+**Explanation**: The Miller-Rabin test is not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 89: Theorem (PRIMES in coRP)
+**Status**: non-included
+**Explanation**: The complexity class coRP is not defined in mathlib.
+**Mathlib references**: None
+
+## Statement 90: Corollary (COMPOSITES in RP)
+**Status**: non-included
+**Explanation**: RP is not defined in mathlib.
+**Mathlib references**: None
+
+## Statement 91: Corollary (PRIMES and COMPOSITES in BPP)
+**Status**: non-included
+**Explanation**: BPP is not defined in mathlib.
+**Mathlib references**: None
+
+## Statement 92: Theorem (EQ_BP in coRP)
+**Status**: non-included
+**Explanation**: Branching program equivalence and its complexity classification are not in mathlib.
+**Mathlib references**: None
+
+## Statement 93: Theorem (RP contained in NP, coRP contained in coNP)
+**Status**: non-included
+**Explanation**: None of these complexity classes (RP, NP, coRP, coNP) are defined in mathlib.
+**Mathlib references**: None
+
+## Statement 94: Theorem (Valiant's PAC Learning Bound)
+**Status**: non-included
+**Explanation**: PAC learning theory is not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 95: Theorem (Blumer et al. VC-dimension Learning Bound)
+**Status**: non-included
+**Explanation**: VC-dimension and PAC learning bounds are not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 96: Theorem (IP = PSPACE)
+**Status**: non-included
+**Explanation**: Interactive proof systems and the IP = PSPACE result (Shamir 1990) are not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 97: Theorem (U is unitary iff UU* = I)
+**Status**: included
+**Explanation**: Unitary matrices are defined in mathlib via the condition UU* = I (or equivalently, the star-algebra structure). The characterization is part of the unitary group definition.
+**Mathlib references**: `Mathlib/Analysis/InnerProductSpace/PiL2.lean`; `Mathlib/Algebra/Star/Basic.lean` -- star algebra framework; `Mathlib/LinearAlgebra/UnitaryGroup.lean` (if present) or unitary definitions in the C*-algebra files
+
+## Statement 98: Theorem (No-Cloning Theorem)
+**Status**: non-included
+**Explanation**: Quantum computing concepts including the no-cloning theorem are not formalized in mathlib.
+**Mathlib references**: None
+
+## Statement 99: Definition (BQP)
+**Status**: non-included
+**Explanation**: Quantum complexity classes are not defined in mathlib.
+**Mathlib references**: None
+
+## Statement 100: Theorem (P contained in BQP)
+**Status**: non-included
+**Explanation**: Neither P nor BQP is defined in mathlib.
+**Mathlib references**: None
+
+## Statement 101: Theorem (BPP contained in BQP)
+**Status**: non-included
+**Explanation**: Neither BPP nor BQP is defined in mathlib.
+**Mathlib references**: None
+
+## Statement 102: Theorem (BQP contained in EXP)
+**Status**: non-included
+**Explanation**: Neither BQP nor EXP is defined in mathlib.
+**Mathlib references**: None
+
+## Statement 103: Theorem (BQP contained in PSPACE)
+**Status**: non-included
+**Explanation**: Neither BQP nor PSPACE is defined in mathlib.
+**Mathlib references**: None
+
+## Statement 104: Theorem (If A in P and B nontrivial then A <=_p B)
+**Status**: non-included
+**Explanation**: Polynomial-time reducibility is not defined in mathlib.
+**Mathlib references**: None
