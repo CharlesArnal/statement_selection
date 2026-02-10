@@ -60,6 +60,7 @@ python extract_pdf.py "${COURSE_DIR}" \
     --use-llm \
     --llm-service openai \
     --merge-parts \
+    --chunk-size 0 \
     --verbose
 
 echo "============================================"
