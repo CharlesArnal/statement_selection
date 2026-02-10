@@ -181,9 +181,8 @@ COURSES = [
     # 14 - no hash prefixes
     {"folder": "analysis_of_boolean_functions", "source": "18-218-spring-2021",
      "strategy": "parts", "pattern": r"lec(\d+(?:-\d+)?)\.pdf$"},
-    # 15 - stripped names are just lec01.pdf, lec02.pdf... (no course prefix after hash strip)
-    {"folder": "combinatorial_theory", "source": "18.315-spring-2005",
-     "strategy": "parts", "pattern": r"^lec(\d+)\.pdf$"},
+    # 15 - REMOVED: combinatorial_theory (18.315-spring-2005) — scanned handwritten notes,
+    #       OCR pipeline cannot handle handwriting. Output was severely corrupted.
     # 16
     {"folder": "the_polynomial_method", "source": "18.s997-fall-2012",
      "strategy": "parts", "pattern": r"_lec(\d+)\.pdf$"},
