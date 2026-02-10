@@ -1,4 +1,17 @@
 #!/bin/bash
+###############################################################################
+# Slurm job array: OCR all 69 MIT course directories
+#
+# Prerequisites: run from the project root with your conda env active.
+#   cd /path/to/statement_selection
+#   conda activate <your-env>
+#   sbatch mit_ocw/run_ocr.slurm
+#
+# Usage:
+#   Single course: sbatch --array=0 mit_ocw/run_ocr.slurm
+#   Full launch:   sbatch mit_ocw/run_ocr.slurm
+#   Monitor:       squeue -u $USER
+###############################################################################
 
 #SBATCH --job-name=ocr_mit
 #SBATCH --partition=scavenge

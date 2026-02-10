@@ -64,11 +64,12 @@ python extract_pdf.py mit_books/advanced_algorithms/part4.pdf --verbose --llm-se
 
 The script points at `https://api.llama.com/compat/v1/` by default. Set your LLAMA_API_KEY key in a `.env` file at the project root (it will be loaded automatically via `python-dotenv`.)
 
-**Batch OCR on a Slurm cluster** — process all 69 courses as a job array:
+**Batch OCR on a Slurm cluster** — process all 69 courses as a job array via `mit_ocw/run_ocr.slurm`. Run from the project root with your conda environment active:
 
 ```bash
-# Edit run_ocr.slurm to set your partition, GPU spec, conda env, and project path, then:
-sbatch run_ocr.slurm
+cd /path/to/statement_selection
+conda activate <your-env>
+sbatch mit_ocw/run_ocr.slurm          # all 69 courses
 ```
 
 ## Extraction Background
