@@ -1,5 +1,7 @@
 - Run Claude to see what is alreday in mathlib for all the books.
 
+- Redo the full pipeline for the books that were flagged as "Bad candidate"
+
 
 - Add algebraic stack content
 
@@ -15,10 +17,15 @@
 - Write utilities to find arxiv sources that are under CC-by-4 licenses
     - First version in search_arxiv.py
 
+#### Preselection improvement
+
+Some books were rejected by my LLM pipeline as too sparse to be good for autoformalization, when this is sometimes debatable.
+
 #### OCR improvement
 
 - The building books shows that OCR often write z ∈ Y and not $z \in Y$, which is fine in markdown, but we may use the latter option.
+- Some books have unicode symbols.
 
 
 Missing OCR:
-Advanced_partial_differential_equations
+- `advanced_partial_differential_equations_with_applications`: 29 PDFs present but no `.md` output. Needs GPU/marker-pdf to OCR.

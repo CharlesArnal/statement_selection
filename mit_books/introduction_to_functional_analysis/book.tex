@@ -3743,9 +3743,9 @@ and thus for each fixed $k$, we get a bounded sequence of coefficients along the
 \[
     \{\langle u_n, e_k \rangle\}_n
 \]
-in $\CC$. Thus, by Bolzano-Weierstrass (fixing $k = 1$), there is some subsequence $\{\langle u_{n_1(j)}, e_1 \rangle$ of $\{\langle u_n, e_1 \rangle\}_n$ which converges in $\CC$ (in other words, we have a subset of the original $\{u_n\}$s in which the \textbf{first entry converges}). And now $\{\langle u_{n_1(j)}, e_2 \rangle$ is still a bounded sequence, and thus by Bolzano-Weierstrass again we have a \textbf{further} subsequence $\{\langle u_{n_2(j)}, e_2 \rangle$ which converges. So we now have a subset of the original $\{u_n\}$s in which the first and second entries both converge (since the first subsequence converges in the first entry, and thus any subsequence of it will also converge in the first entry). 
+in $\CC$. Thus, by Bolzano-Weierstrass (fixing $k = 1$), there is some subsequence $\{\langle u_{n_1(j)}, e_1 \rangle\}$ of $\{\langle u_n, e_1 \rangle\}_n$ which converges in $\CC$ (in other words, we have a subset of the original $\{u_n\}$s in which the \textbf{first entry converges}). And now $\{\langle u_{n_1(j)}, e_2 \rangle\}$ is still a bounded sequence, and thus by Bolzano-Weierstrass again we have a \textbf{further} subsequence $\{\langle u_{n_2(j)}, e_2 \rangle\}$ which converges. So we now have a subset of the original $\{u_n\}$s in which the first and second entries both converge (since the first subsequence converges in the first entry, and thus any subsequence of it will also converge in the first entry).
 
-We can repeat this argument arbitrarily many times: further subsequences of the $u_{n_2(j)}$s gives us a subsequence $u_{n_\ell(j)}$ such that $\{\langle u_{n_\ell(j)}, e_\ell \rangle$ converges, meaning that we have convergence along our sequence in the first $\ell$ entries. If we now define
+We can repeat this argument arbitrarily many times: further subsequences of the $u_{n_2(j)}$s gives us a subsequence $u_{n_\ell(j)}$ such that $\{\langle u_{n_\ell(j)}, e_\ell \rangle\}$ converges, meaning that we have convergence along our sequence in the first $\ell$ entries. If we now define
 \[
     v_\ell = u_{n_\ell}(\ell) \quad \forall \ell \in \NN,
 \]  
@@ -4647,4 +4647,3 @@ And this is what we want: taking two derivatives on both sides gives us
 \]
 and thus $u$ indeed solves the differential equation. Furthermore, the last argument in the proof of \cref{aonehalf} tells us that $u = A^{1/2} v$ indeed satisfies the Dirichlet boundary conditions, and thus we've solved the Dirichlet problem. 
 \end{proof}
-

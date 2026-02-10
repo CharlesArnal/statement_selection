@@ -422,7 +422,7 @@ Then since $W$ is $G$-invariant, \[(12)v - v = (y - x, x - y, 0) \in W.\] Since 
 % \end{itemize}
 
 % In all possible cases, $W$ must be the entire space $V,$ and thus $V$ is irreducible.
-% \end{proof}\todo{add this AND add the pictoral argument (11:25AM)}
+% \todo{add this AND add the pictoral argument (11:25AM)}
 
 In fact, this statement generalizes to $S_n$ for all $n$, and the proof is essentially the same. 
 
@@ -997,9 +997,7 @@ To make the above argument a bit more concrete, consider the case where our grou
 % &= \sum_{g \in G} \psi(g) = S.
 % \end{align*}
 
-% Since $\lambda \neq 1,$ we have that $S = 0.$ and we are done. 
-
-% \end{proof}
+% Since $\lambda \neq 1,$ we have that $S = 0.$ and we are done.
 
 \begin{proposition}
 If $G$ is abelian, then every irreducible representation is one-dimensional.
@@ -1020,7 +1018,6 @@ In a much later class, we'll see that every finite abelian group is isomorphic t
 % This is true for $G \cong \ZZ_n$, since we can just take the $n$ irreducible representations given by $\overline{1} \mto e^{2\pi ik/n}$, which maps the generator to an $n$th root of unity. Then we already have $\sum d_i^2 = n$ for these irreducible representations, and so these are all of them. 
 
 % We will see that an abelian group is isomorphic to $\Pi_{i = 1}^{m} \ZZ_{n_i}$, which will give this result.\todo{flesh this out plsss}
-% \end{proof} 
 \begin{proof}[Proof 3]
 Finally, here is a proof that doesn't rely on as much theory. 
 
@@ -1040,7 +1037,6 @@ In our situation, we know all matrices $\rho_g$ are diagonalizable (since they m
 % A collection of pairwise commuting diagonalizable matrices can be diagonalized simultaneously. The key point is that if $AB = BA,$ then if $Av = \lambda v$ where $v$ is a $\lambda$-eigenvector, then $A(Bv) = BAv = B(\lambda v) = \lambda Bv,$ and so $Bv$ is also a $\lambda$-eigenvector, and so the $\lambda$-eigenspace of $A$ is $B$-invariant. 
 
 % As a result, any invariant subspaces of a group element $g$ will also be an invariant subspace of all the other group elements, and since matrices of finite order are always diagonalizable (that is, there will always be invariant subspaces for a given group element), they must all have dimension 1 in order to be irreducible.\todo{expand on this}
-% \end{proof}
 
 Now let's calculate the character tables for a few symmetric groups. In the first character table for $\ZZ/4\ZZ$, we already \emph{knew} what all the irreducible representations (and their characters) were. But here we'll see that we can actually use the Main Theorem to \emph{deduce} information about the characters --- for example, knowing that we have listed \emph{all} irreducible characters, or even calculating their values. 
 
@@ -1829,7 +1825,6 @@ A \textbf{ring} $R$ is a set with two binary operations $R \times R \to R$, writ
 % \begin{enumerate}[label = (\Roman*)]
 %     \item Addition is commutative\todo{add these operations}
 % \end{enumerate}
-% \end{definition}
 
 In this class, we'll use ``ring'' in this sense; but usually a ring satisfying this definition is called a \emph{commutative unital ring}. In defining a general ring, one can drop the requirement of commutativity of multiplication, or the existence of $1_R$. If every condition holds except for $ab = ba$ --- and we add distributivity in the other direction as well, meaning $(b + c)a = ba + ca$ --- then $R$ is called a \textbf{noncommutative ring}. 
 
@@ -2399,7 +2394,6 @@ So then the map $\CC \to F$ must be an isomorphism, as desired.
 % Suppose $M \subset \CC[x_1, \cdots, x_n]$ is a maximal ideal. Then there is some field $F = \CC[x_1, \cdots, x_n].$ Every mapping between fields is injective. \todo{say why it is injective....} First, $\CC \hookrightarrow F$. If $\CC$ maps isomorphically to $F,$ then we are done, since $x_i \mto \alpha_i$ and then $M = (x_i - \alpha_i)$.
 
 % On the other hand, suppose $F \supsetneq \CC$; pick $z \in F$ such that $z \notin \CC.$ Consider $\frac{1}{z - \lambda}$ for $\lambda \in \CC.$ Then $\CC[x_1, \cdots, x_n]$ is a countable union of finite dimensional space. Then $\CC$ is not a finite union of finite subsets, implying that infinitely many \todo{wtf did he put here} $\frac{1}{z-\lambda}$ fall in a function space, implying that there exists a union dependence $\sum \frac{a_i}{z - \lambda_i} = 0$ for $a_i \in \CC.$ This implies that $P(z) = 0$ for $P \in \CC[x]$, $P(x) = \prod(x - \lambda_i),$ implying that $z = \lambda_i.$ \todo{pls get this proof straightened out}
-% \end{proof}
 
 %MIT OpenCourseWare: https://ocw.mit.edu
 %RES.18-012 Algebra II Student Notes, Spring 2022
@@ -2588,7 +2582,6 @@ To prove uniqueness, suppose that $P$ factors as $P_1\cdots P_n = Q_1\cdots Q_m$
 \end{proof}
 
 % Existence is shown by using induction on degree.\todo{flesh out or whatever} Uniqueness is shown in the following manner. Let $P = P_1 \cdots P_n = Q_1 \cdots Q_m,$ where each $P_i$ and $Q_i$ is irreducible. By Lemma \ref{lemma factor}, $P_1$ divides $Q_i$ for some $i$, so let $P_1 = \lambda Q_i,$ and by relabeling, $P_1 = Q_1$ without loss of generality. Continuing in this way, $P_2\cdots P_n = Q_2 \cdots Q_m,$ and applying induction provides the result.
-% \end{proof}
 
 This argument can be used to prove unique factorization in other situations as well, motivating the following definitions:
 
@@ -2977,10 +2970,7 @@ First, note that $n = a^2 + b^2$ can be rewritten as $n = (a + bi)(a - bi)$. Thi
 Let $p \in \ZZ$ be a prime number. Then $p = a^2 + b^2$ if and only if $p$ is \emph{not} a prime in $\ZZ[i]$.
 \end{lemma}
 
-We refer to primes in $\ZZ[i]$ as \textbf{Gaussian primes}. 
-%     \item $p$ is prime in $\ZZ[i]$ if and only if $p = 2$ or $p = 4k + 1$. 
-% \end{itemize}
-% \end{lemma}
+We refer to primes in $\ZZ[i]$ as \textbf{Gaussian primes}.
 
 \begin{proof}
 First, if $p$ were a Gaussian prime and we could write $p$ as a sum of squares, then we would have \[p = (a + bi)(a - bi),\] which would mean $p$ must divide either $a + bi$ or $a - bi$. In either case, $p$ would need to divide both $a$ and $b$, which is impossible. 
@@ -3651,6 +3641,7 @@ An important theorem about the ideal class group, which we'll look at in more de
 % \begin{enumerate}[label=\alph*)]
 % \item \emph{Cancellation}. When ideals $I$, $I'$ and $J$ satisfy $IJ=I'J$ with $J\neq 0$ then $I=I'$.
 % \item If $I\subset J$, then $I=JJ'$ for some ideal $J'$ (that is $I$ is divisible by $J$).
+% \end{enumerate}
 % \end{proposition}
 % \begin{proof}
 % The proof can be summarized as follows: when $J$ is principal, the proposition is almost trivial. Otherwise we can reduce to the case of principal $J$ by multiplication by $\overline{J}$.
@@ -3667,6 +3658,7 @@ An important theorem about the ideal class group, which we'll look at in more de
 % b)
 
 % If $\alpha\in I$
+% \end{proof}
 
 
 
@@ -4718,7 +4710,6 @@ So either way, we've now produced a matrix with an element smaller in size than 
 % \todo{draw picture}
 
 % Pick $b_{ij}$ and $b_{11} \nmid b_{ij}$ and add its row to the first row. Then, add a multiple of the first column to that column to get an entry with smaller size. Permute the rows and columns to get a matrix with a nonzero entry at the top left corner which is smaller in size. Now, repeat. Every time, the top left entry becomes a smaller entry, and at some point this must terminate and we have achieved that $b_{11}$ divides all entries.
-% \end{proof}
 
 To complete the proof of Theorem \ref{smith normal form}, we induct on the size of $B$. By Lemma \ref{b prime gcd}, we can replace $B$ with a matrix $B'$ where $b_{11}'$ divides $b_{ij}'$ for all $i$ and $j$. 
 
@@ -5636,8 +5627,6 @@ But it's easy to compute the derivative of $A$ --- we have $A'(x) = (x^q - x)' =
 %      We have $(P + Q)' = P' + Q'$ and $(PQ)' = P'Q + PQ'.$ Now, if $P$ has a multiple root $\alpha \in F,$ then \[P(x) = (x-\alpha)^2Q(x)\] and \[P'(x) = 2(x-\alpha)Q + (x-\alpha)Q' = (x-\alpha)(2Q + (x-\alpha)Q'),\] and so a multiple root is also a root of the derivative.\footnote{In complex analysis, this also holds true, since a multiple root appears where the derivative is 0.} As a result, if $\gcd(P, P') = 1,$ then $P$ has no multiple roots. We have \[A'(x) = (x^q - x)' = qx^{q-1} - 1 = -1,\] since $qx^{q-1} = 0$ in $F.$ Therefore, $\gcd(A, A') = 1,$ so $A$ has no multiple roots, so \[|F| = q = p^n.\]
 %  \end{itemize}
 
-%  \end{proof}
-
 Once we have this construction, we can then derive concrete information about irreducible polynomials. 
 
 \subsection{Structure of Finite Fields}
@@ -5656,7 +5645,6 @@ But assume for contradiction that some prime $p$ appears twice (here $p$ is used
 
 
 %  The finite field $\FF_q^{\by}$ is a cyclic $\isom \ZZ/(q-1).$ \todo{what did he write here}
-%  \end{proposition}
 %  \begin{proof}
 %  Being a finite abelian group, \[F^{\by} = \prod \ZZ/p_i^{d_i}.\] If $p_i$ appears twice, then there are at least $p_i^2$ elements such that $\alpha^{p_i} =1$, which is impossible for a polynomial of degree $p_i,$ since it can only have at most $p_i$ roots.
 %  \end{proof}
@@ -7362,11 +7350,8 @@ In fact, a stronger statement is true --- if $f$ is \emph{any} function on $G$ s
 
 %     For $n > 1$, it suffices to find a function $f_n$ with $\rho(f)^n = \rho(f_n)$, where $f_n(g)$ is also always an algebraic integer. 
 
-%     But given two functions on $G$, we can consider their \vocab{convolution}: \[(\phi * \psi)(g) = \sum_{h \in G} \phi(h)\psi(h^{-1}g).\] We can check that $\rho(\phi * \psi) = \rho(\phi)\rho(\psi)$, so then \[f_n = \underbrace{f * f * \cdots * f}_n\] satisfies $\rho(f)^n = \rho(f_n)$, as desired (and $f_n$ consists of sums and products of algebraic integers, so is always an algebraic integer). 
-% \end{proof}
+%     But given two functions on $G$, we can consider their \vocab{convolution}: \[(\phi * \psi)(g) = \sum_{h \in G} \phi(h)\psi(h^{-1}g).\] We can check that $\rho(\phi * \psi) = \rho(\phi)\rho(\psi)$, so then \[f_n = \underbrace{f * f * \cdots * f}_n\] satisfies $\rho(f)^n = \rho(f_n)$, as desired (and $f_n$ consists of sums and products of algebraic integers, so is always an algebraic integer).
 
 This concludes the proof of the theorem. 
-
-
 
 
