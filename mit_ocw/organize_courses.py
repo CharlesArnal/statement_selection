@@ -338,7 +338,7 @@ def process_course(course: dict) -> dict:
     strategy = course["strategy"]
 
     src_dir = UNZIPPED / source / "static_resources"
-    course_dir = PROJECT_ROOT / "books" / folder
+    course_dir = PROJECT_ROOT / "mit_books" / folder
 
     pdfs = list_pdfs(src_dir)
 
@@ -351,7 +351,6 @@ def process_course(course: dict) -> dict:
         if match is None:
             return {"folder": folder, "strategy": strategy, "count": 0,
                     "error": f"no match for '{target}'"}
-        # books/<folder>/book.pdf
         course_dir.mkdir(parents=True, exist_ok=True)
         shutil.copy2(match, course_dir / "book.pdf")
         return {"folder": folder, "strategy": strategy, "count": 1}
