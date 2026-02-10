@@ -1,0 +1,3827 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.100A / 18.1001 Real Analysis, Fall 2020
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+For this class, we will be using the book \href{https://www.jirka.org/ra/realanal.pdf}{\underline{Introduction to Real Analysis, Volume I}} by Ji\u r\'i Lebl \textbf{[L]}. I will use $\blacksquare$ to end proofs of examples, and $\qedsymbol$ to end proofs of theorems.
+
+\subsection*{Basic Set Theory}
+
+%\subsection*{Lecture 1:}
+%\textbf{\underline{Sets, Set Operations, and Mathematical Induction}}
+
+\begin{remark}
+There are two main goals of this class:
+\begin{enumerate}
+    \item Gain experience with proofs.
+    \item Prove statements about real numbers, functions, and limits.
+\end{enumerate}
+\end{remark}
+
+\noindent \underline{\textbf{Sets}}
+
+A \vocab{set} is a collection of objects called elements or members of that set. 
+The \vocab{empty set} (denoted $\emptyset$) is the set with no elements. There are a few symbols that are super helpful to know as a shorthand, and will be used throughout the course. Let $S$ be a set. Then
+\begin{multicols}{2}
+\begin{itemize}
+    \item $a\in S$ means that "$a$ is an element in $S$."
+    \item $a\notin S$ means that "$a$ is \underline{not} an element in $S$."
+    \item $\forall$ means "for all."
+    \item := means "define."
+    \item $\exists$ means "there exists."
+    \item $\exists!$ means "there exists a unique."
+    \item $\implies$ means "implies."
+    \item $\iff$ means "if and only if."
+\end{itemize}
+\end{multicols}
+
+\begin{definition}[Set Relations]
+We want to relate different sets, and thus we get the following notation/definitions:
+\begin{enumerate}
+    \item A set $A$ is a \underline{subset} of $B$, $A\subset B$, if every element of $A$ is in $B.$ Given $A\subset B$, if $a\in A\implies a\in B$.
+    \item Two sets $A$ and $B$ are \underline{equal}, $A=B$, if $A\subset B$ and $B\subset A$.
+    \item A set $A$ is a \underline{proper subset} of $B$, $A\subsetneq B$ if $A\subset B$ and $A\neq B$. 
+\end{enumerate}
+\end{definition}
+
+One way we can describe a set is using "set building notation". We write
+\[
+\{x\in A\mid P(x)\} \hspace{.25cm} \text{or} \hspace{.25cm} \{x\mid P(x)\}
+\]
+to mean "all $x\in A$ that satisfies property $P(x)$". One example of this would be \{$x\mid x$ is an even number\}. There are a few key sets that we will use throughout this class: 
+\begin{enumerate}
+    \item The set of natural numbers: $\NN = \{1,2,3,4,\dots\}$.
+    \item The set of integers: $\ZZ = \{0, 1, -1, 2, -2, 3, -3, \dots\}$.
+    \item The set of rational numbers: $\QQ = \{\frac{m}{n} \mid m,n\in \ZZ \text{~and~} n\neq 0\}$. 
+    \item The set of real numbers: $\RR$.
+\end{enumerate}
+It follows that 
+\[
+\NN \subset \ZZ\subset \QQ \subset \RR.
+\]
+
+\noindent The fourth item on this list brings us to an important question, and the first goal of our course:
+\begin{problem}
+How do we describe $\RR$?
+\end{problem}
+We will answer this question in Lectures 3 and 4. %can insert hyperlink 
+In the meantime, let's continue our study of sets and proof methods. Given sets $A$ and $B$, we have the following definitions:
+\begin{enumerate}
+    \item The \underline{union} of $A$ and $B$ is the set
+    $A\cup B = \{x\mid x\in A \text{~or~} x\in B\}.$
+    \item The \underline{intersection} of $A$ and $B$ is the set
+    $A\cap B = \{x\mid x\in A \text{~and~} x\in B\}.$
+    \item The \underline{set difference} of $A$ and $B$ is the set
+    $A\setminus B = \{x\in A \mid x\notin B\}.$
+    \item The \underline{complement} of $A$ is the set $A^c = \{x \mid x\notin A\}$. 
+    \item $A$ and $B$ are \underline{disjoint} if $A\cap B = \emptyset$.
+\end{enumerate}
+\begin{figure}[h]
+    \centering
+    \includegraphics{pics/fig03.PNG}
+\end{figure}
+
+\begin{theorem}[De Morgan's Laws]
+If $A,B,C$ are sets then
+\begin{enumerate}
+    \item $(B\cup C)^c = B^c \cap C^c$,
+    \item $(B\cap C)^c = B^c \cup C^c$,
+    \item $A\setminus (B\cup C) = (A\setminus B) \cap (A\setminus C)$,
+    \item and $A\setminus(B\cap C) = (A\setminus B) \cup (A\setminus C)$.
+\end{enumerate}
+\end{theorem}
+We will prove the first statement to give an example of how such a proof would go, but the rest will be left to you.\\ 
+\textbf{Proof}: Let $B,C$ be sets. We must prove that 
+\[
+(B\cup C)^c \subset B^c \cap C^c \hspace{.25cm}\text{and}\hspace{.25cm} B^c \cap C^c \subset (B\cup C)^c.
+\]
+
+If $x\in (B\cup C)^c\implies x\notin B\cup C\implies x\notin B$ and $x\notin C$. Hence, $x\in B^c$ and $x\in C^c \implies x\in B^c \cap C^c$. Thus, $(B\cup C)^c \subset B^c \cap C^c$.
+
+If $x\in B^c \cap C^c$ then $x\in B^c$ and $x\in C^c\implies x\notin B$ and $x\notin C$. Hence, $x\notin B\cup C\implies x\in (B\cup C)^c$. Thus, $B^c \cap C^c \subset (B\cup C)^c.$ \qed
+
+~\newline
+\noindent\underline{\textbf{Mathematical Induction}}
+
+We will now talk about some of the biggest proof methods there are. Firstly, note that $\NN= \{1,2,3,\dots\}$ has an ordering (as $1<2<3<\dots$). 
+\begin{axiom}[Well-ordering property]
+The well-ordering property of $\NN$ states that if $S\subset \NN$ then there exists an $x\in S$ such that $x\leq y$ for all $y\in S$. In other words, there is always a smallest element. 
+\end{axiom}
+Note that this is an axiom, and thus we have to assume this without proof.
+
+\begin{theorem}[Induction]
+This concept was invented by Pascal in 1665. Let $P(n)$ be a statement depending on $n\in \NN$. Assume that 
+\begin{enumerate}
+    \item (Base case) $P(1)$ is true and 
+    \item (Inductive step) if $P(m)$ is true then $P(m+1)$ is true.
+\end{enumerate}
+Then, $P(n)$ is true for all $n\in \NN.$
+\end{theorem}
+
+\textbf{Proof}: Let $S= \{n\in \NN \mid P(n) \text{~is not true}\}$. We wish to show that $S = \emptyset$. We will prove this by contradiction.
+\begin{remark}
+When we prove something by contradiction, we assume the conclusion we want is false, and then show that we will reach a false statement. Rules of logic thus imply that the initial statement must be false. Thus in this case, we will assume $S \neq \emptyset$ and derive a false statement.
+\end{remark}
+Suppose that $S \neq \emptyset$. Then, by the well-ordering property of $\NN$, $S$ has a least element $m\in S$. Since $P(1)$ is true, $m\neq 1$, i.e. $m>1$. Since $m$ is a least element, $m-1 \notin S \implies P(m-1)$ is true. This implies that $P(m)$ is true $\implies m\notin S$ by assumption. But then $m\in S$ and $m\notin S$. This is a contradiction. Thus $S = \emptyset$ and hence $P(n)$ is true for all $n\in \NN.$ \qed
+
+Let's see an example of induction in action.
+\begin{theorem}
+For all $c\neq 1$ in the real numbers, and for all $n\in \NN$, 
+\[
+1+c + c^2 + \dots +c^n = \frac{1-c^{n+1}}{1-c}.
+\]
+\end{theorem}
+
+\textbf{Proof}: We will prove this by induction. First, we prove the base case ($n=1)$. The left hand side of the equation is $1+c$ for $n=1$. The right hand side is $\frac{1-c^2}{1-c} = \frac{(1-c)(1+c)}{1-c} = 1+c$. Hence, the base case has been shown.
+
+Assume that the equation is true for $k\in \NN$, in other words 
+\begin{align*}
+1+c + c^2 + \dots +c^k &= \frac{1-c^{k+1}}{1-c}.
+\intertext{Thus,}
+    \implies 1+c + c^2 + \dots +c^k +c^{k+1} &= (1+c + c^2 + \dots +c^k) +c^{k+1} \\
+    &= \frac{1-c^{k+1}}{1-c} + c^{k+1} \\
+    &= \frac{1-c^{k+1}+c^{k+1}(1-c)}{(1-c)} \\
+    &= \frac{1-c^{(k+1)+1}}{1-c}.
+\end{align*}
+Therefore, our proof is complete. \qed 
+
+Let's do another example:
+\begin{theorem}
+For all $c\geq -1$, $(1+c)^n \geq 1+nc$ for all $n\in \NN.$
+\end{theorem}
+
+\textbf{Proof}: We prove this through induction. In the base case, we have: $(1+c)^1 = 1+1\cdot c$. For the inductive step, suppose that \[
+(1+c)^m \geq 1+mc.
+\]
+Then, 
+\begin{align*}
+    (1+c)^{m+1} &= (1+c)^m\cdot(1+c).
+\intertext{By assumption,}
+    &\geq (1+mc)\cdot (1+c) \\
+    &= 1+(m+1)c +mc^2 \\
+    &\geq 1+(m+1)c.
+\end{align*}
+By induction, our proof is complete.
+\qed 
+
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.100A / 18.1001 Real Analysis, Fall 2020
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+%\subsection*{Lecture 2:}
+%\textbf{\underline{Cantor's Theory of Cardinality (Size)}}
+
+\noindent \underline{\textbf{Functions}} \\
+If $A$ and $B$ are sets, a \vocab{function} $f:A\to B$ is a mapping that assigns each $x\in A$ to a \underline{unique} element in $B$ denoted $f(x)$. Let $f:A\to B$. Then
+\begin{enumerate}
+    \item If $C\subset A$, we define $f(C) := \{y\in B \mid y\in f(x)\text{~for some~} x\in C\}$.
+    \item If $D\subset B$, we define $f^{-1}(D) := \{x\in A\mid f(x) \in D\}$.
+\end{enumerate}
+
+As an example, consider the following mapping $f:\{1,2,3,4\}\to \{a,b\}$:
+\begin{figure}[h]
+    \centering
+    \includegraphics{pics/fig04.PNG}
+\end{figure}
+
+\noindent We can categorize functions in 3 important ways. Let $f:A\to B$.
+\begin{enumerate}
+    \item $f$ is \underline{injective} or \underline{one-to-one} (1-1) if $f(x_1) = f(x_2) \implies x_1 = x_2$.
+    \item $f$ is \underline{surjective} or \underline{onto} if $f(A) = B$. 
+    \item $f$ is \underline{bijective} if it is 1-1 and onto.
+\end{enumerate}
+If a function $f:A\to B$ is bijective, then $f^{-1}:B\to A$ is the function which assigns each $y\in B$ to the unique $x\in A$ such that $f(x) = y$. Note that $f(f^{-1}(x)) = x$.
+
+\noindent \underline{\textbf{Cardinality}}
+
+\begin{question}
+When do two sets have the same \textbf{size}?
+\end{question}
+Cantor answered this question in the 1800s, stating that two sets have the same size when you can pair each element in one set with a unique element in the other. 
+
+\begin{definition}[Cardinality]
+We state that two sets $A$ and $B$ have the same \vocab{cardinality} if there exists a bijection $f:A\to B$.
+\end{definition}
+With this new concept comes some new notation:
+\begin{enumerate}
+    \item $|A| = |B|$ if $A$ and $B$ have the same cardinality. 
+    \item $|A| = n$ if $|A| = |\{1,\dots, n\}|$. If this is the case we say $A$ is \vocab{finite}. 
+    \item $|A| \leq |B|$ if there exists an injection $f:A\to B$. 
+    \item $|A| < |B|$ if $|A|\leq |B|$ but $|A|\neq |B|$.
+\end{enumerate}
+
+\begin{theorem}[Cantor-Schr\"oder-Bernstein]
+If $|A| \leq |B|$ and $|B| \leq |A|$ then $|A| = |B|$.
+\end{theorem}
+
+If $|A| = |\NN|,$ then $A$ is \underline{countably infinite}. If $A$ is finite or countably infinite, we say $A$ is \vocab{countable}. Otherwise, we say $A$ is \vocab{uncountable.}
+
+
+\begin{example}
+There are a few key theorems that we can prove with this new concept:
+\begin{enumerate}
+    \item $|\{2n \mid n\in \NN\}| = |\NN|$.
+    \item $|\{2n-1 \mid n\in \NN\}| = |\NN|$.
+    \item $|\{x\in \QQ \mid x>0\}| = |\NN|$.
+\end{enumerate}
+\end{example}
+The first two statements can be summarized by Feynman: "There are twice as many numbers as numbers."\\
+\begin{proof}~
+\begin{enumerate}
+    \item Define the function $f: \NN \to \{2n \mid n\in \NN\}$ as $f(n) = 2n$. Then, $f$ is 1-1-- if $f(n) = f(m)$ then $2n=2m \implies n=m$. Furthermore, $f$ is also onto, as if $m\in \{2n \mid n\in \NN\}$ then $\exists n\in \NN$ such that $m=2n=f(n)$. 
+    \item The second statement can be proven similarly.
+    \item This is left as an exercise to the reader in Assignment 1.
+\end{enumerate}
+\end{proof}
+
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.100A / 18.1001 Real Analysis, Fall 2020
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+%\subsection*{Lecture 3:}
+%\textbf{\underline{Cantor's Remarkable Theorem and the Rationals' Lack of the Least Upper Bound Property}}
+\begin{question}
+Is anything bigger than $\NN$?
+\end{question}
+
+\noindent If $A$ is a set then $\mathcal P(A) = \{B\mid B\subset A\}$. Here are a few examples:
+\begin{enumerate}
+    \item $A = \emptyset$ then $\mathcal P(A) = \{\emptyset\}$.
+    \item $A = \{1\}$, then $\mathcal P(A) = \{\emptyset, \{1\}\}$.
+    \item $A = \{1,2\}$, then $\mathcal P(A) = \{\emptyset, \{1\}, \{2\}, \{1,2\}\}$.
+\end{enumerate}
+In general, if $|A| = n$ then $|\mathcal P(A)| = 2^n$. This is why we call $\mathcal P(A)$ the \vocab{power set} of $A$.%Is this something I should include?
+\begin{theorem}[Cantor]
+If $A$ is a set, then $|A| < |\mathcal P(A)|$.
+\end{theorem}
+\begin{remark}
+Therefore, 
+\[
+\NN < |\mathcal P(\NN)| < |\mathcal P(\mathcal P(\NN))| < \dots.
+\]
+Hence, there are an infinite number of infinite sets.
+\end{remark}
+
+\textbf{Proof}: Define the function $f:A\to \mathcal P(A)$ by $f(x) = \{x\}$. Then, $f$ is 1-1-- as if $\{x\} = \{y\}\implies x=y$. Thus, $|A| \leq |\mathcal P(A)|$. To finish the proof now all we need to show is that $|A|\neq |\mathcal P(A)|$. We will do so through contradiction. Suppose that $|A| = |\mathcal P(A)|$. Then, there exists a surjection $g:A\to \mathcal P(A)$. Let 
+\[
+B := \{x\in A\mid x\notin g(x)\}\in \mathcal P(A).
+\]
+Since $g$ is surjective, there exists a $b\in A$ such that $g(b) = B$. There are two cases:
+\begin{enumerate}
+    \item $b\in B$. If this is the case, then $b\notin g(b) = B \implies b\notin B$.
+    \item $b\notin B$. If this is the case, then $b\notin g(b) = B \implies b\in B$.
+\end{enumerate}
+In either case we obtain a contradiction. Thus, $g$ is not surjective $\implies |A|\neq |\mathcal P(A)|$. \qed
+
+\begin{remark}
+This is another proof method: casework. If the conclusion for every case is true, then the conclusion must be true.
+\end{remark}
+
+\begin{corollary}
+For all $n\in \NN\cup \{0\}$, $n<2^n$.
+\end{corollary}
+\begin{remark}
+This can also be shown by induction, see Assignment 1.
+\end{remark}
+
+\subsection*{Real Numbers}
+
+\begin{remark}
+In a sense, to be made precise, the set of real numbers is the unique set with all of the \underline{algebraic} and \underline{ordering} properties of the rational numbers, but none of the holes.
+\end{remark}
+
+\begin{problem}
+Now let's try to precisely describe $\RR$.
+\end{problem}
+We will start by stating what our end result will be, and then we will derive it:
+\begin{theorem}[Real Numbers ($\RR$)]
+There exists a unique \textbf{ordered field} containing $\QQ$ with the \textbf{least upper bound property}. We denote this field by $\RR$.
+\end{theorem}
+
+\noindent\underline{\textbf{Ordered Sets \& Fields}}
+
+\begin{definition}[Ordered set]
+An \vocab{ordered set} is a set $S$ with a relation $<$ called an "ordering" such that
+\begin{enumerate}
+    \item $\forall x,y\in S$ either $x<y$, $y<x$, or $x=y$.
+    \item If $x<y$ and $y<z$ then $x<z$.
+\end{enumerate}
+\end{definition}
+
+Here are a few examples and one non-example:
+\begin{itemize}
+    \item $\ZZ$ is an ordered set, with the relation that $m>n\iff m-n\in \NN$.
+    \item $\QQ$ is an ordered set, with the relation that $p>q\iff \exists m,n\in \NN$ such that $p-q = \frac{m}{n}$.
+    \item $\QQ\times \QQ$ is an ordered set with the relation $(q,r)>(s,t)\iff q>s$ or $q=s$ and $r>t$. 
+    \item Consider the set $\mathcal P(\NN)$. Let $A,B\in \mathcal P(\NN)$ and let $A\prec B$ if $A\subset B$. This is \textbf{NOT} an ordered set-- it doesn't satisfy the first property of an ordered set.
+\end{itemize}
+
+\begin{definition}[Bounded Above/Below]
+Let $S$ be an ordered set and let $E\subset S$. Then,
+\begin{enumerate}
+    \item If there exists a $b\in S$ such that $x\leq b$ for all $x\in E$, then $E$ is \vocab{bounded above} and $b$ is an \underline{vocab} of $E$. 
+    \item If $\exists c\in S$ such that $x\geq c$ for all $x\in E$, then $E$ is \vocab{bounded below} and $c$ is a \vocab{lower bound} of $E$. 
+\end{enumerate}
+\end{definition}
+
+From here, there are some very important definitions in real analysis. We say that $b_0$ is the \textbf{least upper bound}, or the \vocab{supremum} of $E$ if 
+    \begin{enumerate}[label=\Alph*)]
+        \item $b_0$ is an upper bound for $E$ and 
+        \item if $b$ is an upper bound for $E$ then $b_0 \leq b.$
+    \end{enumerate}
+We denote this as $b_0 = \sup E$. Similarly, we say that $c_0$ is the \textbf{greatest lower bound}, or the \vocab{infinimum} of $E$ if 
+    \begin{enumerate}[label=\Alph*)]
+        \item $c_0$ is a lower bound for $E$ and 
+        \item if $c$ is a lower bound for $E$ then $c<c_0.$
+    \end{enumerate}
+We denote this as $c_0 = \inf E$. 
+
+\begin{example}
+Here are a few examples of infimums and supremums:
+\begin{itemize}
+    \item $S=\ZZ$ and $E = \{-2,-1,0,1,2\}$. Then, $\inf E = -2$ and $\sup E = 2$.
+    \item But, note that the supremum nor the infimum need to be in $E$. Consider the sets $S = \QQ$ and \[E =\{q\in \QQ \mid 0\leq q<1\}.\] Then, $\inf E = 0\in E$, but $\sup E = 1 \notin E$. 
+    \item Furthermore, neither the supremum nor the infimum need exist. Consider the sets $S = \ZZ$ and $E = \NN$. Then, $\inf E = 1$, but $\sup E$ does not exist as there is not an integer greater than all natural numbers.
+\end{itemize}
+\end{example}
+
+\begin{definition}[Least Upper Bound Property]
+An ordered set $S$ has the \vocab{least upper bound property} if every $E\subset S$ which is nonempty and bounded above has a supremum in $S$.
+\end{definition}
+One example of such a set is \[-\NN = \{-1,-2.-3.\dots\}.\] Then, $E\subset S$ is bounded above if and only if $-E\subset \NN$ is bounded below. By the well-ordering principle, $-E$ has a least element $x\in -E$, and thus $-x = \sup E$.
+
+We will now show that $\QQ$ does not have the least upper bound property.
+\begin{theorem}
+ If $x\in \QQ$ and 
+ \[
+ x= \sup \{q\in \QQ \mid q>0, q^2 <2\}
+ \]
+ then $x>0$ and $x^2 = 2$.
+\end{theorem}
+ \textbf{Proof}: Let $E$ equal the set on the right hand side, and suppose $x\in \QQ$ such that $x = \sup E$. Then, since $1\in E$ and $x$ is an upper bound for $E$, $1\leq x\implies x>0$.
+ 
+ We now prove that $x^2 \geq 2$. Suppose that $x^2<2$. Define $h = \min\left\{\frac{1}{2}, \frac{2-x^2}{2(2x+1)}\right\}<1$. Then, if $x^2<2$ then $h>0$. We now prove that $x+h\in E$. Indeed, 
+ \begin{align*}
+     (x+h)^2 &= x^2 + 2xh+h^2 \\
+     &<x^2 +h(2x+1)
+    \intertext{as $h<1$. Hence}
+    (x+h)^2 &\leq x^2 + (2-x^2) \cdot \frac{2x+1}{2(2x+1)} \\
+    &= x^2 + \frac{2-x^2}{2} \\
+    &< 2+\frac{2-2}{2}\\
+    &=2.
+ \end{align*}
+Therefore, $x+h \in E$ and $x+h>x\implies x$ is not an upper bound for $E$. Therefore, $x\neq \sup E$ which is a contradiction. Hence, $x^2 \geq 2$.
+
+We now prove that $x^2 \leq2$. Suppose $x^2 > 2$. Let $h = \frac{x^2-2}{2x}.$ Hence, if $x^2>2$ then $h>0$ and $x-h>0$. We will show that $x-h$ is an upper bound for $E$. We have 
+\begin{align*}
+    (x-h)^2 &= x^2-2xh+h^2 \\
+    &= x^2 -(x^2-2)+h^2 \\
+    &= 2+h^2 \\
+    &>2.
+\end{align*}
+Let $q\in E$. Then, $q^2 <2<(x-h)^2 \implies (x-h)^2 -q^2 >0.$ Hence,
+\[
+((x-h)+q)((x-h)+q) >0 \implies (x-h)-q>0.
+\]
+Thus, for all $q\in E$, $q<x-h<x\implies x\neq \sup E$. This is a contradiction. Therefore, $x^2 = 2.$
+\qed 
+
+\begin{theorem}
+The set $E = \{q\in \QQ\mid q>0 \text{~and~} q^2<2\}$ does not have a supremum in $\QQ$.
+\end{theorem}
+\textbf{Proof}: Suppose there exists an $x\in \QQ$ such that $x=\sup E$. Then, by our previous theorem, $x^2 = 2$. In particular, note that $x>1$ as otherwise $x\leq 1 \implies 2=x^2 <1^2$. Thus, $\exists m,n\in \NN$ such that $m>n$ and $x=\frac{m}{n}$. Therefore, $\exists n\in \NN$ such that $nx \in \NN$. Let  
+\[
+S = \{k\in \NN\mid kx\in \NN\}.
+\]
+Then, $S\neq \emptyset$ since $n\in S$. By the well-ordering property of $\NN$, $S$ has a least element $k_0 \in S$. Let $k_1 = k_0x-k_0 \in \ZZ$. Then, $k_1 = k_0(x-1) >0$ since $k_0 \in \NN$ and $x>1.$ Therefore, $k_1 \in \NN$. Now $x^2 = 2 \implies x<2$, as otherwise $x^2>4>2$. Thus, $k_1 = k_0(x-1)<k_0(2-1) = k_0$. So, $k_1\in \NN$ and $k_1 <k_0 \implies k_1 \notin S$ as $k_0$ is the least element of $S$. But, 
+\[
+xk_1 = k_0x^2 -xk_0 = 2k_0-xk_0 = k_0-k_1 \in \NN\implies k_1 \in S.
+\]
+This is a contradiction. Thus, $\not\exists x\in \QQ$ such that $x = \sup E$.  \qed 
+
+$\QQ$ is an example of a field, which we will start to discuss in the next lecture.
+
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.100A / 18.1001 Real Analysis, Fall 2020
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+%\subsection*{Lecture 4:}
+%\textbf{\underline{The Characterization of the Real Numbers}}
+
+\begin{question}
+Last time we stated that $\QQ$ was an example of a field, but what \textit{is} a \textbf{field}?
+\end{question}
+\begin{definition}[Field]
+A set $F$ is a \vocab{field} if it has two operations: addition $(+)$ and multiplication ($\cdot$) with the following properties.
+\begin{enumerate}
+    \item[A1)] If $x,y\in F$ then $x+y \in F$.
+    \item[A2)] \textit{(Commutativity)} $\forall x,y\in F$, $x+y= y+x$.
+    \item[A3)] \textit{(Associativity)} $\forall x,y,z\in F$, $(x+y)+z = x+(y+z)$.
+    \item[A4)] $\exists$ an element $0\in F$ such that $0+x = x = x+0$.
+    \item[A5)] $\forall x\in F$, $\exists y\in F$ such that $x+y=0$. We denote $y=-x$.
+    \item[M1)] If $x,y\in F$, then $x\cdot y\in F$.
+    \item[M2)] \textit{(Commutativity)} $\forall x,y\in F$, $x\cdot y= y\cdot x$.
+    \item[M3)] \textit{(Associativity)} $\forall x,y,z\in F$, $(x\cdot y)\cdot z= x\cdot (y\cdot z)$.
+    \item[M4)] $\exists 1\in F$ such that $1\cdot x = x = x\cdot 1$ for all $x\in F$.
+    \item[M5)] $\forall x\in F\setminus\{0\}$, $\exists x^{-1}$ such that $x\cdot x^{-1} = 1.$
+    \item[D)] \textit{(Distributativity)} $\forall x,y,z\in F$, $(x+y)z = xz+yz.$
+\end{enumerate}
+\end{definition}
+These may seem like trivial properties, but consider the following non-example: $\ZZ$. $\ZZ$ fails M5)-- multiplicative inverses do not exist in the integers.
+
+\begin{example}
+Here are two examples of fields:
+\begin{enumerate}
+    \item $\ZZ_2 = \{0,1\}$ where $1+1 = 0$.
+    \item $\ZZ_3 = \{0,1,2\}$ with $c:= a+b \pmod{3}$. In other words, \[2+1=3=0\pmod 3 \hspace{.25cm} \text{and} \hspace{.25cm} 2\cdot2 = 4 = 3+1 = 1\pmod 3.\]
+\end{enumerate}
+\end{example}
+
+Simple properties follow from the properties of a field!
+\begin{theorem}
+If $x\in F$ where $F$ is a field, $0x=0.$
+\end{theorem}
+\textbf{Proof}: If $x\in F$, then
+\[
+0 = 0\cdot x -0\cdot x = (0+0)\cdot x -0\cdot x = 0\cdot x+0\cdot x -0\cdot x = 0\cdot x.
+\]
+\qed 
+
+\begin{definition}[Ordered field]
+A field $F$ is an \vocab{ordered field} if $F$ is also an ordered set with ordering $<$ and 
+\begin{enumerate}[label = \roman*)]
+    \item $\forall x,y,z\in F$, $x<y\implies x+z<y+z$.
+    \item If $x>0$ and $y>0$ then $xy>0$.
+\end{enumerate}
+If $x>0$ we say $x$ is \textbf{positive}, and if $x\geq 0$ we say $x$ is \textbf{non-negative}.
+\end{definition}
+
+\begin{example}
+$\QQ$ is an ordered field.
+\end{example}
+
+A non-example would be $\ZZ_2$. For instance, consider $0<1$. If $0<1$, then $1+0<1+1 = 0\implies 1<0$ which is a contradiction. If $1<0$, then $0=1+1<0+1 \implies 0<1$ which is a contradiction. Hence, $\ZZ_2$ is not an ordered field.
+
+Using the definition of an ordered field, one can easily prove all of the usual facts about inequalities.
+\begin{theorem}
+If $x>0$, then $-x<0$ (and vice versa).
+\end{theorem}
+\textbf{Proof}: If $x\in F$ and $x>0$, then by i),
+\[
+-x+x>-x \implies 0>-x.
+\]\qed 
+
+One can see Proposition 1.1.8 \textbf{[L]} for a list of other simple inequality facts.
+
+\begin{theorem}
+Let $x,y\in F$ where $F$ is an ordered field. If $x>0$ and $y<0$ or $x<0$ and $y>0$, then $xy<0$.
+\end{theorem}
+\textbf{Proof}: Suppose $x>0$ and $y<0$. Then, $x>0$ and $-y>0$. Hence, $-xy = x(-y)>0$. Thus, $xy<0$. If $x<0$ and $y>0$, then $-x>0$ and $y>0\implies -xy = (-x)y>0 \implies xy<0.$ \qed
+
+\begin{question}
+Is there a greatest lower bound property? %how to word?
+\end{question}
+For an ordered field $F$, if $F$ has the least upper bound  property then $F$ has a greatest lower bound property.
+
+\begin{theorem}
+Let $F$ be an ordered field with the least upper bound property. If $A\subset F$ is nonempty and bounded below, then $\inf A$ exists in $F$.
+\end{theorem}
+\textbf{Proof}: Suppose $A\subset F$ is nonempty and bounded below, i.e. $\exists a\in F$ such that $\forall x\in A$, $a\leq x$. Let\\ $B = \{-x\mid x\in A\}$. Then, $\forall x\in A$, $-x\leq -a\implies -a$ is an upper bound for $B$. Since $F$ has the least upper bound property, $\exists c\in F$ such that $c = \sup B$. Then, $\forall x\in A$, $-x\leq c\implies \forall x\in A,$ $-c\leq x$. Hence, $-c$ is a lower bound for $A$. We have also shown that if $a$ is a lower bound for $A$, then $-a$ is an upper bound for $B$. Therefore, $c\leq -a$ since $c=\sup B\implies a\leq -c$. Hence, $-c$ is the greatest lower bound for $A$.
+\qed 
+
+\noindent \underline{\textbf{Real Numbers}}
+
+\begin{theorem}
+There exists a "unique" ordered field, labeled $\RR$, such that $\QQ\subset \RR$ and $\RR$ has the least upper bound property.
+\end{theorem}
+One can construct $\RR$ using Dedekind cuts or as equivalence classes of Cauchy sequences. (We will define Cauchy sequences later in the course.)
+
+\begin{theorem}
+$\exists! r\in \RR$ such that $r>0$ and $r^2 =2$. In other words, $\sqrt 2 \in \RR$ but $\sqrt 2 \notin \QQ$.
+\end{theorem}
+\textbf{Proof}: Let $\Tilde{E} = \{x\in \RR \mid x>0 \text{~~and~~} x^2<2\}$. Then, since $\Tilde{E}$ is bounded above (by 2 for instance), we have that $r:= \sup\Tilde{E}$ exists in $\RR$. Then, one can show that $r>0$ and $r^2 = 2$. This is left as an exercise.
+
+We now prove uniqueness. Suppose that there is a $\Tilde{r}>0$ with $\Tilde{r}^2 = 2$. Then, since $(r+\Tilde{r})>0$,
+\[
+0 = r^2 -\Tilde{r}^2 = (r+\Tilde{r})(r-\Tilde{r}) \implies r-\tilde r = 0 \implies r = \Tilde{r}.
+\] 
+\qed 
+
+\begin{remark}
+In Assignment 2 Exercise 7, you will show that $\sqrt[3]2\in \RR$.
+\end{remark}
+
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.100A / 18.1001 Real Analysis, Fall 2020
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+%\subsection*{Lecture 5:}
+%\textbf{\underline{The Archimedian Property, Density of the Rationals, and Absolute Value}}
+
+\noindent For all $x,y\in \RR$ and $x<y$, there exists an $r\in \RR$ such that $x<r<y$ (take $r = \frac{x+y}{2}$). 
+\begin{question}
+Can we find $r\in \QQ$ such that $x<r<y$?
+\end{question}
+
+\begin{theorem}
+The answer is yes!
+\begin{enumerate}[label = \roman*)]
+    \item (Archimedian Property) If $x,y\in \RR$ and $x>0$, then $\exists n\in \NN$ such that $nx>y$.
+    \item (Density of $\QQ$) If $x,y\in \RR$ and $x<y$ then $\exists r\in \QQ$ such that $x<r<y$.
+\end{enumerate}
+\end{theorem}
+\textbf{Proof}: 
+\begin{enumerate}[label = \roman*)]
+    \item Suppose that $x,y\in \RR$ and $x>0$. Then we wish to show that $\exists n\in \NN$ such that $n>\frac{y}{x}$. Suppose this is not the case. Then, $\forall n\in \NN$, $n\leq \frac{y}{x}$. In other words, $\NN$ is bounded above by $\frac{y}{x}$. Hence, $\exists a = \sup \NN\in \RR$. Since $a$ is the least upper bound for $\NN$, $a-1$ cannot be an upper bound for $\NN$. Hence, $\exists m\in \NN$ such that 
+    \[
+        a-1<m \implies a<m+1\in \NN.
+    \]
+    However, this is a contradiction, because then $a$ is not an upper bound for $\NN$. Therefore, $\exists n \in \NN$ such that $n\geq \frac{y}{x}$.
+    \item Suppose $x,y\in \RR$ and $x<y$. Then, there are three cases:
+    \begin{itemize}
+        \item $0\leq x<y$,
+        \item $x<0<y$, and 
+        \item $x<y\leq 0$.
+    \end{itemize}
+    For the second case, take $r=0\in \QQ$. So, assume that $0\leq x<y$. Then, by the Archimedian Property, $\exists n\in \NN$ such that $n(y-x)>1.$ Again by the Archimedean property, $\exists l\in \NN$ such that $l>nx$. Thus, consider the set
+    \[
+    S = \{k\in \NN \mid k>nx\}.
+    \]
+    By the well-ordering property of $\NN$, $S$ has a least element, $m\in S\implies nx<m \implies x<\frac{m}{n}\in \QQ$.
+    
+    Since $m-1\notin S$, $m-1\leq nx\implies m\leq nx+1<ny$. Hence, $\frac{m}{n}<y$. Therefore,
+    \[
+    x<\frac{m}{n}<y.
+    \]
+    If instead we have $x<y\leq 0$, then $0\leq -y <-x \implies \exists \Tilde{r}\in \QQ$ such that 
+    \[
+    -y<\Tilde{r}< x \implies x<-\Tilde{r}< y
+    \]
+    by the previous case. 
+\end{enumerate}
+\qed 
+
+\begin{theorem}
+$1 = \sup\left\{1- \frac{1}{n}\mid n\in \NN\right\}$.
+\end{theorem}
+\textbf{Proof}: If $n\in \NN,$ then $1-\frac{1}{n}<1\implies$ 1 is an upper bound of this set. Suppose that $x$ is an upper bound for the set $\{1-1/n \mid n\in \NN\}$. We now prove that $x\geq 1$. For the sake of contradiction, assume that $x<1$. By the Archimedean property, there exists an $n\in \NN$ such that $1<n(1-x)$. Therefore, $\exists n\in \NN$ such that $x<1-1/n$. Hence, $x$ is not an upper bound for the set $\{1-1/n\mid n\in \NN\}$ if $x<1$. Thus, if $x$ is an upper bound, $x\geq 1$. Therefore, 
+\[
+\sup \left\{1-\frac{1}{n}\mid n\in \NN\right\} = 1.
+\]
+\qed 
+
+We now begin proving some theorems about supremums and infinimums which will make them easier to use.
+\begin{theorem}
+Suppose that $S\subset \RR$ is nonempty and bounded above. Then, $x= \sup S$ if and only if 
+\begin{enumerate}
+    \item $x$ is an upper bound for $S$.
+    \item for all $\epsilon>0$, $\exists y\in S$ such that $x-\epsilon<y\leq x$.
+\end{enumerate}
+\end{theorem}
+\textbf{Proof}: This is left as an exercise in Assignment 3. \qed
+
+\begin{notation}
+For $x\in \RR$ and $A\subset \RR$, define
+\begin{align*}
+    x+A &:= \{x+a\mid a\in A\} \\
+    xA &:= \{xa\mid a\in A\}.
+\end{align*}
+\end{notation}
+
+\begin{theorem}
+Using this new notation, we have the following theorems:
+\begin{enumerate}
+    \item If $x\in\RR$ and $A$ is bounded above, then $x+A$ is bounded above and 
+    \[
+    \sup(x+A) = x+\sup A.
+    \]
+    \item If $x>0$ and $A$ is bounded above then $xA$ is bounded above and 
+    \[
+    \sup(xA) = x\sup A.
+    \]
+\end{enumerate}
+\end{theorem}
+\textbf{Proof}: 
+\begin{enumerate}
+    \item Suppose that $x\in \RR$ and $A$ is bounded above. Therefore, $\sup A \in \RR$ by the least upper bound property of $\RR$. Then, $\forall a\in A$, $a\leq \sup A.$ Hence,
+    \[
+    \forall a\in A, ~~ x+a\leq x+\sup A. 
+    \]
+    Hence, $x+\sup A$ is an upper bound for $x+A$. Let $\epsilon>0$. Then, $\exists y\in A$ such that 
+    \[
+    \sup A - \epsilon < y \leq \sup A\implies (x+\sup A) -\epsilon < y+x \leq x+\sup A.
+    \]
+    Therefore, by our previous theorem, $x+\sup A = \sup(x+A)$.
+    
+    \item Suppose that $x>0$ and $A$ is bounded above. Thus, $\sup A\in \RR$. Then, $\forall a\in A$, $a\leq \sup A$ and thus $xa\leq x\sup A$. Hence, $x\sup A$ is an upper bound of $xA$. Let $\epsilon>0$. Then $\exists y\in A$ such that 
+    \[
+    \sup A -\frac{\epsilon}{x}< y\leq \sup A \implies x\sup A - \epsilon < xy \leq x\sup A.
+    \]
+    Therefore, by the previous theorem, $\sup(xA) = x\sup A$.
+\end{enumerate}
+\qed 
+
+\begin{theorem}
+Let $A,B\subset \RR$ such that $\forall x\in A,\forall y\in B$, $x\leq y$. Then, $\sup A \leq \inf B$. 
+\end{theorem}
+\textbf{Proof}: The proof of this is left to the reader. \qed
+
+\noindent \underline{\textbf{Absolute Value}}
+
+\begin{definition}
+If $x\in \RR$ we define
+\[
+|x| := \begin{cases}
+x, &x\geq 0 \\
+-x, &x\leq 0
+\end{cases}.
+\]
+\end{definition}
+\begin{theorem}
+We can prove a bunch of theorems about the absolute value function that we usually take for granted:
+\begin{enumerate}[label = \arabic*)]
+    \item $|x|\geq 0$ and $|x| = 0 \iff x = 0$.
+    \item $\forall x\in \RR$, $|-x| = |x|$.
+    \item $\forall x,y\in \RR$, $|xy| = |x||y|$.
+    \item $|x^2| = x^2 = |x|^2$.
+    \item If $x,y\in \RR$, then $|x|\leq y \iff -y\leq x \leq y$.
+    \item $\forall x\in \RR$, $x\leq |x|$.
+\end{enumerate}
+\end{theorem}
+\textbf{Proof}: 
+\begin{enumerate}[label = \arabic*)]
+    \item If $x\geq 0$ then $|x| = x \geq 0$. If $x\leq 0,$ then $-x\geq 0 \implies |x| = -x\geq 0$. Thus, $|x|\geq 0$. Now suppose $x = 0$. Then, $|x| = x = 0$. For the other direction, suppose $|x| = 0$. Then, if $x\geq 0\implies x = |x| = 0$. If $x\leq 0$, then $-x = |x| = 0$. Therefore, $x=0\iff |x| = 0$.
+    
+    \item If $x\geq 0$ then $-x \leq 0$. Thus, $|x| = x = -(-x) = |-x|$. If $x\leq 0$ then $-x\geq 0$ and thus $|-x| = |-(-x)| = |x|$.
+    \item If $x\geq 0$ and $y\geq 0$, then $xy \geq 0$ and $|xy| = xy = |x||y|$. If $x\leq 0$ and $y\leq 0$, then \[xy\leq 0 \implies |xy| = -xy = (-x)y = |x||y|.\]
+    
+    \item Take $x=y$ in 3). Then, $|x^2| = |x|^2$. Since $x^2 \geq 0$, it follows that $|x^2| = x^2$.
+    
+    \item Suppose $|x|\leq y$. If $x\geq 0$, then $-y\leq 0\leq x = |x| \leq y$. Therefore, $-y\leq x \leq y$. If $x\leq 0$, then $-x\geq 0$ and $|-x|\leq y$. Hence, $-y \leq -x\leq y \implies -y\leq x \leq y$.
+    
+    \item Take $y = |x|$ in 5).
+\end{enumerate}
+\qed 
+
+On its own, these properties of the absolute values may not seem all that useful, but in the next lecture we will prove the \textit{extremely} important Triangle Inequality.
+
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.100A / 18.1001 Real Analysis, Fall 2020
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+%\subsection*{Lecture 6:}
+%\textbf{\underline{The Uncountability of the Real Numbers}}
+
+\begin{theorem}[Triangle Inequality]
+$\forall x,y\in \RR$, 
+\[
+|x+y| \leq |x|+|y|.
+\]
+\end{theorem}
+\textbf{Proof}: Let $x,y\in\RR$. Then, $x+y\leq |x|+|y|$ and
+\[
+(-x)+(-y) \leq |-x|+|-y| = |x|+|y|.
+\]
+Therefore, $-(|x|+|y|)\leq x+y \leq |x|+|y|$. Hence,
+\[
+|x+y|\leq |x|+|y|
+\]
+by our previous theorem. \qed 
+
+\begin{remark}
+We may denote the Triangle Inequality with $\triangle$-inequality as a shorthand.
+\end{remark}
+
+\begin{question}
+As we showed in Assignment 1, we know that $\QQ$ is countable. Is the set of real numbers countable?
+\end{question}
+
+\begin{recall}
+Recall that a set $A$ is countable if $A$ is either finite or $|A| = |\NN|$.
+\end{recall}
+We can think of $\QQ$ as decimal expansions. In other words, we can think of a rational number $x$ as being in the form
+\[
+x = 10^k d_k + \dots + 10 d_1 + d_0 + 10^{-1}d_{-1} + \dots + 10^{-M} d_{-M}
+\]
+with $d_i \in \{0,1,2,3,\dots, 9\}$. We may write
+\[
+x = d_kd_{k-1}\dots d_1 d_0 \bullet d_{-1} \dots d_{-M}
+\]
+where $\bullet$ is the decimal point. The same can be said about real numbers if we allow for infinite decimal expansions. 
+
+\begin{definition}
+Let $x\in (0,1]$ and let $d_{-j}\in\{0,1,\dots, 9\}$. We say that $x$ is \textbf{represented} by the digits $\{d_{-j}\mid j\in \NN\}$, i.e. $x= 0\bullet d_{-1} d_{-2}\dots$, if 
+\[
+x = \sup\{10^{-1}d_{-1}+10^{-2}d_{-2}+ \dots + 10^{-n}d_{-n} \mid n\in \NN\}.
+\]
+\end{definition}
+Here is an example: $.2500 = \sup \{2\cdot 10^{-1}, 2\cdot 10^{-1}+5\cdot 10^{-2}, 2\cdot 10^{-1}+5\cdot 10^{-2} + 0 \cdot 10^{-3}, \dots\}$. Notice here that after a while the previous set becomes $\frac{1}{4}$ repeating. Hence, we have $.2500 = \sup\left\{ \frac{1}{5}, \frac{1}{4}\right\} = \frac{1}{4}$.
+
+\begin{theorem}
+For every $x\in (0,1]$, there exists a unique sequence of digits $d_{-j}$ such that $x = 0\bullet d_{-1}d_{-2}\dots$ and 
+\[
+0\bullet d_{-1}d_{-2}\dots d_{-n} <x \leq 0\bullet d_{-1}d_{-2}\dots d_{-n} + 10^{-n}.
+\]
+Furthermore, for every set of digits $\{d_{-j}\mid j\in \NN\}$, there exists a unique $x\in [0,1]$ such that $x = 0\bullet d_{-1}\dots$.
+\end{theorem}
+Notice however that the representative of $\frac{1}{2}$ is $0.4999\dots$.
+
+\begin{theorem}[Cantor]
+(0,1] is uncountable.
+\end{theorem}
+\textbf{Proof}: We will prove this through contradiction. Suppose that $(0,1]$ is countable. Therefore, there exists a bijection $x:\NN \to (0,1]$. We now construct a $y\in (0,1]$ such that $y$ is not in the range of $x$. We write 
+\[
+x(n) = 0\bullet d_{-1}^{(n)} d_{-2}^{(n)}\dots.
+\]
+These are not exponents! This is the set of digits for a given $n\in \NN$. In other words, $x$ takes in a natural number $n$ and maps it to the sequence of digits $\left\{d_{-j}^{(n)} \mid n\in \NN\right\}$.
+Let 
+\[
+e_{-j} = \begin{cases}
+1, & d_{-j}^{(j)} \neq 1 \\
+2, &d_{-j}^{(j)} = 1
+\end{cases}.
+\]
+Let $y = 0\bullet e_{-1}e_{-2}\dots$. Then, $\forall n \in \NN$, \[
+0\bullet e_{-1}e_{-2}\dots e_{-n}\leq y 0\bullet e_{-1}\dots e_{-n} + 10^{-n}
+\]
+since all $e_{-j}$s are positive. Thus, $0\bullet e_{-1}\dots$ is the unique decimal expansion of $y$. However, for all $n\in \NN$, $d_{-n}^{(n)} \neq e_{-n}$. Therefore, $\forall n$, $x(n) \neq y$. This is a contradiction, and thus $(0,1]$ is uncountable. \qed 
+
+So $(0,1]\subset \RR$ is uncountable!
+\begin{corollary}
+The set of real numbers, $\RR$, is uncountable.
+\end{corollary}
+
+\subsection*{Sequences and Series}
+\begin{remark}
+Analysis is the study of limits.
+\end{remark}
+\noindent \underline{\textbf{Sequences and Limits}}
+
+\begin{definition}[Sequence of Reals]
+A \vocab{sequence} of real numbers is a function $x: \NN \to \RR$. We denote $x(n) = x_n$ and we denote the sequence by $\{x_n\}_{n=1}^\infty$, $\{x_n\}$, or $x_1,x_2,\dots$.
+\end{definition}
+
+\begin{definition}
+A sequence $\{x_n\}$ is \vocab{bounded} if $\exists B\geq 0$ such that $\forall n$, $|x_n| \leq B$.
+\end{definition}
+One example of a bounded sequence is $x_n = \frac{1}{n}$, since $\left|\frac{1}{n}\right| \leq 1$ for all $n\in \NN$. However, $x_n = n$ is not bounded.
+
+\begin{remark}
+A sequence is different from a set!
+\end{remark}
+For example, 
+\[
+-1,1,-1,1,\dots = \{(-1)^n\}^{\infty}_{n=1},
+\]
+while 
+\[
+\{(-1)^n \mid n\in\NN\} = \{-1,1\}.
+\]
+
+\begin{definition}[Sequence Convergence of Reals]
+A sequence $\{x_n\}$ \vocab{converges} to $x\in \RR$ if $\forall \epsilon >0$, $\exists M\in \NN$ such that $\forall n\geq M$, 
+\[
+|x_n - x| <\epsilon.
+\]
+\end{definition}
+A sequence that converges is said to be \textbf{convergent}, and otherwise is said to be \textbf{divergent}. We can also define divergence as the negation of convergent.
+\begin{negation}[Not Convergent]
+The sequence $\{x_n\}$ is \vocab{not convergent}, or \vocab{divergent} if $\exists \epsilon_0 >0$ such that $\forall M\in \NN$, $\exists n \geq M$ so that 
+\[
+|x_n-x|\geq \epsilon_0.
+\]
+\end{negation}
+
+We now prove two theorems:
+\begin{theorem}
+If $\{x_n\}$ converges for $x$ and $y$, then $x=y$. In other words, limits of convergent sequences of real numbers are unique.
+\end{theorem}
+\begin{theorem}
+Let $x,y\in \RR$. If $\forall \epsilon>0$, $|x-y|<\epsilon$, then $x=y$.
+\end{theorem}
+\textbf{Proof}: We first prove the second theorem. Suppose that $x\neq y$. Then, $|x-y|>0$. Hence, choosing $\epsilon  = \frac{|x-y|}{2}$, we have 
+\[
+|x-y| \leq \frac{|x-y|}{2} \implies \frac{|x-y|}{2} < 0
+\]
+which is a contradiction. \qed 
+
+Using this we prove the former theorem. Suppose $x_n$ converges to $x$ and to $y$. We will show that for all $\epsilon>0$, $|x-y|<\epsilon$. Firstly, given $x_n\to x$, for $\epsilon>0$ there exists an $N_1\in \NN$ such that $\forall n\geq N_1$, 
+\[
+|x_n-x|<\frac{\epsilon}{2}.
+\]
+Then, given $x_n\to y$, for $\epsilon>0$ there exists an $N_2\in \NN$ such that $\forall n\geq N_2$, 
+\[
+|x_n-y|<\frac{\epsilon}{2}.
+\]
+Let $N = \max \{N_1,N_2\}$. Then, for all $\epsilon>0$ there exists an $N = \max\{N_1,N_2\}$ such that for all $n\geq N$, 
+\[
+|x-y| \leq |x-x_n|+|x_n - y| <\frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon
+\]
+by the Triangle Inequality. Hence, for all $\epsilon >0$, $|x-y|<\epsilon$. Therefore, $x=y$. \qed 
+
+\begin{notation}
+We write $x = \lim_{n\to \infty}x_n$ or $x_n\to x$. 
+\end{notation}
+
+\begin{example}
+Given the sequence $x_n = c~\forall n$, $\lim_{n\to \infty} x_n = c$.
+\end{example}
+\begin{proof}
+Let $\epsilon>0$ and $M=1$. Thus, for all $n\geq 1$, 
+\[
+|x_n-c| = |c-c| = 0<\epsilon.
+\]
+\end{proof}
+
+\begin{example}
+$\lim_{n\to \infty} \frac{1}{n} = 0$.
+\end{example}
+\begin{proof}
+Let $\epsilon>0$. Choose $M\in \NN$ such that $M^{-1}>\epsilon^{-1}$. Hence, for all $n\geq M$, $\left|\frac{1}{n} - 0\right| = \frac{1}{n} \leq \frac{1}{M} \leq \epsilon.$
+\end{proof}
+
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.100A / 18.1001 Real Analysis, Fall 2020
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+%\subsection*{Lecture 7:}
+%\textbf{\underline{Convergent Sequences of the Real Numbers}}
+
+\noindent We will do another example of limits that converge:
+\begin{example}
+$\lim_{n\to \infty} \frac{1}{n^2 + 2n + 100}=0.$
+\end{example}
+\begin{proof}
+Let $\epsilon>0$ and choose $M\in \NN$ such that $M> \frac{\epsilon^{-1}}{2}$. Then, $\forall n \geq M$,
+\[
+\left|\frac{1}{n^2 +2m +100} -0\right| \leq \frac{1}{n^2 +2m +100} \leq \frac{1}{2n} \leq \frac{1}{2M} < \epsilon.
+\]
+\end{proof}
+
+The fact that we can go from a complicated rational function to one that works for our purposes (namely to prove the sequence converges to 0) is \textit{awesome}. 
+
+\begin{example}
+Consider the sequence $x_n = (-1)^n$. This sequence is divergent.
+\end{example}
+\begin{proof}
+Let $x\in \RR$. We claim $\lim_{n\to \infty} (-1)^n \neq x$. To prove this, we simply need find \textit{an} epsilon that stops the sequence from converging. For instance, consider $\epsilon_0 = \frac{1}{2}$. Then, for $M\in \NN$,
+\[
+1 = |(-1)^M - (-1)^{M+1}| \leq |(-1)^M -x|+|(-1)^{M+1}-x|.
+\]
+Thus, either $|(-1)^M-x|\geq \frac{1}{2}$ or $|(-1)^{M+1}-x|\geq \frac{1}{2}$. In either case, this shows that the limit cannot converge to $x$.
+\end{proof}
+
+\begin{theorem}
+If $\{x_n\}$ is convergent, then $\{x_n\}$ is bounded.
+\end{theorem}
+Before we start the proof, let's first talk about the idea of the proof. Let $\epsilon = 1$ such that $|x_n-x|<1$ for all $n\leq M$ for some $M\in \NN$. Then, there are finitely many elements not in the interval $(x-1,x+1)$. We use this to our advantage.
+
+\textbf{Proof}: Suppose that $\lim_{n\to \infty}x_n = x$. Thus, there exists an $M\in\NN$ such that $|x_n-x|<1$ for all $n\geq M$. Let 
+\[
+B = \max\{|x_1|, |x_2|,\dots, |x_{M-1}|, |x|+1\}.
+\]
+If $n <M$, then $|x_n| \leq B$ by construction. If $n\geq M$, then \[
+|x_n| \leq |x_n-x| + |x| <1+|x| \leq B.
+\] \qed 
+
+\begin{definition}[Monotone]
+A sequence $\{x_n\}$ is \vocab{monotone increasing} if $\forall n\in \NN$, $x_{n}\leq x_{n+1}$. A sequence $\{x_n\}$ is \vocab{monotone decreasing} if $\forall n\in \NN$, $x_n \geq x_{n+1}$. If $\{x_n\}$ is either monotone increasing or monotone decreasing, we say $\{x_n\}$ is \vocab{monotone} or \textbf{monotonic.}
+\end{definition}
+
+\begin{example}
+For example, $x_n =\frac{1}{n}$ is monotone, $y_n = -\frac{1}{n}$ is monotone increasing, and $(-1)^n$ is neither.
+\end{example}
+
+\begin{theorem}
+Let $\{x_n\}$ be a monotone increasing sequence. Then, $\{x_n\}$ is convergent if and only if $\{x_n\}$ is bounded. Moreover, $\lim_{n\to \infty}x_n = \sup\{x_n \mid n\in \NN\}.$
+\end{theorem}
+\textbf{Proof}: Firstly, we know that if $\{x_n\}$ is convergent then it is bounded by the previous theorem, Now assume that $\{x_n\}$ is bounded. Then, $x:= \sup\{x_n \mid n\in \NN\}$ exists in $\RR$ by the lowest upper bound property of $\RR$. We now prove that 
+\[
+\lim_{n\to \infty}x_n = x.
+\]
+Let $\epsilon>0$. Then, $\exists M_0\in \NN$ such that 
+\[
+x-\epsilon < x_{M_0}<x
+\]
+since $x$ is the supremum of the set. Let $M = M_0$. Then, $\forall n\geq M$, we have 
+\[
+x-\epsilon < x_{M_0} = x_M \leq x_n \leq x < x+\epsilon.
+\]
+Therefore, $|x_n|< |x+\epsilon|$. Therefore, $x_n \to x$. \qed 
+
+\begin{theorem}
+Let $\{x_n\}$ be a monotone decreasing function. Then, $\{x_n\}$ is convergent if and only if $\{x_n\}$ is bounded. Moreover, 
+\[
+\lim_{n\to \infty} x_n = \inf\{x_n \mid n\in \NN\} 
+\]
+\end{theorem}
+The proof of this is similar to the previous theorem and is thus omitted.
+
+\begin{definition}[Subsequence]
+Informally, a subsequence is a sequence with entries coming from another given sequence. In other words, let $\{x_n\}$ be a sequence and let $\{n_k\}$ be a strictly increasing sequence of natural numbers. Then the sequence 
+\[
+\{x_{n_k}\}_{k=1}^\infty
+\]
+is called a \vocab{subsequence} of $\{x_n\}$.
+\end{definition}
+
+Consider the sequence $\{x_n\} = n$ -- in other words, the sequence $1,2,3,4,\dots$. Then, the following are subsequences of $x_n:$
+\begin{align*}
+    &1,3,5,7,9,11,\dots \\
+    &2,4,6,8,10,\dots \\
+    &2,3,5,7,11,13,\dots.
+\end{align*}
+The first two are described by $x_{n_k} = x_{2k}$ and $x_{n_k} = x_{2k-1}$ respectively. 
+
+\begin{question}
+How would we describe the third?
+\end{question}
+
+Continuing to let $\{x_n = n\}_n$, the following are \textit{not} subsequences:
+\begin{align*}
+    &1,1,1,1,1,1,\dots \\
+    &1,1,3,3,5,5,\dots.
+\end{align*}
+
+Now consider the sequence $\{(-1)^n\}$. Then we have the subsequences
+\begin{align*}
+    x_{n_k} = x_{2k-1} &\to  -1,-1,-1,\dots \\
+    y_{n_k} = x_{2k} &\to  1,1,1,\dots.
+\end{align*}
+
+\begin{theorem}
+If $\{x_n\}$ converges to $x$, then any subsequence of $x_n$ will converge to $x$.
+\end{theorem}
+\textbf{Proof}: Suppose $\lim_{n\to \infty}x_n = x$. Let $\epsilon >0$. Then, $\exists M_0 \in \NN$ such that $\forall n\geq M_0$,
+\[
+|x_n-x|<\epsilon.
+\]
+Choose $M = M_0$. If $k\geq M$, then $n_k \geq k \geq M = M_0$. Hence, for all $\epsilon>0$ there exists an $M$ such that for all $n_k >M$,
+\[
+|x_{n-k}-x|<\epsilon.
+\]
+\qed 
+
+\begin{remark}
+Notice that this also implies that the sequence $\{(-1)^n\}_n$ is divergent.
+\end{remark}
+
+\begin{notation}[DNC]
+We can denote the statement "a sequence does not converge"/"a sequence is divergent" as "the sequence DNC".
+\end{notation}
+
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.100A / 18.1001 Real Analysis, Fall 2020
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+%\subsection*{Lecture 8:}
+%\textbf{\underline{The Squeeze Theorem and Operations Involving Convergent Sequences}}
+
+\noindent\underline{\textbf{Facts About Limits}}
+
+\begin{theorem}[Squeeze Theorem]
+Let $\{a_n\}$, $\{b_n\}$, and $\{x_n\}$ be sequences such that $\forall n\in \NN$,
+\[
+a_n \leq x_n \leq b_k.
+\]
+Suppose that $\{a_n\}$ and $\{b_n\}$ converge and 
+\[
+\lim_{n\to \infty}a_n = x = \lim_{n\to \infty}b_n.
+\]
+Therefore, $\{x\}$ converges and $\lim_{n\to \infty}x_n = x$.
+\end{theorem}
+\begin{remark}
+We sometimes abbreviate the Squeeze Theorem to ST.
+\end{remark}
+
+\textbf{Proof}: Let $\epsilon>0$. Since $\lim_{n\to \infty} a_n = x$, there exists an $M_0\in \NN$ such that for all $n\geq M_0$, 
+\[
+|a_n-x| <\epsilon \implies x-\epsilon <a_n.
+\]
+Since $\lim_{n\to \infty}b_n = x$, $\exists M_1 \in \NN$ such that $\forall n\geq M_1$, 
+\[
+|b_n - x| < \epsilon \implies b_n < x+\epsilon.
+\]
+Choose $M = \max\{M_0, M_1\}$. Then, if $n\geq M$, then
+\[
+x-\epsilon < a_n \leq x_n \leq b_n < x-\epsilon \implies |x_n-x|<\epsilon.
+\]
+Therefore, $\{x_n\}$ is convergent and $\lim_{n\to \infty}x_n = x.$
+\qed
+
+\begin{theorem}
+Another way to check that a sequence $x_n\to x$, is stated below:
+\[
+\lim_{n\to \infty}x_n = x \iff \lim_{n\to \infty}|x_n-x| = 0.
+\]
+\end{theorem}
+
+Hence, we can consider a sequence like the following:
+\begin{example}
+Show that 
+\[
+\lim_{n\to \infty} \frac{n^2}{n^2+n+1} = 1.
+\]
+\end{example}
+\begin{proof}
+We have 
+\[
+\left|\frac{n^2}{n^2 + n + 1} - 1\right| = \left|\frac{-n-1}{n^2+n+1}\right| = \frac{n+1}{n^2+n+1} \leq \frac{n+1}{n^2+n} = \frac{1}{n}.
+\] 
+Thus,
+\[
+0 \leq \left|\frac{n^2}{n^2 + n + 1} - 1\right| \leq \frac{1}{n}\to 0\implies \lim_{n\to \infty} \left|\frac{n^2}{n^2 + n + 1} - 1\right| = 0
+\]
+by the Squeeze Theorem.
+\end{proof}
+
+\begin{question}
+How do limits interact with ordering? 
+\end{question}
+
+\begin{theorem}
+Let $\{x_n\}$ and $\{y_n\}$ be sequences of real numbers. Then,
+\begin{enumerate}
+    \item if $\{x_n\}$ and $\{y_n\}$ are convergent sequences and $\forall n\in \NN$ $x_n\leq y_n$, then \\ $\lim_{n\to \infty} x_n \leq \lim_{n\to \infty}y_n.$
+    \item if $\{x_n\}$ is a convergent sequence and $\forall n\in\NN$ $x\leq x_n \leq b_n$ then $a\leq \lim_{n\to \infty} x_n \leq b$.
+\end{enumerate}
+\end{theorem}
+\textbf{Proof}: 
+\begin{enumerate}
+    \item Let $x = \lim_{n\to \infty} x_n$ and $y = \lim_{n\to\infty} y_n$. Suppose for the sake of contradiction that $y< x$. Then, $\exists M_0\in\NN$ such that $\forall n\geq M_0$
+    \[
+    |y_n - y|< \frac{x-y}{2}
+    \]
+    And $\exists M_1 \in\NN$ such that for all $n\geq M_1$,
+    \[
+    |x_n -x| < \frac{x-y}{2}.
+    \]
+    Then, if $M = M_0+M_1 \geq \max\{M_0,M_1\}$,
+    \[
+    y_M < \frac{x-y}{2} +y = \frac{x+y}{2} = x-\frac{x-y}{2}+x < x_M.
+    \]
+    However, this would imply that $y_M < x_M$ which contradicts $\forall n\in\NN x_n \leq y_n$.
+    \item Apply part 1 to proof part 2, by considering $y_n = a \leq x_n \leq b = z_n$ for all $n\in\NN$.
+\end{enumerate} \qed 
+
+\begin{question}
+How do limits interact with algebraic operations?
+\end{question}
+\begin{theorem}
+Suppose $\lim_{n\to \infty}x_n = x$ and $\lim_{n\to \infty} y_n = y.$ Then,
+\begin{enumerate}
+    \item $\{x_y + y_n\}_n$ is convergent and $\lim_{n\to \infty} (x_n+y_n) = x+y.$
+    \item $\forall c\in\RR$, $\{cx_n\}_n$ is convergent and $\lim_{n\to \infty} cx_n = cx$.
+    \item $\{x_n \cdot y_n\}$ is convergent and $\lim_{n\to \infty} x_ny_n = xy$.
+    \item If $\forall n\in\NN$, $y_n \neq 0$ and $y\neq 0$, then $\{x_n/y_n\}_n$ is convergent and \[
+    \lim_{n\to \infty} \frac{x_n}{y_n}=\frac{x}{y}.
+    \]
+\end{enumerate}
+\end{theorem}
+\textbf{Proof}:
+\begin{enumerate}
+    \item Let $\epsilon >0$. Then, since $x_n \to x$, $\exists M_0\in\NN$ such that $\forall n \geq M_0$, $|x_n-x|<\frac{\epsilon}{2}$. Since $y_n \to y$, $\exists M_1\in\NN$ such that $\forall n \geq M_1$, $|y_n - y|< \frac{\epsilon}{2}$. Hence, letting $M = \max\{M_0, M_1\}$, we get for all $n\geq M$, 
+    \[
+    |x_n+y_n - (x+y)| \leq |x_n -x| + |y_n -y| < \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon.
+    \]
+    \item Let $\epsilon>0$. Since $x_n \to x$, $\exists M_0\in\NN$ such that $\forall n \geq M_0$, $|x_n-x| < \frac{\epsilon}{|c|+1}$. Let $M=M_0$. Then, $\forall n\geq M$,
+    \[
+    |cx_n - cx| = |c| |x_n-x| \leq \frac{|c|}{|c|+1}\cdot \epsilon < \epsilon
+    \]
+    since $\frac{|c|}{|c|+1}<1$.
+    \item Since $y_n\to y$, $\{y_n\}$ is bounded. In other words, $\exists B\geq  0$ such that $\forall n\in\NN$, $|y_n|\leq B$. Then,
+    \begin{align*}
+        |x_ny_n-xy| &= |(x_n-x)y_n + (y_n-y)x| \\
+        &\leq |x_n-x| |y_n + |x||y_n-y| \\
+        &\leq B|x_n-x| + |x||y_n-y|.
+    \end{align*}
+    Therefore, $0 \leq |x_ny_n - xy| \leq B|x_n-x| + |x||y_n-y|$. Since $B|x_n-x| + |x||y_n-y| \to 0$, by the Squeeze Theorem $\lim_{n\to \infty} |x_ny_n-xy| = 0$. 
+    \item We prove $\frac{1}{y_n}\to \frac{1}{y}$. We first prove $\exists b>0$ such that $\forall n\in\NN$, $|y_n|\geq b$. Since $y_n\to y$ and $y\neq 0$, $\exists M_0\in\NN$ such that $\forall n\geq M_0$, 
+    \[
+    |y_n-y| < \frac{|y|}{2}.
+    \]
+    By the Triangle Inequality, $\forall n\geq M_0$,
+    \[
+    |y| \leq |y_n -y| + |y_n| \leq \frac{|y|}{2} + |y_n| \implies |y_n| \geq \frac{|y|}{2}.
+    \]
+    Let $b = \min\left\{|y_1|, \dots, |y_{M_0-1}|, \frac{|y|}{2}\right\}$. Then, $\forall n\in\NN$, $|y_n| \geq b.$ Therefore,
+    \[
+    0\leq \left|\frac{1}{y_n} - \frac{1}{y}\right| = \frac{|y_n -y|}{|y_n||y|} \leq \frac{1}{b|y|} |y_n-y|.
+    \]
+    By the Squeeze Theorem, $\lim_{n\to \infty} \left|\frac{1}{y_n} - \frac{1}{y}\right| = 0$. Therefore, $\lim_{n\to \infty}\frac{1}{y_n} = \frac{1}{y}$. Furthermore, by the proof before this (3.), it follows that $\lim_{n\to \infty} \left(x_n \cdot \frac{1}{y_n}\right) = \frac{x}{y}$.
+\end{enumerate}
+\qed 
+
+\begin{remark}
+By induction, one can prove that 
+\[
+\lim_{n\to \infty}(x_n)^k = x^k.
+\]
+\end{remark}
+
+\begin{theorem}
+If $\{x_n\}$ is a convergent sequence such that $\forall n\in\NN$, $x_n\geq 0$, then $\{\sqrt{x_n}\}$ is convergent and \[
+\lim_{n\to \infty} \sqrt{x_n} = \sqrt{\lim_{n\to \infty}x_n}.
+\]
+\end{theorem}
+\textbf{Proof}: Let $x = \lim_{n\to \infty} x_n$. 
+
+\underline{Case 1}: $x=0$. Let $\epsilon>0$. Then, since $x_n\to 0$, there exists an $M_0 \in\NN$ such that $\forall n\geq M_0$, $x_n = |x_n-0| <\epsilon^2$. Choose $M = M_0$. Then, $\forall n\geq M$, 
+\[
+|\sqrt{x_n} - \sqrt{0}| = \sqrt{x_n} < \sqrt{\epsilon^2} = \epsilon.
+\]
+
+\underline{Case 2}: $x>0$. We have $\forall n\in\NN$,
+\begin{align*}
+    |\sqrt{x_n} - \sqrt{x}| &= \left|\frac{\sqrt{x_n} - \sqrt x} {\sqrt{x_n} + \sqrt x}\cdot (\sqrt{x_n} + \sqrt{x})\right| \\
+    &= \frac{1}{\sqrt{x_n}+\sqrt{x}} |x_n -x| \\ 
+    &\leq \frac{1}{\sqrt x} |x_n -x|.
+\end{align*}
+Hence,
+\[
+0 \leq  |\sqrt{x_n} - \sqrt{x}|\leq \frac{1}{\sqrt x} |x_n -x|
+\]
+$\forall n\in\NN$. Hence, by the Squeeze Theorem,
+\[
+\lim_{n\to \infty} |\sqrt{x_n}
+ - \sqrt x| = 0.\] 
+ \qed 
+ 
+ \begin{remark}
+ Why must we do casework in the above proof?
+ \end{remark}
+ 
+ \begin{theorem}
+ If $\{x_n\}$ is convergent and $\lim_{n\to \infty} x_n = x$, then $\{|x_n|\}$ is convergent and $\lim_{n\to \infty} |x_n| = |x|$.
+ \end{theorem}
+ \textbf{Proof}:
+ Firstly, note that $\forall x\in\RR$, $\sqrt{x^2} = |x|$. Then,
+ \[
+ \lim_{n\to \infty}|x_n| =  \lim_{n\to \infty}\sqrt{x_n^2}= \sqrt{x^2} = |x|
+ \]
+ by the previous theorem. \qed 
+ 
+ \begin{theorem}
+ If $c\in (0,1)$, then $\lim_{n\to \infty} c^n = 0$. If $c>1$, then $\{c^n\}$ is unbounded.
+ \end{theorem}
+ \textbf{Proof}: If $0<c<1$, we claim that $\forall n\in\NN$, $0 < c^{n+1} <c^n < 1$. We can prove this through induction. Firstly, notice that $0 < c^2 <c <1$ since $c>0$ and $c<1$. Now assume that $0<c^{m+1} <c^{m}$. Then, multiply by $c>0$ to obtain 
+ \[
+ 0 < c^{m+1}\cdot c = c^{(m+1)+1}<c^{m}\cdot c = c^{(m+1)}.
+ \]
+ By induction, our claim holds. Thus, $\{c^n\}$ is a monotone decreasing sequence and is bounded below. Thus, $\{c^n\}$ is convergent. Let $L = \lim_{n\to\infty} c^n$. We will prove that $L= 0$. Let $\epsilon>0$. Then, $\exists M \in\NN$ such that $\forall n\geq M$, $|c^n - L| < (1-c)\frac{\epsilon}{2}$. Therefore,
+ \begin{align*}
+     (1-c) |L| &= |L-cL| = |L -c^{M+1} + c^{M+1} -cL| \\
+     &\leq |L-c^{M+1}| + c|c^{M} - L| \\
+     &< (1-c) \frac{\epsilon}{2} + c(1-c) \frac{\epsilon}{2} <(1-c) \epsilon.
+ \end{align*}
+ Therefore, $\forall \epsilon>0$, $|L| < \epsilon\implies L =0.$ 
+ 
+Now let $c>1$. We have to show that $\forall B\geq 0$, $\exists n\in\NN$ such that $c^n > B$.
+Let $B\geq 0$. Choose $n\in\NN$ such that $n>\frac{B}{c-1}$. Then, 
+\[
+c^n = (1+(1-c))^n \geq 1+n(c-1) \geq n(c-1) > B.
+\]
+To see why this center inequality is true, see the last theorem shown in Lecture 1. \qed 
+
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.100A / 18.1001 Real Analysis, Fall 2020
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+%started 2:43pm$
+
+\begin{theorem}[Some Special Sequences]
+What follows are some special sequences to have in our toolbox. 
+\begin{enumerate}
+    \item If $p>0$, then $\lim_{n\to \infty} n^{-p} = 0$.
+    \item If $p>0$ then $p^{\frac{1}{n}} = 1$. 
+    \item $\lim_{n\to \infty} n^{\frac{1}{n}} = 1$.
+\end{enumerate}
+\end{theorem}
+\textbf{Proof}:
+\begin{enumerate}
+    \item Let $\epsilon>0$. Then, choose $M > (1/\epsilon)^{1/p}$. Hence, if $n\geq M$,
+    \[
+    \left|\frac{1}{n^p} - 0\right| = \frac{1}{|n^p|} \leq \frac{1}{M^p} < \epsilon. 
+    \]
+    \item Suppose $p>1$. Then, $p^{1/n} -1 >0$ which may be proven by induction. Furthermore, we have 
+    \begin{align*}
+        p = (1+(p^{1/n} -1))^n \\
+        &\geq 1 + n(p^{1/n}-1).
+    \end{align*}
+    Therefore, $0 < p^{1/n}-1 \leq \frac{p-1}{n}$. Hence, we may apply the Squeeze Theorem, obtaining $\lim_{n\to \infty} |p^{1/n}-1| = 0$. If $p< 1$, then
+    \[
+    \lim_{n\to \infty} p^{1/n} = \lim_{n\to \infty} \frac{1}{(1/p)^{1/n}} = \frac{1}{1} =1.
+    \]
+    Furthermore, if $p =1$ then it is clear that $\lim_{n\to \infty} p^{1/n} = 1$. Hence, in all cases, the limit is 1.
+    \item Let $x_n = n^{1/n}-1 \geq 0$. We want to show that $\lim_{n\to \infty} x_n = 0$, as this will imply the end result. Notice that 
+    \[
+        n = (1+x_n)^n = \sum_{j=0}^n {n\choose j} x_n^j \geq {n\choose 2} x_n^2 = \frac{n!}{2(n-2)!} \cdot x_n^2 = \frac{n(n-1)}{2} \cdot x_n^2.
+    \]
+    Thus, for $n>1$,
+    \[
+    0 \leq x_n \leq \sqrt{\frac{2}{n-1}} \implies x_n \to 0.
+    \]
+\end{enumerate} \qed 
+
+\noindent\underline{\textbf{Limsup/Liminf}}
+\begin{question}
+Does a bounded sequence have a convergent subsequence?
+\end{question}
+
+\begin{definition}[Limsup/Liminf]
+Let $\{x_n\}$ be a bounded sequence. We define, if the limits exist, 
+\begin{align*}
+\limsup_{n\to \infty} x_n &:= \lim_{n\to \infty}(\sup\{x_k \mid k \geq n\}) \\
+\liminf_{n\to \infty} x_n &:= \lim_{n\to \infty}(\inf\{x_k \mid k \geq n\}).
+\end{align*}
+These are called the \vocab{limit superior} and \vocab{limit inferior} respectively.
+\end{definition}
+
+We will now show that these limits always exist.
+\begin{theorem}
+Let $\{x_n\}$ be a bounded sequence, and let 
+\begin{align*}
+    a_n &= \sup\{x_k \mid k\geq n\} \\
+    b_n &= \inf\{x_k \mid k\geq n\}.
+\end{align*}
+Then, 
+\begin{enumerate}
+    \item $\{a_n\}$ is monotone decreasing and bounded, and $\{b_n\}$ is monotone increasing and bounded.
+    \item $\liminf_{n\to \infty} x_n \leq \limsup_{n\to \infty} x_n$.
+\end{enumerate} 
+\end{theorem}
+\textbf{Proof}
+\begin{enumerate}
+    \item Since, $\forall \in \NN$, 
+    \[
+    \{x_k \mid k\geq n+1\} \subseteq \{x_k \mid k \geq n\},
+    \]
+    we have that $a_{n+1}= \sup\{x_k\mid k\geq n+1\} \leq \sup\{x_k \mid k\geq n\} = a_n$.
+    
+    Similarly, $\forall n \in \NN$, $b_{n+1} \geq b_n$. Given $\{x_n\}$ is a bounded sequence, $\exists B \geq 0$ such that $\forall n\in \NN$,
+    \[
+    -B \leq x_n \leq B.
+    \]
+    Therefore, $\forall n\in \NN$, 
+    \[
+    -B \leq b_n \leq a_n \leq B
+    \]
+    which implies both sequences are bounded. 
+    \item By the above equation, $\forall n\in \NN$, $b_n \leq a_n \implies \liminf_{n\to \infty} x_n = \lim_{n\to \infty} b_n \leq \lim_{n\to \infty} a_n = \limsup_{n\to \infty} x_n.$
+\end{enumerate}
+\qed 
+
+\noindent Let's consider a few examples.
+\begin{example}
+Let $x_n = (-1)^n$. Calculate the $\liminf$ and $\limsup$ of this sequence.
+\end{example}
+\begin{proof}
+Notice that $\{(-1)^k \mid l\geq n\} = \{-1,1\}$. Thus, the supremum of these sets is always 1 and the infimum is always $-1$. Therefore, 
+\[
+\limsup_{n\to \infty} x_n = 1 \hspace{.25cm} \text{and} \hspace{.25cm} \liminf_{n\to \infty} x_n = -1.
+\]
+\end{proof}
+
+\begin{example}
+Let $x_n = \frac{1}{n}$. Calculate the $\liminf$ and $\limsup$ of this sequence.
+\end{example}
+\begin{proof}
+We may do this directly:
+\begin{align*}
+    \sup\{1/k \mid k\geq n\} = \frac{1}{n}\to 0 &\implies \limsup_{n\to \infty} x_n = 0. \\
+    \inf\{1/k\mid k \geq n\} = 0 \to 0 &\implies \liminf_{n\to \infty} x_n = 0.
+\end{align*}
+\end{proof}
+
+The limit inferior and the limit superior allow us to answer the question posed at the beginning of this section.
+\begin{theorem}
+Let $\{x_n\}$ be a bounded sequence. Then, there exists subsequences $\{x_{n_k}\}$ and $\{x_{m_k}\}$ such that 
+\begin{align*}
+    \lim_{k\to \infty} x_{n_k} &= \limsup_{n\to \infty} x_n \\
+    \lim_{k\to \infty} x_{m_k} &= \limsup_{n\to \infty} x_n.
+\end{align*}
+\end{theorem}
+\textbf{Proof}: Let $a_n = \sup\{x_k \mid k\geq n\}.$ Then, $\exists n_1 \in \NN$ such that $a_1 -1 < x_{n_1} \leq a_1$. Now, $\exists n_2>n_1$ such that
+\[
+a_{n_1+1}-\frac{1}{2} < x_{n_2} \leq a_{n_1+1}
+\]
+since 
+\[
+a_{n+1} = \sup \{x_k \mid k\geq n_1 +1\}.
+\]
+Similarly, $\exists n_3>n_2$ such that
+\[
+a_{n_2+1}-\frac{1}{3} < x_{n_3} \leq a_{n_2+1}.
+\]
+Continuing in this way, we obtain a sequence of integers $n_1< n_2 < n_3< \dots$ such that 
+\[
+a_{n_k+1} - \frac{1}{k+1} < x_{n_k} \leq a_{n_k+1}.
+\]
+Given $\lim_{k\to \infty} a_{n_k +1} = \limsup_{n\to \infty} x_n$, by the Squeeze Theorem, 
+\[
+\lim_{k\to \infty} x_{n_k} = \limsup_{n\to \infty} x_n.
+\]
+The direction for the $\liminf$ works out the same way so that portion of the proof is left to the reader. \qed 
+
+\begin{theorem}[Bolzano-Weierstrass]
+Every bounded sequence has a convergent subsequence.
+\end{theorem}
+\begin{remark}
+We may abbreviate the Bolzano-Weierstrass theorem to B-W.
+\end{remark}
+
+\noindent\textbf{Proof}: This follows immediately from the previous theorem, but is so important that it itself is a theorem. \qed 
+
+\begin{notation}
+When it is clear, we may have the following notational shorthand: $\liminf_{n\to \infty} x_n := \liminf x_n$, and \\$\limsup_{n\to \infty} x_n := \limsup x_n$.
+\end{notation}
+
+\begin{theorem}
+Let $\{x_n\}$ be a bounded sequence. Then, $\{x_n\}$ converges if and only if $\liminf x_n = \limsup x_n.$
+\end{theorem}
+\textbf{Proof} ($\impliedby$) Suppose $\liminf x_n = \limsup x_n$. Then, $\forall n\in \NN$,
+\[
+\inf\{x_k \mid k \geq n\} \leq x_n \leq \sup \{x_k\mid k\geq n\}.
+\]
+By the Squeeze Theorem, since $\lim_{k\to \infty} \inf \{x_k \mid k\geq n\} = \lim_{k\to \infty} \sup \{x_k \mid k\geq n\}$ by assumption, we have 
+\[
+\lim_{n\to \infty} x_n = \liminf x_n = \limsup x_n.
+\]
+Therefore, $x_n$ converges. 
+
+($\implies$) Let $x = \lim_{n\to \infty} x_n$. Therefore, every subsequence of $\{x_n\}$ converges to $x$, so $\liminf x_n = x$ and $\limsup x_n =x$ by a theorem we proved in Lecture 7. Hence, $\liminf x_n = \limsup x_n.$ \qed 
+
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.100A / 18.1001 Real Analysis, Fall 2020
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\noindent\underline{\textbf{Cauchy Sequences}}
+
+\begin{definition}{Cauchy}
+A sequence $\{x_n\}$ is \vocab{Cauchy} if $\forall \epsilon>0$ $\exists M \in \NN$ such that for all $n,k \geq M$,
+\[
+|x_n - x_k| <\epsilon.
+\]
+\end{definition}
+
+\begin{example}
+Show the sequence $x_n = \frac{1}{n}$ is Cauchy. 
+\end{example}
+\begin{proof}
+Let $\epsilon>0$ and choose $M \in \NN$ such that $\frac{1}{M} < \frac{\epsilon}{2}$. Then, if $n,k\geq M$, then 
+\[
+\left|\frac{1}{n} - \frac{1}{k}\right| \leq \frac{1}{n} + \frac{1}{k} \leq \frac{2}{M} < \epsilon.
+\]
+\end{proof}
+
+\begin{negation}[Not Cauchy]
+By the negation of the definition, a sequence $\{x_n\}$ is \vocab{not Cauchy} if $\exists \epsilon_0 >0$ such that for all $M\in \NN$, $\exists n,k\geq M$ such that $|x_n - x_k| \geq \epsilon_0$.
+\end{negation}
+
+\begin{example}
+Show the sequence $x_n = (-1)^n$ is not Cauchy.
+\end{example}
+\begin{proof}
+Choose $\epsilon = 1$ and let $M\in \NN$. Choose $n = M$ and $k = M+1$. Then, 
+\[
+|(-1)^n - (-1)^k| = 2 \geq 1.
+\]
+\end{proof}
+
+\begin{theorem}
+If $\{x_n\}$ is Cauchy, then $\{x_n\}$ is bounded.
+\end{theorem}
+\textbf{Proof}: If $\{x_n\}$ is Cauchy then $\exists M\in \NN$ such that for all $n,k\geq M$, 
+\[
+|x_n - x_k|< 1.
+\]
+Then, for all $n\geq M$, $|x_n - x_M| <1.$ Hence, 
+\[
+|x_n| \leq |x_n-x_M| + |x_M| < |x_M| + 1.
+\]
+Let $B = |x_1|+\dots+|x_M|+1$. Then, for all $n\in \NN$, $|x_n| \leq B.$ \qed 
+
+\begin{theorem}
+If $\{x_n\}$ is Cauchy and a subsequence $\{x_{n_k}\}$ converges, then $\{x_n\}$ converges.
+\end{theorem}
+\textbf{Proof}: Suppose that $\{x_{n_k}\}$ is a subsequence of $\{x_n\}$ such that $\lim_{k\to \infty} x_{n_k} =x$. We claim that $x_n \to x$. Let $\epsilon>0$. Since $x_{n_k}\to x$, there exists $M_0 \in \NN$ such that $\forall k \geq M_0$, 
+\[
+|x_{n_k} - x| < \frac{\epsilon}{2}.
+\]
+Since $\{x_n\}$ is Cauchy, there exists an $M_1 \in \NN$ such that for all $n \geq M_1$ and $m\geq M_1$, 
+\[
+|x_n-x_m|<\frac{\epsilon}{2}.
+\]
+Choose $M = M_0 + M_1$. If $n\geq M$, then $n_M \geq M \geq M_0$ and $n_ \geq M_1$. Therefore, 
+\[
+|x_n-x| \leq |x_n -x_{n_M}| + |x_{n_M} - x| < \frac{\epsilon}{2}+ \frac{\epsilon}{2} = \epsilon.
+\] 
+\qed 
+
+\begin{theorem}
+A sequence of real numbers $\{x_n\}$ is Cauchy if and only if $\{x_n\}$ is convergent.
+\end{theorem}
+\textbf{Proof}: ($\implies$) If $\{x_n\}$ is Cauchy, then $\{x_n\}$ is bounded. Therefore, $\{x_n\}$ has a convergent subsequence by Bolzano-Weierstrass. By the previous theorem, we thus have that $\{x_n\}$ is convergent.
+
+($\impliedby$) Suppose that $\{x_n\}$ is convergent and $x = \lim_{n\to \infty} x_n$. Let $\epsilon>0$. Since $x_n \to x$, $\exists M_0 \in \NN$ such that $\forall n\geq M_0$,
+\[
+|x_n-x| < \frac{\epsilon}{2}.
+\]
+Choose $M = M_0$. Then, if $n,k\geq M$,
+\[
+|x_n -x_k| \leq |x_n-x| + |x_k-x| < \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon.
+\]
+Therefore, $\{x_n\}$ is Cauchy. \qed 
+
+\noindent\underline{\textbf{Series}}
+\begin{remark}
+Series were the original motivation for analysis.
+\end{remark}
+\begin{definition}
+Given $\{x_n\}$, the symbol $\sum_{n=1}^\infty x_n$ or $\sum x_n$ is the \vocab{series} associated to $\{x_n\}$. We say $\sum x_n$ converges if the sequence 
+\[
+\left\{
+s_m = \sum_{n=1}^m x_n
+\right\}_{m=1}^\infty
+\]
+converges. We call the terms of $\{s_m\}$ the \vocab{partial sums}. If $\lim_{m\to \infty} s_m = s$, we write $s = \sum x_n$ and treat $\sum x_n$ as a number.
+\end{definition}
+
+\begin{remark} A series need not start at $n=1$.
+\end{remark}
+
+\begin{example}
+$\sum_{n=1}^\infty \frac{1}{n(n+1)}$ converges.
+\end{example}
+\begin{proof}
+We may do show this directly by consider the partial sums:
+\begin{align*}
+    s_m = \sum_{n=1}^m \frac{1}{n(n+1)} &= \sum_{n=1}^m \frac{1}{n} - \frac{1}{n+1} \\
+    &= \left(1+\frac{1}{2} + \dots + \frac{1}{m}\right) -\left(\frac{1}{2} + \dots \frac{1}{m} +\frac{1}{m+1} \right) \\
+    &= 1- \frac{1}{m+1}.
+\end{align*}
+Thus, $s_m = 1-\frac{1}{m+1} \to 1$. Hence, the partial sums converge and thus the series converges.
+\end{proof}
+
+\begin{theorem}
+If $|r| < 1$ then $\sum_{n=0}^\infty r^n$ converges and 
+\[
+\sum_{n=0}^\infty r^n = \frac{1}{1-r}.
+\]
+\end{theorem}
+\textbf{Proof}: We have $\forall m\in \NN$, 
+\[
+s_m = \sum_{n=0}^m r^n = \frac{1-r^{m+1}}{1-r}
+\]
+by induction. Since $|r|<1$, $\lim_{m\to \infty} |r|^{m+1} = 0$. Therefore, 
+\[
+\lim_{m\to \infty} s_m = \frac{1-0}{1-r} = \frac{1}{1-r}.
+\]\qed 
+
+\begin{remark}
+Series of the form $\sum_{n=0}^\infty \alpha (r)^{n}$ for $\alpha \in \RR$ and $r\in \RR$ are called \vocab{geometric series.}
+\end{remark}
+
+\begin{theorem}
+Let $\{x_n\}$ be a sequence and let $M \in \NN$. Then, $\sum_{n=1}^\infty x_n$ converges if and only if $\sum_{n=M}^\infty x_n$ converges. 
+\end{theorem}
+\textbf{Proof}: The partial sums satisfy, for all $m\in \NN$, 
+\[
+\sum_{n=1}^m x_n = \sum_{n=M}^m x_n + \sum_{n=1}^M x_n.
+\]
+\qed 
+
+\begin{definition}
+$\sum x_n$ is Cauchy if the sequence of partial sums is Cauchy.
+\end{definition}
+
+\begin{theorem}
+$\sum x_n$ is Cauchy $\iff$ $\sum x_n$ is convergent.
+\end{theorem}
+\textbf{Proof}: This follows by the analogous theorem for regular sequences of real numbers proven earlier. \qed
+
+\begin{theorem}
+$\sum x_n$ is Cauchy if and only if $\forall \epsilon>0$, $\exists M\in \NN$ such that for all $m \geq M$ and $\ell >m$,
+\[
+\left|\sum_{n=m+1}^\ell x_n\right| < \epsilon.
+\]
+\end{theorem}
+\textbf{Proof}: $(\implies)$ Suppose $\sum x_n$ is Cauchy. Let $\epsilon>0$. Then, $\exists M_0\in \NN$ such that $\forall m,\ell \geq M_0$,
+\[
+|s_m - s_{\ell}| < \epsilon.
+\]
+Choose $M = M_0$. Then, if $m\geq M$ and $\ell >m$, then
+\[
+\left|\sum_{n=m+1}^\ell x_n\right| = |s_\ell -s_m| < \epsilon.
+\]
+The other direction is left as an exercise. \qed
+
+\begin{theorem}
+If $\sum x_n$ converges then $\lim_{n\to \infty} x_n = 0$.
+\end{theorem}
+\textbf{Proof}: Suppose $\sum x_n$ converges. Then, $\sum x_n$ is Cauchy. Let $\epsilon>0$. Since $\sum x_n$ is Cauchy, $\exists M_0 \in \NN$ such taht for all $\ell>m\geq M_0$, 
+\[
+\left|\sum_{n=m+1}^\ell x_n\right| < \epsilon.
+\]
+Choose $M = M_0 + 1$. Then, if $m \geq M \implies m-1\geq M_0$. Therefore, 
+\[
+|x_m| = \left|\sum_{n=m}^m x_n\right| < \epsilon
+\]
+by taking $\ell = m$. \qed 
+
+\begin{theorem}
+If $|r| \geq 1$, then $\sum_{n=0}^\infty r^n$ diverges.
+\end{theorem}
+\textbf{Proof}: If $|r|\geq 1$, then $\lim_{m\to \infty}r^m \neq 0$. Therefore, 
+$\sum_{n=0}^\infty r^n$ diverges, as if this wasn't the case then \\
+$\lim_{m\to \infty} r^m =0$ by the previous theorem which is a contradiction. \qed 
+
+\begin{corollary}
+The series $\sum_{n=0}^\infty \alpha(r)^n$ converges if and only if $|r|< 1$.
+\end{corollary}
+
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.100A / 18.1001 Real Analysis, Fall 2020
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\begin{recall}
+Last time we showed that if $\sum x_n$ converges then $\lim_{n\to \infty} x_n = 0$.
+\end{recall}
+
+\begin{question}
+Is the converse true? Does $\lim_{n\to \infty} x_n = 0 \implies \sum x_n$ converges?
+\end{question}
+
+\begin{theorem}
+The series $\sum_{n=1}^\infty \frac{1}{n}$ does not converge.
+\end{theorem}
+\textbf{Proof}: We will show that there exists a subsequence of $s_m = \sum_{n=1}^m \frac{1}{n}$ which is unbounded, which will imply the series diverges. Consider, for $\ell \in \NN$, 
+\[
+s_{2^\ell} = \sum_{n=1}^{2^\ell} \frac{1}{n}.
+\]
+Then,
+\begin{align*}
+    s_{2^\ell} &= 1+\left(\frac{1}{2}\right) + \left(\frac{1}{3} + \frac{1}{4}\right) + \left(\frac{1}{5} + \dots + \frac{1}{8} \right)  + \dots \left(\frac{1}{2^{\ell-1}+1} + \dots + \frac{1}{2^\ell}\right) \\
+    &= 1 + \sum_{\lambda = 1}^\ell \sum_{n=2^{\lambda-1}+1}^{2^\lambda} \frac{1}{n} \\
+    &\geq 1 + \sum_{\lambda = 1}^\ell \sum_{n=2^{\lambda-1}+1}^{2^\lambda} \frac{1}{2^\lambda} \\
+    &= 1 + \sum_{\lambda = 1}^\ell \frac{1}{2^\lambda}(2^\lambda - (2^{\lambda-1}+1)+1) \\
+    &= 1 + \sum_{\lambda = 1}^\ell \frac{2^{\lambda-1}}{2^\lambda} \\
+    &= 1 + \frac{\ell}{2}.
+\end{align*}
+Thus, $\{s_{2^\ell}\}_{\ell=1}^\infty$ is unbounded which implies $\{s_{2^\ell}\}$ does not converge. \qed 
+
+\begin{remark}
+The series $\sum \frac{1}{n}$ is called the \textbf{harmonic series.}
+\end{remark}
+
+\begin{theorem}
+Let $\alpha \in \RR$ and $\sum x_n$ and $\sum y_n$ be convergent series. Then the series $\sum (\alpha x_n + y_n)$ converges and 
+\[
+\sum (\alpha x_n + y_n) = \alpha \sum x_n + \sum y_n.
+\]
+\end{theorem}
+\textbf{Proof}: The partial sums satisfy
+\[
+\sum_{n=1}^m (\alpha x_n + y_n) = \alpha \sum_{n=1}^m x_n + \sum_{n=1}^m y_n.
+\]
+By linear properties of limits, it follows that 
+\[
+\lim_{m\to \infty} \sum_{n=1}^m (\alpha x_n +y_n) = \alpha \sum x_n + \sum y_n.
+\] \qed 
+
+\noindent Series with non-negative terms are easier to work with than general series as then $\{s_n\}$ is a monotone sequence.
+
+\begin{theorem}
+If $\forall n \in \NN$ $x_n \geq 0$, then $\sum x_n$ converges if and only if $\{s_m\}$ is bounded. 
+\end{theorem}
+\textbf{Proof}: If $x_n \geq 0$ for all $n\in \NN$ then 
+\[
+s_{m+1} = \sum_{n=1}^{m+1} x_n = \sum_{n=1}^m x_n + x_{m+1} = s_m  + x_{m+1} \geq s_m
+\]
+Thus, $\{s_m\}$ is a monotone increasing sequence. Therefore, $\{s_m\}$ converges if and only if $\{s_m\}$ is bounded. \qed 
+
+\begin{definition}
+$\sum x_n$ \vocab{converges absolutely} if $\sum |x_n|$ converges.
+\end{definition}
+
+\begin{theorem}
+If $\sum x_n$ converges absolutely then $\sum x_n$ converges.
+\end{theorem}
+\textbf{Proof}: Suppose $\sum |x_n|$ converges. We will then show that $\sum x_n$ is Cauchy.
+
+Claim: $\forall m\geq 2$, $\left|\sum_{n=1}^m x_n \right| \leq \sum_{n=1}^m |x_n|$. We prove this claim by induction. For $m=2$, this states that $|x_1 + x_2| \leq |x_1|+|x_2|$, which follows by the Triangle Inequality. Suppose for all $\left|\sum_{n=1}^\ell x_n\right| \leq \sum_{n=1}^\ell |x_n|.$ Then, 
+\[
+\left|\sum_{n=1}^{\ell+1} x_n\right| \leq \left|\sum_{n=1}^{\ell} x_n \right| + |x_{\ell+1}| \leq \sum_{n=1}^\ell |x_n| + |x_{\ell+1}| = \sum_{n=1}^{\ell+1} |x_n|.
+\]
+We now prove that $\sum x_n$ is Cauchy. Let $\epsilon >0$. Since $\sum |x_n|$ converges, $\sum |x_n|$ is Cauchy. Therefore, there exists an $M_0 \in \NN$ such that for all $\ell > m \geq M_0$, 
+\[
+\sum_{n=m+1}^\ell |x_n| < \epsilon.
+\]
+Choose $M = M_0$. Then, for all $\ell >m\geq M$, 
+\[
+\left|\sum_{n=m+1}^\ell x_n\right| \leq \sum_{n=m+1}^\ell |x_n| < \epsilon.
+\]
+Hence, $\sum x_n$ is Cauchy, and thus converges. \qed 
+
+\begin{remark}
+We will see that $\sum_{n=1}^\infty \frac{(-1)^n}{n}$ is convergent but not absolutely convergent.
+\end{remark}
+
+Notice that it is immediately clear that this series is not absolutely convergent as $\sum \left|\frac{(-1)^n}{n}\right| = \sum \frac{1}{n}$ (the harmonic series), which doesn't converge.
+
+\newpage\noindent\underline{\textbf{Convergence tests}}
+
+\begin{theorem}[Comparison Test]
+Suppose for all $n\in \NN$ $0\leq x_n \leq y_n$. Then,
+\begin{enumerate}
+\item if $\sum y_n$ converges, then $\sum x_n$ converges. 
+\item if $\sum x_n$ diverges, then $\sum y_n$ diverges.
+\end{enumerate}
+\end{theorem}
+\textbf{Proof}:
+\begin{enumerate}
+    \item If $\sum y_n$ converges, then $\left\{\sum_{n=1}^m y_n\right\}_{m=1}^\infty$ is bounded. In other words, there exists a $B\geq 0$ such that for all $m\in \NN$,
+    \[
+    \sum_{n=1}^m y_n \leq B.
+    \]
+    Thus, for all $m\in \NN$, $\sum_{n=1}^m x_n \leq \sum_{n=1}^m y_n \leq B$. Therefore, the partial sums of $\{x_n\}$ are bounded, which implies $\sum x_n$ converges.
+    \item If $\sum x_n$ diverges, then $\left\{\sum_{n=1}^m x_n\right\}_{m=1}^\infty$ is unbounded. We now prove that \[\left\{\sum_{n=1}^m y_n\right\}_{m=1}^\infty\] is also unbounded. Let $B\geq 0$. Then, $\exists m\in \NN$ such that 
+    \[
+    \sum_{n=1}^m x_n \geq B.
+    \]
+    Therefore, $\sum_{n=1}^m y_n \geq \sum_{n=1}^m x_n \geq B$. Thus, $\left\{\sum_{n=1}^m y_n\right\}_{m=1}^\infty$ is unbounded, which implies $\sum y_n$ diverges.
+\end{enumerate}
+\qed 
+
+\begin{remark}
+We will see that geometric series and the Comparison Test imply everything!
+\end{remark}
+
+\begin{theorem}
+For $p\in \RR$, the series $\sum_{n=1}^\infty \frac{1}{n^p}$ converges if and only if $p>1$.
+\end{theorem}
+\textbf{Proof}: ($\implies$) We prove this direction through contradiction. Suppose $\sum_{n=1}^\infty \frac{1}{n^p}$ converges and $p\leq 1$. Then, $\frac{1}{n^p} \geq \frac{1}{n}$, and $\sum \frac{1}{n}$ diverges. Therefore, by the Comparison Test, $\sum \frac{1}{n^p}$ also diverges. Hence, if $\sum \frac{1}{n^p}$ converges, then $p>1$.
+
+($\impliedby$) Suppose $p>1$. We first prove that a subsequence of the partial series is bounded. 
+
+Claim 1: $\forall k\in \NN$, 
+$s_{2^k} \leq 1 + \frac{1}{1-2^{-(p-1)}}$. Proof:
+\begin{align*}
+    s_{2^k} &= 1+ \sum_{\ell=1}^k \sum_{n=2^{\ell-1}+1}^{2^\ell} \frac{1}{n^p} \\
+    &\leq 1+ \sum_{\ell=1}^k \sum_{n=2^{\ell-1}+1}^{2^\ell} \frac{1}{(2^{\ell-1}+1)^p} \\
+    &\leq 1+ \sum_{\ell=1}^k 2^{-p(\ell-1)}(2^\ell-(2^{\ell-1}+1)+1) \\
+    &= 1+ \sum_{\ell=1}^k 2^{-(p-1)(\ell-1)} \\
+    &= 1+ \sum_{\ell=0}^{k-1} 2^{-(p-1)\ell} \\
+    &\leq 1+ \sum_{\ell=0}^\infty 2^{-(p-1)\ell} \\
+    &= 1 + \frac{1}{1-2^{-(p-1)}}
+\end{align*}
+using the fact that $p-1>0$, and using properties of geometric series. Thus, Claim 1 is proven. 
+
+Claim 2: $\{s_m = \sum_{n=1}^m \frac{1}{n^p}\}$ is bounded. Proof: Let $m\in\NN$. Since $2^m >m$, we have that 
+\[
+s_m = \sum_{n=1}^m \frac{1}{n^p} \leq \sum_{n=1}^{2^m}n^{-p} \leq 1 + \frac{1}{1-2^{-(p-1)}}.
+\]
+Hence, the partial sums are bounded, which implies $\{s_m\}$ converges. \qed
+
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.100A / 18.1001 Real Analysis, Fall 2020
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\noindent We continue our study of convergence tests.
+
+\begin{theorem}[Ratio test]
+Suppose $x_n \neq 0$ for all $n$ and 
+\[
+L = \lim_{n\to \infty} \frac{|x_{n+1}|}{|x_n|}
+\]
+exists. Then,
+\begin{enumerate}
+\item if $L<1$ then $\sum x_n$ converges absolutely. 
+\item if $L>1$ then $\sum x_n$ diverges.
+\end{enumerate}
+\end{theorem}
+\textbf{Proof}: We will first prove the second part of this theorem. 
+\begin{enumerate}
+    \item[2)] Suppose $L >1$ and $\alpha \in (1,L)$. Then, there exists $M_0 \in \NN$ such that for all $N\geq M_0$, $\frac{|x_{n+1}|}{|x_n|} \geq \alpha \geq 1$. Thus, for all $n\geq M_0$,
+\[
+|x_{n+1}| \geq |x_n| \implies \lim_{n\to \infty} |x_n| \neq 0.
+\]
+Therefore, $\sum x_n$ diverges.
+
+\item[1)] Now suppose that $L<1$. Let $\alpha \in (L,1)$. Then, there exists $M_0 \in \NN$ such that $\forall n\geq M_0$, $\frac{|x_{n+1}|}{|x_n|}< \alpha$. Therefore,$\forall n\geq M_0$, $|x_{n+1}| \leq \alpha |x_n|$. In other words, for all $n\geq M_0$,
+\[
+|x_n| \leq \alpha |x_{n-1}| \leq\alpha^2 |x_{n-2}| \leq \dots \leq \alpha^{n-M_0} |x_{M_0}|.
+\]
+
+Let $m\in \NN$. Then, 
+\begin{align*}
+    \sum_{n=1}^m |x_n| &= \sum_{n=1}^{M_0-1} |x_n| + \sum_{n=M_0}^m |x_n| \\
+    &\leq \sum_{n=1}^{M_0-1} |x_n| + |x_{M_0}|\sum_{n=M_0}^m \alpha^{n-M_0} \\
+    &\leq \sum_{n=1}^{M_0-1} |x_n| + |x_{M_0}| \sum_{\ell = 0}^\infty \alpha^\ell \\
+    &= \sum_{n=1}^{M_0-1} |x_n| + \frac{|x_{M_0}|}{1-\alpha}.
+\end{align*}
+Therefore, $\left\{\sum_{n=1}^m |x_n|\right\}_{m=1}^\infty$ is bounded, and thus $\sum |x_n|$ converges. Hence, $x_n$ is absolutely convergent.
+\end{enumerate}\qed 
+
+Let's consider two examples where we can use the Ratio test.
+\begin{example}
+Show the series $\sum_{n=1}^\infty \frac{(-1)^n}{n^2 + 1}$ converges absolutely.
+\end{example}
+\begin{proof}
+Notice
+    \[
+    \left|\frac{(-1)^n}{n^2+1}\right| \leq \frac{1}{n^2 + 1} < \frac{1}{n^2},
+    \]
+    and hence 
+    \[
+    \lim_{n\to \infty} \left|\frac{\frac{(-1)^{n+1}}{(n+1)^2+1}}{\frac{(-1)^{n}}{n^2+1}}\right| < \lim_{n\to \infty} \frac{n^2}{(n+1)^2} = 1.
+    \]
+\end{proof}
+
+\begin{example}
+Show that $\forall x\in \RR$, $\sum_{n=0}^\infty \frac{x^n}{n!}$ converges absolutely. 
+\end{example}
+\begin{proof}
+This immediately follows from the Ratio test, noting that
+    \[
+    \lim_{n\to \infty} \frac{|x|^{n+1}}{(n+1)!} \cdot \frac{n!}{|x|^n} = \lim_{n\to \infty} \frac{|x|}{n+1} = 0.
+    \]
+\end{proof}
+
+\begin{remark}
+As seen above, the Ratio test can be really helpful to use when we have a $(-1)^n$ or a factorial in the argument. Also note that if $L = 1$ then we the test doesn't apply.
+\end{remark}
+
+\begin{theorem}[Root test]
+Let $\sum x_n$ be a series and suppose that 
+\[
+L = \lim_{n\to \infty} |x_n|^{1/n}
+\]
+exists. Then,
+\begin{enumerate}
+\item if $L<1$ then $\sum x_n$ converges absolutely. 
+\item if $L>1$ then $\sum x_n$ diverges.
+\end{enumerate}
+\end{theorem}
+\textbf{Proof}: 
+\begin{enumerate}
+    \item Suppose $L<1$. Let $L < r < 1$. Then, since $|x_n|^{1/n} \to L$,  $\exists M \in \NN$ such that $\forall n \geq M$, $|x_n|^{1/n} < r$. Therefore, for all $n\geq M$, $|x_n| \leq r^n$. Thus, for all $m\in \NN$,
+\begin{align*}
+    \sum_{n=1}^m |x_n| &= \sum_{n=1}^{M-1} |x_n| + \sum_{n=M}^m |x_n| \\
+    &\leq \sum_{n=1}^{M-1} |x_n| + \sum_{n=M}^m r^n \\
+    &\leq \sum_{n=1}^{M-1}|x_n| + \sum_{n=M}^\infty r^n \\
+    &= \sum_{n=1}^{M-1} |x_n| + \frac{r^M}{1-r}.
+\end{align*}
+Thus, $\left\{\sum_{n=1}^m |x_n|\right\}_{m=1}^\infty$ is bounded, and thus $\sum |x_n|$ converges.
+
+    \item Suppose $L>1$. Then, since $|x_n|^{1/n}\to L>1$, there exists an $M\in \NN$ such that for all $n\geq M$, $|x_n|^{1/n} >1$. In other words, for all $n\geq M$, $|x_n| >1$. Therefore, $\lim_{n\to \infty} x_n \neq 0$, and thus $\sum x_n$ diverges.
+\end{enumerate}
+\qed 
+
+\begin{remark}
+Again, note that if $L = 1$ then the test doesn't apply.
+\end{remark}
+
+\begin{theorem}[Alternating Series test]
+Let $\{x_n\}$ be a monotone decreasing sequence such that $x_n \to 0.$ Then, $\sum (-1)^n x_n$ converges.
+\end{theorem}
+\textbf{Proof}: Let $s_m = \sum_{n=1}^m (-1)^n x_n$. Then,
+\begin{align*}
+    s_{2k} &= \sum_{n=1}^{2k} (-1)^n x_n \\
+    &= (x_2 - x_1) + (x_4-x_3) + \dots + (x_{2k} - x_{2k-1}) \\
+    &\geq (x_2-x_1) + \dots + (x_{2k}-x_{2k-1}) + (x_{2k+2} -x_{2k+1}) \\
+    &= s_{2(k+1)}
+\end{align*}
+as $\{x_n\}$ is a monotone decreasing sequence. Thus, $\{s_{2k}\}_{k=1}^\infty$ is monotone decreasing. Furthermore, 
+\[
+s_{2k} = -x_1 + (x_2-x_3) + (x_4-x_5) + \dots + (x_{2k-2}-x_{2k-1}) + x_{2k} \geq -x_1.
+\]
+In other words, $\{s_{2k}\}$ is a bounded below monotone decreasing sequence. Thus, $\{s_{2k}\}_{k=1}^\infty$ converges. Let $s = \lim_{k\to \infty} s_{2k}.$ We now prove $\{s_m\}_{m=1}^\infty$ converges to $s$.
+
+Let $\epsilon>0$. Since $s_{2k}\to s$, $\exists M_0 \in \NN$ such that for all $k\geq M_0$, 
+\[
+|s_{2k}-s| < \frac{\epsilon}{2}.
+\]
+Since $x_n \to 0$, $\exists M_1 \in \NN$ such that $\forall n\geq M_1$, 
+\[
+|x_n|< \frac{\epsilon}{2}.
+\]
+Choose $M = \max\{2M_+0+1, M_1\}$. Suppose $m\geq M$. If $m$ is even, then $\frac{m}{2} \geq M_0 + 1/2 \geq M_0$. Therefore, 
+\[
+|s_m - s| = |s_{2\cdot \frac{m}{2}} - s| < \frac{\epsilon}{2} < \epsilon.
+\]
+If $m$ is odd, let $k = \frac{m-1}{2}$ so $m = 2k+1$. Then, $m\geq M\implies k\geq M_0$ and $m\geq M_1$. Then,
+\begin{align*}
+    |s_m-s| &= |s_{m-1} + x_m - s| \\
+    &\leq |s_{2k}-s + x_m| \\
+    &\leq |s_{2k}-s| + |x_m| < \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon.
+\end{align*}
+Thus, $s_m\to s$, and thus $\sum (-1)^n x_n$ converges. \qed 
+
+\begin{corollary}
+We already showed that $\sum \frac{(-1)^n}{n}$ does not absolutely converge. However, $\sum \frac{(-1)^n}{n}$ converges.
+\end{corollary}
+\textbf{Proof}: This follows immediately from the Alternating Series test.
+
+\begin{theorem}
+Suppose $\sum x_n$ converges absolutely and $\sum x_n = x$. Let $\sigma: \NN \to \NN$ be a bijective function. Then, $\sum x_{\sigma(n)}$ is absolutely convergent and $\sum x_{\sigma(n)} = x$. In other words, absolute convergence implies if we rearrange the sequence the new  series will still converge to the same value of the original series.
+\end{theorem}
+\textbf{Proof}: We first show $\sum |x_{\sigma(n)}|$ converges, which is equivalent to showing the partial sums $\sum_{n=1}^m |x_{\sigma(n)}|$ is bounded. Since $\sum x_n$ converges, $\exists B\geq 0$ such that for all $\ell \in \NN$, 
+\[
+\sum_{n=1}^\ell |x_n| \leq B.
+\]
+Let $m\in \NN$. Then, $\sigma(\{1,\dots, m\})$ is a finite subset of $\NN$. Thus, there exists an $\ell \in \NN$ such that 
+\[
+\sigma(\{1,\dots, m\}) \subset \{1,\dots, \ell\}.
+\]
+Thus, 
+\[
+    \sum_{n=1}^m |x_{\sigma(n)}| = \sum_{n\in \sigma(\{1,\dots, m\})} |x_n| \leq \sum_{n=1}^\ell |x_n| \leq B.
+\]
+Therefore, $\sum |x_{\sigma(n)}|$ converges. Let $x = \sum_{n=1}^\infty x_n$, and let $\epsilon>0$. Then, $\exists M_0 \in \NN$ such that $\forall m\geq M_0$, 
+\[
+\left|\sum_{n=1}^m x_n - x\right| < \frac{\epsilon}{2}.
+\]
+Since $\sum |x_n|$ converges, $\exists M_1\in \NN$ such that for all $\ell>m\geq M_1$, 
+\[
+\sum_{n=m+1}^\ell |x_n| < \frac{\epsilon}{2}.
+\]
+Let $M_2 = \max \{M_0, M_1\}$. Then, $\forall \ell > m \geq M_2$, 
+\[
+\left|\sum_{n=1}^m x_n-x\right| < \frac{\epsilon}{2} \hspace{.25cm} \text{and} \hspace{.25cm} \sum_{n=m+1}^\ell |x_n| < \frac{\epsilon}{2}.
+\]
+Since $\sigma^{-1}(\{1,\dots, M_2\})$ is a finite set, $\exists M_3 \in \NN$ such that 
+\[
+\{1,\dots, M_2\}\subset \sigma(\{1,\dots, M_3\}).
+\]
+Choose $M = M_3$. Thus, if $m'\geq M$, 
+\begin{align*}
+    \left|\sum_{n'=1}^{m'} x_{\sigma(n')}-x\right| &= \left|\sum_{n\in \sigma(\{1,\dots, m'\})} x_n - x\right| \\
+    &= \left|\sum_{n=1}^M x_n - x + \sum_{n\in \sigma(\{1,\dots, m'\})\setminus \{1,\dots, M\}} x_n\right| \\
+    &\leq \left|\sum_{n=1}^M x_n - x\right| + \sum_{n=M+1}^{\max \sigma(\{1,\dots, m'\})} |x_n| \\
+    &\leq \left|\sum_{n=1}^M x_n - x\right| + \sum_{n=M+1}^{\ell} |x_n| \\
+    &< \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon.
+\end{align*}\qed 
+
+%stopped 6:50
+
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.100A / 18.1001 Real Analysis, Fall 2020
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+%started at 11:36
+\subsection*{Continuous Functions}
+
+\begin{remark}
+Continuous functions are those functions where \underline{tolerable} changes to \underline{outputs} accompany sufficiently \underline{small} differences of \underline{inputs}.
+\end{remark}
+
+\noindent\underline{\textbf{Limits of Functions}}
+
+\begin{definition}[Cluster Point]
+Let $S\subset \RR$. $x\in \RR$ is a \vocab{cluster point} of $S$ if $\forall \delta >0$, $(x-\delta, x+\delta) \cap S\setminus \{x\} \neq \emptyset$. 
+\end{definition}
+
+\noindent Let's look at some examples.
+\begin{enumerate}
+    \item $S = \{1/n \mid n\in\NN\}$. Here, $0$ is a clusterpoint of $S$.
+    \item $S = (0,1)$. The set of cluster points of $S$ is $[0,1]$.
+    \item $S = \QQ$. The set of cluster points of $S$ is $\RR$.
+    \item $S = \{0\}$. There are no cluster points of $S$.
+    \item $S = \ZZ$. There are no cluster points of $S$.
+\end{enumerate}
+
+\begin{theorem}
+Let $S\subset \RR$. Then, $x$ is a cluster point of $S$ if and only if there exists a sequence $\{x_n\}$ of elements in $S\setminus \{x\}$ such that $x_n\to x$.
+\end{theorem}
+
+\begin{definition}[Function Convergence]
+Let $S\subset \RR$, let $c$ be a cluster point of $S$, and $f:S\to \RR$. We say that $f(x)$ \vocab{converges} to $L\in \RR$ at $c$ if $\forall \epsilon>0$ $\exists \delta >0$ such that if $x\in S$ and $0<|x-c|<\delta$, then $|f(x)-L| < \epsilon$.
+\end{definition}
+
+\begin{notation}
+Notationally, we may write $f(x) \to L$ as $x\to c$, or $\lim_{x\to c} f(x) = L$.
+\end{notation}
+
+\begin{theorem}
+Let $c$ be a cluster point of $S\subset \RR$, and let $f: S\to \RR$. If $f(x) \to L_1$ and $f(x)\to L_2$ as $x\to c$, then $L_1 = L_2$.
+\end{theorem}
+\textbf{Proof}: We will show $\forall \epsilon>0$, $|L_1-L_2|<\epsilon$. Let $\epsilon>0$. Then, since $f(x) \to L_1$ and $f(x)\to L_2$, $\exists \delta_1$ such that if $x\in S$ and $0<|x-c|<\delta_1$ then
+\[
+|f(x) - L_1| < \epsilon/2
+\]
+and $\exists \delta_2 >0$ such that if $x\in S$ and $0<|x-c| < \delta_2$, then 
+\[
+|f(x) - L_2| < \epsilon/2.
+\]
+Let $\delta = \min\{\delta_1, \delta_2\}>0$. Then, since $c$ is a cluster point of $S$, $\exists x_0 \in S$ such that 
+\[
+0 < |x_0-c| < \delta \implies |L_1-L_2| = |L_1-f(x_0)+f(x_0) + L_2| \leq |L_1 - f(x_0)| + |f(x_0) -L_2| < \epsilon.
+\]
+\qed 
+
+Let's see some examples of limits of functions.
+\begin{example}
+Let $f(x) = ax+b$. Then, for all $c\in \RR$, $\lim_{x\to c} f(x) = ac + b$.
+\end{example}
+\begin{proof}
+Let $\epsilon>0$. Choose $\delta = \frac{\epsilon}{1+|a|}$. Then, if $x\in\RR$ and $0< |x-c|<\delta$, then 
+\begin{align*}
+    |f(x) - (ac+b)| &= |a(x-c)| \\
+    &= |a||x-c| \\
+    &< |a|\delta \\
+    &= \frac{|a|}{1+|a|} \epsilon < \epsilon.
+\end{align*}
+\end{proof}
+
+\begin{example}
+Let $f(x) = \sqrt{x}$. Then, $\forall c>0$, $\lim_{x\to c}f(x) = \sqrt{c}$.
+\end{example}
+\begin{proof}
+Let $\epsilon>0$. Choose $\delta = \epsilon \sqrt{c}$. Then, if $x>0$ and $0<|x-c|<\delta$, then 
+\begin{align*}
+    |f(x) - \sqrt{c}| &= |\sqrt{x}- \sqrt{c}| \\
+    &= \left|\frac{(\sqrt{x}-\sqrt{c})(\sqrt{x}+ \sqrt{c})}{\sqrt{x}+ \sqrt{c}}\right| \\
+    &= \frac{|x-c|}{\sqrt{x}+ \sqrt{c}} \\
+    &\leq \frac{|x-c|}{\sqrt{c}} \\
+    &< \frac{\delta}{\sqrt{c}} = \epsilon.
+\end{align*}
+\end{proof}
+
+\begin{example}
+Let $f(x) = \begin{cases}1 & x\neq 0 \\ 2 & x=0\end{cases}$. Then, $\lim_{x\to 0} f(x) = 1$. Notably, $\lim_{x\to 0} f(x) \neq f(0)$!
+\end{example}
+\begin{proof}
+Let $\epsilon>0$ and choose $\delta = 1$. Then, if $0<|x-0| <1$ then $x\neq 0 \implies$
+\[
+|f(x) - 1| = |1-1| = 0 < \epsilon.
+\]
+\end{proof}
+
+\begin{question}
+How do limits of functions relate to limits of sequences?
+\end{question}
+\begin{theorem}
+Let $S\subset \RR$, $c$ a cluster point of $S$, and let $f:S \to \RR$. Then, the following are equivalent:
+\begin{enumerate}
+    \item $\lim_{x\to c} f(x) = L$ and
+    \item for every sequence $\{x_n\}$ in $S\setminus \{c\}$ such that $x_n\to c$, we have $f(x_n) = L$.
+\end{enumerate}
+\end{theorem}
+\textbf{Proof}: ($1.\implies 2.$): Suppose $\lim_{x\to c}f(x) = L$. Let $\{x_n\}$ be a sequence in $S\setminus \{c\}$ such that $x_n \to c$. We want to show that $f(x_n)\to L$. Let $\epsilon>0$. Given $\lim_{x\to c}f(x_n) = L$, $\exists \delta >0$ such that if $x\in S$ and $0< |x-c| <\delta$ then $|f(x) - L|<\epsilon$. Since $x_n\to c$, $\exists M_0 \in \NN$ such that $\forall n\geq M_0$, $0< |x_n-c|<\delta$.
+
+Choose $M = M_0$. Then, $\forall n\geq M$, if $0<|x_n-c| <\delta$ then $|f(x_n)-L|<\epsilon$. Thus, $f(x_n) \to L$.
+
+($2.\impliedby 1.$): Suppose 2. holds, and assume for the sake of contradiction that 1) is false. Then, $\exists \epsilon_0>0$ such that $\forall \delta>0$, $\exists x\in S$ such that 
+\[
+0 < |x-c|<\delta\hspace{.25cm} \text{and} \hspace{.25cm} |f(x)-L|\geq \epsilon_0.
+\]
+Then, $\forall n\in\NN$, $\exists x_n\in S$ such that $0<|x_n-c|<\frac{1}{n}$ and $|f(x_n)-L|\geq \epsilon_0$. By the Squeeze Theorem applied to 
+\[
+0 < |x_n-c|<\frac{1}{n},
+\]
+$x_n\to c$. Then, by 2., 
+\[
+0 = \lim_{n\to \infty} |f(x_n) - L| \geq \epsilon_0
+\]
+which is a contradiction. \qed 
+
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.100A / 18.1001 Real Analysis, Fall 2020
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\begin{theorem}
+For all $c\in \RR$, $\lim_{x\to c} x^2 = c^2$.
+\end{theorem}
+\textbf{Proof}: Let $\{x_n\}$ be a sequence in $\RR\setminus \{c\}$ such that $x_n\to c$. Then, $x_n^2 \to c^2$ by a theorem shown in Lecture 8. Thus, 
+\[
+\lim_{x\to c}x^2 = c^2.
+\]
+\qed 
+
+\begin{theorem}
+We show that
+\begin{enumerate}
+    \item $\lim_{x\to 0} \sin(1/x)$ does not exist, and 
+    \item $\lim_{x\to 0} x\sin(1/x) = 0$.
+\end{enumerate}
+\end{theorem}
+\textbf{Proof}:
+\begin{enumerate}
+    \item Let $x_n = \frac{2}{(2n-1) \pi}$. Then, $x_n\neq 0$, and $x_n\to 0$. But, 
+\[
+\sin(1/x_n) = \sin \left(\frac{(2n-1)\pi}{2}\right) = (-1)^{n+1}
+\]
+for all $n.$ However, this sequence does not converge (i.e. the limit does not exist).
+\item Suppose $x_n\neq 0$ and $x_n\to 0$. Then, 
+\[
+0\leq |x_n\sin(1/x_n)| = |x_n||\sin(1/x_n)|\leq |x_n|.
+\]
+By the Squeeze Theorem, $\lim_{n\to \infty} |x_n\sin(1/x_n)| = 0$. \qed 
+\end{enumerate}
+We can use the `sequential limit' characterization to prove analogs of previous theorems for limits of sequences.
+\begin{theorem}
+Let $S\subset \RR$, $c$ a cluster point of $S$, and $f,g:S\to \RR$. Suppose $\forall x\in S$, $f(x) \leq g(x)$ and $\lim_{x\to c} f(x)$ and $\lim_{x\to c} g(x)$ exist. Then, 
+\[
+\lim_{x\to c} f(x)\leq \lim_{x\to c} g(x).
+\]
+\end{theorem}%stopped 1230; started 139
+\textbf{Proof}: Let $L_1 = \lim_{x\to c} f(x)$ and $L_2 = \lim_{x\to c} g(x)$. Let $\{x_n\}$ be a sequence in $S\setminus \{c\}$ such that $x_n\to c$. Then, $\forall n\in \NN$, $f(x_n) \leq g(x_n)$. Therefore, 
+\begin{align*}
+    L_1 = \lim_{n\to \infty} f(x_n) &\leq \lim_{n\to \infty} g(x_n) = L_2. 
+\end{align*}
+\qed 
+
+Similarly, we have analogs of the Squeeze Theorem, limits of algebraic operations, and limits of absolute values. You may read the end of Section 3.1.3 \textbf{[L]} for this.
+
+\begin{definition}
+Let $S\subset \RR$ and suppose $c$ is a cluster point of $S\cap (-\infty, c)$. Then, we say $f(x)$ converges to $L$ as $x\to c^{-}$ if $\forall \epsilon>0$ $\exists \delta >0$ such that if $x\in S$ and $c-\delta < x< c$ then $|f(x) -L|<\epsilon$.
+\end{definition}
+
+\begin{notation}
+This is denoted $L = \lim_{x\to c^-} f(x)$.
+\end{notation}
+
+\begin{definition}
+Similarly, let $S\subset \RR$ and suppose $c$ is a cluster point of $S\cap (c,\infty)$. Then, we say $f(x)$ converges to $L$ as $x\to c^{+}$ if $\forall \epsilon>0$ $\exists \delta >0$ such that if $x\in S$ and $c < x< c+\delta$ then $|f(x) -L|<\epsilon$.
+\end{definition}
+
+\begin{notation}
+This is denoted $L = \lim_{x\to c^+} f(x)$.
+\end{notation}
+
+\begin{example}
+Let $f(x) = \begin{cases}1 & x>0 \\ 0 & x< 0\end{cases}$. Then, 
+\[
+\lim_{x\to 0^-} f(x) = 0 \hspace{.25cm} \text{and} \hspace{.25cm} \lim_{x\to 0^+} f(x) = 1,
+\]
+even though $f(0)$ is undefined.
+\end{example}
+
+\begin{theorem}
+Let $S\subset \RR$ and let $c$ be a cluster point of $S\cap (-\infty, c)$ and $S\cap (c,\infty)$. Then, $c$ is a cluster point of $S$. Moreover, 
+\[
+\lim_{x\to c} f(x) = L \iff \lim_{x\to c^-}f(x) = \lim_{x\to c^+} f(x) = L.
+\]
+\end{theorem}
+
+\noindent\underline{\textbf{Continuous Functions}}
+
+As we have seen, limits do not care about $f(x)$ when $x = c$. Continuity is a condition that connects $\lim_{x\to c} f(x)$ with $f(c)$.
+
+\begin{definition}[Continuous Functions]
+Let $S\subset \RR$ and let $c\in S$. We say $f$ is \vocab{continuous at $c$} if $\forall \epsilon>0$ $\exists\delta>0$ such that if $x\in S$ and $|x-c|<\delta$ then $|f(x) - f(c)|< \epsilon$ We say $f$ is \vocab{continuous on U} for $U\subset S$ if $f$ is continuous at every point in $U$.
+\end{definition}
+
+\begin{example}
+$f(x) = ax+b$ is continuous on $\RR$.
+\end{example}
+\textbf{Proof}: Let $\epsilon>0$ and choose $\delta = \frac{\epsilon}{1+|a|}$. If $|x-c|<\delta$, then
+\begin{align*}
+|f(x) -f(c)| &= |ax+b-(ac+b)| \\
+&= |a||x-c| \\
+&< |a|\delta \\
+&= \frac{|a|}{1+|a|}\epsilon < \epsilon.
+\end{align*}
+\qed 
+
+\begin{example}
+Show that $f(x) = \begin{cases}1 & x\neq 0 \\ 2 & x=0\end{cases}$ is \textit{not} continuous at $c = 0$.
+\end{example}
+
+First we write the negation of the definition of continuity.
+
+\begin{negation}[Not Continuous]
+$f$ is \vocab{not continuous at $c$} if $\exists \epsilon_0$ such that for all $\delta>0$, $\exists x\in S$ such that $|x-c| < \delta$ and $|f(x) - f(c)| \geq \epsilon_0$.
+\end{negation}
+\begin{proof}
+Choose $\epsilon_0 = 1$ and let $\delta>0$. Then, $x = \frac{\delta}{2}$ satisfies $|x-0| < \delta$ and \[|f(x) - f(0)| = |2-1| \geq 1 = \epsilon_0.\]
+\end{proof}
+
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.100A / 18.1001 Real Analysis, Fall 2020
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\begin{theorem}
+Let $S\subset \RR$, $c\in S$, and $f:S\to \RR$. Then, 
+\begin{enumerate}
+    \item if $c$ is not a cluster point of $f$, then $f$ is continuous at $c$.
+    \item if $c$ is a cluster point of $S$, then $f$ is continuous at $c$ if and only if $\lim_{x\to c} f(x) = f(c)$.
+    \item $f$ is continuous at $c$ if and only if for every sequence $\{x_n\}$ of elements of $S$ such that $x_n \to c$, we have $f(x_n) \to f(c)$.
+\end{enumerate}
+\end{theorem}
+\textbf{Proof}:
+\begin{enumerate}
+    \item Let $\epsilon>0$. Since $c$ is not a cluster point of $S$, $\exists \delta_0>0$ such that $(c-\delta_0, c+\delta_0) \cap S = \{c\}$. Choose $\delta = \delta_0$. If $x\in S$ and $|x-c| < \delta \implies x = c\implies |f(x) -f(c)| = 0< \epsilon$. Therefore, $f$ is continuous at $c$.
+    \item This part of the theorem is left as an exercise (or read the short proof in the book).
+    \item ($\implies$) Suppose $f$ is continuous at $c$. Let $\{x_n\}$ be a sequence such that $x_n\to c$. Let $\epsilon>0$. Since $f$ is continuous at $c$, $\exists \delta >0$ such that if $x\in S$ and $|x-c| < \delta$ then $|f(x) - f(c)| < \epsilon$. Since $x_n\to c$, $\exists M_0 \in \NN$ such that $\forall n\geq M_0$, $|x_n-c|<\delta$. Choose $M = M_0$. Then, $\forall n \geq M$, 
+    \[
+    |x_n-c|<\delta \implies |f(x_n) - f(c)|<\epsilon.
+    \]
+    Thus, $f(x_n) \to f(c)$.
+    
+    ($\impliedby$) Suppose that for every sequence $\{x_n\}$ of elements of $S$ such that $x_n\to c$, we have that $f(x_n) \to f(c)$. We will work towards a contradiction. Suppose $f(x)$ is not continuous at $c$. Then, $\exists \epsilon_0$ such that $\forall \delta>0$ $\exists x\in S$ such that $|x-c| <\delta$ and $|f(x) - f(c)| \geq \epsilon_0.$
+    
+    Thus, $\forall n\in \NN$, $\exists x_n\in S$ such that $|x_n-c|< \frac{1}{n}$ and 
+    \[
+    |f(x_n) - f(c)|\geq \epsilon_0.
+    \]
+    Thus, by the Squeeze Theorem, $|x_n-c|\to 0\implies x_n\to c$. Therefore, 
+    \[
+    0 = \lim_{n\to \infty} |f(x_n) - f(c)| \geq \epsilon_0
+    \]
+    which is a contradiction.
+\end{enumerate} \qed 
+
+\begin{theorem}
+The functions $f(x) = \sin x$ and $g(x) = \cos x$ are continuous functions on $\RR$.
+\end{theorem}
+\textbf{Proof}: From their definitions in terms of the unit circle, we have that $\sin^2(x) + \cos^2(x) = 1$. Also note the following:
+\begin{enumerate}
+    \item $\forall x\in \RR$, $|\sin x| \leq 1$ and $|\cos x|\leq 1$
+    \item $\forall x\in \RR$, $|\sin x| \leq |x|$
+    \item The angle formulae: \[\sin(a+b) = \cos(a) \sin(b) + \sin(a) \cos(b)
+    \hspace{.25cm} \text{and} \hspace{.25cm} \sin(a) - \sin(b) = 2\sin\left(\frac{a-b}{2}\right)\cos\left(\frac{a+b}{2}\right).
+    \]
+\end{enumerate}
+We now show that $\sin x$ is continuous on $\RR$. Let $\epsilon>0$. Choose $\delta = \epsilon$. Then, if $|x-c|< \delta$, then 
+\[|\sin x - \sin c| = 2\left|\sin \frac{x-c}{2} \cos \frac{x+c}{2}\right| \leq 2\left|\sin \frac{x-c}{2}\right| \leq 2\frac{|x-c|}{2} = |x-c| < \delta = \epsilon.\]
+Therefore, $\sin x$ is continuous on $\RR$. We now show that $\cos x$ is continuous. Recall that $\forall x\in \RR$, $\cos x = \sin(x+ \pi/2)$. Let $c\in \RR$ and let $\{x_n\}$ be a sequence such that $x_n \to c$. Then, $x_n+\pi/2\to c+\pi/2$. Since $\sin x$ is continuous on $\RR$,
+\[
+\lim_{n\to \infty}\cos x_n = \lim_{n\to \infty}\sin\left(x_n + \frac{\pi}{2}\right) = \sin\left(c + \frac{\pi}{2}\right) = \cos c.
+\]
+Therefore, $\cos x$ is continuous on $\RR$. \qed 
+
+\begin{theorem}
+Let $f$ be a polynomial, in other words let $f$ be of the form 
+\[
+f(x) = a_d x^d + \dots + a_1 x + a_0.
+\]
+Then, $f$ is continuous on all of $\RR$.
+\end{theorem}
+\textbf{Proof}: Let $c\in \RR$ and let $\{x_n\}$ be a  sequence such that $x_n\to c$. Then, by the limit theorem for sequences, 
+\begin{align*}
+    \lim_{n\to \infty} f(x_n) &= \lim_{n\to \infty} (a_d x^d + \dots + a_1 x + a_0) \\
+    &= a_d(\lim_{n\to \infty} x_n)^d + \dots + a_1 (\lim_{n\to \infty} x_n) + a_0 \\
+    &= a_d c^d + \dots + a_1c + a_0 \\
+    &= f(c).
+\end{align*}
+Thus, $f$ is continuous at $c$ for all $c\in \RR$. \qed 
+\begin{theorem}
+If $f: S\to \RR$, $g:S\to \RR$ are continuous at $c\in S$, then 
+\begin{enumerate}
+    \item $f+g$ is continuous at $c$,
+    \item $f\cdot g$ is continuous at $c$,
+    \item and if $\forall x\in S$ $g(x) \neq 0$, then $\frac{f}{g}$ is continuous at $c$.
+\end{enumerate}
+\end{theorem}
+
+\textbf{Proof}: These proofs are left to the reader. \qed 
+
+\begin{theorem}
+Let $A,B\subset \RR$, $f:B\to \RR$, $g:A\to B$. Then, if $g$ is continuous at $c$ and $f$ is continuous at $g(c)$, then $f\circ g$ is continuous at $c$. 
+\end{theorem}
+\textbf{Proof}: Suppose $x_n\to c$. Then, $g(x_n) \to g(c)$, and thus 
+\[
+f(g(x_n)) \to f(g(c)).
+\]
+\qed 
+
+\begin{example}
+These theorems allow us to say that some functions are continuous without a huge $\epsilon-\delta$ proof:
+\begin{enumerate}[label = \roman*)]
+    \item $\frac{1}{x^2}$ is continuous on $(0,\infty$). This follows as $g(x) = x^2$ is continuous on $(0,\infty)$ and thus $\frac{1}{g(x)} = 1/x^2$ is continuous on $(0,\infty)$. 
+    \item $(\cos \frac{1}{x^2})^2$ is continuous on $(0,\infty)$. This follows as $\cos x$ is continuous on $\RR$, and thus $g(x) = \cos(1/x^2)$ is continuous on $(0,\infty)$. Furthermore, since $f(x) = x^2$ is continuous on $\RR$, $(f\circ g)(x) = (\cos 1/x^2)^2$ is continuous on $(0,\infty)$.
+\end{enumerate}
+\end{example}
+
+\begin{question}
+Let $f:\RR\to \RR$ be a function. Does there exists a point $c\in \RR$ such that $f$ is continuous at $c$?
+\end{question}
+
+\begin{theorem}
+The function 
+\[
+f(x) = \begin{cases}1 & x\in \QQ \\ 0 &x\notin \QQ\end{cases}
+\]
+is not continuous on all of $\RR$. This function is called the \textbf{Dirichlet function}.
+\end{theorem}
+\textbf{Proof}: We have two cases: $c\in \QQ$ or $c\notin \QQ$.
+\begin{enumerate}
+    \item $c\in \QQ$. For each $n\in \NN$, $\exists x_n\notin \QQ$ such that $c< x_n < c+1/n$, and thus $x_n\to c$ but $f(x_n) =1$ for all $n$ so \[1 = \lim_{n\to \infty}f(x_n)\neq f(c) = 0.\]
+    \item $c\notin \QQ$. Similarly, for each $n\in \NN$, $\exists x_n\in \QQ$ such that $c< x_n < c+1/n$, and thus $x_n\to c$ but $f(x_n) =0$ for all $n$ so \[0 = \lim_{n\to \infty}f(x_n)\neq f(c) = 1.\]
+\end{enumerate}
+\qed 
+
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.100A / 18.1001 Real Analysis, Fall 2020
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+As we will see in today's lecture, continuous functions are well behaved on closed intervals of the form $[a,b]$, with $f([a,b]) = [e,f]$ for some $e,f\in \RR$.
+
+\begin{definition}[Bounded Functions]
+A function $f:S\to \RR$ is \vocab{bounded} if $\exists B\geq 0$ such that for all $x\in S$, 
+\[
+|f(x)| \leq B.
+\]
+\end{definition}
+
+\begin{theorem}
+If $f:[a,b]\to \RR$ is continuous then $f$ is bounded.
+\end{theorem}
+\textbf{Proof}: Suppose for the sake of contradiction that $f:[a,b]\to \RR$ is continuous and $f$ is unbounded. Then, $\forall n \in \NN$, $\exists x_n\in [a,b]$ such that $|f(x_n)| \geq n$. By the Bolzano-Weierstrass theorem, $\exists$ a subsequence $\{x_{n_k}\}_k$ of $\{x_n\}_n$ and an $x\in \RR$ such that $x_{n_k} \to x$. Since $a\leq x_{n_k}\leq b$ for all $k$, $a\leq x \leq b$. Given $f$ is continuous at $x$ by assumption, 
+\[
+f(x) = \lim_{k\to \infty} f(x_{n_k}) \implies |f(x) |= \lim_{k\to \infty} |f(x_{n_k})|.
+\]
+Therefore, $\{|f(x_{n_k})|\}$ is bounded, and thus $\{n_{k}\}$ is bounded since $n_k \leq |f(x_{n_k})|$. But by the definition of a subsequence, we must have $k\leq n_k$ for all $k$, contradicting the boundedness of $\{n_k\}$. \qed 
+
+\begin{definition}[Absolute Minimum/Maximum]
+Let $f: S\to \RR$. Then, $f$ achieves an \vocab{absolute minimum} at $c$ if $\forall x\in S$, $f(x) \geq f(c)$. Similarly, $f$ achieves an \vocab{absolute maximum} at $d$ if $\forall x\in S$, $f(x) \leq f(d)$.
+\end{definition}
+\begin{figure}[h]
+    \centering
+    \includegraphics{pics/fig06.PNG}
+\end{figure}
+
+\begin{theorem}[Min-Max Theorem]
+Let $f:[a,b]\to \RR$. If $f$ is continuous, then $f$ achieves an absolute maximum and absolute minimum.
+\end{theorem}
+\begin{remark}
+Note that this is also called the Extreme Value Theorem or EVT for short, though to stay consistent with the Lebl's book I will be calling it the Min-Max theorem.
+\end{remark}
+
+\textbf{Proof}: We will prove this for the absolute maximum. If $f$ is continuous, then $f$ is bounded by the previous theorem. Thus, the set
+\[
+E = \{f(x) \mid x\in [a,b]\}
+\]
+is bounded above. Let $L = \sup E$. Then, 
+\begin{enumerate}
+    \item $L$ is an upper bound for $E$, i.e.
+    \[\forall x\in [a,b],~ f(x)\leq L.\]
+    \item There exists a sequence $\{f(x_n)\}_n$ with $x_n\in [a,b]$ such that $f(x_n) \to L$.
+\end{enumerate}
+By the Bolzano-Weierstrass theorem, there exists a subsequence $\{x_{n_k}\}_k$ of $\{x_n\}$ and $d\in [a,b]$ such that $x_{n_k}\to d$ as $k\to \infty$. Hence,
+\[
+f(d) = \lim_{k\to \infty} f(x_{n_k}) = \lim_{n\to \infty} f(x_n) = L
+\]
+by the continuity of $f$. Thus, $f$ achieves an absolute maximum at $d$.
+
+We leave the absolute minimum proof to the reader. \qed 
+
+\begin{remark}
+As students of mathematics, we also care about the necessity of the hypotheses!
+\end{remark}
+For example, what if $f:[a,b]\to \RR$ is not continuous? Does the Min-Max theorem apply? The answer is \textbf{no}. Consider 
+\[
+f(x) = \begin{cases}
+\frac{1}{2} & x=0,1 \\
+x &x\in(0,1)
+\end{cases}.
+\]
+Here, $f$ neither achieves an absolute maximum nor an absolute minimum on $[0,1]$.
+
+What if $f:S\to \RR$ and $S$ is not closed and bounded? Does the Min-Max theorem apply? Again, the answer is \textbf{no}. Consider $f(x) = \frac{1}{x} - \frac{1}{1-x}$ on $S= (0,1)$. Even though $f$ is continuous on $S$, $f$ neither achieves an absolute minimum nor an absolute maximum.
+
+So far we have shown that if $f:[a,b]\to \RR$ is continuous, then $f([a,b]) \subset [f(c),f(d)]$ where $f$ achieves an absolute minimum at $c$ and an absolute maximum at $d$.
+
+\begin{question}
+Does $f$ achieve all values in $f(c)$ and $f(d)$?
+\end{question}
+The answer is \textbf{yes}, by Bolzano's Intermediate Value Theorem as we will show.
+
+\begin{theorem}
+Let $f:[a,b]\to \RR$. If $f(a) < 0$ and $f(b)>0$, then $\exists c\in (a,b)$ such that $f(c) = 0$.
+\end{theorem}
+\textbf{Proof}: We prove this using a bisection method. Let $a_1 = a$ and $b_1 = b$, and define $a_2,b_2$ as follows: If $f((a_1+b_1)/2)\geq 0$, define $a_2 = a_1$, $b_2 = \frac{a_1+b_1}{2}$. If $f((a_1+b_1)/2) < 0$, define $a_2 = \frac{a_1+b_1}{2}$ and $b_2 =b_1$. In general, if we know $a_n,b_n$, we choose $a_{n+1}$ and $b_{n+1}$ as follows: If $f((a_n+b_n)/2)\geq 0$, define $a_{n+1} = a_n$, $b_2{n+1} = \frac{a_n+b_n}{2}$. If $f((a_n+b_n)/2) < 0$, define $a_{n+1} = \frac{a_n+b_n}{2}$ and $b_{n+1} =b_n$. Thus, we have:
+\begin{enumerate}
+    \item $\forall n\in \NN$, $a\leq a_n \leq a_{n+1}\leq b_{n+1}\leq b_n \leq b$.
+    \item $\forall n\in \NN$, $b_{n+1}-a_{n+1} = \frac{b_{n}-a_n}{2}$.
+    \item $\forall n\in \NN$, $f(a_n) < 0$ and $f(b_n) \geq 0$.
+\end{enumerate}
+By 1., $\{a_n\}$ and $\{b_n\}$ are monotone increasing and monotone decreasing respectively, both of which are bounded. Thus, $\exists c,d\in [a,b]$ such that $a_n\to c$ and $b_n\to d$. By 2., 
+\[
+b_n-a_n = \frac{b_{n-1}-a_{n-1}}{2} = \frac{1}{4}(b_{n-2}-a_{n-2}) = \dots = \frac{1}{2^{n-1}}(b-a).
+\]
+Thus, \[d-c = \lim_{n\to \infty} (b_n-a_n) = \lim_{n\to \infty} \frac{1}{2^{n-1}} (b-a)=0\implies d=c.\]
+
+Therefore, $\lim_{n\to \infty} a_n = \lim_{n\to \infty} b_n = c$. By 3., $f(c) = \lim_{n\to \infty} f(a_n) \leq 0$ and $f(c) = \lim_{n\to \infty} f(b_n) \geq 0$. Therefore, $f(c) = 0.$ \qed 
+
+\begin{theorem}[Bolzano IVT]
+Let $f:[a,b] \to \RR$ be continuous. If $f(a) < f(b)$, and $y\in (f(a),f(b))$, $\exists c\in (a,b)$ such that $f(c) = y.$ If $f(b) < f(a)$ and $y\in (f(b),f(a))$, $\exists c\in (a,b)$ such that $f(c) = y.$
+\end{theorem}
+\begin{remark}
+This is known as the Intermediate Value Theorem or IVT for short.
+\end{remark}
+
+\textbf{Proof}: Suppose $f(a) < f(b)$. Let $y\in (f(a),f(b))$. Define $g(x) = f(x)-y$. Then, $g:[a,b]\to \RR$ is continuous, $g(a) = f(a)-y<0$ and $g(b) = f(b)-y>0$. Therefore, by the previous theorem, $\exists c\in (a,b)$ such that $g(c) = 0$. Therefore, $\exists c\in (a,b)$ such that $g(c) = f(c) -y = 0 \implies f(c) = y$.
+
+The other direction is analogous. \qed 
+
+\begin{theorem}
+Let $f:[a,b]\to \RR$ be continuous. let $c\in [a,b]$ be where $f$ achieves an absolute minimum and $d\in [a,b]$ be where $f$ achieves an absolute maximum. Then, 
+\[
+f([a,b]) = [f(c),f(d)].
+\]
+In other words, every value between the absolute minimum value and the absolute maximum value is achieved.
+\end{theorem}
+\textbf{Proof}: We know that $f([a,b]) \subseteq [f(c),f(d)]$. Hence, we prove the other direction. By the IVT applied to $f:[c,d]\to \RR$, 
+\[
+[f(c),f(d)] \subseteq f([c,d]) \subseteq f([a,b]).
+\]
+Therefore, $f([a,b]) = [f(c),f(d)]$. \qed 
+
+Of course, Bolzano IVT is false if we assume $f$ is not continuous (as can be seen by the following diagram):
+\begin{figure}[h]
+    \centering
+    \includegraphics{pics/fig07.PNG}
+\end{figure}
+
+\begin{theorem}
+The polynomial $f(x) = x^{2021} + x^{2020} + 9.03x + 1$ has at least one real root.
+\end{theorem}
+\textbf{Proof}: Notice that $f(0) = 1>0$ and $f(-1) = -1+1-9.03+1 = -8.03<0$. Thus, by IVT, $\exists c\in (-1,0)$ such that $f(c) = 0.$ \qed 
+
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.100A / 18.1001 Real Analysis, Fall 2020
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\noindent\underline{\textbf{Uniform Continuity}}
+
+\begin{recall}
+Recall the definition of continuity: $f:S\to \RR$ is continuous on $S$ if $\forall c\in S$ and $\forall\epsilon>0$, $\exists \delta = \delta(\epsilon,c)>0$ such that $\forall x\in S$, $|x-c|<\delta \implies |f(x) - f(c)|<\epsilon$.
+
+Here, $\delta(\epsilon, c)$ denotes the fact that $\delta$ \textbf{can} depend on $\epsilon$ and $c$.
+\end{recall}
+
+\begin{example}
+Consider the function $f(x) = \frac{1}{x}$. $f$ is continuous on $(0,1)$.
+\end{example}
+\begin{proof}
+Let $\epsilon>0$. Choose $\delta = \min\left\{ \frac{c}{2}, \frac{c^2}{2}\epsilon\right\}$. Suppose $|x-c|<\delta$. Then, $|x-c|< \frac{c}{2}\implies |x| >c-|x-c|>\frac{c}{2}$. Thus, $\frac{1}{|x|}< \frac{2}{c}.$ Therefore, 
+\begin{align*}
+    \left|\frac{1}{x}- \frac{1}{c}\right| &= \frac{|x-c|}{|xc|} \\
+    &< \frac{\delta}{|x||c|} \\
+    &< \frac{2}{c^2}\delta \\
+    &\leq \frac{2}{c^2} \frac{c^2 \epsilon}{2} = \epsilon.
+\end{align*}
+\end{proof}
+
+As shown in the previous example. $\delta$ depended on \textbf{both} $\epsilon$ and $c$.
+
+\begin{definition}[Uniformly Continuous]
+Let $f:S\to \RR$. Then, $f$ is \vocab{uniformly continuous} on $S$ if $\forall \epsilon >0$, $\exists \delta = \delta(\epsilon) >0$ such that $\forall x,c\in S$,
+\[
+|x-c|< \delta \implies |f(x) - f(c)|<\epsilon.
+\]
+\end{definition}
+\begin{remark}
+Thus, in the definition of uniform continuity, $\delta$ only depends on $\epsilon$!
+\end{remark}
+
+\begin{example}
+The function $f(x) = x^2$ is uniformly continuous on $[0,1]$.
+\end{example}
+\begin{proof}
+Let $\epsilon>0$. Choose $\delta = \frac{\epsilon}{2}$. Then, if $x,c\in [0,1]$ then $|x-c|< \delta$ implies that 
+\[
+|x^2-c^2| = |x+c||x-c| \leq 2|x-c| < 2\delta = \epsilon.
+\]
+\end{proof}
+
+However, there are of course continuous functions that are not uniformly continuous. For example, we will show that $f(x) = \frac{1}{x}$ is not uniformly continuous on (0,1), but first we consider the negation of the definition.
+\begin{negation}[Not Uniformly Continuous]
+Let $f:S\to \RR$. Then, $f$ is \vocab{not uniformly continuous} on $S$ if $\exists \epsilon_0 >0$, $\forall \delta >0$ such that $\exists x,c\in S$ with
+\[
+|x-c|< \delta \hspace{.25cm} \text{and} \hspace{.25cm} |f(x) - f(c)|\geq \epsilon_0.
+\]
+\end{negation}
+\textbf{Proof}: Choose $\epsilon_0 = 2$ (in fact, any $\epsilon_0 >0$ will show that $\frac{1}{x}$ is not uniformly continuous on $(0,1)$). Then, let $\delta >0$. Choose $c = \min\left\{\delta, \frac{1}{2}\right\}$ and $x = \frac{c}{2}$. Then, $|x-c| = \frac{c}{2}\leq \frac{\delta}{2} <\delta$ and 
+\[
+\left|\frac{1}{x} - \frac{1}{c}\right| = \left|\frac{2}{c} - \frac{1}{c}\right| = \frac{1}{c} \geq \frac{1}{\frac{1}{2}} = 2.
+\] \qed 
+
+\begin{theorem}
+Let $f:[a,b]\to \RR$. Then, $f$ is continuous if and only if $f$ is uniformly continuous.
+\end{theorem}
+\textbf{Proof}: ($\impliedby$) This direction is left as an exercise to the reader.
+
+($\implies$) Suppose $f$ is continuous and assume for the sake of contradiction that $f$ is \textit{not} uniformly continuous. Then, $\exists \epsilon_0>0$ such that for all $n\in \NN$, $\exists x_n,c_n\in [a,b]$ such that 
+\[
+|x_n-c_n| < \frac{1}{n} \hspace{.25cm} \text{and} \hspace{.25cm} |f(x_n) - f(c_n)| >\epsilon_0.
+\]
+By Bolzano-Weierstrass, $\exists$ a subsequence $\{x_{n_k}\}$ of $\{x_n\}$ and $x\in [a,b]$ such that $\lim_{k\to \infty} x_{n_k} = x$. Similarly, by Bolzano-Weierstrass, $\exists$ a subsequence $\{c_{n_k}\}$ of $\{c_n\}$ and $c\in [a,b]$ such that $\lim_{k\to \infty} c_{n_k} = c$. Note that subsequence $\{x_{n_{k_j}}\}$ of $\{x_{n_k}\}$ satisfies $\lim_{j\to \infty} x_{n_{k_j}} = x$.
+
+Then, 
+\[
+|x-c| = \lim_{j\to \infty} |x_{n_{k_j}} - c_{n_{k_j}}| \leq \lim_{j\to \infty} \frac{1}{n_{k_j}} - 0.
+\]
+Thus, $x=c$. But, since $f$ is continuous at $c$,
+\[
+0 = |f(c)-f(c)| = \lim_{j\to \infty} |f(x_{n_{k_j}}) - f(c_{n_{k_j}})| \geq \epsilon_0.
+\]
+This is a contradiction. \qed 
+
+\noindent\underline{\textbf{Derivative}}
+\begin{definition}
+Let $I$ be an interval, let $f:I \to \RR$, and let $c\in I$. We say that $f$ is \vocab{differentiable at $c$} if the limit 
+\[
+\lim_{x\to c} \frac{f(x)-f(c)}{x-c}
+\]
+exists.
+\end{definition}
+\begin{notation}
+If $f$ is differentiable at $c$, we write 
+\[
+f'(c) := \lim_{x\to c} \frac{f(x) - f(c)}{x-c}.
+\]
+Furthermore, if $f$ is differentiable at every $c\in I$, we write $f'$ or $\frac{\mathrm df}{\mathrm dx}$ for the function $f'(x)$.
+\end{notation}
+
+\begin{example}
+Consider the function $f(x) = ax+b$. Then, for all $c\in \RR$, $f'(c) = a$.
+\end{example}
+\begin{proof}
+This follows as
+\[
+\lim_{x\to c} \frac{f(x)-f(c)}{x-c} = \lim_{x\to c} \frac{ax+b-(ac+b)}{x-c} = a \lim_{x\to c} \frac{x-c}{x-c} = \lim_{x\to c}a = a.
+\]
+\end{proof}
+
+\begin{example}[The Power Rule]
+For all $n\in \NN$, if $f(x) = \alpha x^n$, then for all $c\in \RR$, 
+\[
+f'(c) = \alpha n c^{n-1}.
+\]
+\end{example}
+\begin{proof}
+We note that for all $n\in \NN$, 
+\begin{align*}
+    (x-c) \sum_{j=0}^{n-1} x^{n-1-j} c^j &= \sum_{j=0}^{n-1} x^{n-j}c^j - \sum_{j=0}^{n-1} x^{n-1-j} c^{j+1}.
+\intertext{Letting $\ell = j+1$, we obtain}
+    (x-c) \sum_{j=0}^{n-1} x^{n-1-j} c^j &= \sum_{j=0}^{n-1} x^{n-j}c^j - \sum_{\ell = 1}^{n} x^{n-\ell} c^{\ell} \\
+    &= x^{n-0}c^0 -x^{n-n}c^n \\
+    &= x^n - c^n.
+\end{align*}
+Therefore, 
+\[
+\lim_{x\to c} \frac{\alpha x^n - \alpha c^n}{x-c} = \alpha \lim_{x\to c} \sum_{j=0}^{n-1} x^{n-1-j}c^j = \alpha \sum_{j=0}^{n-1} c^{n-1-j} c^j = \alpha nc^{n-1}.
+\] 
+\end{proof}
+
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.100A / 18.1001 Real Analysis, Fall 2020
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+%stopped 4:30 RESUMED 430, FOUR HOURS SO FAR
+\begin{theorem}
+If $f:I \to \RR$ is differentiable at $c\in I$, then $f$ is continuous at $c$.
+\end{theorem}
+\textbf{Proof}: Since every point of $I$ is a cluster point of $I$, $f$ is continuous at $c\in I \iff \lim_{x\to c} f(x) =f(c)$. Now, 
+\begin{align*}
+    \lim_{x\to c} f(x) &= \lim_{x\to c} (f(x) -f(c)+f(c)) \\
+    &= \lim_{x\to c} \left((x-c) \frac{f(x)-f(c)}{x-c} + f(c)\right) \\
+    &= 0\cdot f'(c) + f(c) = f(c).
+\end{align*}
+\qed 
+
+\begin{question}
+Is the converse true? Does $f$ being continuous imply that $f$ is differentiable?
+\end{question}
+The answer, is \textbf{no}.
+\begin{example}
+Let $f(x) = |x|$. Then, $f$ is not differentiable at 0.
+\end{example}
+\begin{proof}
+We find a sequence $x_n\to 0$ such that 
+\[
+\lim_{n\to \infty} \frac{f(x_n) - f(0)}{x_n-0} \text{~~does not exist.} 
+\]
+Let $x_n = \frac{(-1)^n}{n}$. Then, $\lim_{n\to \infty} x_n = 0$. However,
+\[
+\frac{f(x_n) - f(0)}{x_n-0} = \frac{|(-1)^n/n|}{(-1)^n/n} = (-1)^n,
+\]
+and $\lim_{n\to \infty}(-1)^n$ does not exist.
+\end{proof}
+
+\begin{question}
+If $f:\RR\to \RR$ is continuous, then does there exist a $c\in \RR$ such that $f$ is differentiable at $c$? 
+\end{question}
+The answer is again \textbf{no}! This was shown by Weierstrass, aka the Godfather.
+
+The basic idea is to build a continuous function that is a sum of highly oscillating functions.
+
+\begin{remark}
+Note that we number the upcoming theorems so we may reference them a bit later in this lecture.
+\end{remark}
+\begin{theorem}[Theorem I]
+We will show the following
+\begin{enumerate}
+    \item $\forall x,y\in \RR$, $|\cos x - \cos y| \leq |x-y|$.
+    \item Let $c\in \RR$. Then, for all $K\in \NN$, $\exists y\in (c+\pi /K, c+3\pi/K)$ such that 
+    \[
+    |\cos(Kc) - \cos(Ky)| \geq 1.
+    \]
+\end{enumerate}
+\end{theorem}
+\textbf{Proof}: 
+\begin{enumerate}
+    \item In the proof of continuity of $\sin x$, we showed that $\forall x,y\in \RR$, $|\sin x - \sin y| \leq |x-y|$. Thus, 
+    \[
+    |\cos x - \cos y| = |\sin(x+\pi/2) -\sin(y+\pi/2)| \leq |x-y|.
+    \]
+    \item The function $f(x) = \cos(Kx)$ is a $\frac{2\pi}{K}$-periodic function. In particular, $([-1,1] \setminus \cos(Kc)) \subset f(c+\pi/K, c+3\pi/K)$.
+    
+    If $\cos Kc\geq 0$, then we choose $y$ such that $\cos(Ky) = -1$. If $\cos (Kc)< 0$, then we choose $y$ such that $\cos(Ky) = 1$. This completes the proof
+\end{enumerate} \qed 
+
+\begin{theorem}[Theorem II]
+For all $a,b,c\in \RR$,
+\[
+|a+b+c|\geq |a|-|b|-|c|.
+\]
+\end{theorem}
+\textbf{Proof}: We apply the Triangle Inequality twice:
+\[
+|a| = |a+b+b+(-b)+(-c)| \leq |a+b+b| + |b+c| \leq |a+b+c| + |b|+|c|.
+\] \qed 
+
+\begin{theorem}[Theorem III]
+We will show the following: 
+\begin{enumerate}
+\item $\forall x\in \RR$, $\sum_{k=0}^\infty \frac{\cos(160^k x)}{4^k}$ is absolutely convergent.
+\item The function $f:\RR \to \RR$, $f(x) = \sum_{k=0}^\infty \frac{\cos(160^k x)}{4^k}$ is bounded and continuous.
+\end{enumerate}
+\end{theorem}
+\textbf{Proof}:
+\begin{enumerate}
+    \item $\forall k$, $\left| \frac{\cos(160^k x)}{4^k}\right|\leq 4^{-k}$. Hence, by the Comparison Test, 
+    \[\sum_{k=0}^\infty \left|\frac{\cos(160^k x)}{4^k}\right| \text{~~converges.}\]
+    \item For all $x\in \RR$, $|f(x)| \leq \sum_{k=0}^\infty \frac{|\cos(160^k x)|}{4^k} \leq \sum 4^{-k} = \frac{4}{3}$. Therefore, $f$ is bounded. 
+    
+    We now show that $f$ is continuous over $\RR$. Suppose $c\in \RR$ and $x_n\to c$. Note that $\{|f(x_n) - f(c)|\}_n$ is bounded, and thus 
+    \[
+    \lim_{n\to \infty} |f(x_n) - f(c)| = 0 \iff \limsup_{n\to \infty} |f(x_n)-f(c)| = 0.
+    \]
+    We claim that for all $\epsilon>0$, $\limsup_{n\to \infty} |f(x_n)-f(c)|\leq \epsilon$. Let $\epsilon>0$. Choose $M_0$ such that $\sum_{k=M_0 + 1}^\infty 4^{-k} < \frac{\epsilon}{2}$. Then,
+    \begin{align*}
+        \limsup_{n\to \infty} |f(x_n) -f(c)| &= \limsup_n \left|\sum_{k=0}^{M_0} \frac{\cos(160^k x_n)}{4^k} - \frac{\cos(160^k c)}{4^k} + \sum_{k=M_0+1}^{\infty} \frac{\cos(160^k x_n)}{4^k} - \frac{\cos(160^k c)}{4^k}\right| \\
+        &\leq \limsup_n \sum_{k=0}^{M_0} 4^{-k} |\cos(160^k x_n)-\cos(160^k c)| + \sum_{k=M_0+1}^\infty 4^{-k} (|\cos(160^k x_n)| + |\cos(160^k c)|) \\
+        &\leq \limsup_{n} \left(\sum_{k=0}^{M_0} 40^k\right)|x_n-c| + \epsilon = \epsilon.
+    \end{align*}
+\end{enumerate} \qed 
+
+\begin{theorem}[Weierstrass]
+The function $f(x) = \sum_{k=0}^\infty \frac{\cos(160^k x)}{4^k}$
+is nowhere differentiable.
+\end{theorem}
+\textbf{Proof}: Let $c\in \RR$. We will construct a sequence $x_n\to c$ such that $\left\{\frac{f(x_n) - f(c)}{x_n - c}\right\}_n$ is unbounded. By Theorem I 2), $\forall n\in \NN$ there exists an $x_n$ such that \textbf{a)} $\frac{\pi}{160^n} < x_n - c < \frac{3\pi}{160^n}$ and \textbf{b)} $|\cos(160^n c) - \cos(160^n x_n)| \geq 1$.
+
+By \textbf{a)}, $x_n\neq 0 \forall n$ and $|x_n-c| \leq \frac{3\pi}{160^n}\to 0$. Let $f_k(x) = \frac{\cos(160^k x)}{4^k}$ so $f(x) = \sum f_k(x)$. Let $n\in \NN.$ Thus, denote
+\begin{align*}
+    f(c) - f(x_n) &= f_n(c) - f_n(x_n) + \sum_{k=0}^{n-1} (f_k(c) - f_k(x_n)) + \sum_{k=n}^{\infty} (f_k(c) - f_k(x_n)) \\
+    &:= a_n + b_n + c_n.
+\end{align*}
+Therefore, by Theorem II,
+\[
+|f(c) - f(x_n)| \geq |a_n| - |b_n| -|c_n|.
+\]
+By \textbf{b)}, $|a_n| = 4^{-n}|\cos(160^kx_n) - \cos(160^k c)| \geq 4^{-n}$.
+Furthermore, we have 
+\begin{align*}
+    |b_n| \leq \sum_{k=0}^{n-1} 4^{-k} |\cos (160^k c) -\cos (160^k x_n)|
+    \leq \sum_{k=0}^{n-1} 4^{-k} \cdot 160^k |x_n-c| 
+    \leq \frac{3\pi}{160^n} \sum_{k=0}^{n-1} 40^k 
+    = \frac{3\pi}{160^n}\cdot  \frac{40^n - 1}{39} 
+    \leq \frac{4^{-n+1}}{13}.
+\end{align*}
+Finally, we have 
+\begin{align*}
+    |c_n| \leq \sum_{k=n+1}^\infty 4^{-k}(|\cos(160^k c)| + |\cos(160^k x_n)|)
+    \leq 2\sum_{k=n+1}^\infty 4^{-k}
+    = 2\cdot 4^{-n-1}\cdot \frac{4}{3} = 4^{-n} \frac{2}{3}.
+\end{align*}
+
+Therefore, by the above inequalities, we have 
+\[
+|f(c) - f(x_n)| \geq 4^{-n}\left(1-\frac{4}{13} - \frac{2}{3}\right) = 4^{-n}\cdot \frac{1}{39}.
+\]
+Therefore, 
+\[
+\frac{|f(c)-f(x_n)|}{|c-x_n|} \geq \frac{160^n}{3\pi}\cdot 4^{-n}\cdot \frac{1}{39} = \frac{40^n}{117\pi}.
+\]
+Thus, $\left\{\frac{f(x_n)-f(c)}{x_n-c}\right\}_n$ is unbounded. \qed 
+
+\begin{remark}
+In other words, this proof by Weierstrass shows that there exists a continuous function that is nowhere differentiable!
+\end{remark}
+
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.100A / 18.1001 Real Analysis, Fall 2020
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\begin{theorem}
+Let $f: I \to \RR$, $g:I\to \RR$ be differentiable at $c\in I$. Then,
+\begin{enumerate}
+    \item (Linearity) $\forall \alpha \in \RR$, $(\alpha f+g)'(c) = \alpha f'(c) + g'(c)$ .
+    \item (Product rule) $(fg)'(c) = f'(c)g(c) + f(c)g'(c)$.
+    \item (Quotient rule) If $g(x)\neq 0$ for all $x\in I$, then 
+    \[
+    \left(\frac{f}{g}\right)'(c) = \frac{f'(c)g(c) - f(c)g'(c)}{(g(c))^2}.
+    \]
+\end{enumerate}
+\end{theorem}
+\textbf{Proof}:
+\begin{enumerate}
+    \item We can compute this directly:
+    \[
+    \lim_{x\to c} \frac{(\alpha f+g)(x) - (\alpha f + g)(c)}{x-c}= \lim_{x\to c} \alpha \frac{f(x) -f(c)}{x-c} + \frac{g(x) -g(c)}{x-c} = \alpha f'(x) + g'(x).
+    \]
+    \item We first write
+    \[
+    \frac{f(x) g(x) - f(c)g(c)}{x-c} = \frac{f(x)-f(c)}{x-c}\cdot g(x) + f(c) \cdot \frac{g(x)-g(c)}{x-c}
+    \]
+    and use the fact that $\lim_{x\to c}g(x) = f(c)$.
+    \item The quotient rule is left as an exercise to the reader.
+\end{enumerate} \qed 
+
+\begin{theorem}[Chain Rule]
+Let $I_1, I_2$ be two intervals, $g:I_1\to I_2$ be differentiable at $c\in I_1$, and $f:I_2 \to \RR$ differentiable at $g(c).$ Then, $f\circ g:I_1 \to \RR$ is differentiable at $c$ and 
+\[
+(f\circ g)'(c) = f'(g(c)) g'(c).
+\]
+\end{theorem}
+\textbf{Proof:} Let $h(x) = f(g(x))$ and $d = g(c)$. We want to prove that $h'(c) = f'(d) g'(c)$. Define the following
+\[
+    u(y) = \begin{cases}
+    \frac{f(y) - f(d)}{y-x} & y\neq d \\
+    f'(d) & y=d
+    \end{cases} \hspace{.25cm} \text{and} \hspace{.25cm}
+    v(y) = \begin{cases}
+    \frac{g(x) - g(c)}{x-c} & x\neq c \\
+    g'(d) & x=c
+    \end{cases}.
+\]
+Then, 
+\[
+\lim_{y\to d} u(y) = \lim_{y\to d} \frac{f(y)-f(d)}{y-d} = f'(d) = u(d).
+\]
+Similarly, 
+\[
+\lim_{x\to c} v(x) = \lim_{x\to c} \frac{g(x)-g(c)}{x-c} = g'(c) = v(c).
+\]
+In other words, $u$ is continuous at $d$ and $v$ is continuous at $c$. Now, 
+\begin{align*}
+    f(y)-f(d) &= u(y) (y-d) \\
+    g(x)-g(c) &= v(x)(x-c) \\
+    \implies h(x)-h(c) &= f(g(x)) - f(d) \\
+    &= u(g(x))(g(x)-g(c)) \\
+    &= u(g(x))v(x)(x-c).
+\intertext{Therefore,}
+    \lim_{x\to c} \frac{h(x)-h(c)}{x-c} &= \lim_{x\to c} u(g(x))v(x) \\
+    &= u(g(c))v(c) \\
+    &= f'(g(c))g'(c).
+\end{align*}\qed 
+
+\noindent\underline{\textbf{Mean Value Theorem}}
+\begin{definition}[Relative Maximum/Minimum]
+Let $S \subset \RR$ and $f:S\to \RR$. Then, $f$ has a \vocab{relative maximum} at $c\in S$ if $\exists \delta>0$ such that for all $x\in S$, $|x-c|<\delta \implies f(x) \leq f(c).$ The definition for \vocab{relative maximum} is analogous.
+\end{definition}
+\begin{figure}[h]
+    \centering
+    \includegraphics{pics/fig08.PNG}
+\end{figure}
+
+\begin{theorem}
+If $f:[a,b]\to \RR$ has a relative max or min at $c\in (a,b)$ and $f$ is differentiable at $c$, then 
+\[
+f'(c) = 0.
+\]
+\end{theorem}
+\textbf{Proof}: If $f$ has a relative maximum at $c\in (a,b)$ then $\exists \delta>0$ such that $(c-\delta, c+\delta) \subset (a,b)$ and $\forall x\in (c-\delta, c+\delta)$, $f(x) \leq f(c)$. Let 
+\[
+x_n = c - \frac{\delta}{2n} \in (c-\delta, c).
+\]
+Then, $x_n\to c$ so
+\[
+f'(c) = \lim_{n\to \infty} \frac{f(x_n) - f(c)}{x_n-c} \geq 0.
+\]
+
+Now let 
+\[
+y_n = c + \frac{\delta}{2n} \in (c, c+\delta).
+\]
+Then, $y_n\to c$ so
+\[
+f'(c) = \lim_{n\to \infty} \frac{f(y_n) - f(c)}{y_n-c} \leq 0.
+\]
+Therefore, $f'(c) = 0$. The proof for relative minimum is similar and thus left to the reader. \qed 
+
+\begin{theorem}[Rolle]
+Let $f:[a,b]\to \RR$ be continuous and differentiable on $(a,b)$. If $f(a) = f(b)$, then $\exists c\in (a,b)$ such that $f'(c) = 0$.
+\end{theorem}
+\begin{figure}[h]
+    \centering
+    \includegraphics{pics/fig09.PNG}
+\end{figure}
+\begin{remark} Are the hypotheses all necessary? This is left to the reader to figure out.
+\end{remark}
+
+\textbf{Proof}: Let $K = f(a) = f(b)$. Since $f$ is continuous on $[a,b]$, $\exists c_1,c_2\in [a,b]$ such that $f$ achieves an absolute maximum at $c_1$ and absolute minimum at $c_2$. If $f(c_1) >K \implies c_1\in (a,b)$. Therefore, $f'(c_1) = 0$ by the previous theorem. Similarly, if $f(c_2) < K$, then $c_2\in (a,b) \implies f'(c_2) =0$. If 
+\[
+f(c_1)\leq K \leq f(c_2) \implies f(x) = K ~\forall x\in [a,b] \implies f'(c) - 0 \text{~~for any~~} c\in (a,b).
+\]\qed 
+
+\begin{theorem}[Mean Value Theorem]
+Let $f:[a,b] \to \RR$ be continuous, and let $f$ be differentiable on $(a,b)$. Then, $\exists c\in (a,b)$ such that 
+\[
+f(b)-f(a) = f'(c)(b-a).
+\]
+\end{theorem}
+\begin{remark}
+The Mean Value Theorem is sometimes denoted MVT.
+\end{remark}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics{pics/fig10.PNG}
+\end{figure}
+
+\textbf{Proof}: Define $g:[a,b]\to \RR$ with
+\[
+g(x) = f(x) - f(b) + \frac{f(b)-f(a)}{b-a}(b-x).
+\]
+Then, $g(a) = g(b) = 0$. Thus, by Rolle's theorem, $\exists c\in (a,b)$ with $g'(c) = 0$, and hence 
+\[
+0 = f'(c) - \frac{f(b)-f(a)}{b-a}.
+\]\qed 
+
+We now look at some useful applications of the MVT.
+
+\begin{theorem}
+If $f:I\to \RR$ is differentiable and $f'(x) = 0$ for all $x\in I$, then $f$ is constant.
+\end{theorem}
+\textbf{Proof}: Let $a,b\in I$ with $a<b$. Then, $f$ is continuous on $[a,b]$ and differentiable on $(a,b)$. Therefore, $\exists c\in (a,b)$ such that $f(b) -f(a) = (b-a) f'(c) = 0$. Hence, $f(b) = f(a)$ for all $a,b\in I$ such that $a<b$. \qed 
+
+\begin{theorem}
+Let $f:I\to \RR$ be differentiable. Then,
+\begin{enumerate}
+    \item $f$ is increasing if and only if $f'(x) \geq 0$ for all $x\in I$ and
+    \item $f$ is decreasing if and only if $f'(x) \leq 0$ for all $x\in I.$ 
+\end{enumerate}
+\end{theorem}
+\textbf{Proof}:
+\begin{enumerate}
+    \item ($\impliedby$) Suppose $f'(x) \geq 0$ for all $x\in I$. Let $a,b\in I$ with $a<b$. Then, by MVT, $\exists c\in (a,b)$ such that 
+    \[
+    f(b)-f(a) = (b-a)f'(c) \geq 0 \implies f(a) \leq f(b).
+    \]
+    
+    ($\implies$) Suppose $f$ is increasing. Let $c\in I$ and let $\{x_n\}$ be a sequence in $I$ such that $x_n\to c$ such that $\forall n$, $x_n< c$. Then, for all $n$, $f(x_n) - f(c) \leq 0 \implies \frac{f(x_n) - f(c)}{x_n-c}\geq 0$. Therefore, \[
+    f'(c) = \lim_{n\to \infty} \frac{f(x_n) - f(c)}{x_n-c} \geq 0.
+    \]
+    
+    Now let $\{x_n\}$ be a sequence in $I$ such that $x_n\to c$ such that $\forall n$, $x_n> c$. Then, for all $n$, $f(x_n) - f(c) \geq 0 \implies \frac{f(x_n) - f(c)}{x_n-c}\geq 0$. Therefore, \[
+    f'(c) = \lim_{n\to \infty} \frac{f(x_n) - f(c)}{x_n-c} \geq 0.
+    \]
+    
+    Hence, in either case, $f'(c) \geq 0$.
+    
+    \item Notice that $f$ is decreasing if and only if $-f$ is increasing, and apply 1. to $-f$.
+\end{enumerate} \qed
+%stopped 600, 5.5 hrs TOTAL
+%edited 7-8, 6.5 hrs total 3/24
+%started again 8
+
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.100A / 18.1001 Real Analysis, Fall 2020
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\noindent\underline{\textbf{Taylor's Theorem}}
+\begin{remark}
+Taylor's theorem is essentially the Mean Value Theorem for higher order derivatives.
+\end{remark}
+
+\begin{definition}[$n$-times Differentiable]
+We say $f: I\to \RR$ is \vocab{$n$-times differentiable} on $J\subset I$ if $f', f'', \dots, f^{(n)}$ exist at every point in $J.$
+\end{definition}
+
+\begin{notation}
+We denote the $n$-th derivative of $f$ as $f^{(n)}$ (as used above).
+\end{notation}
+
+\begin{theorem}[Taylor]
+Suppose $f:[a,b]\to \RR$ is continuous and has $n$ continuous derivatives on $[a,b]$ such that $f^{(n+1)}$ exists on $(a,b).$ Given $x_0,x\in [a,b]$, there exists a $c\in (x_0,x)$ such that 
+\[
+f(x) = \sum_{k=0}^n \frac{1}{k!}f^{(k)}(x_0)(x-x_0)^k + \frac{f^{(n+1)}(c)}{(n+1)!}(x-x_0)^{n+1}.
+\]
+Denote the large sum as $P_n(x)$ and the last term with $R_n(x)$.
+\end{theorem}
+
+\begin{definition}
+$P_n(x)$ is the $n$-th order Taylor polynomial for $f$ at $x_0$. $R_n(x)$ is the $n$-th order remainder term.
+\end{definition}
+
+We will essentially apply the Mean Value Theorem $n+1$ times to prove Taylor's theorem.
+
+\textbf{Proof}: Let $x,x_0\in [a,b]$. If $x=x_0$ then any $c$ will satisfy the theorem. So, suppose $x\neq x_0$. Let $M_{x,x_0} = \frac{f(x) -P_n(x)}{(x-x_0)^{n+1}}$. Hence,
+\[
+f(x) = P_n(x) + M_{x,x_0}(x-x_0)^{n+1}.
+\]
+Now, for $0\leq k \leq n$,
+\[
+f^k(x_0) = P_n^{(k)}(x_0).
+\]
+Let $g(s) = f(s) - P_n(s)-M_{x,x_0}(s-x_0)^{n+1}$ (notably, $n+1$-times differentiable. Then,
+\begin{align*}
+    g(x_0) &= f(x_0) -P_n(x_0) - M_{x,x_0}(x_0-x_0)^{n+1} = 0 \\
+    g'(x_0) &= f'(x_0) - P_n'(x_0) - M_{x,x_0} (n+1)(x_0-x_0)^n = 0 \\
+    ~&\vdots \\
+    g^{(n)}(x_0) &= f^{(n)}(x_0) - P_n^{(n)}(x_0) - M_{x,x_0}(n+1)!(x_0-x_0) = 0.
+\end{align*}
+Now, notice that $g(x) = 0$ and $g(x_0) = 0$. By the MVT, there exists an $x_1\in (x_0,x)$ such that $g'(x_1) = 0$. Thus, $g'(x_0) = 0$ and $g'(x_1) = 0$. Therefore, $\exists x_2\in (x_0,x_1)$ such that $g''(x_2) = 0$. Continuing, we analogously find $x_n$ between $x_0$ and $x_{n-1}$ such that $g^{(n)}(x_n) = 0$. Then, finally, $g^{(n)}(x_0) = 0$ and $g^{(n)}(x_n) = 0$ implies $\exists c\in (x_0,x_n)$ (and thus between $x_0$ and $x$) such that 
+\[
+g^{(n+1)}(c) = 0.
+\]
+We may compute 
+\[
+\frac{\mathrm d^{n+1}}{\mathrm ds^{(n+1)}}M_{x,x_0} (s-x_0)^{n+1} = M_{x,x_0}(n+1)!.
+\]
+Furthermore, $P_n^{(n+1)} (c) = 0$ since $P_n$ is a polynomial of degree $n$. Thereforee, 
+\[
+0 = g^{(n+1)} (c) = f^{(n+1)}(c) - M_{x,x_0}(n+1)!,
+\]
+which implies $M_{x,x_0} = \frac{f^{(n+1)!}(c)}{(n+1)!}$ and thus 
+\[
+f(x) = P_n(x) + \frac{f^{(n+1)}(c)}{(n+1)!} (x-x_0)^{n+1}.
+\]\qed 
+
+\begin{theorem}[Second Derivative Test]
+Suppose $f:(a,b) \to \RR$ has two continuous derivatives. If $x_0\in (a,b)$ such that $f'(x_0) = 0$ and $f''(x_0) >0$, then $f$ has a strict relative minimum at $x_0.$
+\end{theorem}
+\textbf{Proof}: Since $f''$ is continuous at $x_0$ and 
+\[
+\lim_{c\to x_0} f''(c) = f''(x_0)>0,
+\]
+we have that $\exists \delta>0$ such that for all $c\in (x_0-\delta, x_0+\delta)$, $f''(c) >0$. Let $x\in (x_0-\delta, x_0+\delta)$ (as you will show in your homework). Then, by Taylor's theorem, $\exists c$ between $x$ and $x_0$ (hence $c\in (x_0-\delta, x_0+\delta)$) such that 
+\[
+f(x) = f(x_0) + \frac{f''(c)}{2} (x-x_0)^2 \geq f(x_0),
+\]
+with $f(x) > f(x_0)$ if $x\neq x_0$. \qed 
+
+\subsection*{The Riemann Integral}
+
+\begin{remark}
+Riemann integration is the first rigorous \underline{theory} of `area' that agrees with \underline{experience} (areas of rectangles, triangles, circles), and it is the inverse of differentiation. However, it is not a \underline{complete} theory of area (see Lebesgue integration).
+\end{remark}
+
+\noindent\underline{\textbf{The Riemann Integral}}
+
+\begin{definition}
+We define the set
+\[
+C([a,b]) := \{f:[a,b]\to \RR \mid f \text{~~is continuous}\}.
+\]
+\end{definition}
+
+\begin{definition}[Partition]
+A \vocab{partition} $\underline{x}$ of $[a,b]$ is a finite set 
+\[
+\underline{x} = \{a= x_0 < x_1<\dots <x_n = b\}.
+\]
+The \vocab{norm} of $\underline{x}$, denoted $\lVert \underline{x}\rVert$, is the number 
+\[
+\lVert \underline{x}\rVert := \max\{x_1-x_0, x_2-x_1,\dots, x_n-x_{n-1}\}.
+\]
+\end{definition}
+
+\begin{definition}[Tag]
+If $\underline{x}$ is a partition, a \vocab{tag} of $\underline{x}$ is a finite set $\underline{\xi} = \{\xi_1,\dots, \xi_n\}$ such that 
+\[
+a = x_0 \leq \xi_1\leq x_1\leq \xi_2\leq x_2\leq \dots \leq x_{n-1}\leq \xi_n \leq x_n = b.
+\]
+The pair $(\underline{x},\underline{\xi})$ is referred to as a \vocab{tagged partition}.
+\end{definition}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics{pics/fig11.PNG}
+\end{figure}
+
+\begin{example}
+Consider the tagged partition $(\underline{x},\underline{\xi}) = (\{1, 3/2, 2, 3\}, \{5/4, 7/4, 5/2\}$. Then, 
+\[
+\lVert \underline{x}\rVert = \max\{3/2-1, 2-3/2, 3-2\} = 1.
+\]
+\end{example}
+
+\begin{definition}[Riemann sum]
+The \vocab{Riemann sum} of $f$ corresponding to $(\underline{x},\underline{\xi})$ is the number 
+\[
+S_f(\underline{x}, \underline{\xi}):= \sum_{k=1}^n f(\xi_k) (x_k-x_{k-1}).
+\]
+\end{definition}
+
+Let's try to understand how to interpret this using a picture. For $f\in C([a,b])$ positive, $S_f(\underline{x},\underline{\xi})$ is an approximate area under the graph of $f$. As $\lVert \underline{x}\rVert\to 0$, we \textit{should} expect these approximate areas to converge to a number $A$, which we \textbf{interpret} as the area under the curve $f$ on the interval $[a,b]$.
+
+\begin{question}
+Do these approximate sums \textit{actually converge?}
+\end{question}
+
+We will answer this question and more during the next few lectures.
+
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.100A / 18.1001 Real Analysis, Fall 2020
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\begin{theorem}[Riemann Integral]
+Let $f\in C([a,b])$. Then, there exists a unique number denoted $\int_a^b f(x)\,\mathrm dx\in \RR$ with the following property: for all sequences of tagged partitions $\{(\underline{x}^r, \underline{\xi}^r)\}$ such that $\lVert \underline{x}^r\rVert \to 0$, we have 
+\[
+\lim_{r \to \infty} S_f(\underline{x}^r, \underline{\xi}^r) = \int_a^b f(x) \,\mathrm dx.
+\]
+\end{theorem}
+\begin{remark}
+Uniqueness follows immediately from uniqueness of limits of sequences of real numbers. All we need to prove is existence of $\int_a^b f(x) \,\mathrm dx$.
+\end{remark}
+
+Before giving the proof of the theorem, we first prove some useful facts. Note that we number the next few theorems to use them in our proof of the above theorem.
+
+\begin{definition}[Modulus of Continuity]
+For $f\in C([a,b])$, $\eta >0$, we define the \vocab{modulus of continuous}
+\[
+w_f(\eta) = \sup \{|f(x) - f(y)| \mid |x-y| \leq \eta\}.
+\]
+\end{definition}
+
+\begin{remark}
+Note that we number the following theorems to reference later.
+\end{remark}
+
+\begin{theorem}[Theorem I]
+For all $f\in C([a,b])$, $\lim_{\eta\to 0} w_f(\eta) = 0$. In other words, for all $\epsilon>0$, there exists a $\delta>0$ such that $\forall \eta < \delta$, $w_f(\eta) < \epsilon$.
+\end{theorem}
+\textbf{Proof}: Let $\epsilon>0$. Since $f\in C([a,b])$, $f$ is uniformly continuous on $[a,b]$ (as continuity on a bounded interval is equivalent to uniform continuity on the same interval). Thus, $\exists \delta_0 >0$ such that if $|x-y| < \delta_9$, then $|f(x)-f(y)|<\epsilon/2$. Choose $\delta = \delta_0$ and let $\eta < \delta$. Then, if $|x-y|\leq \eta < \delta = \delta_0$, then 
+\[
+|f(x) - f(y)|< \frac{\epsilon}{2}.
+\]
+Therefore, $\epsilon/2$ is an upper bound for $\{|f(x) - f(y)| \mid |x-y|\leq \eta\}$. Hence, 
+\[
+w_f (\eta) \leq \epsilon/2 < \epsilon.
+\] \qed 
+
+\begin{theorem}[Theorem II]
+If $(\underline{x}, \underline{\xi})$ and $(\underline{x}', \underline{\xi}')$ are tagged partitions of $[a,b]$ such that $\underline{x}\subset \underline{x}'$, then if $f\in C([a,b])$ then 
+\[
+|S_f(\underline{x},\underline{\xi}) - S_f(\underline{x}',\underline{\xi}')| \leq w_f(\lVert \underline{x}\rVert) (b-a).
+\]
+\end{theorem}
+
+\begin{definition}[Refinement]
+If $(\underline{x}, \underline{\xi})$ and $(\underline{x}', \underline{\xi}')$ are tagged partitions of $[a,b]$ such that $\underline{x}\subset \underline{x}'$, we say $\underline{x}'$ is a \vocab{refinement of $\underline{x}$}.
+\end{definition}
+
+\begin{remark}
+Refinements of $\underline{x}$ are obtained by adding more partition points.
+\end{remark}
+
+\textbf{Proof}: For $k=1,\dots, n$, let 
+\begin{align*}
+    \underline{y}(k) &= \{x_{k-1} = x'_\ell, x_{\ell+1}', \dots, x_m' = x_k\} \\
+    \underline{\eta}(k) &= \{\xi_{\ell+1}', \xi_{\ell+2}', \dots, \xi_m'\}.
+\end{align*}
+Then, 
+\begin{align*}
+    |f(\xi_k)(x_k-x_{k-1}) - S_f(\underline{y}(k), \underline{\eta}(k))| &= \left|f(\xi_k) - \sum_{j= \ell+1}^m f(\xi_j') (x_j'-x_{j-1}')\right| \\
+    &= \left|\sum_{j=\ell+1}^m(f(\xi_k) - f(\xi_j'))(x_j'-x_{j-1}')\right|
+\intertext{since $\sum_{j=1}^m x_j' - x_{j-1}' = x_m - x_\ell' = x_k-x_{k-1}$. Hence,}
+    |f(\xi_k)(x_k-x_{k-1}) - S_f(\underline{y}(k), \underline{\eta}(k))| &\leq \sum_{j=\ell+1}^m |f(\xi_k) - f(\xi_j') |(x_j'-x_{j-1}') \\
+    &\leq \sum_{j=\ell + 1}^m w_f(|x_k-x_{k-1}|)(x_j'-x_{j-1}') \\
+    &\leq w_f(\lVert \underline{x}\rVert (x_k-x_{k-1}).
+\end{align*}
+Thus, 
+\begin{align*}
+    |S_f(\underline{x}, \underline{\xi}) - S_f(\underline{x}', \underline{\xi}')| &= \left|\sum_{k=1}^m(f(\xi_k)(x_k-x_{k-1}) - S_f(\underline{y}(k), \underline{\eta}(k)))\right| \\
+    &\leq \sum_{k=1}^m |f(\xi_k) (x_k - x_{k-1}) - S_f(\underline{y}(k) ,\underline{\eta}(k))| \\
+    &\leq w_f(\lVert \underline{x}\rVert) \sum_{k=1}^n x_k-x_1 = w_f(\lVert \underline{x}\rVert) (b-a).
+\end{align*}
+\qed 
+
+\begin{theorem}[Theorem III]
+If $(\underline{x}, \underline{\xi})$ and $(\underline{x}', \underline{\xi}')$ are any two tagged partitions of $[a,b]$ and $f\in C([a,b])$, then 
+\[
+|S_f(\underline{x}, \underline{\xi}) - S_f(\underline{x}', \underline{\xi}')| \leq (w_f(\lVert \underline{x}) + w_f(\lVert \underline{x}'\rVert))(b-a).
+\]
+\end{theorem}
+\textbf{Proof}: Let $\underline{x}'' = \underline{x} \cup \underline{x'}$ (i.e. a common refinement), and $\underline{\xi}''$ be a tag of $\underline{x}''$. Then, by Theorem II, 
+\begin{align*}
+    |S_f(\underline{x},\underline{\xi}) - S_f(\underline{x}', \underline{\xi}')| &\leq |S_f(\underline{x}, \underline{\xi}) - S_f(\underline{x}'', \underline{\xi}'')| - |S_f(\underline{x}', \underline{\xi}') - S_f(\underline{x}'', \underline{\xi}'')| \\
+    &\leq w_f(\lVert \underline{x}\rVert)(b-a) + w_f(\lVert \underline{x}'\rVert)(b-a).
+\end{align*}
+\qed 
+
+We now have the theorems necessary to prove the big theorem at the beginning of this section.
+
+\textbf{Proof}: Let $\{\underline{y}(r), \underline{\zeta}(r)\}_r$ be a sequence of tagged partitions with $\lVert \underline{y}(r) \rVert \to 0$ as $r\to \infty$. 
+
+Claim 1: $\{S_f(\underline{y}(r), \underline{\zeta}(r)\}_r$ is a Cauchy sequence. Proof: Let $\epsilon>0$. By Theorem I, $\exists \delta>0$ such that $\forall \eta < \delta$,
+\[
+w_f(\eta) < \frac{\epsilon}{2(b-a)}.
+\]
+Since $\lVert \underline{y}(r)\rVert \to 0$, $\exists M_0 \in \NN$ such that $\forall r\geq M_0$,
+\[
+\lVert \underline{y}(r)\rVert < \delta.
+\]
+Choose $M = M_0$. Then, if $r,s\geq M= M_0$, 
+\begin{align*}
+    |S_f(\underline{y}(r), \underline{\zeta}(r)) - S_f(\underline{y}(s), \underline{\zeta}(r))| &\leq (w(\lVert \underline{y}(r)\rVert + w(\lVert \underline{y}(s)\rVert))(b-a)
+\intertext{by Theorem III. Hence, by the above inequalities, it follows that }
+    |S_f(\underline{y}(r), \underline{\zeta}(r)) - S_f(\underline{y}(s), \underline{\zeta}(r))| &< \left(\frac{\epsilon}{2(b-a)} + \frac{\epsilon}{2(b-a)}\right)(b-a) = \epsilon.
+\end{align*}
+This proves Claim 1. Let $L = \lim_{r\to \infty} S_f(\underline{y}(r), \underline{\zeta}(r))$, which exists as Cauchy sequences of real numbers are convergent sequences.
+
+Claim 2: Let $\{(\underline{x}(r), \underline{\xi}(r))\}_r$ be \textbf{any} sequence of partitions with $\lVert \underline{x}(r) \rVert \to 0$. Then, 
+\[
+\lim_{r\to \infty} S_f(\underline{x}(r), \underline{\xi}(r)) = L.
+\]
+With $(\underline{y}(r), \underline{\zeta}(r))$ as before, we have by the Triangle Inequality and Theorem III that 
+\begin{align*}
+    |S_f(\underline{x}(r), \underline{\xi}(r)) - L| &\leq |S_f(\underline{x}(r), \underline{\xi}(r)) - S_f(\underline{y}(r), \underline{\zeta}(r))| + |S_f(\underline{y}(r) , \underline{\zeta}(r)) - L| \\
+    &\leq (w_f(\lVert \underline{x}(r)\rVert) + w_f(\lVert \underline{y}(r)\rVert))(b-a) + |S_f(\underline{y}(r), \underline{\zeta}(r)) - L|\to 0
+\end{align*}
+as $r\to \infty$ by Theorem I and by the definition of $L$. Thus, by the Squeeze Theorem, 
+\[
+|S_f(\underline{x}(r),\underline{\xi}(r)) - L| \to 0 \text{~~as~~} r\to 0.
+\]\qed 
+
+\noindent\underline{\textbf{Properties of the Riemann Integral}}
+
+\begin{notation}
+We will often abbreviate $\int_a^b f(x) \,\mathrm dx$ to $\int_a^b f$.
+\end{notation}
+
+\begin{theorem}[Linearity]
+If $f,g\in C([a,b])$ and $\alpha \in \RR$, then 
+\[
+\int_a^b (\alpha f + g) = \alpha \int_a^b f + \int_a^b g.
+\]
+\end{theorem}
+\textbf{Proof}: Let $\{(\underline{x}(r),\underline{\xi}(r))\}_r$ be a sequence of tagged partitions such that $\lVert \underline{x}(r)\rVert \to 0$. Then, 
+\[
+S_{\alpha f+g}(\underline{x}(r), \underline{\xi}(r)) = \alpha S_f(\underline{x}(r), \underline{\xi}(r)) + S_g(\underline{x}(r),\underline{\xi}(r)).
+\]
+Therefore, 
+\begin{align*}
+    \int_a^b (\alpha f + g) &= \lim_{r\to \infty} S_{\alpha f + g} (\underline{x}(r),\underline{\xi}(r)) \\
+    &= \lim_{r\to \infty} (\alpha S_f(\underline{x}(r), \underline{\xi}(r)) + S_g(\underline{x}(r),\underline{\xi}(r)) \\
+    &= \alpha \int_a^b f + \int_a^b g.
+\end{align*}
+\qed 
+
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.100A / 18.1001 Real Analysis, Fall 2020
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\begin{theorem}[Additivity]
+If $f\in C([a,b])$ and $a<c<b$, then 
+\[
+\int_a^b f = \int_a^c f + \int_c^b f.
+\]
+\end{theorem}
+\textbf{Proof}: Let $\{(\underline{y}(r), \underline{\zeta}(r))\}_r$ and $\{(\underline{z}(r), \underline{\eta}(r))\}_r$ be tagged partitions of $[a,c]$ and $[c,b]$ respectively such that $\lVert \underline{y}(r)\rVert \to 0$ and $\lVert \underline{z}(r)\rVert \to 0$. Define 
+\begin{align*}
+    \underline{x}(r) &= \underline{y}(r) \cup \underline{z}(r) \\
+    \underline{\xi}(r) &= \underline{\zeta}(r) \cup \underline{\eta}(r),
+\end{align*}
+a sequence of tagged partitions of $[a,b]$. Then,
+\[
+\lVert \underline{x}(r)\rVert \leq \lVert \underline{y}(r)\rVert + \lVert \underline{z}(r)\rVert \to 0.
+\]
+Thus, 
+\begin{align*}
+    \int_a^b f &= \lim_{t\to \infty} S_f(\underline{x}(r), \underline{\xi}(r)) \\
+    &= \lim_{r\to \infty} (S_f(\underline{y}(r), \underline{\zeta}(r)) + S_f(\underline{z}(r), \underline{\eta}(r))) \\
+    &= \int_a^c f + \int_c^b f.
+\end{align*}\qed 
+
+\begin{theorem}
+Let $f\in C([a,b])$, and
+\begin{align*}
+    m_f &= \inf\{f(x) \mid x\in [a,b]\} \in \RR\\
+    M_f &= \sup \{f(x) \mid x\in [a,b]\}\in \RR.
+\end{align*}
+Then, 
+\[
+m_f(b-a) \leq \int_a^b f \leq M_f(b-a).
+\]
+\end{theorem}
+\textbf{Proof}: Let $\{(\underline{x}(r), \underline{\xi}(r))\}_r$ be a sequence of tagged partitions with $\lVert \underline{x}(r)\rVert \to 0$. Then, 
+\[
+S_f(\underline{x}(r), \underline{\xi}(r)) = \sum_{k=1}^n f(\xi_k(r))(x_k(r)-x_{k-1}(r))\geq m_f \sum_{k=1}^n (x_k(r)- x_{k-1}(r)) = m_f(b-a).
+\]
+Similarly, 
+\[
+S_f(\underline{x}(r), \underline{\xi}(r)) = \sum_{k=1}^n f(\xi_k(r))(x_k(r)-x_{k-1}(r))\leq M_f \sum_{k=1}^n (x_k(r)- x_{k-1}(r)) = M_f(b-a).
+\]
+Therefore, for all $r$,
+\[
+m_f(b-a) \leq S_f(\underline{x}(r), \underline{\xi}(r)) \leq M_f(b-a) \implies m_f(b-a) \leq \int_a^b f \leq M_f(b-a).
+\]\qed 
+
+\begin{theorem}
+Suppose $f\in C([a,b])$ and $g\in C([a,b])$. 
+\begin{enumerate}
+    \item If $\forall x\in [a,b]$ $f(x) \leq g(x)$, then
+    \[
+    \int_a^b f \leq \int_a^b g.
+    \]
+    \item (Triangle Inequality for integrals): $|\int_a^b f| \leq \int_a^b |f|$.
+\end{enumerate}
+\end{theorem}
+\textbf{Proof}:
+\begin{enumerate}
+    \item Let $\{(\underline{x}(r), \underline{\xi}(r)\}_r$ be a sequence of tagged partitions such that $\lVert \underline{x}(r)\rVert\to 0$. Then, for all $r\in \NN$,
+    \begin{align*}
+    S_f(\underline{x}(r), \underline{\xi}(r)) &= \sum_{j=1}^n f(\xi_j(r))(x_j(r)-x_{j-1}(r)) \\
+    &\leq \sum_{j=1}^n g(\xi_j(r))(x_j(r)-x_{j-1}(r)) \\
+    &= S_g(\underline{x}(r), \underline{\xi}(r)).
+    \end{align*}
+    Then, letting $r\to \infty$, we get that 
+    \[
+    \int_a^b f \leq \int_a^b g.
+    \]
+    \item Notice that $\pm f(x) \leq |f(x)|$ for all $x$, and thus 
+    \[
+    \pm\int_a^b f \leq \int_a^b |f| \implies -\int_a^b f \leq \int_a^b f \leq \int_a^b |f|.
+    \]
+    Therefore, $|\int_a^b f|\leq \int_a^b |f|$.
+\end{enumerate}
+\qed 
+
+\begin{remark}
+There are some conventions that are worth noting:
+\begin{enumerate}
+    \item $\int_a^a f := 0$. This is consistent with our definitions and theorems thus far as $\lim_{b\to a}|\int_a^b f| = 0$. \item $\int_a^b f = -\int_b^a f.$
+\end{enumerate}
+\end{remark}
+
+\noindent\underline{\textbf{Fundamental Theorem of Calculus}}
+
+\begin{theorem}[Fundamental Theorem of Calculus]
+Suppose $f\in C([a,b])$.
+\begin{enumerate}
+    \item If $F:[a,b] \to \RR$ is differentiable and $F' = f$, then 
+\[
+\int_a^b f = F(b) - F(a).
+\]
+    \item The function $G(x):= \int_a^x f$ is differentiable on $[a,b]$ and 
+    \[
+    \begin{cases}
+    G' = f \\
+    G(a) = 0
+    \end{cases}.
+    \]
+\end{enumerate}
+\end{theorem}
+\begin{remark}
+We sometimes abbreviate the Fundamental Theorem of Calculus to FTC.
+\end{remark}
+
+\noindent \textbf{Proof}:
+\begin{enumerate}
+    \item Let $\{(\underline{x}(r))\}_r$ be a sequence of partitions with $\lVert \underline{x}\rVert \to 0$. Then, by the Mean Value Theorem, $\forall r\forall j$, there exists a $\xi_j(r)\in [x_{j-1}(r), x_j(r)]$ such that 
+    \[
+    F(x_j(r)) - F(x_{j-1}(r)) = F'(\xi_j(r))(x_j(r)-x_{j-1}(r)) = f(\xi_j(r)) (x_j(r)-x_{j-1}(r)).
+    \]
+    Thus, 
+    \begin{align*}
+        \int_a^b f &= \lim_{r\to \infty} \sum_{j=1}^{n(r)} f(\xi_j(r))(x_j(r)-x_{j-1}(r)) \\
+        &= \lim_{r\to \infty} \sum_{j=1}^{n(r)} F(x_j(r)) - F(x_{j-1}(r)) \\
+        &= \lim_{r\to \infty} (F(b)-F(a)) = F(b) - F(a).
+    \end{align*}
+    \item Let $c \in [a,b]$. We wish to show that 
+    \[
+    \lim_{x\to c} \frac{\int_a^x f- \int_a^c f}{x-c} = f(c).
+    \]
+    Let $\epsilon>0$. Then, since $f$ is continuous at $c$, $\exists \delta_0>0$ such that 
+    \[
+    |t-c|< \delta_0 \implies |f(t)-f(c)|<\epsilon/2.
+    \]
+    Choose $\delta = \delta_0$. Suppose $0< x-c<\delta$. If $t\in [c,x]$, then 
+    \[
+    |t-c|\leq |x-c| <\delta = \delta_0.
+    \]
+    Thus, 
+    \begin{align*}
+        \left|\frac{1}{x-c} \int_c^x f(t) \,\mathrm dt - f(c)\right| &= \left|\frac{1}{x-c}\int_c^t f(t) \,\mathrm dt - \frac{1}{x-c}\int_x^c f(c)\,\mathrm dt\right| \\
+        &= \frac{1}{x-c} \left|\int_c^x (f(t)-f(c))\,\mathrm dt\right| \\
+        &\leq \frac{1}{x-c}\int_c^x |f(t)-f(c)|\,\mathrm dt \\
+        &\leq \frac{1}{x-c}\int_c^x \epsilon/2 \,\mathrm dt \\
+        &= \frac{1}{x-c}\cdot \frac{\epsilon}{2} (x-c) = \frac{\epsilon}{2}.
+    \end{align*}
+    A similar argument holds for $0< c-x<\delta$. Thus, 
+    \[
+    0 < |x-c|< \delta \implies \left|\frac{\int_a^x f-\int_a^c f}{x-c} - f(c)\right| \leq \frac{\epsilon}{2} < \epsilon.
+    \]
+\end{enumerate} \qed 
+
+\begin{theorem}[Integration by Parts]
+Suppose $f,g\in C([a,b])$ and $f',g'\in C([a,b])$. Then, 
+\[
+\int_a^b f'g = (f(b)g(b)-f(a)g(a)) -int_a^b fg'.
+\]
+\end{theorem}
+\textbf{Proof}: We have \[
+(fg)' = f'g +fg'.
+\]
+Therefore, by the Fundamental Theorem of Calculus, 
+\[
+f(b)g(b)-f(a)g(a) = \int_a^b f'g + \int_a^b fg'.
+\]\qed 
+
+\begin{remark}
+We sometimes abbreviate Integration By Parts as $IBP.$
+\end{remark}
+
+\begin{lemma}[Riemann-Lebesgue]
+Suppose $f\in C([-\pi, \pi])$ and $f'\in C([-\pi,\pi])$ with $f$ $2\pi$-periodic with $f(-\pi) = f(\pi)$. For $n\in \NN\cup \{0\}$, let 
+\begin{align*}
+    a_n &= \frac{1}{\pi}\int_{-\pi}^\pi f(x) \sin(nx)\,\mathrm dx \\
+    b_n &= \frac{1}{\pi}\int_{-\pi}^\pi f(x) \cos(nx) \,\mathrm dx.
+\end{align*}
+Then, 
+\[
+\lim_{n\to \infty} a_n = \lim_{n\to \infty} b_n = 0.
+\]
+\end{lemma}
+\begin{definition}[Fourier Coefficients]
+The $a_n,b_n$ defined in the above lemma are referred to as the \vocab{Fourier coefficients of $f$}.
+\end{definition}
+\textbf{Proof}: Using IBP, we have 
+\begin{align*}
+    |b_n| &= \frac{1}{\pi}\left|\int_{-\pi}^\pi f(x) \cos(nx) \,\mathrm dx\right| \\
+    &= \frac{1}{\pi}\left|\int_{-\pi}^\pi (\frac{1}{n}\sin(nx))'f(x)\,\mathrm dx\right| \\
+    &= \left|\frac{1}{n}(f(\pi)\sin(n\pi)-f(-pi)\sin(n(-\pi))) - \frac{1}{n}\int_{-\pi}^\pi \sin(nx) f'(x)\,\mathrm dx\right|.
+\intertext{Notice that $\sin(n\pi) = \sin(n(-\pi)) = 0$ for all $n\in \NN$. Hence, }
+    |b_n| &\leq \frac{1}{n} \int_{-\pi}^\pi |\sin(nx)||f'(x)|\,\mathrm dx \\
+    &\leq \frac{1}{n}\int_{-\pi}^\pi|f'|\to 0.
+\end{align*}
+By the Squeeze Theorem, $|b_n|\to 0$. A similar arguments works for $a_n$. \qed 
+
+\begin{theorem}[Change of Variables]
+Let $\varphi:[a,b]\to [c,d]$ be continuously differentiable with $\varphi'>0$ on $[a,b]$, $\varphi(a) = c$, and $\varphi(b) = d$. Then,
+\[
+\int_c^d f(u)\,\mathrm du = \int_a^b f(\varphi(x))\varphi'(x)\,\mathrm dx.
+\]
+\end{theorem}
+\textbf{Proof}: Let $F:[a,b] \to \RR$ such that $F' = f$. Then, 
+\[
+F(\varphi(x))' = f(\varphi(x)).
+\]
+Hence, by the FTC,
+\begin{align*}
+    \int_a^b f(\varphi(x))\varphi'(x)\,\mathrm dx &= \int_a^b F(\varphi(x))' \,\mathrm dx \\
+    &= F(\varphi(b))- F(\varphi(a)) \\
+    &= F(d)-F(c).
+\end{align*}
+Furthermore, by the FTC, 
+\[
+\int_c^d f(u) \,\mathrm du = \int_c^d F(u)'\,\mathrm du = F(d)-F(c).
+\] \qed 
+%ended 1130, 10 hrs total 3/24
+
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.100A / 18.1001 Real Analysis, Fall 2020
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\subsection*{Sequences of Function}
+
+\noindent\underline{\textbf{Power Series}}
+
+\begin{remark}
+Power series motivate the general discussion of sequences of functions.
+\end{remark}
+
+\begin{definition}[Power series]
+A power series about $x_0$ is a series of the form 
+\[
+\sum_{m=0}^\infty a_m (x-x_0)^m.
+\]
+\end{definition}
+
+\begin{theorem} 
+Suppose
+\[
+R = \lim_{m\to \infty} |a_{m}|^{1/n}
+\]
+exists, and let 
+\[
+p = \begin{cases}
+\frac{1}{R} & R>0 \\
+\infty & R = 0.
+\end{cases}
+\]
+Then, $\sum a_m(x-x_0)^m$ converges absolutely if $|x-x_0|<p$ and diverges if $|x-x_0|>p$.
+\end{theorem}
+
+\begin{definition}[Radius of Convergence]
+In the above theorem, we define $p$ to be the \vocab{radius of convergence}.
+\end{definition}
+\textbf{Proof}: We have 
+\[
+\lim_{n\to \infty}|a_m(x-x_0)^m|^{1/m} = R|x-x_0|,
+\]
+and the theorem follows by the Root test. \qed 
+
+Suppose $\sum a_m(x-x_0)^m$ is a power series with radius of convergence $p$. Furthermore, define \\$f:(x_0-p,x_0+p) \to \RR$ such that 
+\[
+f(x) := \sum_{m=0}^\infty a_m (x-x_0)^m.
+\]
+Then, $f$ is a limit of a sequence of functions 
+\begin{align*}
+    f(x) &= \lim_{n\to \infty} f_n(x),
+\intertext{for $x\in (x_0-p,x_0+p)$ and where}
+    f_n(x) &= \sum_{m=0}^n a_m(x-x_0)^m.
+\end{align*}
+
+\begin{example}
+For example, we have 
+\[
+f(x) = \frac{1}{1-x} = \sum_{m=0}^\infty x^m.
+\]
+\end{example}
+
+\begin{question}
+This concept begs a number of questions:
+\begin{enumerate}
+    \item Is $f$ continuous? 
+    \item Is $f$ differentiable, and does $f' = \lim_{n\to \infty} f_n'$? 
+    \item If 1. is true, does 
+    \[
+    \int_a^b f = \lim_{n\to \infty}\int_a^b f_n?
+    \]
+\end{enumerate}
+\end{question}
+
+\noindent These questions will be the key motivator for the last section of this course.
+
+\noindent\underline{\textbf{Pointwise and Uniform Convergence}}
+
+We now consider a setting far more general than power series.
+
+\begin{definition}[Pointwise Convergence]
+For $n\in \NN$, let $f_n: S\to \RR$. Let $f:S\to \RR$. We say that $\{f_n\}$ converges pointwise to $f$ if for all $x\in S$,
+\[
+\lim_{n\to \infty} f_n(x) = f(x).
+\]
+\end{definition}
+
+\noindent Let's consider some examples.
+\begin{enumerate}
+    \item Let $f_n(x) = x^n$ on [0,1]. Then, 
+    \[
+    \lim_{n\to \infty} f_n(x) = \begin{cases}
+    0 & x\in [0,1) \\
+    1 & x=1
+    \end{cases}.
+    \]
+    Thus, $\{f_n\}$ converges to the above pointwise function. Hence, notice that a sequence of continuous functions may not converge pointwise to a continuous function!
+    \item Let $f_n(x) = \sum_{m=0}^n x^m$ for $x\in(-1,1)$.
+    Then, 
+    \[
+    \lim_{n\to \infty} f_n(x) = \lim_{n\to \infty} \sum_{m=0}^n x^m = \frac{1}{1-x}.
+    \]
+    Hence, pointwise, this sequence converges to its power series (see the above example).
+    \item Let $f_n(x):[0,1] \to \RR$ be defined by 
+    \[
+    f_n(x) =\begin{cases}
+    4n^2x & x\in \left[0,\frac{1}{2n}\right] \\
+    4n-4n^2x & x\in \left[\frac{1}{2n}, \frac{1}{n}\right] \\
+    0 & x\in \left[\frac{1}{n}, 1\right]
+    \end{cases}.
+    \]
+    We can picture this sequence (on the next page)
+    \begin{figure}[h]
+    \centering
+    \includegraphics{pics/fig12.PNG}
+\end{figure}
+
+Then, $\lim_{n\to \infty} f_n(0) = \lim_{n\to \infty} 0 = 0$. Let $x\in (0,1]$. Let $N\in \NN$ such that $\frac{1}{N}< x$. Then, for all $n\geq N$, 
+\[
+f_n(x) = 0.
+\]
+Therefore, 
+\[
+\{f_n(x)\} = f_1(x), \dots, f_{N-1}(x), 0, 0, 0, \dots.
+\]
+Hence, $\lim_{n\to \infty}f_n(x) = 0$ for all $x\in [0,1]$. Thus, $\{f_n\}$ converges pointwise to $f(x) = 0$ on $[0,1].$
+\end{enumerate}
+
+\begin{definition}[Uniform Convergence]
+For $n\in \NN$, let $f_n:S\to \RR$, and let $f:S\to \RR$. Then, we say $f_n$ \vocab{converges to $f$ uniformly} or \textbf{converges uniformly to $f$} if $\forall \epsilon>0$ $\exists M\in \NN$ such that for all $n\geq M$ $\forall x\in S$,
+\[
+|f_n(x) - f(x)|<\epsilon
+\]
+\end{definition}
+
+\begin{theorem}
+If $f_n:S\to \RR$, $f:S\to \RR$, and $f_n\to f$ uniformly, then $f_n\to f$ pointwise.
+\end{theorem}
+\textbf{Proof}: Let $c\in S$ and let $\epsilon>0$. Then, $f_n\to f$ uniformly implies that there exists $M_0\in \NN$ such that for all $n\geq M, \forall x\in S$, $|f_n(x)-f(x)|<\epsilon$. Choose $M=M_0$. Then, $\forall n\geq M$, 
+\[
+|f_n(c) - f(c)|< \epsilon.
+\]
+Thus, $\lim_{n\to \infty}f_n(c) = f(c)$ for all $c\in S$, and therefore $f_n\to f$ pointwise. \qed
+
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.100A / 18.1001 Real Analysis, Fall 2020
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\begin{theorem}
+Let $f_n(x) = x^n$, and let $f(x) = \begin{cases}0&x\in [0,1) \\ 1& x=1\end{cases}.$ 
+\begin{enumerate}
+    \item $\forall 0 < b<1$, $f_n\to f$ uniformly on $[0,b]$.
+    \item $f_n$ does not converge to $f$ uniformly on $[0,1]$.
+\end{enumerate}
+\end{theorem}
+\textbf{Proof}:
+\begin{enumerate}
+    \item Let $\epsilon>0$. Since $b\in (0,1)$, $b^n \to 0$. Therefore, $\exists M_0\in \NN$ such that for all $n\geq M_0$, $b^n < \epsilon$. Choose $M = M_0$. Then, $\forall n\geq M, \forall x\in [0,b]$,
+    \[
+    |f_n(x) - f(x)| = |f_n(x)| = x^n \leq b^n<\epsilon.
+    \]
+    Thus, $f_n\to f$ uniformly on $[0,b]$.
+\end{enumerate}
+Before proving the other part, we first note the following negation:
+\begin{negation}[Not Uniformly Convergent]
+$f_n:S\to \RR$ does \vocab{not converge to $f:S\to \RR$ uniformly} if $\exists \epsilon_0>0$ such that $\forall M\in\NN$, $\exists n\geq M$ and $\exists x\in S$ with $|f_n(x) - f(x)|\geq \epsilon_0$.
+\end{negation}
+\begin{enumerate}
+    \item[2.] Hence, for our example, choose $\epsilon_0 = \frac{1}{4}$. Let $M\in\NN$ and choose $x = \left(\frac{1}{2}\right)^{\frac{1}{M}}\in (0,1)$. Thus, 
+    \[
+    |f_M(x) - f(x)| = f_M(x) = \frac{1}{2} >\epsilon_0.
+    \]
+\end{enumerate}
+\qed 
+
+\begin{theorem}[Weierstrass M-test]
+let $f_j:S\to \RR$ and suppose $\exists M_j>0$ such that 
+\begin{enumerate}[label = \alph*)]
+    \item $\forall x\in S$, $|f_j(x)|\leq M_j$.
+    \item $\sum_{j=1}^\infty M_j$ converges.
+\end{enumerate}
+Then,
+\begin{enumerate}
+    \item $\forall x\in S$, $\sum_{j=1}^\infty f_j(x)$ converges absolutely.
+    \item Let $f(x) = \sum_{j=1}^\infty f_j(x)$ for $x\in S.$ Then,
+    \[
+    \sum_{j=1}^n f_j\to f \text{~~uniformly on~~} S.
+    \]
+\end{enumerate}
+\end{theorem}
+\textbf{Proof}: 
+\begin{enumerate}
+    \item The first part follows from a), b), and the Comparison Test.
+    \item Let $\epsilon>0$. Since $\sum M_j$ converges, $\exists N_0\in\NN$ such that $\forall n\geq N_0$,
+    \[
+    \sum_{j=n+1}^\infty M_j = \left|\sum_{j=1}^\infty M_j - \sum_{j=1}^{n}M_j\right|<\epsilon.
+    \]
+    Choose $N= N_0$. Then, for all $n\geq N$ and $\forall x\in S$,
+    \begin{align*}
+        \left|f(x) - \sum_{j=1}^n f_j(x)\right| &= \left| \sum_{j=n+1}^\infty f_j(x)\right| \\
+        &\leq \sum_{j=n+1}^\infty |f_j(x)| \\
+        &\leq \sum_{j=n+1}^\infty M_j < \epsilon.
+    \end{align*}
+    Thus, $\sum_{j=1}^n f_j \to f$ uniformly on $S$.
+\end{enumerate}\qed 
+
+\noindent\underline{\textbf{Interchange of Limits}}
+
+\begin{remark}
+In general, limits \underline{cannot} be interchanged.
+\end{remark}
+
+\begin{example}
+For instance, consider the following example:
+\begin{align*}
+    \lim_{n\to \infty} \lim_{k\to \infty} \frac{n/k}{n/k + 1} &= \lim_{n\to \infty} \frac{0}{0+1} = 0 \\
+    \lim_{k\to \infty} \lim_{n\to \infty} \frac{n/k}{n/k + 1} &= \lim_{k\to \infty} 1 = 1.
+\end{align*}
+\end{example}
+
+\begin{question}
+Hence, we ask three questions about interchanging limits:
+\begin{enumerate}
+\item If $f_n:S\to \RR$, $f_n$ continuous and $f_n\to f$ pointwise or uniform, then is $f$ continuous?
+\item If $f_n:[a,b]\to \RR$, $f_n$ differentiable, and $f_n\to f$ with $f_n'\to g$, then is $f$ differentiable and does $g=f'$?
+\item If $f_n:[a,b]\to \RR$, with $f_n$ and $f$ continuous such that $f_n\to f$, then does 
+\[
+\int_a^b f_n = \int_a^b f?
+\]
+\end{enumerate}
+\end{question}
+The answer to the above questions are all \textbf{yes}, if the convergence is uniform.
+
+\begin{question}
+What if the convergence is only pointwise?
+\end{question}
+If convergence is only pointwise, the answer to the above questions are all \textbf{no}, which we will show next time.
+
+%MIT OpenCourseWare: https://ocw.mit.edu
+%18.100A / 18.1001 Real Analysis, Fall 2020
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+Last time, we asked three questions about interchanging limits:
+\begin{question}
+Hence, we ask three questions about interchanging limits:
+\begin{enumerate}
+\item If $f_n:S\to \RR$, $f_n$ continuous and $f_n\to f$ pointwise or uniform, then is $f$ continuous?
+\item If $f_n:[a,b]\to \RR$, $f_n$ differentiable, and $f_n\to f$ with $f_n'\to g$, then is $f$ differentiable and does $g=f'$?
+\item If $f_n:[a,b]\to \RR$, with $f_n$ and $f$ continuous such that $f_n\to f$, then does 
+\[
+\int_a^b f_n = \int_a^b f?
+\]
+\end{enumerate}
+\end{question}
+The answer to the above questions are all \textbf{no}, if the convergence is pointwise as seen by the following counterexamples:
+\begin{enumerate}
+    \item Let $f_n(x) = x^n$ on $[0,1]$ is continuous $\forall n$. As we noted earlier, $f_n(x) \to f(x) =  \begin{cases} 0 & x\in [0,1) \\
+    1 & x=1
+    \end{cases}$. Notice that $f$ is not continuous.
+    
+    \item Let $f_n(x) = \frac{x^{n+1}}{n+1}$ on $[0,1]$. Then, $f_n\to 0$ pointwise on $[0,1]$. However, 
+    \[
+    f_n'(x) \to g(x) = \begin{cases}
+    0 &x\in[0,1) \\
+    1 & x=1
+    \end{cases}.
+    \]
+    Thus, $g(x) \neq (0)' = 0$ at $x=1$.
+    
+    \item Consider the functions
+    \[
+    f_n(x) =\begin{cases}
+    4n^2x & x\in \left[0,\frac{1}{2n}\right] \\
+    4n-4n^2x & x\in \left[\frac{1}{2n}, \frac{1}{n}\right] \\
+    0 & x\in \left[\frac{1}{n}, 1\right]
+    \end{cases}
+    \]
+    as described in the previous lecture. Then, $f_n(x)\to 0$ pointwise on [0,1] as we showed last time. However,
+    \[
+    \int_0^1 f_n = \frac{1}{2}(\text{base})(\text{height}) = \frac{1}{2n}\cdot 2n = 1\not\to 0 = \int_0^1 0.
+    \]
+\end{enumerate}
+
+We now prove that the answer to the three questions above is \textbf{yes} if convergence is uniform.
+\begin{theorem}
+If $f_n:S\to \RR$ is continuous for all $n$, $f:S\to \RR$, and $f_n\to f$ uniformly, then $f$ is continuous.
+\end{theorem}
+\textbf{Proof}: Let $c\in S$ and let $\epsilon>0$. Since $f_n\to f$ uniformly, $\exists M\in \NN$ such that $\forall n\geq M$, $\forall y\in S$,
+\[
+|f_n(y) - f(y)| < \frac{\epsilon}{3}.
+\]
+Since $f_M:S\to \RR$ is continuous, $\exists \delta_0>0$ such that $\forall |x-c|<\delta_0$,
+\[
+|f_M(x)-f_M(c)|< \frac{\epsilon}{3}.
+\]
+Choose $\delta = \delta_0$. If $|x-c|<\delta$, then 
+\begin{align*}
+    |f(x)-f(c)| &\leq |f(x) + f_M(x)| + |f_M(c) - f(c)| + |f_M(x)-f_M(c)| \\
+    &< \frac{\epsilon}{3} + \frac{\epsilon}{3} + \frac{\epsilon}{3} = \epsilon.
+\end{align*}\qed 
+
+\begin{theorem}
+If $f_n:[a,b]\to \RR$ is continuous for all $n$, $f:[a,b]\to \RR$ and $f_n\to f$ uniformly, then 
+\[
+\int_a^b f_n\to \int_a^b f.
+\]
+\end{theorem}
+\textbf{Proof}: Let $\epsilon>0$. Since $f_n\to f$ uniform, $\exists M_0\in \NN$ such that $\forall n\geq M_0,\forall x\in[a,b]$,
+\[
+|f_n(x) -f(x)| < \frac{\epsilon}{b-a}.
+\]
+Then, for all $n\geq M = M_0$, we have 
+\[
+\left|\int_a^b f_n - \int_a^b f\right| \leq \int_a^b |f_n-f|<\int_a^b \frac{\epsilon}{b-a} = \epsilon.
+\]\qed
+
+\begin{remark}
+Notationally, this states that 
+\[
+\lim_{n\to \infty} \int_a^b f_n = \int_a^b \lim_{n\to \infty} f_n = \int_a^b f.
+\]
+\end{remark}
+
+\begin{theorem}
+If $f_n:[a,b]\to \RR$ is continuously differentiable, $f:[a,b]\to \RR$, $g:[a,b]\to \RR$, and 
+\begin{align*}
+    f_n &\to f \text{~~pointwise}, \\
+    f_n' &\to g \text{~~uniformly},
+\end{align*}
+then $f$ is continuously differentiable and $g = f'$.
+\end{theorem}
+\textbf{Proof}: By the FTC, $\forall n\forall x\in[a,b]$,
+\[
+f_n(x) - f_n(a) = \int_a^x f_n'.
+\]
+Thus, by the previous two theorems,
+\begin{align*}
+    f(x) - f(a) &= \lim_{n\to \infty} (f_n(x) - f_n(a)) \\
+    &= \lim_{n\to \infty}\int_a^x f_n' \\
+    &= \int_a^x g.
+\end{align*}
+Therefore, $f(x) = f(a) +\int_a^x g$. Thus, by the FTC, $f$ is differentiable and $f' = (\int_a^x g)' = g.$ \qed 
+
+We now return back to our study of power series, answering some questions we asked at the beginning of Lecture 23.
+
+\begin{theorem}
+Let $\sum_{j=0}^\infty a_j(x-x_0)^j$ be a power series of radius of convergence $p\in (0,\infty]$. Then, $\forall r\in (0,p)$, $\sum_{j=0}^\infty a_j(x-x_0)^j$ converges uniformly on $[x_0-r,x_0+r]$.
+\end{theorem}
+\textbf{Proof}: Let $r\in [0,p)$. Then, $\forall j \in \NN \cup\{0\}$, $\forall x\in [x_0-r,x_0+r]$,
+\[
+|a_j(x-x_0)^j| \leq |a_j|r^j =:M_j.
+\]
+Now, 
+\[
+\lim_{}j\to \infty M_j^{1/j} = \lim_{j\to \infty} |a_j|^{1/j} r = \begin{cases} 
+\frac{r}{p} &p< \infty \\
+0 &p=\infty
+\end{cases}
+\]
+since $p^{-1} = \lim_{j\to \infty} |a_j|^{1/j}$. Since $r<p$, we have 
+\[
+\lim_{j\to \infty}M_j^{1/j} < 1 \implies \sum_{j=0}^\infty M_j \text{~~converges.}
+\]
+By the Weierstrass M-test, it follows that $\sum_{j=0}^\infty a_j(x-x_0)^j$ converges uniformly on $[x_0-r, x_0+r]$. \qed 
+
+\begin{theorem}
+Let $\sum_{j=0}^\infty a_j(x-x_0)^j$ be a power series with radius of convergence $p\in (0,\infty]$. Then, 
+\begin{enumerate}
+    \item $\forall c\in (x_0-p, x_0+p)$, $\sum_{j=0}^\infty a_j(x-x_0)^j$ is differentiable at $c$ and 
+    \[
+    \frac{\mathrm d}{\mathrm dx} \sum_{j=0}^\infty a_j(x-x_0)^j = \sum_{j=0}^\infty ja_j(x-x_0)^{j-1}.
+    \]
+    \item $\forall a,b$ such that $x_0-p<a<b<x_0 + p$,
+    \[
+    \int_a^b \sum_{j=0}^\infty a_J(x-x_0)^j\,\mathrm dx = \sum_{j=0}^\infty a_j\left(\frac{(b-x_0)^{j+1}}{j+1} - \frac{(a-x_0)^{j+1}}{j+1}\right).
+    \]
+\end{enumerate}
+\end{theorem}
+
+\begin{remark}
+Since 
+\[
+\lim_{j\to \infty}((j+1)|a_{j+1}|)^{1/j} = \lim_{j\to \infty} \left(((j+1)|a_{j+1}|^{1/(j+1)}\right)^{(j+1)/j} = \lim_{k\to \infty} |a_k|^{1/k} = p,
+\]
+1. implies $\sum a_j(x-x_0)^j$ is infinitely differentiable and 
+\[
+k!a_k = \left(\frac{\mathrm d^k}{\mathrm dx^k} \sum a_j(x-x_0)^j\right)\bigr|_{x=x_0}.
+\]
+\end{remark}
+
+\noindent\underline{\textbf{Weierstrass Approximation Theorem}}
+
+\begin{remark}
+This theorem essentially states: "Every continuous function on $[a,b]$ is almost a polynomial."
+\end{remark}
+
+\begin{theorem}[Weierstrass Approximation Theorem]
+If $f\in C([a,b])$, there exists a sequence of polynomials $\{P_n\}$ such that 
+\[
+P_n\to f \text{~~uniformly on~~} [a,b].
+\]
+\end{theorem}
+
+The idea of the proof is to choose a suitable sequence of polynomials $\{Q_n\}_n$ such that $Q_n$ behaves like a `Dirac delta function' as $n
+to \infty$. Then, the sequence of polynomials $P_n(x) = \int_0^1 Q_n(x-t)f(t)\,\mathrm dt$ converges to $f(x)$ as $n\to \infty$. We will prove this momentarily, but first we need to do the ground work.
+
+Notice that we only need to consider $a = 0$ and $b=1$, with $f(0) = f(1) = 0$. If we prove this case, then for a general $\Tilde{f}\in C([0,1])$, $\exists$ a sequence of polynomials
+\[
+P_n(x) \to \Tilde{f}(x) - \Tilde{f}(0) - x(\Tilde{f}(1) -  \Tilde{f}(0)) \text{~~uniformly.}
+\]
+Hence, 
+\[
+\Tilde{P}_n(x)= P_n(x) + \Tilde{f}(0) + x(\Tilde{f}(1) - \Tilde{f}(0))\to \Tilde{f}(x) \text{~~uniformly.}
+\]
+
+\begin{theorem}
+Let $c_n:= (\int_{-1}^1 (1-x^2)^n \,\mathrm dx)^{-1}>0$, and let 
+\[
+Q_n(x) = c_n(1-x^2)^n.
+\]
+Then,
+\begin{enumerate}
+\item $\forall n$, $\int_{-1}^1 Q_n = 1$.
+\item $\forall n$, $Q_n(x) \geq 0$ on $[-1,1]$, and 
+\item $\forall \delta\in (0,1)$, $Q_n\to 0$ uniformly on $\delta \leq |x|\leq 1$.
+\end{enumerate}
+\end{theorem}
+Before we prove this, here is a picture of $Q_n$:
+\begin{figure}[h]
+    \centering
+    \includegraphics{pics/fig13.PNG}
+\end{figure}
+
+\noindent \textbf{Proof}: 
+\begin{enumerate}
+    \item[2.] Immediately clear.
+    \item[1.] $\int_{-1}^1 Q_n = c_n \int_{-1}^1 (1-x^2)^{n}\,\mathrm dx = 1$ by definition of $c_n$.
+    \item[3.] We first estimate $c_n$. We have for all $n\in\NN$ and $\forall x\in[-1,1]$,
+    \[
+    (1-x^2)^n \geq 1-nx^2.
+    \]
+    We proved this way earlier in the course by induction, but it also follows from the calculus we have proven as 
+    \[
+    g(x) = (1-x^2)^n - (1-nx^2)
+    \]
+    satisfies $g(0) = 0$, and
+    \[
+    g'(x) = n\cdot 2x(1-(1-x^2)^{n-1})\geq 0
+    \]
+    in [0,1]. Thus, $g(x)\geq 0$ by the MVT.
+    
+    Then,
+    \begin{align*}
+        \frac{1}{c_n} &= \int_{-1}^1 (1-x^2)^n\,\mathrm dx \\
+        &= 2\int_0^1 (1-x^2)^n \,\mathrm dx \\
+        &> 2\int_0^{1/\sqrt{n}}(1-x^2)^n \,\mathrm dx \\
+        &\geq 2\int_0^{1/\sqrt{n}} (1-nx^2)\,\mathrm dx \\
+        &= 2\left(\frac{1}{\sqrt n} - \frac{n}{3}\cdot n^{-3/2}\right) \\
+        &= \frac{4}{3} \sqrt{n} >\sqrt{n}.
+    \end{align*}
+    Therefore, $c_n< \sqrt{n}$.
+    
+    Let $\delta>0$. We note $\lim_{n\to \infty} \sqrt{n}(1-\delta^2)^n = 0$. Then, 
+    \begin{align*}
+        \lim_{n\to \infty} (\sqrt{n}(1-\delta^2)^n)^{1/n} &= \lim_{n\to \infty}(n^{1/n})^{1/2}(1-\delta^2)\\
+        &= 1-\delta^2<1.
+    \end{align*}
+    Therefore, 
+    \[
+    \lim_{n\to \infty} \sqrt{n}(1-\delta^2)^n = 0.
+    \]
+    Let $\epsilon>0$, and choose $M\in \NN$ such that for all $n\geq M$,
+    \[
+    \sqrt{n}(1-\delta^2)^n <\epsilon.
+    \]
+    Then, $\forall n\geq M$ and $\forall \delta\leq |x|\leq 1$, 
+    \[
+    |c_n(1-x^2)^n| < \sqrt{n}(1-x^2)^n \leq \sqrt{n}(1-\delta^2)^n <\epsilon.
+    \]
+\end{enumerate}\qed 
+
+We now prove the Weierstrass Approximation Theorem.
+
+\noindent\textbf{Proof}: Suppose $f\in C([0,1])$, $f(0) = f(1) = 0$. We extend $f$ to an element of $C(\RR)$ by setting $f(x) = 0$ for all $x\notin [0,1]$. We furthermore define 
+\begin{align*}
+    P_n(x) &= \int_0^1 f(t)Q_{n}(t-x)\,\mathrm dt \\
+    &= \int_0^1 f(t) c_n(1-(t-x)^2)^n \,\mathrm dt.
+\end{align*}
+Note that $P_n(x)$ is in fact a polynomial.
+
+Furthermore, observe that for $x\in [0,1]$,
+\begin{align*}
+    P_n(x) &= \int_0^1 f(t) Q_n(t-x)\,\mathrm dt \\
+    &= \int_{-x}^{1-x} f(x+t)Q_n(t) \,\mathrm dt \\
+    &= \int_{-1}^1 f(x+t)Q_n(t)\,\mathrm dt.
+\end{align*}
+The second equality is true by a change of variable, and the last equality is true as $f(x+t) = 0$ for $t\notin [-x,1-x]$.
+
+We now prove $P_n\to f$ uniformly on $[0,1]$. Let $\epsilon>0$. Since $f$ is uniformly continuous on $[0,1]$, $\exists \delta>0$ such that $\forall |x-y|\leq \delta$, $|f(x)-f(y)|<\frac{\epsilon}{2}$. Let $C = \sup\{f(x) \mid x\in [0,1]\}$, which exists by the Min/Max theorem i.e. the EVT. Choose $M\in \NN$ such that $\forall n\geq M$, 
+\[
+\sqrt{n}(1-\delta^2)^n < \frac{\epsilon}{8C}.
+\]
+Thus, $\forall n\geq M,\forall x\in [0,1]$, by the previous theorem, 
+\begin{align*}
+    |P_n(x) - f(x)| &= \left|\int_{-1}^1 (f(x-t)-f(t))Q_n(t)\,\mathrm dt \right| \\
+    &\leq \int_{-1}^1 |f(x-t)-f(x)|Q_{n}(t)\,\mathrm dt \\
+    &\leq \int_{|t|\leq \delta} |f(x-t)-f(x)|Q_n(t)\,\mathrm dt + \int_{\delta \leq |t|\leq 1} |f(x-t)-f(x)|Q_n(t)\,\mathrm dt \\
+    &\leq \frac{\epsilon}{2}\int_{|t|\leq \delta} Q_n(t) \,\mathrm dt + \sqrt{n}(1-\delta^2)^n \int_{\|\delta|\leq |t|\leq 1} 2C \\
+    &< \frac{\epsilon}{2} + 4C\sqrt{n}(1-\delta^2)^n \\
+    &< \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon.
+\end{align*} \qed 
+
+In the last minute of the course, Casey Rodriguez stated: "This was quite an experience; teaching to an empty room. I hope you did get something out of this class. Unfortunately I wasn't able to meet a lot of you, and that's one of the best parts of teaching...."
+

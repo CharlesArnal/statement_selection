@@ -40,17 +40,6 @@ Can you review all my OCR books in `mit_books` and check for mistakes. If you fi
 - [BEING DONE] For the autoformalization pipeline, we may want to add an LLM back-end to pdf-marker in `extract_pdf.py`. We may need to wrap the llama API service in `marker/services/openai.py` in order to use our Llama API key.
 - The building books shows that OCR often write z ∈ Y and not $z \in Y$, which is fine in markdown, but we may use the latter option.
 
-#### List of Mistake
 
-**Algebra 1:**
-Wrong full pdf was taken.
-We have tex sources.
-
-#### Directories still needing OCR (no book.md or .tex sources)
-
-- `mit_books/applied_category_theory`
-- `mit_books/automata_computability_and_complexity`
-- `mit_books/category_theory_for_scientists`
-- `mit_books/geometry_and_topology_in_the_plane`
-- `mit_books/mathematics_for_computer_science`
-- `mit_books/rational_points_on_elliptic_curves`
+Missing OCR:
+Advanced_partial_differential_equations
