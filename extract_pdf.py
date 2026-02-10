@@ -443,13 +443,17 @@ def main():
 
     # Stage 4: Optional merge
     if args.merge_parts:
-        # Collect unique directories that contain part*.md
-        dirs_seen = set()
-        for pdf in pdfs:
-            d = pdf.parent
-            if d not in dirs_seen:
-                dirs_seen.add(d)
-                merge_parts(d, args.verbose)
+        # Discover directories with part*.md from the input path directly,
+        # not from the pdfs list (which may be empty if parts were already converted).
+        dirs_to_merge = set()
+        root = args.path
+        if root.is_dir():
+            for md in root.rglob("part*.md"):
+                dirs_to_merge.add(md.parent)
+        elif root.is_file() and re.search(r"part\d+", root.stem):
+            dirs_to_merge.add(root.parent)
+        for d in sorted(dirs_to_merge):
+            merge_parts(d, args.verbose)
 
 
 if __name__ == "__main__":
