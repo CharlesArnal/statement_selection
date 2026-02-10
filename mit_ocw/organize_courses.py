@@ -79,9 +79,9 @@ COURSES = [
     # 20
     {"folder": "applied_category_theory", "source": "18.s097-january-iap-2019",
      "strategy": "full", "target": "textbook.pdf"},
-    # 21 - match "full_lec.pdf" not "full_lec_new"
+    # 21 - match "full_lec_new.pdf" (complete version, ~2.9 MB)
     {"folder": "algebra_i_student_notes", "source": "RES.18-011-fall-2021",
-     "strategy": "full", "target": "full_lec.pdf"},
+     "strategy": "full", "target": "full_lec_new.pdf"},
     # 22
     {"folder": "differential_analysis", "source": "18.155-fall-2004",
      "strategy": "full", "target": "lecture_notes.pdf"},
@@ -138,9 +138,20 @@ COURSES = [
     # 5
     {"folder": "introduction_to_partial_differential_equations", "source": "18.152-fall-2011",
      "strategy": "parts", "pattern": r"lec_(\d+(?:_\d+)?)\.pdf$"},
-    # 6 - deduplicate: keep numbered lec##.pdf, skip descriptive variants
+    # 6 - custom order: lec01-lec20 are stub-only; lec21-lec26 have content-rich
+    #     descriptive variants; lec27-lec29 exist only as descriptive variants
     {"folder": "advanced_partial_differential_equations_with_applications", "source": "18.306-fall-2009",
-     "strategy": "parts", "pattern": r"_lec(\d+)\.pdf$"},
+     "strategy": "parts", "pattern": "custom",
+     "custom_order": [
+         "lec01", "lec02", "lec03", "lec04", "lec05",
+         "lec06", "lec07", "lec08", "lec09", "lec10",
+         "lec11", "lec12", "lec13", "lec14", "lec15",
+         "lec16", "lec17", "lec18", "lec19", "lec20",
+         "lec21_incflowelastpipes", "lec22_branch_points_b_cuts",
+         "lec23_conservation_laws", "lec24_cf_simple_model",
+         "lec25_discrete_to_contin", "lec26_weaklynloscilators",
+         "lec27_hopfbif", "lec28_breathers", "lec29_num_scheme_stab",
+     ]},
     # 7
     {"folder": "theory_of_probability", "source": "18.175-spring-2014",
      "strategy": "parts", "pattern": r"Lecture(\d+)\.pdf$"},
