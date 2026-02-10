@@ -141,7 +141,7 @@ def parse_course_list(filepath):
     <blank line>
     """
     with open(filepath) as f:
-        lines = [l.rstrip() for l in f.readlines()]
+        lines = [line.rstrip() for line in f.readlines()]
 
     courses = []
     seen = set()
