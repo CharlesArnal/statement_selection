@@ -1,0 +1,126 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-011 Algebra I Student Notes, Fall 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\section{One-Parameter Subgroups}
+
+\subsection{Review}
+Last time, we talked about one-parameter subgroups. 
+\begin{definition}
+A \textbf{one-parameter group} in $GL_n(\CC)$ is a differentiable homomorphism $\varphi: \RR \rto GL_n(\CC)$. 
+\end{definition}
+
+For a matrix $A \in \text{Mat}_{n \by n}(\CC)$, the matrix exponential is 
+\[
+e^A \coloneqq 1 + A + \frac{1}{2!}A^2 + \frac{1}{3!}A^3 + \cdots,
+\]
+which converges to a matrix in $GL_n(\CC)$.\footnote{With the metric $||M|| = \text{max}_{i, j}|m_{ij}|$, every entry converges.} For example, $\varphi_A(t) = e^{tA}$ is a one-parameter group.\footnote{It is called a one-parameter "subgroup," but it does not have to be injective; it can wrap around.}
+
+\begin{example}
+If $A = \begin{pmatrix}1 & 0 \\0 & 0 \end{pmatrix}$, then $A^n = \begin{pmatrix} 1 & 0 \\ 0 & 0 \end{pmatrix}$ for all $n \geq 1.$ Then 
+\begin{align*}
+e^A = \sum_{n \geq 0} \frac{1}{n!}A^n = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} + \sum_{n \geq 1} \begin{pmatrix} 1 & 0 \\ 0 & 0 \end{pmatrix} = \begin{pmatrix} e & 0 \\ 0 & 1 \end{pmatrix}.
+\end{align*}
+\end{example}
+
+\begin{example}
+Similarly, for $A = \begin{pmatrix} 0 & 1 \\ 0 & 0 \end{pmatrix}$, $A^2 = \begin{pmatrix} 0 & 0 \\ 0 & 0 \end{pmatrix} = A^3 = \cdots$. Then \[e^A = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} + \begin{pmatrix} 0 & 1 \\ 0 & 0 \end{pmatrix} = \begin{pmatrix} 1 & 1 \\ 0 & 1 \end{pmatrix}.\]
+\end{example}
+
+\subsection{Properties of the Matrix Exponential}
+The matrix exponential fulfills several nice properties. 
+\begin{itemize}
+    \item The product is the exponential of the sum: $e^{sA}e^{tA} = e^{(s + t)A}.$ In fact, if $AB = BA,$ then $e^Ae^B = e^{A + B}$, but they must commute.\footnote{The key fact here is that $\frac{1}{n!}(A + B)^n = \sum_{k + \ell = n} \frac{A^k}{k!} \frac{B^{\ell}}{\ell!}$ when $AB = BA$; matrix multiplication is not commutative so it is not always true.}
+    \item If $A = \begin{pmatrix} \lambda_1 & \cdots & 0 \\ \vdots & \ddots & \vdots \\ 0 & \cdots & \lambda_n \end{pmatrix},$ then $e^A = \begin{pmatrix} e^\lambda_1 & \cdots & 0 \\ \vdots & \ddots & \vdots \\ 0 & \cdots & e^\lambda_n \end{pmatrix}.$
+    
+    \item If $B = PAP^{-1},$ then $e^B = Pe^{A}P^{-1}.$ This allows us to easily take the matrix exponential of any diagonalizable matrix.
+    \begin{example}
+If $A = \begin{pmatrix} 0 & 2\pi \\ -2\pi & 0 \end{pmatrix}$, it has eigenvalues $2\pi i$ and $-2 \pi i$, so diagonalizing gives $PAP^{-1} = \begin{pmatrix} 2\pi i & 0 \\ 0 & 2\pi i\end{pmatrix}$. Then $Pe^AP^{-1} = e^{PAP^{-1}} = \begin{pmatrix}1 & 0 \\0 & 1 \end{pmatrix},$ since $e^{2\pi i} = 1.$ Since $e^A$ is conjugate to the identity matrix, $e^A$ itself must be the identity matrix. 
+\end{example}
+
+In particular, $e^{\begin{pmatrix} 0 & 2\pi \\ -2\pi & 0 \end{pmatrix}} = e^{\begin{pmatrix} 0 & 0 \\ 0& 0 \end{pmatrix} }$, and so the matrix exponential is not injective, unlike the normal exponential.
+
+\item Defining the derivative of a matrix to be $\frac{d}{dt} \begin{pmatrix} a(t) & b(t) \\ c(t) & d(t) \end{pmatrix} = \begin{pmatrix} a'(t) & b'(t) \\ c'(t) & d'(t) \end{pmatrix}$, the derivative is \begin{align*}
+    \frac{d}{dt}(e^{tA}) &= \frac{d}{dt}\left(I + tA + \frac{t^2}{2}A^2 + \cdots \right) \\
+    &=\footnote{This requires uniform convergence.} 0 + A + tA^2 + \frac{t^2}{2}A^3 + \cdots \\
+    &= Ae^{tA}, 
+\end{align*}
+similarly to the normal exponential.
+\end{itemize}
+\subsection{One-Parameter Subgroups}
+
+The matrix exponential is related to one-parameter subgroups in the following manner. 
+\begin{proposition}
+Every one-parameter group in $GL_n(\CC)$ is of the form $\varphi(t) = e^{tA}$ for a unique matrix $A \in \text{Mat}_{n \by n}(\CC).$
+\end{proposition}
+\begin{proof}
+We prove uniqueness and existence. 
+
+\begin{itemize}
+    \item \textbf{Uniqueness.} If $\varphi(t) = e^{tA},$ then $\varphi'(t) = Ae^{tA},$ so $\varphi'(0) = A.$ So the coefficient $A$ in the one-parameter subgroup is given by taking the derivative and evaluating at 0.\footnote{Thinking of $\varphi$ as a trajectory, $A$ is essentially the velocity of the particle when it is passing through the identity.}
+    \item \textbf{Existence.} Given $\varphi(t),$ set $A \coloneqq \varphi'(0) \in \text{Mat}_{n \by n}.$ Since $\varphi$ is a homomorphism, $\varphi(s + t) = \varphi(s)\varphi(t)$ for all $s$ and $t.$ Taking the derivative $\frac{\partial}{\partial s}$, 
+    \[
+    \varphi'(s + t) = \varphi'(s)\varphi(t).
+    \] Plugging in $s = 0,$ we get 
+    \[
+    \varphi'(t) = A\varphi(t),
+    \]
+    and we also have $\varphi(0) = I_n.$ Since this is a linear first-order ordinary differential equation with an initial condition, there is a unique solution, which is $\varphi(t) = e^{tA}.$
+\end{itemize}
+\end{proof}
+
+\begin{definition}
+For $G \leq GL_n(\CC),$ a \textbf{one-parameter group in $G$} is a one-parameter group $\varphi(t)$ in $GL_n(\CC)$ such that $\varphi(t) \in G$ for all $t \in \RR.$ 
+\end{definition}
+
+For a one-parameter group in $G,$ $\varphi(t) = e^{tA}$ for some $A \in \text{Mat}_{n \by n}(\CC)$ as well. 
+
+\begin{qq}
+Given a group $G,$ what are the one-parameter groups in $G$? What is the corresponding set of matrices $A$ for which $e^{tA} \in G$ for all $t?$ 
+\end{qq}
+
+Let's see an example.
+
+\begin{example}[Diagonal Matrices]
+Let \[G = \left\{\begin{pmatrix} \lambda_1 & \cdots & 0 \\ \vdots & \ddots & \vdots \\ 0 & \cdots & \lambda_n \end{pmatrix} \right\} \leq GL_n(\CC)\] where $\lambda_i \neq 0.$ The one-parameter groups in $G$ are determined by the matrices $A$ such that $e^{tA} \in G$ for all $t \in \RR.$ Here, $e^{tA} \in G$ for all $t \in \RR$ if and only if $A$ is diagonal.
+\end{example}
+
+\begin{proof}
+If \[\varphi(t) = e^{tA} = \begin{pmatrix} \lambda_1(t) & \cdots & 0 \\ \vdots & \ddots & \vdots \\ 0 & \cdots & \lambda_n(t) \end{pmatrix},\] then $\varphi'(t) = \begin{pmatrix} \lambda_1'(t) & \cdots & 0 \\ \vdots & \ddots & \vdots \\ 0 & \cdots & \lambda_n'(t) \end{pmatrix}$. Then \[A = \varphi'(0) = \begin{pmatrix} \lambda_1'(0) & \cdots & 0 \\ \vdots & \ddots & \vdots \\ 0 & \cdots & \lambda_n'(0) \end{pmatrix}\] must be diagonal. 
+
+If $A = \begin{pmatrix} a_1 & \cdots & 0 \\ \vdots & \ddots & \vdots \\ 0 & \cdots & a_n \end{pmatrix}$ is diagonal, then $tA$ is diagonal, and so $e^{tA} = \begin{pmatrix} e^{ta_1} & \cdots & 0 \\ \vdots & \ddots & \vdots \\ 0 & \cdots & e^{ta_n} \end{pmatrix} \in G.$ So every diagonal matrix $A$ does correspond to a one-parameter subgroup in $G.$
+\end{proof}
+
+
+We can also do the same with upper triangular invertible matrices. 
+\begin{example}[Upper Triangular Matrices]
+Let $G = \left\{\begin{pmatrix} c_{11} & \cdots & c_{1n} \\ \vdots & \ddots & \vdots \\ 0 & \cdots & c_{nn} \end{pmatrix}\right\} \leq GL_n(\CC),$ where $c_{ii} \neq 0$ for all $i.$ Then $e^{tA} \in G$ for all $t \in \RR$ if and only if $A = \begin{pmatrix} a_{11} & \cdots & \star \\ \vdots & \ddots & \vdots \\ 0 & \cdots & a_{nn} \end{pmatrix}$. 
+\end{example}
+
+\begin{proof}
+If $\varphi(t)$ is upper triangular, then $A = \varphi'(0) = \begin{pmatrix} c_{11}'(0) & \cdots & c_{1n}'(0) \\ \vdots & \ddots & \vdots \\ 0 & \cdots & c_{nn}'(0) \end{pmatrix}$ must also be upper triangular. 
+
+Also, if $A$ is upper triangular, so is $A^n$ for all $n,$ and thus so is $e^{tA}.$ So the image of $\varphi$ is in $G.$
+\end{proof}
+
+\begin{problem}
+For \[G = \begin{pmatrix} 1 & \cdots & \star \\ \vdots & \ddots & \vdots \\ 0 & \cdots & 1 \end{pmatrix} \leq GL_n(\CC),\] what are the corresponding matrices $A?$\footnote{The answer is that $A$ is of the form $\begin{pmatrix} 0 & \cdots & \star \\ \vdots & \ddots & \vdots \\ 0 & \cdots & 0 \end{pmatrix}$.}
+\end{problem}
+
+We can also look at the one-parameter groups for unitary matrices. 
+\begin{example}[Unitary Matrices]
+For $U_n = \{M^* = M^{-1}\} \leq GL_n(\CC),$ $e^{tA} \in U_n$ if and only if $A^* = -A$ is skew-Hermitian for some matrix $A \in \text{Mat}_{n \by n}(\CC).$ 
+\end{example}
+
+\begin{proof}
+We have 
+\[
+(e^A)^* = \left(I + A + \frac{A^2}{2!} + \cdots\right)^* = I^* + A^* + \frac{(A^*)^2}{2!} + \cdots  = e^{(A^*)}. 
+\]
+If $e^{tA}$ is unitary, then $(e^{tA})^* = (e^{tA})^{-1}$, so $e^{tA^*} = e^{-tA}$. Differentiating gives $A^*e^{tA^*} = -Ae^{-tA}$, and taking $t = 0$ gives $A^* = -A$. 
+
+Conversely, if $A^* = -A,$ then $(e^{tA})^* = e^{tA^*} = e^{-tA} = (e^{tA})^{-1},$ and so $e^{tA} \in U_n$ for all $t.$
+\end{proof}
+
+\newpage

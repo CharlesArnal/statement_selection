@@ -1,0 +1,250 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-012 Algebra II Student Notes, Spring 2022
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+% \rhead{\rightmark}
+\lhead{Lecture 18: The Ideal Class Group}
+
+\section{The Ideal Class Group}
+
+\subsection{Review --- Function Fields}
+
+Last time, we discussed a generalization where we replace $\QQ$ and $\ZZ$ with $k(t)$ and $k[t]$, for a field $k$ --- instead of working with finite extensions of $\QQ$ (or number fields), we work with finite extensions of $k(t)$ (or function fields). For concreteness, we'll focus on $k = \CC$. 
+
+In order to keep the same level of generality as we had when working with number fields, we will take $F$ to be a \emph{quadratic} extension of $\CC(t)$, so \[F = \CC(t)[z]/(z^2 - P(t))\] for some polynomial $P(t)$, which we may without loss of generality assume to be squarefree. Here $P(t)$ plays the same role as $d$ did when we considered quadratic \emph{number} fields $\QQ[\sqrt{d}]$, which could also be described as $\QQ[x]/(x^2 - d)$. In this setting, the analog of the ring of algebraic integers, which was $\ZZ[\sqrt{-d}] = \ZZ[x]/(x^2 - d)$ in the quadratic number field setting, is \[R = \CC[t][z]/(z^2 - P(t)).\] 
+
+In this setting, unique factorization into ideals still holds, although we will not discuss the proof:
+
+\begin{theorem}
+    Every ideal in $R$ can be factored uniquely as a product of prime ideals. 
+\end{theorem}
+
+In particular, all prime ideals are maximal --- in fact, this can be proven using a similar argument to the one we saw for number fields, but using that $R$ mod an ideal is finite-dimensional as a $\CC$-vector space, rather than that it is finite. 
+
+In number fields, we described how prime ideals $(q)$ in the original ring $\ZZ$ factor as a product of ideals in the new ring $R$. We can ask the same question in this setting as well.
+
+\begin{qq}
+How do the prime ideals in $\CC[t]$ factor as a product of prime ideals in $R$?
+\end{qq}
+
+In both cases, the prime ideals are exactly the maximal ones. Describing the maximal ideals in $\CC[t]$ is simple --- the only irreducible polynomials in $\CC[t]$ are linear, so these prime ideals are of the form $(t - \lambda)$ for $\lambda \in \CC$. 
+
+Meanwhile, to understand the maximal ideals in $R$, we can use Nullstelensatz! So far we have been thinking of $R$ as a quadratic extension, but we could instead think of it as the quotient of a two-variable polynomial ring --- we have $R = \CC[t, z]/(z^2 - P(t))$. Hilbert's Nullstelensatz tells us that the maximal ideals of $\CC[t, z]$ are exactly $\mathfrak{m}_{a, b} = (t - a, z - b)$ for $(a, b) \in \CC$, so the maximal ideals of $R$ are exactly those $\mathfrak{m}_{a, b}$ for which $b^2 = P(a)$. 
+
+So maximal ideals in $\CC[t]$ are in bijection with $\CC$, and maximal ideals in $R$ are in bijection with solutions in $\CC^2$ to $b^2 = P(a)$. This gives a \textbf{ramified double cover} --- each value of $a$ corresponds to two values of $b$, except the roots of $P$, which correspond to one value of $b$. In the case of imaginary quadratic number fields, we had complex conjugation; the analog in this setting is the map $b \mapsto -b$. 
+
+
+
+
+
+
+
+% Last class, we talked about a generalization where we replace $\mathbb{Z}$ by the polynomial ring $k[t]$ for a field $k$ -- for concreteness, we'll focus on $k = \mathbb{C}$. 
+
+% Then $\mathbb{Q}$ is replaced by the field of rational functions $\CC(t)$. Now in order to keep the same level of generality as we had when working with number fields, take $F$ to be a quadratic extension of $\CC[t]$, so \[F = \CC(t)[z]/(z^2 - P(t)).\] Here $P(t)$ plays the same role as $d$ did in the case of number fields --- we're essentially adding in its square root. Assume that $P(t)$ is squarefree, so $P(t) = \prod (t - \lambda_i)$ where the $\lambda_i$ are all distinct (in other words, $P$ has no multiple roots). Then we have \[R = k[t][z]/(z^2 - P(t)).\] 
+
+% \begin{fact}
+%     The ideals in $R$ have unique factorization. 
+% \end{fact}
+
+% We won't prove this. But now we can look at a similar problem as one we tried to answer in number fields:
+
+% \begin{qq}
+%     How does $(t - \lambda)$, for some $\lambda \in \mathbb{C}$, factor as a product of prime ideals in $R$?
+% \end{qq}
+
+% First we want to see what the prime ideals are. All nonzero prime ideals in $R$ are maximal --- to prove this, we can use a similar finiteness argument to the one used for number fields, but using finite dimension instead. So they are understood by Nullstelensatz -- we started by thinking of $R$ as a quadratic extension, but we can also think of it as a quotient of $\CC[t, z]$. 
+
+% Namely, the maximal ideals correspond to pairs $(a, b) \in \mathbb{C}$ such that $b^2 = P(a)$. Denote the maximal ideal corresponding to $(a, b)$ as $\mathfrak{m}_{a,b}$ -- in other words, $\mathfrak{m}_{a, b} = \ker(\operatorname{ev}_{a,b})$, where $\operatorname{ev}_{a, b}$ is the evaluation homomorphism $Q(t, z) \mapsto Q(a, b)$ (where we essentially plug in $t \mapsto a$ and $z \mapsto b$).  
+
+% So maximal ideals in $\CC[t]$ are in bijection with $\mathbb{C}$, and maximal ideals in $R$ are in bijection with solutions in $\mathbb{C}^2$ to $b^2 = P(a)$. So we get a \textbf{ramified double cover} -- each value of $a$ corresponds to two possible values of $b$, except for the points where $P(a) = 0$ (which only have one value). 
+
+\begin{center}
+    \begin{asy}
+    unitsize(3cm);
+    defaultpen(fontsize(9pt));
+    draw((0, 0)--(1, 0)--(1.5, 0.4)--(0.5, 0.4)--cycle, gray);
+    fill((0, 0)--(1, 0)--(1.5, 0.4)--(0.5, 0.4)--cycle, gray+opacity(0.1));
+    path p1 = shift(0.75, 0.75)*scale(1.5/(sqrt(3) + 1),0.25)*shift(-sqrt(3)/2, -1/2)*arc((0, 0), 1, 120, 30, CW);
+    path p2 = shift(0.75, 0.75)*scale(1.5/(sqrt(3)+ 1),0.15)*shift(sqrt(3)/2, 1/2)*arc((0, 0), 1, 210, 300);
+    path p3 = shift(0.75, 0.75)*scale(1.5/(sqrt(3) + 1),-0.15)*shift(-sqrt(3)/2, -1/2)*arc((0, 0), 1, 30, 120);
+    path p4 = shift(0.75, 0.75)*scale(1.5/(sqrt(3)+ 1),-0.25)*shift(sqrt(3)/2, 1/2)*arc((0, 0), 1, 300, 210, CW);
+    draw(p1--p2, gray);
+    draw(p4--p3, gray);
+    pair a = (0.3, 0.1);
+    pair b1 = intersectionpoint((0.3, 0)--(0.3, 2), p3);
+    pair b2 = intersectionpoint((0.3, 0)--(0.3, 2), p1);
+    draw(a--b2, heavycyan+dotted);
+    dot("$a_1$", a, dir(225));
+    dot("$b_1$", b1, dir(225));
+    dot("$-b_1$", b2, dir(135));
+    pair a2 = (0.75, 0.3);
+    pair b3 = (0.75, 0.75);
+    dot("$a_2$", a2, dir(225));
+    dot("$b_2$", b3, dir(90));
+    draw(a2--b3, heavycyan+dotted);
+    \end{asy}
+\end{center}
+
+Now that we have a description of what the maximal (and therefore prime) ideals in $\CC[t]$ and $R$ are, we can answer our question. A prime ideal $(t - \lambda) \subset \CC[t]$ is contained in $\mathfrak{m}_{a, b}$ if and only if $a = \lambda$. So if $\lambda$ is not a root of $P$, we get two prime ideals of $R$ containing $(t - \lambda)$, while if $\lambda$ is a root of $P$, we get only one. In either case, we can check that \[(t - \lambda) = \mathfrak{m}_{\lambda, b}\mathfrak{m}_{\lambda, -b},\] where $b$ is a root of $b^2 = P(\lambda)$. Similarly to the case of integers, $(t - \lambda)$ is a \textbf{splitting prime} if $\lambda$ is not a root of $P$, since it factors as a product of two distinct ideals; and $(t - \lambda)$ is a \textbf{ramified prime} if $\lambda$ is a root of $P$, since it factors as a product of two copies of the same ideal. Note that there are no inert (or non-splitting) primes in this situation, since $\CC$ is algebraically closed; if we instead worked with a field such as $\FF_p$, there would be inert primes as well. 
+
+Just as in the case of quadratic number fields, $R$ will not usually have unique factorization in \emph{elements}. But there are some examples where there \emph{is} unique factorization into elements; then all ideals are principal (which is not true in general), and factorization into ideals just becomes factorization into elements. 
+
+\begin{example}
+    When $P(t) = t$, we have $R = \CC[z, t]/(z^2 - t) \cong \CC[z]$. In this case, $(t - \lambda)$ factors as \[(t - \lambda) = (z - \sqrt{\lambda})(z + \sqrt{\lambda}).\] 
+\end{example}
+
+
+% The analog of complex conjugation here is $b \mapsto -b$. 
+
+% Then $t - \lambda \in \mathfrak{m}_{a, b}$ if and only if $\lambda = a$. So there are two cases: if $\lambda$ is not a root of $P$, then $t - \lambda$ is in two ideals, while if $\lambda$ is a root of $P$, then $t - \lambda$ is in one. In either case, $t - \lambda$ is the product of the two ideals -- we have \[(t - \lambda) = \mathfrak{m}_{\lambda, b}\mathfrak{m}_{\lambda, -b}\] where $b^2 = P(\lambda)$. So the $(t - \lambda)$ with $\lambda = \lambda_i$ (meaning $\lambda$ is a root of $P$) are \textbf{ramified} primes, while $t - \lambda$ with $\lambda \neq \lambda_i$ are \textbf{splitting} primes. 
+
+% Just like with quadratic number fields, we usually won't have unique factorization in $R$ as a product of \emph{elements}, but there are examples where there \emph{is} unique factorization. Then the factorization as ideals just becomes factorization as a product, which is easy to write down. 
+
+% \begin{example}
+%     Take $P(t) = t$, so then $R = \mathbb{C}[z, t]/(z^2 - t) \cong \mathbb{C}[z]$. In this case the only ramification point is $0$, and this factorization just becomes the factorization \[(t - \lambda) = (z - \sqrt{\lambda})(z + \sqrt{\lambda}).\] Here the ideals are principal, but that won't be true in the general case.
+% \end{example}
+
+Here is a table of the counterparts between $\mathbb{Z}$ and $\mathbb{C}[t]$ (assume $d \not\equiv 1 \pmod{4}$ for simplicity):
+\begin{center}
+    \begin{tabular}{c|c|c|c|c}
+        $\mathbb{Z}$ & $\mathbb{Z}[\sqrt{d}]$ & primes & ramified primes & splitting primes \\
+        \hline
+        $\mathbb{C}[t]$ & $\mathbb{C}[t, z]/(z^2 - P(t))$ & $t - \lambda$ & $t - \lambda$ where $P(\lambda) = 0$ & $t - \lambda$ where $P(\lambda) \neq 0$
+    \end{tabular}
+\end{center}
+
+% Note that there are no inert primes -- everything splits, because $\mathbb{C}$ is algebraically closed. But if instead of $\mathbb{C}$ we worked in $\mathbb{F}_p$, for example, then we'd also get counterparts of non-splitting primes. 
+
+Now we'll return to number fields. We previously defined the \textbf{ideal class group} $\operatorname{Cl}(F)$. We've already discussed that it's a group, but today we'll see that it's finite. 
+
+% \begin{question}
+% Why do we write $\operatorname{Cl}(F)$ if the ideals are in $R$?
+% \end{question}
+
+% \begin{ans}
+% This is just notation --- $\operatorname{Cl}(F)$ is the group of nonzero ideals in $R$, mod similarity. Although the notation is $\operatorname{Cl}(F)$, this makes sense because $R$ is uniquely determined from $F$.
+% \end{ans}
+
+\subsection{Application to Fermat's Last Theorem}
+
+Before we discuss the proof of finiteness, we'll circle back to an application to Fermat's Last Theorem. It suffices to consider the case where the exponent is prime. So suppose we want to solve $a^p + b^p = c^p$ over the integers, where $p$ is an odd prime. 
+
+Then if $\zeta$ is a $p$th root of unity, in the field $F = \QQ[\zeta]$ we can factor \[(a + b)(a + \zeta b)\cdots (a + \zeta^{p - 1}b) = c^p.\] Assuming that no two factors have a common divisor, we want to conclude that each factor is a $p$th power --- just as we would over the integers, since in that case every prime must have exponent divisible by $p$ --- meaning that $a + \zeta^nb = c_n^p \cdot u_n$ for a unit $u_n$. 
+
+We can do this if $R$ is a PID, which is equivalent to $\operatorname{Cl}(F)$ being trivial --- the unit in $\operatorname{Cl}(F)$ corresponds to principal ideals, so the group is trivial if and only if all ideals are principal. But this only happens for very few primes (which are all at most $19$). However, it turns out that there's a more general condition we can use instead:
+
+\begin{definition}
+    A prime $p$ is \textbf{regular} if $p \nmid \#\operatorname{Cl}(F)$. 
+\end{definition}
+
+There are many regular primes: in fact, the only irregular primes $p \leq 100$ are $37$, $59$, and $67$. So this covers many more cases than the requirement that $\ZZ[\zeta]$ be a PID. It's still unknown whether there's infinitely many regular primes, though.
+
+\begin{proposition}
+    We can still conclude each factor is a $p$th power if $p$ is regular. 
+\end{proposition}
+
+\begin{proof}
+    First, using unique factorization for ideals, we see that the \emph{ideal} $(a + \zeta^nb)$ is a $p$th power, meaning that $(a + \zeta^nb) = I^p$ for some ideal $I$. 
+    
+    Now it remains to check that $I$ is principal, or equivalently, that its class $[I]$ is trivial. But we know $I^p$ is principal, so $[I]^p = 1$. Now using regularity, no element of the class group has order $p$; so we must have $[I] = 1$ as well. 
+\end{proof}
+
+There are still further steps --- we then have to consider the case where the factors are \emph{not} coprime as well. In the case where $a$, $b$, and $c$ are not divisible by $p$, the factors are always coprime, and we can use this argument and get a contradiction with a bit more work. When one of them is divisible by $p$, a different argument is needed. But this is the key ingredient --- the rest is clever but elementary. 
+
+\subsection{Finiteness of the Class Group}
+
+\vspace{0.75em}
+
+\begin{theorem}
+The class group $\operatorname{Cl}(F)$ is finite. 
+\end{theorem}
+
+As usual, we'll see how to prove this for imaginary quadratic number fields. The key claim is the following:
+
+\begin{proposition}\label{boundednorm}
+    Every ideal class has a representative with bounded norm --- more precisely, with norm at most \[\mu = \begin{cases} \sqrt{|d|/3} & \text{if } d \equiv 1 \pmod{4} \\ 2\sqrt{|d|/3} & \text{if } d \equiv 2, 3 \pmod{4}.\end{cases}\] 
+\end{proposition}
+
+It's clear that this proposition implies the class group is finite, since there are finitely many ideals of any given norm. In fact, it also gives us an effective way to \emph{compute} the class group --- it implies that the class group is generated by the classes of ideals with norm $p \leq \mu$ for primes $p$. For each prime $p$, there are at most two ideals with norm $p$, which can be found by attempting to factor $(p)$ as a product of ideals; then it's enough to find all these ideals and the relations between them. 
+
+To prove this proposition, we'll first prove the following lemma:
+
+\begin{lemma}\label{geolemma}
+    An ideal $I$ of norm $n$ contains a nonzero element $\alpha \neq 0$ with $\alpha\overline{\alpha} \leq \mu n$. 
+\end{lemma}
+
+The lemma itself can be proved by elementary geometry on lattices, so we'll first look at how it implies the proposition. 
+
+\begin{proof}[Proof of Proposition \ref{boundednorm}]
+Choose some nonzero ideal $I$ of norm $n$ in the given class, and find $\alpha \in \overline{I}$ with $|\alpha|^2 \leq \mu n$. We saw previously that inclusion of ideals implies divisibility, so then since $(\alpha) \subset \overline{I}$, we can write $(\alpha) = \overline{I}J$ for some ideal $J$. 
+
+But then $[J] = [I] = [\overline{I}]^{-1}$, because $J\overline{I} = (\alpha)$ and $I\overline{I} = (n)$ are both principal. 
+
+On the other hand, norm is multiplicative, so we have $\operatorname{N}(J)\operatorname{N}(\overline{I}) = \operatorname{N}(\alpha)$. So then \[\operatorname{N}(J) = \frac{|\alpha|^2}{n} \leq \mu. \qedhere\] 
+\end{proof}
+
+% \begin{note}
+% This algebraic trick is clever, but it doesn't use anything beyond understanding what divisibility means, and the theorem we proved earlier that inclusion implies divisibility.
+% \end{note}
+
+% \begin{question}
+% In Proposition \ref{boundednorm}, is this representative prime? 
+% \end{question}
+
+% \begin{ans}
+% Not necessarily. We haven't discussed choosing a prime representative of the \emph{ideal class}, and this is a more subtle question. 
+% \end{ans}
+
+\begin{proof}[Proof of Lemma \ref{geolemma}]
+    For a lattice $L \subset \mathbb{R}^2$, define $\Delta_L$ as the area of its \textbf{fundamental parallelogram}, the parallelogram spanned by two vectors $v$ and $w$ for which $L = \{nv + mw \mid n, m \in \mathbb{Z}\}$.
+    \begin{center}
+        \begin{asy}
+            unitsize(2cm);
+            DefaultHead.size=new real(pen p=currentpen) {return 2mm;};
+            filldraw((0, 0)--(1.5, 0)--(2, 1)--(0.5, 1)--cycle, gray+opacity(0.1), gray);
+            draw((0, 0)--(1.5, 0), linewidth(2), EndArrow);
+            label("$v$", (0.75, 0), dir(270));
+            draw((0, 0)--(0.5, 1), linewidth(2), EndArrow);
+            label("$w$", (0.25, 0.5), dir(180));
+        \end{asy}
+    \end{center}
+    By elementary linear algebra, we can show that $\Delta_L$ doesn't depend on the choice of basis vectors. Furthermore, if $L' \subset L$, then one fundamental paralellogram of $L$ can be obtained by taking the union of $[L : L']$ copies of the fundamental parallelogram of $L'$, so $\Delta_{L'} = [L : L'] \Delta_L$.  
+
+    Now let $v \in L$ be a vector of minimal length. 
+    
+    \begin{claim*}
+    We have the bound $|v|^2\cdot \sqrt{3}/2 \leq \Delta_I$. 
+    \end{claim*}
+    
+    \begin{proof}
+    If $v$ is the shortest vector, and $w$ the shortest vector with $w \neq cv$, then $v$ and $w$ must span the lattice. Without loss of generality we can assume the angle $\alpha$ between $v$ and $w$ is at most $\pi/2$. Then we must have $\alpha \geq \pi/3$, or else $w - v$ has smaller length. Then \[\Delta_I = |w|\cdot |v| \cdot \sin \alpha \geq \frac{\sqrt{3}}{2}|v|^2.\qedhere\] 
+    \end{proof}
+    
+    Now it remains to relate $\Delta_I$ to $\operatorname{N}(I)$: we claim that \[\Delta_I = \begin{cases} \operatorname{N}(I)\sqrt{d} & \text{if } d \not\equiv 1 \pmod{4} \\ \operatorname{N}(I)\sqrt{d}/2 & \text{if } d \equiv 1 \pmod{4}.\end{cases}\] This is true when $I = (1)$ --- for example, if $d \not\equiv 1 \pmod{4}$, then the fundamental parallelogram is a rectangle. 
+    \begin{center}
+        \begin{asy}
+            unitsize(2cm);
+            DefaultHead.size=new real(pen p=currentpen) {return 2mm;};
+            filldraw((0, 0)--(0.7, 0)--(0.7, 1.5)--(0, 1.5)--cycle, gray+opacity(0.1), gray);
+            //draw((0, 0)--(0.7, 0), linewidth(2), EndArrow);
+            label("$1$", (0.35, 0), dir(270));
+            //draw((0, 0)--(0, 1.5), linewidth(2), EndArrow);
+            label("$\sqrt{d}$", (0, 0.75), dir(180));
+        \end{asy}
+    \end{center}
+    So now we can attempt to reduce the general case to the case $I = (1)$, using the following claim:
+    
+    \begin{claim*}
+    We have $\operatorname{N}(I) = [R : I]$. 
+    \end{claim*}
+    
+    \begin{proof}
+    It suffices to show that if $P$ is a prime ideal and $J$ any ideal, then $[J : PJ] = \operatorname{N}(P)$ --- then we can factor $I$ as a product of primes, and use this property repeatedly. This is obvious when $P$ is principal, so now suppose $P\overline{P} = (q)$ for a prime $q$. Then we have \[[J : PJ] \cdot [PJ : P\overline{P}J] = [J : qJ] = q^2,\] since for any lattice $L$ and integer $n$, we have $L/nL \cong (\mathbb{Z}/n)^2$. Then $q^2$ is the product of two integers, both not equal to $1$; so each must be $q$. 
+    \end{proof}
+    
+    Now we have $\Delta_I = [R : I] \Delta_R = \operatorname{N}(I)\Delta_R$. This gives the claimed expression for $\Delta_I$, and therefore for $|v|$ using the previous claim. 
+\end{proof}
+
+This concludes the proof of the finiteness of the class group for imaginary quadratic number fields. 

@@ -1,0 +1,253 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-011 Algebra I Student Notes, Fall 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\section{Orthogonality}
+\subsection{Review: Bilinear Forms}
+We discussed bilinear forms last time, which was a function that took two vectors as input, and gave a scalar as an output. 
+It was linear in both of the inputs.
+For now, we will only be interested in symmetric bilinear forms because they model after the dot product. 
+On real vectors, every bilinear form can be written as:
+\[ \langle \vv{x}, \vv{y} \rangle = \vv{x}^T A \vv{y}.\]
+The form is symmetric if and only if $A$ is symmetric. 
+We may also refer to a bilinear form as a `pairing'. 
+
+\subsection{Hermitian Forms}
+
+When we worked over a complex vector space, we discussed the Hermitian form, the complex version of a symmetric bilinear form. However, symmetry did not work as normal. 
+They had a complex conjugate in their relation: $\langle \vv{v}, \vv{w} \rangle = \overline{\langle \vv{w}, \vv{v}\rangle}$
+The standard Hermitian form was defined to be $\langle \vv{x}, \vv{y} \rangle = \vv{x}^* \vv{y}$.
+In particular, Hermitian forms are not exactly linear.
+The second term is linear, but when we scale the first term, we are scaling the output by the complex conjugate.
+The following chart summarizes the comparison between symmetric bilinear forms over the reals and Hermitian forms.
+Although they have subtle differences, we will study them together. 
+\begin{center}
+\begin{tabular}{|c|p{3.27cm}|c|c|c|}
+    \hline
+    Field & Canonical Example& Symmetry & Matrix & Change of basis \\
+    \hline
+    $\RR$ & dot product & $\langle \vvv, \vv{w} \rangle = \langle \vv{w}, \vvv\rangle $ & $A^T = A$ & $P^T A P $\\
+    \hline
+    \rule{0pt}{4ex} $\CC$ & Standard Hermitian form & $\langle \vvv, \vv{w} \rangle = \overline{\langle \vv{w}, \vvv \rangle }$ &? & ?\\
+
+    \hline
+\end{tabular}
+\end{center}
+Now we will figure out what goes in the two remaining entries of the table. 
+In order to find the matrix for a Hermitian form on $V,$ a vector space over $\CC,$ the process is analogous to finding the matrix for a symmetric form on a vector space over $\RR.$ First, pick a basis $\vv{v_1}, \ldots, \vv{v_n}$ of $V.$ Then, set $A = (a_{ij})_{i, j = 1, \cdots, n}$, where 
+\[
+a_{ij} = \langle \vvv_i, \vvv_j \rangle.
+\]
+
+If 
+\[
+\vvv = x_1\vvv_1 + \cdots + x_n\vvv_n
+\]
+and 
+\[
+\vv{w} = y_1\vvv_1 + \cdots + y_n\vvv_n,
+\]
+by using the almost-bilinearity of the Hermitian form and expanding the Hermitian form in the same way that bilinearity was used to expand the bilinear form, we get
+\[
+\langle \vvv, \vv{w} \rangle = \vv{x}^{*} A \vv{y},
+\]
+where there is a conjugate transpose instead of a transpose. Then, for every entry of the matrix $A,$
+\[
+a_{ij} = \langle \vvv_i, \vvv_j \rangle = \overline{\langle \vvv_j, \vvv_i \rangle} = \overline{a_{ji}},
+\]
+and so $A^* = A.$
+\begin{definition}
+    A matrix $A$ is called a \textbf{Hermitian} matrix if $A^* = A$. 
+\end{definition}
+
+The upshot is that giving a Hermitian form is essentially equivalent to providing a Hermitian matrix on $\CC^n:$
+\[
+\text{Hermitian form on } \CC^n \xleftrightarrow{} \text{Hermitian matrix } A\footnote{Use the standard basis of $\CC^n$, $e_1, \cdots, e_n$.}
+\]
+
+Similarly, one can show that the change of basis formula is given by $A' = P^*AP.$
+
+% \begin{center}
+%     \begin{tabular}{c|c|c|c}
+%         $\RR$ & dot product \\
+%          & 
+%     \end{tabular}
+% \end{center}
+
+\begin{example}[$n = 2$]
+For a Hermitian matrix 
+\[
+A = \begin{pmatrix}
+5 & 2 + 2i \\
+2 - 2i & 3
+\end{pmatrix},
+\]
+the associated Hermitian form is
+\begin{align*}
+    \langle \vv{x}, \vv{y} \rangle  &= \vec{x}^* A\vec{y} \\
+    &= 5\overline{x_1}y_1 + 3\overline{x_2}y_2 + (2 + 2i)\overline{x_1}y_2 + (2-2i)\overline{x_2} y_1,
+\end{align*}
+simply by evaluating the matrix product.
+
+In particular, when $\vec{x} = \vec{y},$ then the Hermitian inner product is actually a real number! The Hermitian inner product of $\vec{x}$ with itself is
+\begin{align*}
+    \langle \vec{x}, \vec{x} \rangle = 5|x_1|^2 + 3|x_2|^2 + \text{Re}((2 + 2i)(\overline{x_1}x_2)) \in \RR.
+\end{align*}
+\end{example}
+
+It turns out Hermitian matrices have very nice properties compared to random complex matrices. Let's see one of them now.
+\begin{claim}
+A Hermitian matrix always has real eigenvalues. 
+\end{claim}
+\begin{proof}
+An eigenvalue $\lambda \in \CC$ of a Hermitian matrix $A$ satisfies 
+\[
+A\vec{v} = \lambda \vec{v}
+\]
+for some $\vec{v} \in \CC^n.$ By the Hermitian property, 
+\[
+v^*Av \in \RR,
+\]
+but because it is an eigenvector, this is equal to 
+\[
+v^*\lambda v = \lambda(v^*v),
+\]
+where $v^*v$ is a nonzero real number. Thus, 
+\[
+\lambda = \frac{v^*Av}{v^*v} \in \RR.
+\]
+\end{proof}
+
+%
+Not only is the eigenvalue real, $\lambda$ can be obtained by comparing the value of the Hermitian form to the value of the standard Hermitian form. 
+
+From now on, we will study symmetric bilinear forms on the real numbers and Hermitian forms on the complex numbers in parallel. They have very similar properties. 
+One idea that carries over is orthogonal matrices.
+\begin{example}
+Consider $\RR$ equipped with the standard dot product. Let $M \in \text{Mat}_{n \by n}(\RR).$ Recall that we had several ways of describing that $M$ was orthogonal. The following properties are all equivalent:
+\begin{align*}
+    M \text{ is orthogonal} &\Longleftrightarrow M\vec{x} \cdot M\vec{y} = \vec{x} \cdot \vec{y} \\
+    &\Longleftrightarrow M^TM = I_n \\
+    &\Longleftrightarrow \text{ for column vectors $\vv{v_i}, \vv{v_j}$ of $M$, } 
+    %\vec{v}_1, \cdots, \vec{v}_n, \langle \vec{v}_i, \vec{v}_j \rangle = 1 if i = j, 0 if i \neq j
+    \langle \vv{v_i}, \vv{v_j} \rangle = \begin{cases} 1 \text { if $i=j$} \\ 0 \text{ otherwise}.\end{cases}
+\end{align*}
+The last condition says that the columns of $M$ are orthonormal.
+\end{example}
+
+A similar type of matrix can be defined for $\CC$ with the standard Hermitian form. 
+\begin{definition}
+Let $V = \CC^n.$ The matrix $M$ is called \textbf{unitary} if it satisfies any of the following equivalent conditions.
+\begin{align*}
+    M \text{ is unitary} &\Longleftrightarrow \langle M\vec{x}, M\vec{y} \rangle = \langle \vec{x}, \vec{y}\rangle \\
+    &\Longleftrightarrow M^*M = I_n; M^{-1} = M^*\\
+    &\Longleftrightarrow \text{ for column vectors $\vv{v_i}, \vv{v_j}$ of $M$, } 
+    %\vec{v}_1, \cdots, \vec{v}_n, \vec{v}_i^*\vec{v}_j = 1 if i = j, 0 if i \neq j.
+    \vv{v_i}^*\vv{v_j} = \begin{cases} 1 \text { if $i=j$} \\ 0 \text{ otherwise}.\end{cases}
+\end{align*}
+\end{definition}
+
+What you can do in one world is very parallel to what you can do in the other world.
+
+\subsection{Orthogonality}
+
+Consider $V$ real with $\bform$ symmetric, or $V$ complex with $\bform$ Hermitian.
+
+\begin{definition}
+A vector $\vec{v}$ is orthogonal to $\vec{w}$ if $\langle \vec{v}, \vec{w} \rangle = 0.$ Also, for $W \subset V,$ a vector $\vec{v} \perp\footnote{\text{This is the symbol representing orthogonality}} W$ if $\langle \vec{v}, \vec{w} \rangle = 0$ for all $\vec{w} \in W.$
+\end{definition}
+
+If $\bform$ is not the standard inner product, this idea of "orthogonality" does not necessarily correspond with geometric intuition.
+
+\begin{example}
+Let $A = \begin{pmatrix}
+-1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 1
+\end{pmatrix},$ and $\vec{v} = \begin{pmatrix}
+1  \\ 0 \\ 0 \\ 1
+\end{pmatrix}$. Then $\langle \vec{v}, \vec{v}\rangle = 0,$ so $\vec{v}$ is orthogonal to itself.
+\end{example}
+
+This form comes up a lot when studying special relativity, but does not necessarily correspond to our geometric intuition of what "orthogonality" means.
+One thing that we do a lot of in the geometric world is that we take a subspace $W$ and then look at the vectors that are orthogonal to it. 
+\begin{definition}
+For a subspace $W \subset V,$ the \textbf{orthogonal complement} is 
+\[
+W^{\perp} = \{\vec{v} \in V \text{ such that } \vec{v} \perp W\}.
+\]
+\end{definition}
+
+\begin{example}
+Consider $V= \RR^3$, and $W$ as a plane. Then $W^\perp$ is a line perpendicular to $W$. 
+
+In this case, $W^{\perp}$ is a complement to $W,$ and $\RR^3 = W \oplus W^{\perp}.$
+\end{example}
+
+In general, there are many possible complements, or ways to extend a basis of a subspace to the whole vector space, but the dot product picks out a specific one. 
+
+\begin{qq}
+%Can we do this for every bilinear form?
+For a general bilinear form, when can we decompose $V$ into the sum of a subpace and its orthogonal complement?
+\end{qq}
+
+It is possible to some extent, but we need to be careful. For example, $\vec{v} \neq 0$ can be perpendicular to all of $V.$ In particular, taking $A = [0],$ $\vec{v} \perp \vec{v}'$ for any $\vec{v}, \vec{v}' \in V.$ Thus, for any $\vec{v}, \vec{v}^{\perp} = V.$
+\begin{definition}
+The \textbf{null space} is 
+\[
+N = \{\vec{v} \in V: \vec{v}^{\perp} = V\} \subseteq V.
+\]
+\end{definition}
+
+If $A = I_n,$ the null space is $N = \{\vec{0}\},$ but when $A = 0,$ the null space is $N = V.$
+
+%question: is this related to the rank of a matrix?
+
+\begin{definition}
+Given a vector space $V$ and  a bilinear form $\bform$, if $N = \{\vec{0}\}$, $(V, \bform)$ is called \textbf{non-degenerate}.
+\end{definition}
+
+Given the matrix of a form, how is it possible to tell whether the bilinear form is non-degenerate?
+\begin{proposition}
+A form on a vector space $(V, \bform)$ is non-degenerate if and only if the matrix of the form, $A$, is invertible, which is when $\det A  \neq 0.$
+\end{proposition}
+
+So when $A = I_n,$ it is non-degenerate, but when $A = 0,$ it is extremely degenerate. In matrix form, $v \in N$ if and only if $\vec{w}^{*/T}A\vvv = 0$\footnote{Depending on whether we consider $\RR$ or $\CC,$ we take either the conjugate transpose or the transpose.} for all $\vec{w} \in V$, which is equivalent to saying that $A\vec{v} = \vec{0},$ and so $\vec{v} \in \ker A.$ 
+
+Consider the \emph{restriction} of the form to $W,$ $\bform |_W: W \by W \rightarrow \RR$ or $\CC.$ It can happen that $\bform |_W$ can be degenerate, even if $\bform$ is non-degenerate. 
+
+\begin{example}
+Let $V = \RR^4.$ The matrix from before, $A = \begin{pmatrix}
+-1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 1
+\end{pmatrix},$ is non-degenerate but a bit weird since it had that property that a vector could be orthogonal to itself. However, let $v = \begin{pmatrix}1 \\ 0 \\ 0 \\ 1\end{pmatrix}$ and consider
+\[
+W = \text{Span}(v).
+\]
+Then, 
+\begin{align*}
+W \by W &\rto \RR \\
+\langle a\vec{v}, a\vec{v}\rangle = 0,
+\end{align*}
+and the restriction of the form to $W$ is identically zero and is degenerate.
+\end{example}
+
+Given a vector space $V,$ a form $\bform,$ and a subspace $W \subset V,$ the restriction of the form $\bform|_W$ is non-degenerate if and only if for all non-zero $\vec{w} \in W,$ there exists some $\vec{w}' \neq \vec{w}$ such that $\langle \vec{w}, \vec{w}'\rangle \neq 0$. In particular, this is equivalent to saying that $W \cap W^{\perp} = \{\vec{0}\},$ by the definition of $W^{\perp}.$ If there were a vector both in $W$ and $W^{\perp},$ it would not be possible to find such a $\vec{w}',$ since the inner product with $\vec{w}$ would always be zero since it is in $W^{\perp}.$ %clean up this explanation
+
+\begin{theorem}
+If $\bform|_W$ is non-degenerate, then $V = W \oplus W^{\perp}$ is a direct sum of $W$ and its orthogonal space. 
+\end{theorem}
+
+As a reminder, there are several equivalent ways of thinking about the direct sum. If $V = W \oplus W^\perp,$ then the following are all true \begin{enumerate}
+    \item If $w_1, \cdots, w_k$ is a basis for $W,$ and $w_1', \cdots, w_j'$ is a basis for $W^{\perp}$, then gluing them together gets a basis $\{w_1, \cdots, w_k, w_1', \cdots, w_j'\}$ for $V.$
+    \item Every $\vec{v} \in V$ can be written uniquely as $\vec{v} = \vec{w} + \vec{u}$ where $\vec{w} \in W$ and $\vec{u} \in W^{\perp}.$
+    \item The intersection is $W \cap W^{\perp} = \{\vec{0}\}$ and $V = W + W^{\perp}.$
+\end{enumerate}
+
+These are all different ways of talking about the way $V$ has been split here. It is not always the case that $W$ and $W^{\perp}$ direct sum to $V.$ Once the non-degeneracy condition has been encoded into the \emph{restriction} of the form to $W,$ a splitting \emph{can} be found.
+
+\newpage

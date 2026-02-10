@@ -1,0 +1,190 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-011 Algebra I Student Notes, Fall 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\section{Subgroups and Cyclic Groups}
+\subsection{Review}
+Last time, we discussed the concept of a group, as well as examples of groups. In particular, a group is a set $G$ with an associative composition law $G \by G \rto G$ that has an identity as well inverses for each element with respect to the composition law $\by.$ 
+
+Our guiding example was that of the group of invertible $n \by n$ matrices, known as the \textbf{general linear group} ($GL_n(\RR)$ or $GL_n(\CC),$ for matrices over $\RR$ and $\CC,$ respectively.) 
+\begin{example}
+Let $GL_n(\RR)$ be the group of $n \by n$ invertible real matrices. 
+\begin{itemize}
+    \item \textbf{Associativity.} Matrix multiplication is associative; that is, $(AB)C = A(BC)$, and so when writing a product consisting of more than two matrices, it is not necessary to put in parentheses. 
+    \item \textbf{Identity.} The $n \by n$ identity matrix is $I_n = \begin{pmatrix}1 & \cdots & 0 \\ \vdots & \ddots & \vdots \\ 0 & \cdots & 1\end{pmatrix}$, which is the matrix with 1s along the diagonal and 0s everywhere else. It satisfies the property that $AI = IA = A$ for all $n \by n$ matrices $A$. 
+    \item \textbf{Inverse.} By the invertibility condition of $GL_n,$ every matrix $A \in GL_n(\RR)$ has an inverse matrix $A^{-1}$ such that $AA^{-1} = A^{-1}A = I_n.$
+\end{itemize}
+\end{example}
+Furthermore, each of these matrices can be seen as a transformation from $\RR^n \rto \RR^n$, taking each vector $\vec{v}$ to $A\vec{v}.$ That is, there is a bijective correspondence between matrices $A$ and invertible transformations $T_A: \RR^n \rto \RR^n$ taking $T_A(\vec{v}) = A\vec{v}.$
+
+Another example that showed up was the integers under addition. 
+
+\begin{example}
+The integers $\ZZ$ with the composition law $+$ form a group. Addition is associative. Also, $0 \in \ZZ$ is the additive identity, and $-a \in \ZZ$ is the inverse of any integer $a.$
+\end{example}
+On the other hand, the natural numbers $\NN$ under addition would \emph{not} form a group, because the invertibility condition would be violated.
+
+Lastly, we looked at the symmetric group $S_n.$ 
+
+\begin{example}
+The \textbf{symmetric group} $S_n$ is the permutation group of $\{1, \cdots, n\}.$ 
+\end{example}
+
+\subsection{Subgroups}
+In fact, understanding $S_n$ is important for group theory as a whole because \emph{any} finite group "sits inside" $S_n$ in a certain way\footnote{This is known as \emph{Cayley's Theorem} and is discussed further in section 7.1 of Artin.}, which we will begin to discuss today.
+\begin{qq}
+What does it mean for a group to "sit inside" another group?
+\end{qq}
+
+If a subset of a group satisfies certain properties, it is known as a \emph{subgroup.}
+\begin{definition}
+Given a group $(G, \cdot)$, a subset $H \subset G$ is called a \textbf{subgroup} if it satisfies:
+\begin{itemize}
+    \item \textbf{Closure.} If $h_1, h_2 \in H,$ then $h_1 \cdot h_2 \in H.$
+    \item \textbf{Identity.} The identity element $e$ in $G$ is contained in $H.$
+    \item \textbf{Inverse.} If $h \in H,$ its inverse $h^{-1}$ is also an element of $H.$
+\end{itemize}
+
+As notation, we write $H \leq G$ to denote that $H$ is a subgroup of $G.$
+\end{definition}
+
+Essentially, these properties consists solely of the necessary properties for $H$ to also be a group under the same operation $\cdot,$ so that it can be considered a subgroup and not just some arbitrary subset. In particular, any subgroup $H$ will also be a group with the same operation, independent of the larger group $G.$
+
+\begin{example}
+The integers form a subgroup of the rationals under addition: $(\ZZ, +) \subset (\QQ, +).$
+\end{example}
+The rationals are more complicated than the integers, and studying simpler subgroups of a certain group can help with understanding the group structure as a whole.
+
+\begin{example}
+The symmetric group $S_3$ has a three-element subgroup $\{e, (123), (132)\} = \{e, x, x^2\}.$
+\end{example}
+
+However, the natural numbers $\NN = \{0, 1, 2, \cdots \} \subset (\ZZ, +)$ are \textbf{not} a subgroup of the integers, since not every element has an inverse.
+
+\begin{example}
+The matrices with determinant 1, called the \textbf{special linear group}, form a subgroup of invertible matrices: $SL_n(\RR) \subset GL_n(\RR).$
+\end{example}
+The special linear group is closed under matrix multiplication because $\det(AB) = \det(A)\det(B).$ 
+
+\subsection{Subgroups of the Integers}
+The integers $(\ZZ, +)$ have particularly nice subgroups. 
+\begin{theorem}\label{subgroup of z}
+The subgroups of $(\ZZ, +)$ are $\{0\}, \ZZ, 2\ZZ, \cdots.$\footnote{Where $n \in \ZZ,$ $n\ZZ$ consists of the multiples of $n,$ $\{nx: x \in \ZZ\}$.}
+\end{theorem}
+
+This theorem demonstrates that the condition that a subset $H$ of a group be a subgroup is quite strong, and requires quite a bit of structure from $H.$
+
+\begin{proof}
+First, $n\ZZ$ is in fact a subgroup.
+\begin{itemize}
+    \item \textbf{Closure.} For $na, nb \in n\ZZ,$ $na + nb = n(a + b).$
+    \item \textbf{Identity.} The additive identity is in $n\ZZ$ because $0 = n \cdot 0.$
+    
+    \item \textbf{Inverse.} For $na \in n\ZZ,$ its inverse $-na = n(-a)$ is also in $n\ZZ.$
+\end{itemize}
+
+Now, suppose $S \subset \ZZ$ is a subgroup. Then clearly the identity $0$ is an element of $S.$ If there are no more elements in $S,$ then $S = \{0\}$ and the proof is complete. Otherwise, pick some nonzero $h \in S.$ Without loss of generality, we assume that $h > 0$ (otherwise, since $-h \in S$ as well by the invertibility condition, take $-h$ instead of $h.$) Thus, $S$ contains at least one positive integer; let $a$ be the smallest positive integer in $S.$ 
+
+Then we claim that $S = a\ZZ.$ If $a \in S,$ then $a + a = 2a \in S$ by closure, which implies that $2a + a = 3a \in S,$ and so on. Similarly, $-a \in S$ by inverses, and $-a + (-a) = -2a \in S,$ and so on, which implies that $a \ZZ \subset S.$ 
+
+Now, take any $n \in S.$ By the Euclidean algorithm, $n = aq + r$ for some $0 \leq r < a.$ From the subgroup properties, $n - aq  = r\in S$ as well. Since $a$ is the smallest positive integer in $S,$ if $r > 0,$ there would be a contradiction, so $r = 0.$ Thus, $n = aq,$ which is an element of $a\ZZ.$ Therefore, $S \subset a\ZZ.$ 
+
+From these two inclusions, $S = a\ZZ$ and the proof is complete.
+\end{proof}
+
+\begin{corollary}
+Given $a, b \in \ZZ,$ consider $S = \{ai + bj: i, j \in \ZZ\}.$ The subset $S$ satisfies all the subgroup conditions, so by Theorem \ref{subgroup of z}, there is some $d$ such that $S = d\ZZ.$ In fact, $d = \text{gcd}(a, b).$
+\end{corollary}
+\begin{proof}
+Let $e = \text{gcd}(a, b).$ Since $a \in S$, $a = dk$ and $b = d\ell$ for some $k, \ell.$ Since the $d$ from before divides $a$ and $b$, it must also divide $e,$ by definition of the greatest common divisor. Also, since $d \in S,$ by the definition of $S,$ $d = ar + bs$ for some $r$ and $b.$ Since $e$ divides $a$ and $b,$ $e$ divides both $ar$ and $bs$ and therefore $d.$ 
+
+Thus, $d$ divides $e,$ and $e$ divides $d,$ implying that $e = d.$ So $S = \text{gcd}(a, b) \ZZ.$
+\end{proof}
+ 
+ In particular, we have showed that $\text{gcd}(a, b)$ can always be written in the form $ar + bs$ for some $r, s$.
+
+\subsection{Cyclic Groups}
+Now, let's discuss a very important type of subgroup that connects back to the work we did with $(\ZZ, +).$
+
+\begin{definition}
+Let $G$ be a group, and take $g \in G.$ Let the \textbf{cyclic subgroup generated by $g$} be \[
+\langle g \rangle \coloneqq\footnote{The $\coloneqq$ symbol is usually used by mathematicians to mean "is defined to be." Other people may use $\equiv$ for the same purpose.} \{\cdots g^{-2}, g^{-1}, g^0=e, g^1, g^2, \cdots\} \leq G.
+\]
+\end{definition}
+
+Since $g^a \cdot g^b = g^{a + b},$ the exponents of the elements of a cyclic subgroup will have a related group structure to $(\ZZ, +).$
+
+\begin{example}
+The identity element generates the trivial subgroup $\{e\} = \langle e \rangle$ of any group $G.$
+\end{example}
+There are also nontrivial cyclic subgroups.
+\begin{example}
+In $S_3, $ $\langle (123) \rangle = \{e, (123), (132)\}.$
+\end{example}
+Evidently, a cyclic subgroup of any finite group must also be finite.
+\begin{example}
+Let $\CC^{\by}$ be the group of nonzero complex numbers under multiplication. Then $2 \in \CC$ will generate \[\langle 2 \rangle = 
+\{\cdots, 1/4, 1/2, 1, 2, 4, \cdots .\}
+\]
+On the other hand, $i \in \CC$ will generate 
+\[
+\langle i \rangle = \{1, i, -1, -i\}.
+\]
+\end{example}
+
+This example shows that a cyclic subgroup of an infinite group can be either infinite or finite.\footnote{Can you work out the cases for which $g \in \CC$ the cyclic subgroup of $\CC^{\by}$ is finite or infinite?}
+
+\begin{qq}
+What does a cyclic subgroup look like? Can they be classified?
+\end{qq}
+
+\begin{theorem}
+Let $S = \{n \in \ZZ: g^n = e\}.$ Then $S$ is a subgroup of $\ZZ,$ so $S = d\ZZ$ or $S = \{0\}$, leading to two cases:
+\begin{itemize}
+    \item If $S = \{0\},$ then $\langle g \rangle$ is infinite and all the $g^k$ are distinct.
+    \item If $S = d\ZZ,$ then $\langle g \rangle = \{e, g, g^2, \cdots, g^{d-1}\} \subset G,$ which is finite.
+\end{itemize}
+\end{theorem}
+\begin{proof}
+First, $S$ must be shown to actually be a subgroup of $\ZZ.$
+\begin{itemize}
+    \item \textbf{Identity.} The identity $0 \in S$ because $g^0 = e.$
+    \item \textbf{Closure.} If $a, b \in S,$ then $g^a = g^b = e,$ so $g^{a + b} = g^ag^b = e \cdot e = e,$ so $a + b \in S.$
+    \item \textbf{Inverse.} If $a \in S,$ then $g^{-a} = (g^a)^{-1} = e^{-1} = e,$ so $a \in S.$
+    
+\end{itemize}
+
+Now, consider the first case. If $g^a = g^b$ for any $a, b,$ then multiplying on right by $g^{-b}$ gives $g^a\cdot g^{-b} = g^{a-b} = e.$ Thus, $a - b \in S$, and if $S = \{0\},$ then $a = b.$ So any two powers of $g$ can only be equal if they have the same exponent, and thus all the $g^i$ are distinct and the cyclic group is infinite. 
+
+Consider the second case where $S = d\ZZ.$ Given any $n \in \ZZ,$ $n = dq + r$ for $0 \leq r < d$ by the Euclidean algorithm. Then $g^n = g^{dq} \cdot g^r = g^r,$ which is in $\{e, g, g^2, \cdots, g^{d-1}\}.$
+\end{proof}
+
+\begin{definition}
+So if $d = 0,$ then $\langle g \rangle$ is infinite; we say that $g$ has \textbf{infinite order.} Otherwise, if $d \neq 0,$ then $|\langle g \rangle| = d$ and $g$ has \textbf{order} $d$.
+\end{definition}
+
+It is also possible to consider more than one element $g.$ 
+\begin{definition}
+Given a subset $T \subset G$, the subgroup generated by $T$ is \[\langle T \rangle \coloneqq \{t_1^{e_1}\cdots t_n^{e_n} \mid t_i \in T, e_i \in \ZZ\}.\] 
+% Given a subset $T =\{g_1, g_2, \cdots, \} \subset G$, the subgroup generated by $T$ is 
+% \[
+% \langle T \rangle \coloneqq \{t_1^{\varepsilon_1}\cdot \cdots \cdot t\}
+% \]
+\end{definition}
+
+Essentially, $\langle T \rangle$ consists of all the possible products of elements in $T.$ For example, if $T = \{t, n\},$ then \[
+\langle T \rangle = \{\cdots, t^2n^{-3}t^4, n^5t^{-1}, \cdots \}.
+\]
+\begin{definition}
+If $\langle T \rangle = G,$ then \textbf{$T$ generates $G.$}\footnote{Given a group $G,$ what is the smallest set that generates it? Try thinking about this with some of the examples we've seen in class!}
+\end{definition}
+
+\begin{example}
+The set $\{(123), (12)\}$ generates $S_3.$ 
+\end{example}
+\begin{example}
+The invertible matrices $GL_n(\RR)$ are generated by elementary matrices\footnote{The matrices giving row-reduction operations.}.
+\end{example}
+
+\newpage

@@ -21,10 +21,12 @@ COURSES = [
 
     # 1
     {"folder": "algebra_ii_student_notes", "source": "RES.18-012-spring-2022",
-     "strategy": "full", "target": "full_lec.pdf"},
+     "strategy": "full", "target": "full_lec.pdf",
+     "tex": {"strategy": "parts", "pattern": r"lec(\d+)\.tex$"}},
     # 2
     {"folder": "real_analysis_18100a", "source": "18-100a-fall-2020",
-     "strategy": "full", "target": "lec_full.pdf"},
+     "strategy": "full", "target": "lec_full.pdf",
+     "tex": {"strategy": "parts", "pattern": r"lec(\d+)\.tex$"}},
     # 3
     {"folder": "real_analysis_18100b", "source": "18.100B-spring-2025",
      "strategy": "full", "target": "lec_full.pdf"},
@@ -33,10 +35,12 @@ COURSES = [
      "strategy": "full", "target": "lectures.pdf"},
     # 5
     {"folder": "introduction_to_functional_analysis", "source": "18.102-spring-2021",
-     "strategy": "full", "target": "full_lec.pdf"},
+     "strategy": "full", "target": "full_lec.pdf",
+     "tex": {"strategy": "parts", "pattern": r"lec(\d+)\.tex$"}},
     # 6
     {"folder": "projection_theory", "source": "18.156-spring-2025",
-     "strategy": "full", "target": "lec_full.pdf"},
+     "strategy": "full", "target": "lec_full.pdf",
+     "tex": {"strategy": "full", "target": "lec_full.tex"}},
     # 7
     {"folder": "noncommutative_algebra", "source": "18.706-spring-2023",
      "strategy": "full", "target": "full_lec.pdf"},
@@ -81,7 +85,8 @@ COURSES = [
      "strategy": "full", "target": "textbook.pdf"},
     # 21 - match "full_lec_new.pdf" (complete version, ~2.9 MB)
     {"folder": "algebra_i_student_notes", "source": "RES.18-011-fall-2021",
-     "strategy": "full", "target": "full_lec_new.pdf"},
+     "strategy": "full", "target": "full_lec_new.pdf",
+     "tex": {"strategy": "parts", "pattern": r"lec(\d+)\.tex$"}},
     # 22
     {"folder": "differential_analysis", "source": "18.155-fall-2004",
      "strategy": "full", "target": "lecture_notes.pdf"},
@@ -265,13 +270,13 @@ def strip_hash(filename: str) -> str:
     return filename
 
 
-def list_pdfs(src_dir: Path) -> list[tuple[str, Path]]:
-    """Return list of (stripped_name, full_path) for all PDFs in src_dir."""
+def list_files(src_dir: Path, suffix: str = '.pdf') -> list[tuple[str, Path]]:
+    """Return list of (stripped_name, full_path) for all files with given suffix in src_dir."""
     results = []
     if not src_dir.exists():
         return results
     for f in src_dir.iterdir():
-        if f.suffix.lower() == '.pdf':
+        if f.suffix.lower() == suffix:
             stripped = strip_hash(f.name)
             results.append((stripped, f))
     return results
@@ -351,7 +356,7 @@ def process_course(course: dict) -> dict:
     src_dir = UNZIPPED / source / "static_resources"
     course_dir = PROJECT_ROOT / "mit_books" / folder
 
-    pdfs = list_pdfs(src_dir)
+    pdfs = list_files(src_dir, '.pdf')
 
     if not pdfs:
         return {"folder": folder, "strategy": strategy, "count": 0, "error": "no PDFs found"}
@@ -364,7 +369,7 @@ def process_course(course: dict) -> dict:
                     "error": f"no match for '{target}'"}
         course_dir.mkdir(parents=True, exist_ok=True)
         shutil.copy2(match, course_dir / "book.pdf")
-        return {"folder": folder, "strategy": strategy, "count": 1}
+        result = {"folder": folder, "strategy": strategy, "count": 1}
 
     else:  # parts
         pattern = course["pattern"]
@@ -382,7 +387,35 @@ def process_course(course: dict) -> dict:
         for i, path in enumerate(ordered, 1):
             shutil.copy2(path, course_dir / f"part{i}.pdf")
 
-        return {"folder": folder, "strategy": strategy, "count": len(ordered)}
+        result = {"folder": folder, "strategy": strategy, "count": len(ordered)}
+
+    # ── TeX processing ────────────────────────────────────────────────────
+    tex_cfg = course.get("tex")
+    if tex_cfg:
+        tex_files = list_files(src_dir, '.tex')
+        tex_strategy = tex_cfg["strategy"]
+
+        if tex_strategy == "full":
+            tex_target = tex_cfg["target"]
+            tex_match = find_full_match(tex_files, tex_target)
+            if tex_match:
+                course_dir.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(tex_match, course_dir / "book.tex")
+                result["tex_count"] = 1
+            else:
+                result["tex_error"] = f"no TeX match for '{tex_target}'"
+        else:  # parts
+            tex_pattern = tex_cfg["pattern"]
+            tex_ordered = filter_and_sort_parts(tex_files, tex_pattern)
+            if tex_ordered:
+                course_dir.mkdir(parents=True, exist_ok=True)
+                for i, path in enumerate(tex_ordered, 1):
+                    shutil.copy2(path, course_dir / f"part{i}.tex")
+                result["tex_count"] = len(tex_ordered)
+            else:
+                result["tex_error"] = f"no TeX files matched pattern '{tex_pattern}'"
+
+    return result
 
 
 def main():
@@ -392,18 +425,28 @@ def main():
 
     for course in COURSES:
         result = process_course(course)
-        status = f"  [{result['strategy']:5s}] {result['folder']:<55s} → {result['count']} file(s)"
+        status = f"  [{result['strategy']:5s}] {result['folder']:<55s} → {result['count']} pdf(s)"
+        if "tex_count" in result:
+            status += f", {result['tex_count']} tex(s)"
         if "error" in result:
             status += f"  ⚠ {result['error']}"
             errors.append(result)
+        if "tex_error" in result:
+            status += f"  ⚠ {result['tex_error']}"
+            errors.append(result)
         print(status)
-        total_files += result["count"]
+        total_files += result["count"] + result.get("tex_count", 0)
 
     print(f"\nDone: {len(COURSES)} courses, {total_files} files copied.")
     if errors:
         print(f"\n⚠ {len(errors)} course(s) had issues:")
         for e in errors:
-            print(f"  - {e['folder']}: {e['error']}")
+            issues = []
+            if "error" in e:
+                issues.append(e["error"])
+            if "tex_error" in e:
+                issues.append(e["tex_error"])
+            print(f"  - {e['folder']}: {'; '.join(issues)}")
 
 
 if __name__ == "__main__":

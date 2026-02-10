@@ -1,0 +1,218 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-011 Algebra I Student Notes, Fall 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\section{Conjugacy Classes for Symmetric and Alternating Groups}
+
+\subsection{Review}
+
+Recently, we have been discussing the conjugation action of a group on itself. In particular, it is possible to decompose a group into its \textbf{conjugacy classes}, which is similar to decomposing a set into its orbits (like we were doing last week).
+
+Last time, we looked at the icosahedral group and saw its class equation and figured out information based on that.
+
+\subsection{Cycle Type}
+Today, we will be looking at the conjugacy classes for $S_n$ and $A_n,$ the symmetric group and the alternating group, which consists of even permutations. 
+
+Recall that a permutation $\sigma \in S_n$ can be written in cycle notation. This is a very useful way of writing a permutation.
+
+\begin{example}[Cycle Notation]
+For example, the permutation $(123)(45)$ takes 1 to 2 to 3 to 1, and 4 to 5 back to 4. 
+\end{example}
+
+Given the cycle type, it is easy to define and figure out the \emph{sign} of a permutation. A $1$-cycle will have sign $+1$, a $2$-cycle will have sign $-1$, and so on, where a $k$-cycle will have sign $(-1)^{k-1}.$ For example, $(123)(45)$ has sign $-1 = (+1)(-1) = -1,$ where the signs of each cycle are multiplied. In particular, even permutations are permutations that have an even number of even-length cycles.\footnote{It's confusing: an even-length cycle makes a permutation odd.}
+
+\begin{qq}
+What are the conjugacy classes of $S_n$?
+\end{qq}
+
+It turns out that the sign will be a very helpful tool in determining the conjugacy classes. 
+
+% An equivalent formulation has that the sign can also be determined from writing a permutation as a product of transpositions.
+
+% \begin{definition}
+% The \textbf{sign} of a permutation $\sigma = \tau_1\cdots \tau_k$ is $(-1)^k$ where each $\tau_i$ is a transposition. 
+% \end{definition}
+
+Let's look at an example.
+\begin{example}
+ If $\sigma = (123),$ then for $p \in S_n,$ let the conjugate be \[\tau = p\sigma p^{-1}.\] 
+ 
+ Let's say $p(1) = i, p(2) = j,$ and $p(3) = k.$ Evaluating the conjugate on $i$ gives \[\tau(i) = p\sigma p^{-1}(p(1)) = p(\sigma(1)) = p(2) = j.\] Similarly, \[\tau(j) = p(\sigma(2)) = p(3) = k.\] It turns that in cycle notation, \[\tau = (ijk) = (p(1) p(2) p(3)).\] 
+\end{example}
+
+It is easy to check that $\tau$ fixes all the other points. So conjugating a 3-cycle produces another 3-cycle with different points. 
+
+Consider a more complicated permutation. 
+\begin{example}
+For $\sigma = (123)(47) \cdots $, conjugating by $p$ gives \[(p(1)p(2)p(3))(p(4)p(7)) \cdots .\] 
+\end{example}
+
+It turns out that the lengths of the cycles in a permutation don't change upon conjugation! 
+
+\begin{definition}
+Given $\sigma \in S_n,$ the \textbf{cycle type} of $\sigma$ is the number of 1-cycles, 2-cycles, and so on, that show up in the cycle notation. 
+\end{definition}
+
+The cycle type is conjugation-invariant. If $\tau = p\sigma p^{-1},$ then $\sigma$ and $\tau$ have the same cycle type. For example, $(47)(123)$ has cycle type $(2, 3).$ 
+
+In fact, if $\sigma$ and $\tau$ have the same cycle type, then they are conjugate. 
+
+\begin{example}
+Take \[\sigma = (1 4 5)(2 3)\] and \[\tau = (2 3 4) (1 5).\] Simply by matching cycles, we can define $p \in S_n$ taking $1 \mto 2,$ $4 \mto 3,$ $5 \mto 4,$ $2 \mto 1,$ and $3 \mto 5;$ that is, $p = (12)(354).$ This $p$ is constructed to be such that \[p\sigma p^{-1} = \tau.\footnote{Try working through this by hand!}\]
+\end{example}
+
+The upshot is this proposition. 
+\begin{proposition}
+Two permutations $\sigma$ and $\tau$ are conjugate if and only if $\sigma$ and $\tau$ have the same cycle type.
+\end{proposition}
+
+\subsection{Conjugacy Classes in $S_n$}
+
+Conjugation in $S_n$ can be understood well by looking at cycles.
+
+\begin{qq}
+What are the conjugacy classes in $S_n$?
+\end{qq}
+
+From our characterization of when two permutations are conjugate, this can certainly be done! Let's start with an example.
+\begin{example}
+For $S_3,$ there are three conjugacy classes: cycle type $3, 2 + 1,$ and $1 + 1 + 1.$ For example, representatives could be $(123), (12),$ and the identity permutation. 
+\end{example}
+
+Now, we can do more complicated computations. For instance, we may want to find out the \emph{size} of a given conjugacy class.
+
+\begin{example}[Conjugacy classes in $S_4$]
+For a permutation \[x = (1234) \in S_4,\] the conjugacy class $C(x)$ is all $4-$cycles in $S_4.$ For each 4-cycle, there are 24 orderings of $1, 2, 3,$ and $4,$ and each one is overcounted by a factor of 4. For example, \[(1234) = (2341) = (3412) = (4123).\] So there are \[24/4 = \boxed{6}\] elements in the conjugacy class. 
+
+Alternatively, where the stabilizer is $Z(x),$ then \[|C(x)| = \frac{|G|}{|Z(x)|}.\] Since conjugation is essentially "relabeling" the numbers in the original permutation, replacing 1 with $p(1),$ 2 with $p(2)$, and so on, the elements in the stabilizer should relabel the numbers $1$ through $n$ in such a way that the permutation is still the same. For instance, relabeling $(1234)$ to $(2341)$ gives the same permutation $x.$ In this case, because there are 4 different starting points to the cycle, there are 4 permutations $p \in Z(x)$ that stabilize $x.$ So again, \[|C(x)| = \frac{|G|}{|Z(x)|} = \frac{24}{4} = 6.\] Essentially, the redundancy in cycle notation gives us different ways to write the same permutation, and dividing out by this redundancy (the stabilizer) gives the size of the conjugacy class.
+\end{example}
+
+Cycle notation also simplifies these computations for larger symmetric groups.
+
+\begin{example}[Conjugacy Class in $S_{13}$]
+Consider \[x = (123)(456)(789 10)(11)(12)(13) \in S_{13}.\] What is the stabilizer $Z(x)$ of $x$? For the 4-cycles, there are 4 choices for where to start the cycle. Any reordering of 12, 11, and 13 doesn't change the fact that 12, 11, and 13 are fixed; there are $3!$ ways to order the 1-cycles. 
+
+For the 3-cycles, there are 3 starting points each, but the 3-cycle $(123)$ could also be mapped to $(456),$ so there are 2! ways to order the two 3-cycles, and 3 starting points each. 
+
+In general, if there are $k$ $\ell-$cycles, there are $\ell$ starting points for each cycle, and $k!$ ways to order them. So 
+\[
+|Z(x)| = 2!\cdot  3 \cdot 3 \cdot  4\cdot 3! \cdot 1 \cdot 1 \cdot 1 = 432.
+\]
+
+Then,
+\[
+|C(x)| = \frac{13!}{432}.
+\]
+\end{example}
+
+So finding the sizes of conjugacy classes is really just doing some combinatorics for the size of stabilizer. Given the size of the stabilizer, since we know the size of the entire group, $|S_n| = n!$, dividing by $|Z(x)|$ directly gives $|C(x)|,$ without having to compute every permutation in the conjugacy class.
+
+\subsection{Class Equation for S4}
+
+Now, we can work out the class equation for $S_4$ without too much pain. 
+
+\begin{example}[Class Equation for $S_4$]
+The order of $S_4$ is $|S_4| = 4! =24.$ Then, there are only five possible cycle types, listed on the left column of the table. These are the different ways to sum to 4.
+
+
+\begin{center}
+    \begin{tabular}{c|c|c}
+        cycle type & $|Z(x)|$ & $|C(x)|$ \\
+        \hline 
+        $4$ &  $4$ & 6 \\
+        $3 + 1 $& 3& 8\\
+        2 + 1 + 1 & $2\cdot 2!$ = 4 & 6 \\
+        $2 + 2$ & $2! \cdot 2 \cdot 2 $= 8 & 3\\
+        1 + 1 + 1 + 1 & 24 & 1.
+    \end{tabular}
+\end{center}
+
+The size of the stabilizer for cycle type 4 is 4, as we worked out already. For 3, there are three possible places to start the cycle, so there are three permutations fixing the cycle type. For $2 + 1 + 1,$ there are 2 ways to pick a starting point for the 2-cycle and 2! = 4 ways to order the 1-cycles, which gives 4 total. The rest of the middle row follows similarly. 
+
+We have \[|C(x)| = |G|/|Z(x)|,\] so the right row, the size of the conjugacy class, is found by dividing $|G| = 24$ by the middle row, the size of the stabilizer. 
+
+The class equation then says 
+\[
+\boxed{24 = 1 + 3 + 6 + 8 + 6.}
+\]
+\end{example}
+
+What about the alternating group? The conjugacy classes for $A_4$ can also be determined.
+\begin{example}[Conjugacy classes for $A_4$]
+What are the conjugacy classes for $A_4$?
+\end{example}
+The alternating group $A_4$ is a subgroup of $S_4.$ In fact it is the kernel of the sign homomorphism, so it is a normal subgroup. In particular, a normal subgroup is fixed under conjugation, so $A_4$ is the union of conjugacy classes. Using the definition of the sign, the cycle types $3 + 1,$ $2 + 2,$ and $1 + 1 + 1 + 1$ all correspond to the elements in $A_4.$ Then, taking the sizes of the corresponding conjugacy classes, we have
+\[
+|A_4| = 12 = 1 + 3 + 8,
+\]
+but since 8 is not a factor of 12, this is actually \emph{not} the class equation for $A_4.$ 
+
+What's going wrong? If an element $\sigma$ is conjugate to another element $\tau$ in $A_4,$ it is a \textbf{different} notion than being $\sigma$ being conjugate to $\tau$ in $S_4$! In particular, $\sigma$ and $\tau$ can be conjugate in $S_4$, since we need $\tau = p\sigma p^{-1}$ for $p \in S_4,$ without being conjugate in $A_4,$ since we require that $\tau = q\sigma q^{-1} $ for $q \in A_4.$ If it is possible to find two elements conjugate by an odd permutation but not an even permutation, then they will be conjugate in $S_4$ but not $A_4.$ 
+
+Consider $x \in A_n \leq S_n.$ The conjugacy class of $x$ in $A_n$ is \[C_A(x) = \{y \in A: y = pxp^{-1}, p \in A_n\},\] the subset of elements in $A_n$ conjugate to $x$ by some even permutation, which is a subset of 
+\[
+C_S(x) = \{y \in A_n : y = pxp^{-1}, p \in S_n\}.
+\]
+
+Similarly, the stabilizer for $A$ is a subgroup of the stabilizer for $S.$ 
+\[
+Z_A(x) = \{p \in A_n: px = xp\} \leq Z_S(x) = \{p \in S_n: px = xp\}.
+\]
+
+Using the counting formula,
+\[
+|C_A(x)| \cdot |Z_A(x)| = |A_n| = \frac{1}{2}|S_n|,
+\]
+so  
+\[
+|C_A(x)| \cdot |Z_A(x)| = \frac{1}{2}|C_S(x)| \cdot |Z_S(x)|.
+\]
+
+The product differs by a factor of 2 for $A_n$ and $S_n$. Additionally, $|Z_A(x)|$ is a factor of $|Z_S(x)|$, as it is a subgroup.
+
+Our analysis leads us to two possibilities: 
+\begin{itemize}
+    \item \textbf{Case 1.} In this case, $|C_A(x)| = |C_S(x)|$ and $|Z_A(x)| = \frac{1}{2}|Z_S(x)|.$ Here, the conjugacy class stays the same size, but only half of the permutations that stabilize them are even and in $A_n.$ 
+    
+    \item \textbf{Case 2.} In this case, $|C_A(x)| = \frac{1}{2}|C_S(x)|$ and $|Z_A(x)| = |Z_S(x)|.$ So the size of the conjugacy class is split in half when going from $S_n$ to $A_n$, and only half of them are conjugate by even permutations. Since the sizes of the stabilizers of $x$ are the same, every $p \in S_n$ such that $px = xp$ is even, and lives inside of $A_n.$
+\end{itemize}
+
+In our example, 8 \emph{must} split, since it does not divide 12, and 1 and 3 cannot split because when they are split, they are split into halves, and they are odd numbers. Thus, the class equation for $A_4$ \textbf{must be}, by simple numerics,
+\[
+|A_4| = 12 = 1 + 3 + 4 + 4.
+\]
+
+In the $8 = 4 + 4$ case, $x = (123),$ and this is the case where the conjugacy class \emph{does} split, which means the stabilizer group does not get any smaller. Thus, every $p$ such that $px = xp$ is even. This is what it means for the stabilizer group not to get any smaller!
+
+\begin{example}
+What happens for $S_5$? What about $A_5$?
+\end{example}
+
+For $S_5,$ the class equation looks like 
+\[
+\boxed{120 = 1 + 10 + 15 + 20 + 20 + 30 + 24}.
+\]
+
+The even classes have size 1, 15, 20, and 24. We currently have \[|A_5| = 60 = 1 + 15 + 20 + 24,\] which is \textbf{not} the class equation. Clearly, 1 and 15 do not split, since they are odd. Since 24 is not a factor of 60 (but 24/2 = 12 is), it must split. 
+
+The question remains if 20 splits into 10 + 10 or not. We can show directly that there is an odd permutation that commutes with it, and so it \emph{cannot} split. So the class equation is \[\boxed{60 = 1 + 15 + 20 + 12 + 12}.\]
+
+These examples demonstrate that after our analysis of cycle types in symmetric and alternating groups, determining the class equation is not so much algebra and more counting and combinatorics.
+
+\subsection{Student Question}
+\begin{question}
+Why do we care about $A_n$? Does it show up as the symmetry group of some object?
+\end{question}
+
+\begin{ans}
+Since we are working with low numbers and dimensions, there are lots of coincidences where the groups that show up will be the same as each other, even if they aren't actually related in a general way for higher dimensions. In fact, $A_4$ shows up in the symmetry group of the tetrahedron, and we had $A_5$ show up as the symmetry group of the icosahedron. But in general, $A_n$ is (maybe? Davesh said he didn't really know/hadn't thought about it) not necessarily the symmetry group of some higher-dimensional geometric object. But in 18.702 we will study the symmetries of equations (Galois first studied these) instead of geometric objects, and it is very easy to write down equations that have $A_n$ or $S_n$ as (part of) their symmetry groups. In fact, group theory evolved at the same time as studying symmetries of non-geometric objects evolved (Galois again?) 
+
+The reason why we care about $A_n$ is this idea that simple groups are "building blocks" in some sense, and $A_n$ for $n = 5$ and higher is simple, and in fact it is essentially the only (interesting?) simple normal subgroup of $S_n.$ So if we care about $S_n$ then we automatically care about $A_n,$ since $A_n$ is a "building block" of $S_n.$ 
+
+In general, people like to break down problems into studying the simple subgroups of certain groups, and then studying the ways in which the simple groups can combine into the larger groups, in order to understand the larger group as a whole.
+
+There are lots of ways of combining groups that get pretty complicated, and this is definitely something a lot of people are working on. The two ways of combining groups that get their own names are the "direct product" and the "semidirect product," which is a slightly more nonabelian way of combining groups. In this case, getting from $A_n$ to $S_n$ is just a semidirect product in some way.
+\end{ans}
+
+\newpage

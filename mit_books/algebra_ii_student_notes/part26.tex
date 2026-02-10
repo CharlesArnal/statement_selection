@@ -1,0 +1,142 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-012 Algebra II Student Notes, Spring 2022
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+% \rhead{\rightmark}
+\lhead{Lecture 26: Finite Fields}
+
+\section{Finite Fields}
+
+\subsection{Splitting Fields}
+
+Last time, we stated the uniqueness of the splitting field of a polynomial. 
+
+\begin{proposition}
+    If $F$ is a field, and $P$ a (not necessarily irreducible) polynomial in $F$, then there exists a \emph{unique} extension $E/F$ up to isomorphism, such that $P$ splits as a product of linear factors in $E[x]$ as $P(x) = \prod (x - \alpha_i)$, and $E = F(\alpha_1, \ldots, \alpha_n)$. 
+\end{proposition}
+
+\begin{proof}
+    The idea of the proof is fairly easy --- we essentially add in roots one by one, which immediately proves existence. Uniqueness follows from uniqueness in adjoining a root of an irreducible polynomial (since adjoining any root is equivalent to adjoining an abstract one). 
+
+    First, we'll prove existence by induction on the degree of $P$. Let $P_1$ be an irreducible factor of $P$, and let $F_1 = F[x]/(P_1)$, which (as we've seen earlier) is essentially the construction of adjoining a root of $P_1$ to $F$. Then in $F_1[x]$, $P$ factors as $P(x) = (x - \alpha)Q(x)$, where $\alpha$ is a root of $P_1$.
+    
+    Now let $E$ be the splitting field for $Q$ over $F_1$ (which exists by the induction assumption). Then we claim $E$ is also a splitting field for $P$ over $F$. This follows directly from the definition --- suppose $\alpha = \alpha_1$, $\alpha_2$, \ldots, $\alpha_n$ are the roots of $P$. Then $P$ splits completely in $E[x]$. But we also have $E = F_1(\alpha_2, \ldots, \alpha_n)$, and since $F_1 = F(\alpha_1)$, then $E = F(\alpha_1, \ldots, \alpha_n)$. 
+
+    So we've proved existence of the splitting field. To prove uniqueness, we again use induction. Suppose that $E'$ is another splitting field; we'll construct an isomorphism between $E'$ and $E$. 
+
+    First, we can find a root $\alpha'$ of $P_1$ in $E'$. Then if we set $F_1' = F(\alpha') \subset E'$, we know that $F(\alpha') \cong F(\alpha)$, since both are isomorphic to the abstract construction $F[x]/(P)$. 
+    
+    This isomorphism between $F(\alpha)$ and $F(\alpha')$ sends $\alpha \mapsto \alpha'$. Suppose it sends $Q \in F_1[x]$ to $Q' \in F_1'[x]$, so we have $P = (x - \alpha')Q'$ (the isomorphism fixes $F$, and therefore $P$). Now $E'$ is a splitting field for $Q'$ over $F_1'$. So uniqueness of the splitting field of $Q$ (which we know by the induction assumption) implies that the isomorphism between $F_1$ and $F_1'$ extends to an isomorphism between $E$ and $E'$, and the two splitting fields are isomorphic. 
+\end{proof}
+
+We'll see more proofs similar to this last idea later, where we construct isomorphisms between field extensions. 
+
+\begin{question}
+What happens if $P$ has repeated roots? 
+\end{question}
+
+\begin{ans}
+In this case, it doesn't matter --- for instance, the splitting field of $P^2$ is the same as that of $P$. 
+\end{ans}
+
+\subsection{Construction of Finite Fields}
+
+We'll now turn to \emph{finite} fields. First notice that if $F$ is a finite field, it can't contain $\QQ$ (since $\QQ$ is infinite), so it must contain $\FF_p$ --- we saw last class that every field contains $\QQ$ or $\FF_p$ for some prime $p$. Moreover, since $F$ is finite as a set, the extension $F/\FF_p$ is also finite, so $F$ is finite-dimensional as a $\FF_p$-vector space. Let $n = [F : \FF_p] = \dim_{\FF_p} F$. Then we must have $|F| = p^n$ --- if we choose a basis for $F$ (forgetting we can multiply elements, and only using the vector space structure), this identifies $F$ with $\FF_p^n$ ($n$-tuples of elements in $\FF_p$, corresponding to the coordinates in this basis), which has $p^n$ elements. 
+
+
+% Notice that if $F$ is a finite field, then $F \supsetneq \QQ,$ as $\QQ$ is infinite, and $F \subset \FF_p.$ \todo{why lol} Moreover, $F/\FF_p$ is finite, so $F$ is finite-dimensional as an $\FF_p$-vector space. Given \[n = [F: \FF_p] = \dim_{\FF_p}F,\] the dimension of $F$ as a vector space over $\FF_p,$ the size of $F$ must then be \[|F| = p^n.\] Choosing a basis for $F$ identifies $F$ with ${\FF_p}^n.$
+
+This was a fairly straightforward observation, but the converse is also true!
+
+\begin{theorem}\label{finite fields}
+For every prime $p$ and every $n \geq 1$, there exists a field of $q = p^n$ elements. Furthermore, any two such fields are isomorphic. 
+\end{theorem}
+
+As a result, we have a unique field of $q = p^n$ elements, which we denote by $\FF_q$. Note that except when $n = 1$, the field $\FF_q$ is very different from $\ZZ/q\ZZ$ (which is not a field). They're not even isomorphic as additive groups! (For example, $\FF_2 = \ZZ/2\ZZ$, but $\FF_4$ and $\ZZ/4\ZZ$ have very different structure.)
+
+One way to construct a field of $q$ elements would be to find an irreducible polynomial of degree $n$ in $\FF_p[x]$ (and quotient by that polynomial). This is easy to do when $n$ is small --- for example, if $p = 4k + 3$, the polynomial $x^2 + 1$ is irreducible, so \[\FF_{p^2} = \FF_p[x]/(x^2 + 1).\] Similarly, we have \[\FF_8 = \FF_2[x]/(x^3 + x + 1).\] But this is harder for general $n$ --- it's possible to prove one always exists via a counting argument (counting all polynomials, and all ways to produce a product of lower-degree polynomials), but this won't be the approach we use. 
+
+Instead, we'll use a sort of ``magic trick'' --- we'll consider the \emph{Artin--Schreier polynomial} $A(x) = x^q - x$. 
+
+% \begin{note}
+% Note that it would be possible to construct a field of $q$ elements if we could find an irreducible polynomial of degree $n$ with coefficients in $\FF_p.$
+% \end{note}
+
+% This is easy to do when $n$ is small. For example, if $p = 4k + 3,$ taking the polynomial $x^2 + 1$, which is irreducible, gets \[\FF_{p^3} = \FF_p[x]/(x^2 + 1).\] Similarly, \[\FF_8 = \FF_2[x]/(x^3 + x + 1).\]
+
+% It is possible to obtain this result by counting, but it is more complicated. We will use a "magic trick" instead, which is a polynomial called an Artin-Schreier polynomial. The formula is \[A(x) = x^q - x.\] 
+
+\begin{lemma}\label{artin schreier}
+Let $F$ be any field containing $\FF_p$, and let $q = p^n$. Then the set of roots of $A$ in $F$, \[\{x \in F \mid x^q - x = 0\},\] is a subfield of $F$.
+\end{lemma}
+
+This is quite exceptional! Usually, to construct a field from a polynomial, we adjoin roots and then take all possible sums and products. But in this case, when we take all roots, the result is actually \emph{closed} under arithmetic operations --- and we don't need to do anything more.
+ 
+\begin{proof}
+We must check that for $\alpha, \beta \in F$ with $A(\alpha) = 0$ and $A(\beta) = 0$, we have: 
+\begin{enumerate}[label=(\arabic*)]
+\item $A(\alpha\beta) = 0$,
+\item $A(\beta^{-1}) = 0$ (if $\beta \neq 0$), and
+\item $A(\alpha + \beta) = 0$. 
+\end{enumerate}
+The first two are straightforward (and would work if we replaced $q$ with \emph{any} exponent) --- for (1), since $\alpha^q = \alpha$ and $\beta^q = \beta$, we have $(\alpha\beta)^q = \alpha^q\beta^q = \alpha\beta$. We can check (2) similarly. 
+
+% First, note that \[\alpha^q = \alpha, \beta^q = \beta \implies (\alpha\beta)^q = (\alpha\beta),\] and similarly this also implies \[(\beta^{-1})^q = \beta^{-1}.\] These both hold true for \emph{any} exponent, not just $q.$ \todo{add equation numbering and refer to them} So $A(\alpha\beta) = 0$ and $A(\beta^{-1}) = 0.$
+
+Now for (3), note that in any ring containing $\FF_p$, we have \[(x + y)^p = x^p = y^p.\] This follows from the Binomial Theorem, since $\binom{p}{i} \equiv 0 \pmod{p}$ for $i = 1$, \ldots, $p - 1$ --- if we write $\binom{p}{i} = p!/i!(p - i)!$, the numerator is divisible by $p$ and the denominator is not. Now using induction, we see that $(x + y)^q = x^q + y^q$ if $q = p^n$ for any $n$. So $\alpha^q = \alpha$ and $\beta^q = \beta$ implies that \[(\alpha + \beta)^q = \alpha^q + \beta^q = \alpha + \beta,\] and thus $A(\alpha + \beta) = 0$.
+\end{proof}
+ 
+With this tool, we can now prove Theorem \ref{finite fields}. 
+ 
+\begin{proof}[Proof of Theorem \ref{finite fields}]
+
+We'll first prove uniqueness. Suppose that $F$ is a field of $q = p^n$ elements. Now consider the multiplicative group $F^\times$ (the group of all nonzero elements of $F$ under multiplication). This has $q - 1$ elements, so the order of any element of $F^\times$ must divide $q - 1$; therefore $\alpha^{q - 1} = 1$ for all $\alpha \neq 0$. Then $\alpha^q = \alpha$ for \emph{all} $\alpha \in F$ (since this is true for $0$ as well). So $A(\alpha) = 0$ for all $\alpha \in F$. 
+
+But now we have a polynomial of degree $q$, which has $q$ roots in $F$. The only way this happens is if the polynomial splits completely --- we have that $x - \alpha \mid A(x)$ for all $\alpha \in F$, so by unique factorization in $F[x]$, the product of all terms $x - \alpha$ must divide $A(x)$ as well, and since $\deg(A(x)) = q$ (and both sides are monic), we must then have \[A(x) = \prod_{\alpha \in F} (x - \alpha).\] But then $F$ is a splitting field of $A$ over $\FF_p$, and the uniqueness of $F$ follows from the uniqueness of the splitting field. 
+
+To prove existence, we can simply let $F$ be the splitting field of $A$ over $\FF_p$; we then need to check that $|F| = q$. 
+
+First, by Lemma \ref{artin schreier}, we have $A(\alpha) = 0$ for all $\alpha \in F$ --- we know that $F$ is \emph{generated} by the roots of $A$, but the lemma implies that these roots are closed under arithmetic operations, so \emph{all} elements of $F$ are roots of $A$. 
+
+So then the number of elements in $F$ is the number of roots of $A$ (which splits completely in $F$). In particular, we immediately see that $|F| \leq \deg A = q$. To see that equality holds, it suffices to check that $A$ has no multiple roots. 
+
+To check this, we use derivatives --- in real or complex analysis, we know that a function has a higher-order root at $a$ if $a$ is also a root of the derivative. Of course, here we're in a much more abstract setting, and we can't define derivatives using limits. However, we can still use this idea, by using \emph{formal derivatives} --- the formal derivative of a polynomial $P(x) = a_nx^n + \cdots + a_0$ is the familiar formula $P'(x) = na_nx^{n - 1} + \cdots + a_1$. It's easy to check that the formulas $(P + Q)' = P' + Q'$ and $(PQ)' = PQ' + P'Q$ still hold. Now, if $P$ has a multiple root at $\alpha$, then $P(x) = (x - \alpha)^2Q(x)$ for some $Q$, which means \[P'(x) = 2(x - \alpha)Q(x) + (x - \alpha)^2Q'(x)\] also has a root at $\alpha$. So it's still true that a multiple root of $P$ is also a root of its derivative. In particular, if $\gcd(P, P') = 1$, then $P$ has no multiple roots (in any field containing its field of coefficients).
+
+But it's easy to compute the derivative of $A$ --- we have $A'(x) = (x^q - x)' = qx^{q - 1} - 1$. But $q$ is $0$ in $F$ (since $F$ has characteristic $p$)! So $A'(x)$ is just $-1$, and $\gcd(A, A') = 1$. So $A$ has no multiple roots, which means $|F| = q$. 
+\end{proof}
+
+% We show uniqueness and then existence.
+ 
+%  \begin{itemize}
+%      \item \textbf{Uniqueness.} Suppose that $F$ is a field of $q = p^n$ elements. We have that the multiplicative structure \[F^{\by} = (F \setminus \{0\}, \by)\] corresponds to a group of $(q - 1)$ elements. So the order of any $\alpha \in F^{\by}$ divides $q - 1.$ Therefore, \[\alpha^{q-1} = 1,\] and so \[\alpha^q = \alpha\] for all $\alpha \in F.$ That is, \[A(\alpha) = 0.\] It follows that $(x - \alpha)$ divides $A(x)$ for all $\alpha \in F,$ so \[A(x) = \prod_{\alpha \in F}(x - \alpha).\] \todo{is it the product or does it divide the product} As a result, $F$ is the splitting field of $A.$ The uniqueness of $F$ follows from the uniqueness of the splitting field. 
+     
+%      \item \textbf{Existence.} Let $F$ be the splitting field of $A.$ We must check that $|F| = q.$ From Lemma \ref{artin schreier}, we see that $A(\alpha) = 0$ for all $\alpha \in F.$ So \[|F| \leq \deg A = q.\] To check that it is equal to $q,$ we must see that $A$ has no multiple roots in $F.$ \todo{add what he said here} A formal derivative of a polynomial \[P(x) = a_nx^n + \cdots + a_0\] is \[P'(x) = na_nx^{n-1} + \cdots + a_1.\] 
+     
+%      We have $(P + Q)' = P' + Q'$ and $(PQ)' = P'Q + PQ'.$ Now, if $P$ has a multiple root $\alpha \in F,$ then \[P(x) = (x-\alpha)^2Q(x)\] and \[P'(x) = 2(x-\alpha)Q + (x-\alpha)Q' = (x-\alpha)(2Q + (x-\alpha)Q'),\] and so a multiple root is also a root of the derivative.\footnote{In complex analysis, this also holds true, since a multiple root appears where the derivative is 0.} As a result, if $\gcd(P, P') = 1,$ then $P$ has no multiple roots. We have \[A'(x) = (x^q - x)' = qx^{q-1} - 1 = -1,\] since $qx^{q-1} = 0$ in $F.$ Therefore, $\gcd(A, A') = 1,$ so $A$ has no multiple roots, so \[|F| = q = p^n.\]
+%  \end{itemize}
+
+%  \end{proof}
+
+Once we have this construction, we can then derive concrete information about irreducible polynomials. 
+
+\subsection{Structure of Finite Fields}
+
+There's more that we can say about the structure of $\FF_q$. 
+ 
+\begin{proposition}
+The multiplicative group $\FF_q^\times$ is cyclic, and is therefore isomorphic to $\ZZ/(q - 1)\ZZ$. 
+\end{proposition}
+
+\begin{proof}
+Since $\FF_q^\times$ is a finite abelian group, it's isomorphic to $\prod \ZZ/p_i^{d_i}\ZZ$ for some $d_i$. By the Chinese Remainder Theorem, it's enough to show that each prime $p$ appears at most once in this decomposition. 
+
+But assume for contradiction that some prime $p$ appears twice (here $p$ is used to denote any prime, not the characteristic of $\FF_q$). Then there's at least $p^2$ elements of order dividing $p$, meaning that $\alpha^p = 1$ (since the group $\ZZ/p^d\ZZ$ contains $p$ elements of order dividing $p$, so we can take one such element from each copy and elements of order $1$ from the remaining terms in the product). But then the polynomial $x^p - 1$ would have $p^2$ roots; this is impossible, since a polynomial of degree $p$ can have at most $p$ roots.  
+\end{proof}
+
+
+%  The finite field $\FF_q^{\by}$ is a cyclic $\isom \ZZ/(q-1).$ \todo{what did he write here}
+%  \end{proposition}
+%  \begin{proof}
+%  Being a finite abelian group, \[F^{\by} = \prod \ZZ/p_i^{d_i}.\] If $p_i$ appears twice, then there are at least $p_i^2$ elements such that $\alpha^{p_i} =1$, which is impossible for a polynomial of degree $p_i,$ since it can only have at most $p_i$ roots.
+%  \end{proof}

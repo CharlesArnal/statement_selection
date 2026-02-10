@@ -1,0 +1,310 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-012 Algebra II Student Notes, Spring 2022
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+% \rhead{\rightmark}
+\lhead{Lecture 7: Proof of the Main Theorem}
+
+\section{Proof of the Main Theorem}
+
+\subsection{Review: Orthonormality of Characters}
+
+Last time, we proved the orthonormality of characters of irreducible representations --- if we have a finite group $G$ and $\rho_1$, \ldots, $\rho_n$ is the full list of irreducible representations of $G$ up to isomorphism, then if we use $\chi_i$ to denote $\chi_{\rho_i}$, we have \[\langle \chi_i, \chi_j \rangle = \begin{cases} 1 & \text{if $i = j$} \\ 0 & \text{otherwise}.\end{cases}\] 
+In order to prove this, we interpreted $\langle \chi_i, \chi_j \rangle$ as the trace of an averaging operator, acting on the space of linear maps $\operatorname{Mat}_{m \times n}(\CC) = \operatorname{Hom}_{\CC}(V_i, V_j)$, where $V_i$ and $V_j$ are the vector spaces that $\rho_i$ and $\rho_j$ act on.
+
+From orthonormality, we immediately get a few corollaries:
+
+\begin{corollary} \label{coeffs from orthonormality}
+    Any representation $\rho : G \to \operatorname{GL}(V)$ can be split as a sum of irreducibles as \[\rho \cong \bigoplus \rho_i^{n_i},\] where for each $k$, \[n_k = \langle \chi_\rho, \chi_k \rangle.\] 
+\end{corollary}
+
+Recall that last class, we saw a different formula for the $n_i$, which was quite abstract --- it involved the dimensions of $\operatorname{Hom}_G(\rho_k, \rho)$. In contrast, this formula is quite concrete --- it's easy to calculate the pairings $\langle \chi_\rho, \chi_k \rangle$. 
+
+\begin{proof}
+    We know $\rho$ can be written in this form for some coefficients $n_i$, by Maschke's Theorem. But then \[\chi_\rho = \sum n_i\chi_i,\] so by linearity we have \[\langle \chi_\rho, \chi_k \rangle = \sum n_i\langle \chi_i, \chi_k \rangle = n_k,\] since orthonormality implies that $\langle \chi_i, \chi_k \rangle$ is $0$ for $i \neq k$ and $1$ for $i = k$.
+\end{proof}
+
+Using this, we can get a few concrete results:
+
+\begin{example}
+    The dimension of the space of invariant vectors in $\rho$ is \[\frac{1}{\lvert G \rvert} \sum_{g \in G} \chi_\rho(g).\] 
+\end{example}
+
+\begin{proof}
+    This dimension is the multiplicity of the trivial representation $\chi_1$ when we decompose $\rho$ into a sum of irreducibles, which is $n_1$. This is because $\rho$ acts trivially on the space of invariant vectors, by definition, and so each basis vector corresponds to one copy of the trivial representation. But the character of the trivial representation is $\chi_1(g) = 1$ for all $g$, so using Corollary \ref{coeffs from orthonormality}, we have \[n_1 = \langle \chi_\rho, \chi_1\rangle = \frac{1}{|G|} \sum_{g \in G} \chi_\rho(g). \qedhere\] 
+\end{proof}
+
+\begin{corollary}
+    If $\rho = \bigoplus \rho_i^{n_i}$ as before, then \[\langle \chi_\rho, \chi_\rho \rangle = \sum n_i^2.\] In particular, $\rho$ is irreducible if and only if $\langle \chi_\rho, \chi_\rho \rangle = 1$. 
+\end{corollary}
+
+\begin{proof}
+    Using linearity, we can expand \[\langle \chi_\rho, \chi_\rho \rangle = \sum_i \sum_j n_in_j \langle \chi_i, \chi_j \rangle = \sum n_i^2,\] since again by orthonormality, $\langle \chi_i, \chi_j \rangle$ is $0$ when $i \neq j$ and $1$ when $i = j$. (Intuitively, if we have any pairing and we take a basis of vectors which are orthonormal under that pairing --- here, the $\chi_i$ --- then it becomes the usual pairing on $\CC^n$.)
+    
+    The second statement is then clear because the $n_i$ are nonnegative integers, so the only way for their sum of squares to be $1$ is if one is $1$ and the rest are $0$.  
+\end{proof}
+
+\subsection{The Regular Representation}
+
+We've already proved part of the main theorem --- we've shown that the characters $\chi_i$ are orthonormal, which means they are linearly independent. But to show that they form a basis for the space of class functions, we also need to show that they span that space. To do this --- and to prove the sum of squares formula stated earlier as well --- we'll introduce the regular representation. 
+
+If $G$ acts on a finite set $X$ of $n$ elements, then we can form a matrix representation of $G$ of dimension $n$, where $G$ acts by permutation matrices --- we index the basis vectors by elements of $X$, and for each $g \in G$, we map $g$ to the permutation matrix that describes how $g$ acts on $X$. 
+
+\begin{example}
+    As we've seen earlier, $S_n$ acts on the set $\{1, 2, \ldots, n\}$. This gives a $n$-dimensional representation of $S_n$ --- the permutation representation, where each permutation is mapped to its corresponding permutation matrix. 
+\end{example}
+
+Given a group $G$, there can be many interesting sets $X$ that it acts upon. But there's one set that we automatically always have; namely, $G$ itself. Every group $G$ acts on itself by left multiplication, where an element $g \in G$ sends $h \mapsto gh$. We can use this to form a representation of $G$ of dimension $\lvert G \rvert$: 
+
+\begin{definition}
+    Let $V$ be a vector space with basis $\{v_h\}$ indexed by elements $h \in G$. Then the \textbf{regular representation} of $G$ is the representation $\rho : G \to \operatorname{GL}(V)$ such that for all $g \in G$, $\rho_g$ is the linear operator on $V$ sending $v_h \mapsto v_{gh}$ for all $h \in G$. 
+\end{definition}
+
+So in the regular representation, each $g \in G$ is sent to the permutation matrix of how left multiplication by $g$ permutes the elements of $G$.\footnote{For left multiplication, $\rho_{g_1}\rho_{g_2} = \rho_{g_1g_2}$, so $\rho$ is a homomorphism. Using right multiplication rather than left multiplication, which would send $\rho'_g: v_h \mto v_{hg}$, would be a anti-homomorphism rather than a homomorphism. That is, $\rho'_{g_1} \rho'_{g_2}(v_h) = v_{hg_2g_1} = \rho'_{g_2g_1}(v_h).$}
+
+\begin{example}
+    In the group $\ZZ/3\ZZ$, operating (in this case the group operation is addition) on the left by $\overline{1}$ corresponds to the permutation $\overline{0} \mapsto \overline{1}$, $\overline{1} \mapsto \overline{2}$, $\overline{2} \mapsto \overline{0}$. So in its regular representation, $\overline{1}$ acts by the permutation matrix \[\begin{bmatrix} 0 & 0 & 1 \\ 1 & 0 & 0 \\ 0 & 1 & 0 \end{bmatrix}.\] 
+\end{example}
+
+\begin{example}
+    In $S_3$, left multiplication by $(12)$ swaps $(1)$ and $(12)$, swaps $(23)$ and $(123)$, and $(13)$ and $(132)$. So in the regular representation, $(12)$ acts by the block diagonal matrix \[\begin{bmatrix} 0 & 1 & & & & \\ 1 & 0 & & & & \\ & & 0 & 1 & & \\ & & 1 & 0 & & \\ & & & & 0 & 1 \\ & & & & 1 & 0 \end{bmatrix},\] where the rows and columns are indexed by elements of $S_3$ in the order $(1)$, $(12)$, $(23)$, $(123)$, $(13)$, $(132)$.
+\end{example}
+
+It's clear from the definition that the regular representation has exactly one invariant vector up to scaling, the sum of all basis elements. This is because if $\sum a_hv_h$ is an invariant vector, then we must have \[\sum a_hv_h = \rho_g\left(\sum a_hv_h\right) = \sum a_hv_{gh}\] for all $g \in G$, which implies that $a_h = a_{gh}$ for all $g$ and $h$, and therefore all $a_h$ are equal. In particular, the regular representation is not irreducible unless $G$ is trivial (the regular representation has an invariant vector, so it must have the trivial representation in its decomposition). 
+
+\begin{note}
+It's also possible to think of elements of $V$ as $\CC$-valued functions on $G$ --- instead of thinking of them as linear combinations of abstract basis vectors, we can think of $\sum a_hv_h$ as the function mapping $h \mapsto a_h$ for all $h \in G$. 
+\end{note}
+
+We'll now use $\rho$ to denote the regular representation. 
+
+\begin{qq}
+What can we say about the character of $\rho$ and its decomposition into irreducibles?
+\end{qq}
+
+This turns out to have a simple answer. 
+
+\begin{proposition}
+    The character of the regular representation is \[\chi_\rho(g) = \begin{cases} |G| & \text{if } g = 1 \\ 0 & \text{otherwise}.\end{cases}\] 
+\end{proposition}
+
+\begin{proof}
+    The trace of a permutation matrix is its number of fixed points (a permutation matrix consists only of $0$'s and $1$'s, and $1$'s on its diagonal correspond to fixed points). 
+    
+    It's clear that the permutation corresponding to $1$ fixes all elements of $G$ (since multiplication by $1$ doesn't change any element), so $\chi_\rho(1) = \lvert G \rvert$. Meanwhile, for all $g \in G$ other than $1$, the permutation corresponding to $g$ has no fixed points --- if $h$ were a fixed point, then we would have $h = gh$, which implies $g = 1$. So then $\chi_\rho(g) = 0$ for all $g \neq 1$. 
+\end{proof}
+
+Using this, we can decompose $\rho$ into a sum of irreducibles pretty easily, using Corollary \ref{coeffs from orthonormality} --- since our character has such a simple form, it's not hard to compute its pairing with anything. 
+
+\begin{proposition} \label{decomposition of regular rep}
+    The regular representation decomposes into irreducibles as \[\rho \cong \bigoplus \rho_i^{d_i},\] where $d_i$ denotes the dimension of $\rho_i$. 
+\end{proposition}
+
+\begin{proof}
+    By Corollary \ref{coeffs from orthonormality}, we know $\rho = \bigoplus \rho_i^{n_i}$, where \[n_i = \langle \chi_i, \chi_\rho \rangle = \frac{1}{|G|}\sum_{g \in G} \chi_i(g)\overline{\chi_\rho(g)} = \frac{1}{|G|}\chi_i(1)\cdot |G| = \chi_i(1)\] (all terms involving $g \neq 1$ disappear, since $\chi_\rho(g) = 0$). But $\rho_i(1)$ is the identity matrix of dimension $d_i$, which has trace $d_i$ --- so $\chi_i(1) = d_i$, which means $n_i = d_i$ as well. 
+\end{proof}
+
+\begin{example}
+In an abelian group, all dimensions of irreducible representations are $1$, so $\rho \cong \rho_1 \oplus \cdots \oplus \rho_n$.
+\end{example}
+
+From this, we can immediately deduce the sum of squares formula stated in the main theorem.  
+
+\begin{proposition}
+    If the irreducible representations of $G$ have dimensions $d_1$, \ldots, $d_n$, then we have \[\lvert G \rvert = d_1^2 + \cdots + d_n^2.\] 
+\end{proposition}
+
+\begin{proof}
+    We can compare the dimensions on the two sides of Proposition \ref{decomposition of regular rep}. On the left-hand side, we have $\dim(\rho) = \lvert G \rvert$. Meanwhile, on the right-hand side, for each $i$ we have $d_i$ copies of $\rho_i$, which itself has dimension $d_i$ --- this contributes $d_i^2$ to the dimension (since when we take the direct sum of two representations, we add their dimension). So then \[|G| = \dim(\rho) = \dim\left(\bigoplus \rho_i^{d_i}\right) = \sum d_i^2,\] which gives the desired equality. 
+\end{proof}
+
+\subsection{Span of Irreducible Characters}
+
+Finally, we'll again use the regular representation to prove that the characters of irreducible representations span the space of class functions. We know that these characters are linearly independent (since they're orthonormal), so it will then follow that they form a \emph{basis} for the space of class functions (the first statement of our main theorem). 
+
+In order to prove this, we'll show that any class function can be written in the following form:
+
+\begin{proposition} \label{f in basis of chars}
+For any class function $f$, we have \[f = \sum \langle f, \chi_i \rangle \chi_i.\] 
+\end{proposition}
+
+Note that we already know this statement is true when $f$ is the character of any representation. More generally, if we can write $f = \sum n_i\chi_i$, then by orthonormality we know that $n_i = \langle f, \chi_i \rangle$ for each $i$. So Proposition \ref{f in basis of chars} essentially tells us that this formula really works for \emph{all} class functions. Note that the coefficients $\langle f, \chi_i \rangle$ are all in $\CC$, so Proposition \ref{f in basis of chars} implies that the $\chi_i$ span the space of class functions --- this proposition would follow immediately if we already knew that the $\chi_i$ span the space of class functions, but we can actually use it to prove that statement instead. 
+
+ Proposition \ref{f in basis of chars} is equivalent to the following statement:
+
+\begin{proposition} \label{zero pairing implies zero}
+If $f$ is a class function and $\langle f, \chi_k \rangle = 0$ for all $k$, then $f$ is the zero function. 
+\end{proposition}
+
+First, to make this equivalence between Proposition \ref{f in basis of chars} and Proposition \ref{zero pairing implies zero} more explicit, we'll write out the details of how the second implies the first. (For the other direction, the first implies the second because if the $\chi_i$ do span the space of class functions and $f$ has zero pairing with each one, then $f$ also has zero pairing with \emph{itself}. But the space of class functions under $\langle -, - \rangle$ is a Hermitian space, meaning that $\langle f, f \rangle > 0$ unless $f = 0$.)
+
+\begin{proof}[Proof of Proposition \ref{f in basis of chars}] 
+Given any class function, we can define $f^* = \sum \langle f, \chi_i \rangle \chi_i$. But then $f - f^*$ has zero pairing with each $\chi_k$, since 
+\begin{align*}
+    \langle f - f^*, \chi_k \rangle &= \langle f, \chi_k \rangle - \left\langle \sum \langle f, \chi_i \rangle \chi_i, \chi_k \right\rangle \\
+    &= \langle f, \chi_k \rangle - \sum \langle f, \chi_i\rangle \langle \chi_i, \chi_k\rangle \\
+    &= \langle f, \chi_k \rangle - \langle f, \chi_k \rangle \\
+    &= 0
+\end{align*}
+by orthonormality. (Intuitively, since $f^*$ is a linear combination of the $\chi_i$, the pairing of $f^*$ with each $\chi_k$ is the coefficient of $\chi_k$, which we \emph{constructed} to be the same as the pairing of $f$ with $\chi_k$.) But using Proposition \ref{zero pairing implies zero}, the only class function that has zero pairing with every $\chi_k$ is the zero function, so we must have $f - f^* = 0$, and therefore $f = f^*$. 
+\end{proof}
+
+In order to prove Proposition \ref{zero pairing implies zero}, we'll first introduce a bit of convenient notation:
+
+\begin{definition}
+    For a function $f : G \to \CC$ (not necessarily a class function) and a representation $\rho : G \to \operatorname{GL}(V)$, define \[\rho(f) = \sum_{g \in G} f(g)\rho_g.\] 
+\end{definition}
+
+Note that $\rho(f)$ is in $\operatorname{End}(V)$ (or equivalently, in $\operatorname{Mat}_{n \times n}(\CC)$ if we write down a basis and use matrix representations), since each $\rho_g$ is in $\operatorname{End}(V)$ and the coefficients $f(g)$ are scalars. We can think of this definition as extending the definition of $\rho$ to \emph{linear combinations} of group elements (in the obvious way), instead of just the group elements themselves --- in this interpretation, the function $f$ stores the coefficient of each group element in the linear combination. 
+
+We can make a few observations about this definition: 
+
+\begin{lemma} \label{trace equals pairing}
+For any representation $\rho$ and function $f$, we have $\trace \rho(f) = \langle \chi_\rho, \overline{f} \rangle$.
+\end{lemma}
+
+\begin{proof}
+    This follows directly from the linearity of trace --- plugging in the definitions and using linearity, we have \[\langle \chi_\rho, \overline{f} \rangle = \sum_{g \in G} (\chi_\rho(g)f(g)) = \sum_{g \in G} (f(g)\trace \rho_g) = \trace \left(\sum_{g \in G} f(g)\rho_g\right) = \trace \rho(f).\] (The reason we have $\overline{f}$ and not $f$ here is because we conjugate the second element of the pairing.)
+\end{proof}
+
+\begin{lemma} \label{class functions equivariant}
+    If $f$ is a class function, then $\rho(f) \in \operatorname{End}_G(\rho)$. 
+\end{lemma}
+
+\begin{proof}
+    Recall that class functions are functions which are invariant under conjugation, meaning that for each conjugacy class, they take the same value on all its elements.
+    
+    But this means $\rho(f)$ must be invariant under conjugation as well --- more explicitly, for any $g \in G$, we have \[\rho_g\rho(f)\rho_g^{-1} = \sum_{h \in G} f(h)\rho_g\rho_h\rho_g^{-1} = \sum_{h \in G} f(h)\rho_{ghg^{-1}} = \sum_{h \in G} f(h)\rho_h = \rho(f),\] since the new sum just permutes elements within each conjugacy class, and $f(ghg^{-1}) = f(h)$ for all $h$. We can rearrange this to \[\rho_g\rho(f) = \rho(f)\rho_g\] for all $g \in G$, so $\rho(f)$ is indeed $G$-equivariant. 
+\end{proof}
+
+Using these observations, we can now prove our claim, that the only class function $f$ which has zero pairing with every $\chi_i$ is the zero function. 
+
+\begin{proof}[Proof of Proposition \ref{zero pairing implies zero}]
+    For each $i$, we are given that $\langle \chi_i, f\rangle = 0$, so by Lemma \ref{trace equals pairing} we also have \[\trace \rho_i(\overline{f}) = 0.\]
+    
+    But we also know that $\rho_i(\overline{f}) \in \operatorname{End}_G(\rho_i)$. And by Schur's Lemma (since $\rho_i$ is irreducible), the only elements of $\operatorname{End}_G(\rho_i)$ are scalar matrices! So then $\rho_i(\overline{f})$ is a scalar matrix with trace $0$; this means it's the zero matrix. 
+    
+    So now we know that $\rho_i(\overline{f})$ is the zero matrix for all irreducible representations. But by Maschke's Theorem, every representation is the direct sum of irreducible representations --- so this means $\rho(\overline{f})$ is the zero matrix for \emph{any} representation $\rho$. (If we write $\rho$ as a direct sum of irreducibles $\rho_i$, then $\rho(\overline{f})$ is the corresponding direct sum of the matrices $\rho_i(\overline{f})$, and a direct sum of zero matrices is also the zero matrix.) 
+    
+    Now we'd like to use this to conclude that $f$ itself is $0$. To do so, we can take $\rho$ to be the regular representation. It turns out that we can essentially just read off the function by looking at its action in the regular representation --- in particular, $f$ acts on the basis vector $v_1$ as \[\rho(f)(v_1) = \sum_g f(g)\rho_g(v_1) = \sum_g f(g)v_g.\] Since $\rho(f)$ is the zero map, then the right-hand side must be zero as well; so $f(g) = 0$ for all $g \in G$. 
+\end{proof}
+
+This concludes our proof of the Main Theorem --- we have proven that the irreducible characters $\chi_i$ are orthonormal and form a basis for the space of class functions, and the dimensions of the irreducible representations $d_i$ satisfy $\sum d_i^2 = |G|$. The only remaining statement which we have not proven is that $d_i$ divides $|G|$ for each $i$. We will not discuss this proof in class, but it is posted on Canvas; in these notes, a writeup of this proof is included in the appendix. 
+
+\subsection{Generalizations to Compact Groups}
+
+We've worked with representations of \emph{finite} groups, but much of this generalizes to \emph{compact} subgroups of $\operatorname{GL}_n(\CC)$, such as $\operatorname{U}(n)$ and $\operatorname{O}(n)$. In this case, we consider \emph{continuous} representations. 
+
+\begin{example}
+Consider $\operatorname{U}(1) = \{z \in \CC^\times \mid \lvert z \rvert = 1\}$. The irreducible representations are all one-dimensional (as in the finite case, this has to do with the fact that the group is abelian), and are indexed by integers, where $\rho_n : z \mapsto z^n$. 
+
+All functions $f : \operatorname{U}(1) \to \CC$ are class functions, and we can think of such a function as a function $f : \RR \to \CC$ which is $2\pi$-periodic (by thinking of $\operatorname{U}(1)$ as the unit circle). Then if we try to decompose such a function $f$ in the same way as Proposition \ref{f in basis of chars}, we'll get its \textbf{Fourier series} --- under some reasonable conditions on $f$ (in particular, here we require it to be continuous), the expression $\sum \chi \langle f, \chi \rangle$ ends up being the Fourier series of $f$. 
+\end{example}
+
+% \section{The Regular Representation}
+% \subsection{Review}
+
+% \todo{Last time, we proved the orthogonality of the irreducible representations . $G$ $\rho_1, \cdots, \rho_n$ irreps $\chi_i = \chi_{\rho_i}$ then by }
+
+% Last time, we proved the orthogonality of the characters of the irreducible representations $\chi_i$ of a group $G.$ Where $\rho_1, \cdots, \rho_k$ are the irreducible representations of $G,$ and where $\chi_i = \chi_{\rho_i}$\todo{when to notation chi i lol}, $\langle \chi_i, \chi_j \rangle = \delta_{ij}.$\todo{explain delta notation}
+% \todo{add the second half of review}
+
+% \subsection{Inner Product on Characters}\todo{edit this}
+
+% For example, the dimension of the space of \textbf{invariant vectors} is $n_1$ if $\rho_1$ is the trivial representation, so it equals $\frac{1}{|G|} \sum_{g \in G} \chi_\rho(g)$. 
+
+% \begin{corollary}
+% The inner product \todo{ check}of a character with itself is $\langle \rho, \rho \rangle = \frac{1}{|G|} \sum |\chi_\rho(g)|^2 = \sum n_i^2$. In particular, $\rho$ is irreducible if and only if $\langle \rho, \rho \rangle = 1.$ 
+% \end{corollary}
+% \begin{proof}
+
+% The character is a sum of irreducible characters $\chi_\rho = \sum n_i\chi_i$. For irreducible characters, $\langle \chi_i, \chi_j \rangle = \delta_{ij},$ so $\langle \chi_\rho, \chi_\rho \rangle = \sum_{ij} n_in_j \langle \chi_i, \chi_j \rangle = \sum n_i^2.$
+% \end{proof}
+
+% \subsection{The Regular Representation}
+% Group actions can provide a matrix representation in the following manner. 
+% \begin{definition}\todo{pls check which is the actual definition asd;flkjas f}
+% If $G$ acts on a finite set $X$, a matrix representation of dimension $n = |X|$ can be formed by taking each $g \in G$ to act by the corresponding permutation matrix. 
+% \end{definition}
+
+% For example, consider the $n$-dimensional representation of $S_n$ given by taking $\sigma$ to $M_{\sigma}$.
+
+% Now, take $X = G,$ where every element $g \in G$ acts bijectively by left multiplication, taking $h \mto gh$\footnote{The group $G$ is acting on itself.}, and use it to form a representation of $G$ of dimension $n = |G|.$ 
+
+% \begin{example}
+% Let $G = \ZZ_3$. The element $\overline{1}$\footnote{The equivalence class of integers equal to 1 modulo $3$.} ats by 
+% $\begin{pmatrix}0 & 0 & 1 \\ 1 & 0 & 0 \\ 0 & 1 & 0\end{pmatrix}.$.
+% \end{example}\todo{move footnote down adn make it * not a}
+
+% We return to a familiar group, $S_3,$ for another example.
+% \begin{example}
+% Let $G = S_3.$ The element $g = (12)$ takes $1$ to $(12)$ (and $(12)$ to $1$). Also, left multiplication by $(12)$ maps $(23)$ and $(12)(23) = (123)\todo{check this one LOL}$ to each other, as well mapping $(13)$ and $(12)(13)$ to each other. So the matrix will be 
+% \[
+% \begin{pmatrix}
+% 0 & 1 & & & & \\
+% 1 & 0 & & & & \\
+% & & 0 & 1 & & \\
+% & & 1 & 0 & & \\
+% & & & & 0 & 1 \\
+% & & & & 1 & 0
+% \end{pmatrix}.
+% \]
+% \end{example}
+
+% In general, the regular representation will\footnote{Clearly it will have high dimension equal to the size of $G$ and likely not be irreducible.} not be irreducible. 
+
+% \begin{definition}
+% \todo{clean up def}
+% The representation is  $\rho: G \rto GL(V)$, where $V$ has a basis $\{v_h\}$ indexed by $h \in G.$ An element $g \in G$ acts as $\rho_g(v_h) = v_{gh}.$
+% \end{definition}
+
+% \todo{add guiding questions ads;fka s;fdljkas }
+
+% The character of the regular representation $\rho$ is easy to compute. For the identity, as usual, $\chi_\rho(1_G) = \dim(V) = |G|.$ For all non-identity $g \in G$, $\rho_g$ is a permutation with no fixed points. Consider $g, h$ such that $v_h = \rho_g(v_h) = v_{gh}.$ Then $h = gh,$ which is true only when $g = 1.$ As a result, the matrix corresponding to $g$ has 0's on the diagonal, because each basis vector $v_h$ maps to a different basis vector $v_{gh}$, and so $\chi_\rho(g) = 0$ for $g \neq 1.$ 
+
+
+% \begin{theorem}\label{dis}
+% Where the regular representation is decomposed as $\rho = \bigoplus \rho_i^{d_i}$, the dimension  of each irreducible representation is $d_i = \dim(\rho_i).$
+% \end{theorem}
+% \begin{proof}
+
+% From the character of $\rho,$ this follows readily. Let $\rho$ be decomposed as a sum of irreducible representations, $\rho = \bigoplus \rho_i^{d_i}.$ Each dimension is 
+% \[
+% d_i = \langle \chi_i, \chi_\rho \rangle = \frac{1}{|G|} \sum_g \chi_i(g) \overline{\chi_\rho(g)},
+% \]
+% where $\chi_\rho(g) = 0$ for $g \neq 1.$ So this is equal to \[d_i = \frac{1}{|G|} \chi_i(1_G) \cdot |G|,\] implying that $d_i = \chi_i(1) = \dim(\rho_i)$. \todo{organize this??? isnt this the proof bfore the theorem}
+
+% \end{proof}
+
+% \begin{corollary}
+% The order of the group is $|G| = \sum_{i = 1}^n d_i^2,$ where $d_i$ is the dimension of the $i$th irreducible representation.
+% \end{corollary}
+
+% \begin{proof}
+% On the left hand side of Theorem \ref{dis}, $\dim(\rho) = |G|,$ whereas $\sum \dim\left(\rho_i^{\oplus d_i}\right) =\sum d_i^2.$ \todo{figure out the bigopus and oplus in summation decomposition}
+% \end{proof}
+
+% It remains to prove that the irreducible characters $\chi_i$ span the space of class functions. It will follow that for any such function $f,$ $f = \sum \langle f, \chi_i \rangle \chi_i.$ It is sufficient to prove that if $\langle f, \chi_i \rangle = 0$ for all $i,$ then $f$ is identically the zero function. \todo{i have no idea how this proves what we need it to prove but thats what he said}
+
+% \begin{proposition}\todo{clean this up :)}
+% Let $f$ be a class function. If $\langle f, \chi_i \rangle = 0$ for all $i,$ then $f$ is the zero function.
+% \end{proposition}
+% \begin{proof}
+% Given a function\footnote{Not necessarily a class function} $f: G \rto \CC$ and a representation $\rho: G \rto GL(V)$, let $\rho(f) = \sum_{g \in G} f(g)\rho_g \in \edo(V).$ Provided a basis of $V,$ each $f(g)$ is a scalar and each $\rho_g$ is an $n \by n$ matrix over $\CC,$ so $\rho(f)$ is also in $\matnn(\CC).$\todo{he said something about matrices???? \matnn(\CC)}
+
+% The trace of $\rho(f)$ is $\langle \chi_\rho, \overline{f} \rangle$. From linear algebra,\todo{i have no clue if it's from lienar algebra} 
+% \begin{align*}
+% \langle \chi_\rho, \overline{f} \rangle &= \sum_{g \in G} \chi_\rho(g) f(g) \\
+% &= \sum f(g) \trace(\rho_g) \\
+% &= \trace(\sum f(g)\rho_g) \\
+% &= \trace(\rho(f)).
+% \end{align*}
+% Also, if $f$ is a class function, $f(hgh^{-1} = f(g),$ so $\rho(f) \in \edo_g(\rho).$\todo{why??? lol} Suppose $\langle f, \chi_i \rangle = 0$ for all $i.$ Then $\trace(\rho_i(\overline{f}) = 0.$\todo{why do we know that the trace is zero} By Schur's Lemma, $\rho_i(\overline{f})$ is a scalar operator. As a result, $\rho_i(\overline{f}) = 0.$ Now, $\rho_i(\overline{f}) = 0$ for all irreducible representations. Using Maschke's Theorem, $|rho(\overline{f}) = 0$ or any representation. For example, let $\rho$ be the regular representation. But $\rho(f)(v_1) = \sum_g f(g)v_g.$ The right hand side is 0 if an only if $f$ is identically 0. So we see that $\overline{f} \equiv 0$ if and only if $f \equiv 0.$\todo{pleaseseese go thru this proof again it makes no sense but im just writing down everything he says} 
+% \end{proof}
+
+% \subsection{Compact Groups}
+% Much of the work on representations of finite groups carries over to compact subgroups of $GL_n(\CC).$ For example, representations of $U_n,$ $O_n,$ and so on can be studied. 
+% \begin{example}
+% Let $G = U_1 = \{z \in \CC^\by : |z| = 1\}.$ The irreducible representations are given by $\rho_n: z \mto z^n.$ A function on $U_1$ can be thought of as a $2\pi$-periodic function on $\RR.$\footnote{This is given simply by extending this function.} The expression $\sum \chi \lnalg e f, \chi \rangle$ is the \emph{Fourier series.}
+% \end{example}

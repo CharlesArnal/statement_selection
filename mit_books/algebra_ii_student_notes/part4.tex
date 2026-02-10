@@ -1,0 +1,234 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-012 Algebra II Student Notes, Spring 2022
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+% \rhead{\rightmark}
+\lhead{Lecture 4: The Main Theorem}
+
+
+\section{The Main Theorem}
+
+\subsection{More on Maschke's Theorem}
+
+Last class, given a finite-dimensional complex representation $\rho: G \to \operatorname{GL}(V)$ of a finite group $G$, we found a $G$-invariant positive Hermitian form on $V$ and used it to show that a $G$-invariant subspace $W$ has an invariant complement, namely $W^\perp$ (its orthogonal complement with respect to the Hermitian form). We used this to deduce Maschke's Theorem --- that every representation can be split as a direct sum of irreducible ones. 
+
+We'll now discuss a few features of this proof. 
+
+First, why did we use Hermitian forms specifically? A different choice of form which may also seem reasonable is the \emph{symmetric bilinear form}, a form where we require $\langle w, v \rangle$ to equal $\langle v, w \rangle$ rather than its conjugate. (For example, $v\cdot w$ is the standard symmetric bilinear form, while $v\cdot \overline{w}$ is the standard Hermitian form.) 
+
+The reason is that in a symmetric bilinear form over $\CC$, it's possible that $v \cdot v = 0$. For example, consider the representation of $\ZZ/3\ZZ$ acting on $\CC^3$, where \[\overline{1} \mapsto A = \begin{bmatrix} 0 & 0 & 1 \\ 1 & 0 & 0 \\ 0 & 1 & 0 \end{bmatrix}.\] We can see that $(1, \zeta, \zeta^2)^t$ is an eigenvector, since \[\begin{bmatrix} 0 & 0 & 1 \\ 1 & 0 & 0 \\ 0 & 1 & 0 \end{bmatrix}\begin{bmatrix} 1 \\ \zeta \\ \zeta^2 \end{bmatrix} = \begin{bmatrix} \zeta^2 \\ 1 \\ \zeta \end{bmatrix} = \zeta^2\begin{bmatrix} 1 \\ \zeta \\ \zeta^2 \end{bmatrix}.\] But if we tried to perform our construction, taking $W$ to be the span of this eigenvector, we'd see that $W^\perp$ actually \emph{contains} it, since $(1, \zeta, \zeta^2)\cdot (1, \zeta, \zeta^2) = 1 + \zeta^2 + \zeta^4 = 0$. This means $W^\perp$ isn't actually a complement of $W$, so this would break the construction. We require that our form is \emph{Hermitian} (and positive) to avoid this issue, since in that case $W^\perp$ really is a complement of $W$. 
+
+Another useful takeaway from our proof was that we found an invariant Hermitian form by \emph{averaging}. This trick of averaging over all $g \in G$ can produce many other invariant things. 
+
+\begin{example} \label{invariant vector by avg}
+Given a representation $\psi : G \to \operatorname{GL}(V)$ and a vector $v \in V$, the vector \[\frac{1}{|G|} \sum_{g \in G} \psi_gv\] is $G$-invariant. This is because for any $h \in H$, we have \[\psi_h\frac{1}{|G|}\sum_{g \in G} \psi_gv = \frac{1}{|G|}\sum_{g \in G}\psi_{hg}v = \frac{1}{|G|}\sum_{g \in G} \psi_gv,\] since $g \mapsto hg$ is a bijection on $G$ (as $g$ runs over all of $G$, so does $hg$).   
+\end{example}
+
+\begin{note}
+We saw a similar trick in 18.701, when proving that every finite group of isometries of $\RR^2$ (or more generally $\RR^n$) has a fixed point --- we can start with any point $p$, and consider the points $gp$ in its orbit. Then the center of mass (or average) of all these points is a fixed point, for the same reason we saw here. 
+\end{note}
+
+\begin{center}
+    \begin{asy}
+    unitsize(2cm);
+    draw((-1.5, 0)--(1.5, 0), mediumgray, Arrows);
+    draw((0, -1.5)--(0, 1.5), mediumgray, Arrows);
+    pair O = (0.2, 0.3);
+    pair A1 = O + dir(0);
+    pair A2 = O + dir(72);
+    pair A3 = O + dir(144);
+    pair A4 = O + dir(216);
+    pair A5 = O + dir(288);
+    filldraw(A1--A2--A3--A4--A5--cycle, heavycyan+opacity(0.1), heavycyan);
+    label("$p$", A1, dir(0));
+    dot(A1^^A2^^A3^^A4^^A5);
+    draw(A1..(O + dir(36))..A2, deepgreen, EndArrow, Margins);
+    label("$g$", O + dir(36), dir(36), deepgreen);
+    dot(O, heavyred);
+    \end{asy}
+\end{center}
+
+There's something to be careful of here, though --- in Example \ref{invariant vector by avg}, we don't actually know that this vector is nonzero --- in fact, for many representations $\psi$ it \emph{must} be zero (often there's no nontrivial invariant vectors).  
+
+In fact, we can describe our construction \emph{directly} in terms of the averaging trick as described in Example \ref{invariant vector by avg}. We can think of the space of Hermitian forms as a \emph{real} vector space; then $G$ has a real representation acting on this space, sending $\langle v, w \rangle$ to $\langle gv, gw\rangle$. In our construction, we started with some positive form, and averaged it over all $g$ to get an invariant ``vector'' (meaning an invariant Hermitian form). Here we don't have the issue of the invariant vector possibly being zero, because when we add two positive Hermitian forms, our resulting Hermitian form is again positive. 
+
+\begin{question}
+ How do we describe the space of Hermitian forms as a real vector space?
+\end{question}
+
+\begin{ans}
+Every Hermitian form can be described as $\langle v, w \rangle = vA\overline{w}$ for some matrix $A$ with $A^t = \overline{A}$. We can think of all entries of this matrix in terms of their real and complex parts. Then the $n$ entries on the diagonal must all be real, we get to choose both the real and complex parts of the $n(n - 1)/2$ entries below the diagonal, and this immediately determines the $n(n - 1)/2$ entries above the diagonal (which must be the conjugate of their reflection). So we get to choose \[n + 2\cdot \frac{n(n - 1)}{2} = n^2\] real numbers, which means the space of Hermitian forms has dimension $n^2$. 
+\end{ans}
+
+% A different , such as symmetric bilinear forms (where we require $\langle w, v \rangle$ to \emph{equal} $\langle v, w \rangle$, rather than to be conjugate to it)? For example, the standard symmetric bilinear form would be $v \cdot w$, while the standard Hermitian form would be $v\cdot \overline{w}$. 
+
+% A 
+
+% Why Hermitian forms? 
+
+% An invariant Hermitian form was found by \emph{averaging}. Given a representation $\psi: G \rto GL(W),$ a vector $v \in W$ can produce an invariant vector \[\frac{1}{|G|} \sum_{g \in G} \psi_g(v).\] It is invariant because left multiplication by $h$ is a bijection from $G$ to $G,$ so \[\psi_h\sum_{g \in G} \psi_g(v) = \sum_{g \in G} \psi_{hg} (v) = \sum_{g \in G} \psi_g(v),\] since running the sum over $hg$ also produces each element in $G$ exactly once. 
+
+% A similar trick is taking the "center of mass" of an orbit \todo{insert image of five dots together written on board}to show that a \textbf{finite group} of matrices in $\RR^n$ has a fixed point. 
+
+% We applied this to the (real) representation of $G$ on Hermitian forms. Starting with a positive Hermitian form, we averaged to obtain another positive Hermitian form. \todo{please clean up this section.}
+
+% \begin{question}
+% What is the dimension of the space of Hermitian forms? 
+% \end{question}
+% \begin{ans}
+% Any Hermitian form can be corresponded to a real matrix, uniquely defined by $\langle v, w \rangle = vA\overline{w}$. Then $A$ satisfies $A^T =\overline{A}$ for a Hermitian form, and so $\dim_{\RR}\{A\} = n^2.$\footnote{The dimension over the real numbers is twice the dimension over the complex numbers.}\todo{check this example lol} 
+% \end{ans}
+
+On a different note, the fact that every representation has an invariant positive Hermitian form (as shown in our proof) is equivalent to stating that every representation of a finite group is conjugate to a \emph{unitary representation}:
+
+\begin{definition}
+A unitary representation is a homomorphism $\rho: G \to \operatorname{U}_n$, where $\operatorname{U}_n \subset \operatorname{GL}_n$ is the set of unitary matrices.\footnote{Matrices $A$ for which $A^t = \overline{A}$} 
+\end{definition}
+
+Equivalently, we can define unitary representations without referring to matrices --- a linear operator is unitary if it preserves the standard Hermitian form $\langle v, w \rangle = v\cdot \overline{w}$, so a representation is unitary if and only if $gv \cdot g\overline{w} = v \cdot \overline{w}$ for all $g \in G$ and $v, w \in \CC^n$.
+
+To see why these two ideas are equivalent, note that given a positive Hermitian form, we can choose an orthonormal basis with respect to that form. In that basis, the form will just be the standard Hermitian form $\langle v, w \rangle = v\cdot \overline{w}$. So by changing the basis, we have produced a unitary representation. 
+
+Finally, we'll describe the proof of Maschke's Theorem (also known as \emph{complete reducibility}) more explicitly.
+
+\begin{theorem}[Maschke's Theorem]
+Every complex representation of a finite group is isomorphic to a direct sum of irreducible representations.
+\end{theorem}
+
+\begin{proof}
+We use induction on the dimension. For the base case, any one-dimensional representation is already irreducible. 
+
+Now suppose $\rho : G \to \operatorname{GL}(V)$ is a representation. If $\rho$ is already irreducible, we're done. Otherwise, we can pick an invariant subspace $W$, which is neither $0$ nor $V$. Then let $\langle -, -\rangle$ be an invariant positive Hermitian form, and decompose $V = W \oplus W^\perp$. Since both $W$ and $W^\perp$ are $G$-invariant, then we get the subrepresentations $\psi : G \to \operatorname{GL}(W)$ and $\eta : G \to \operatorname{GL}(W^\perp)$ in $\rho$, and we can decompose $\rho \cong \psi \oplus \eta$. But $\eta$ and $\psi$ have smaller dimension than $\rho$, so both are a direct sum of irreducible representations (by the inductive hypothesis), and therefore $\rho$ is a direct sum of irreducible representations as well. 
+\end{proof}
+
+
+
+% The existence of a invariant, positive Hermitian form is equivalent to stating that every representation of a finite group is conjugate to a unitary representation.
+
+% This gives us a quick result. Thus, every complex representation of a finite group is isomorphic to a direct sum of irreducible representations.
+
+% \begin{proof}
+% We induct on dimension. Consider $\rho: G \rto GL(V)$ an $n$-dimensional representation. If $\rho$ is irreducible, we are done. Otherwise, pick $W \subset V$ an invariant subspace that is not zero and not $V.$ \todo{run over this proof again}
+
+% Let $\langle \cdot, \cdot \rangle$ be an invariant positive Hermitian form $V = W \oplus W^\perp.$ If $\eta: G \rto GL(W)$ and $\psi: G \rto GL(W^\perp)$, then $\rho = \eta \oplus \psi.$ Then $\eta$ and $\psi$ have smaller dimension than $\rho.$ So $\eta$ and $\psi$ are sums of irreducibles and thus so is $\rho.$
+% \end{proof}
+
+\subsection{More on Characters}
+
+Let's continue our discussion from earlier about characters. We'll first state a few basic properties. (We will assume that all our representations are of \emph{finite} groups, unless stated otherwise.)
+
+\begin{proposition}
+If $\rho: G \to \operatorname{GL}(V)$ is a complex representation, then
+\begin{enumerate}[label = (\alph*)]
+    \item $\chi_\rho(g)$ is a sum of roots of unity;
+    \item $\chi_\rho(g^{-1}) = \overline{\chi_\rho(g)}$;
+    \item $\overline{\chi_\rho}$ is the character of another representation of the same dimension, denoted $\rho^*$ and called the \emph{dual representation}. % = \chi_{\rho^{*}}(g)$, which is the character of the dual representation of the same dimension.\todo{explain}
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+These properties all come from the definition of the character as the trace of a matrix. 
+
+For (a), since $G$ is a finite group, each $g \in G$ and therefore $\rho_g \in \operatorname{GL}(V)$ has finite order, so the eigenvalues of $\rho_g$, which we denote by $\lambda_i(g)$, are all roots of unity. Then $\trace(\rho_g) = \sum \lambda_i(g)$ is a sum of roots of unity (as the trace is always the sum of eigenvalues with multiplicity). 
+    
+For (b), the eigenvalues of $\rho_{g^{-1}}$ are the inverses of the eigenvalues of $\rho_g$ (since the two matrices are inverses), and since the eigenvalues of $\rho_g$ are all roots of unity, their inverses are equal to their conjugates. So we have \[\trace(\rho_{g^{-1}}) = \sum (\lambda_i(g))^{-1} = \sum \overline{\lambda_i(g)} = \overline{\trace(\rho_g)}.\] 
+    
+Finally, for (c), let $V^*$ be the \emph{dual space} of $V$, consisting of linear maps $f : V \to \CC$. For convenience, we'll denote $f(v)$ by $\langle f, v \rangle$ (to emphasize the fact that we can think of it as a pairing between a vector $v$ and a covector $f$). Then the dual representation $\rho^*$ is given by \[\langle \rho^*_g(f), v \rangle = \langle f, \rho_{g^{-1}}(v) \rangle.\] (This defines $\rho^*_g(f)$ for each $f \in V$, by describing where it takes each vector.) 
+
+% Define an action of $G$ on $V^* = \{f: V \rto \CC: f\text{ is linear}\}.$\footnote{Recall that the dual space is the space of all linear functionals from $V$ to $\CC.$} We can define \[f(v) = \langle f, v \rangle.\] Given a representation, the dual representation is given by \[\langle \rho^*_g(f), v \rangle = \langle f, \rho_{g^{-1}}(v).\] 
+    
+In other words, we make $G$ act on $V^*$ such that for every $v \in V$ and $f \in V^*$, we have \[\langle f, v \rangle = \langle \rho_{g^*}(f), \rho_g(v) \rangle.\] That is, the dual representation is defined such that operating on both the vector $v$ (with the representation $\rho$) and the covector $f$ (with the dual representation $\rho^*$) does not affect the pairing $\langle f, v \rangle$ given by the dual space. (Our original definition then follows from plugging in $\rho_{g^{-1}}(v)$ in place of $v$, to make the definition more explicit.)
+
+This may seem somewhat abstract, but we can make it more concrete by describing it in terms of matrices. Fix a basis of $V$, so then from $\rho$ we get a matrix representation $R : G \to \operatorname{GL}_n(\CC)$. Then the dual representation in terms of matrices is given by \[R_g^* = R_{g^{-1}}^t.\] This is a valid representation since $(AB)^t = B^tA^t$ and $(AB)^{-1} = B^{-1}A^{-1}$, so $((AB)^t)^{-1} = (B^tA^t)^{-1} = (A^t)^{-1}(B^t)^{-1}$ (intuitively, each of taking the inverse and transposing means we need to swap the two matrices, so doing both means we need to swap twice and get back our original order). Since $\trace(A^t) = \trace(A)$, we have \[\chi_{R^*}(g) = \chi_R(g^{-1}) = \overline{\chi_R(g)}.\qedhere\] 
+
+
+% That is, the dual representation is defined such that operating on both the vector (with the representation) and the covector (with the dual representation) does not affect the pairing given by the dual space.\footnote{Fixing a basis, the dual vector space is isomorphic to the vector space itself, but that is not the point.}\todo{explain more; ppl seem confused.}
+    
+%     Fixing a basis, we get a matrix representation $R: G \rto GL_n.$ We have $R^*_g = R^t_{g^{-1}}.$ since $(AB)^T = B^TA^T$ and $(AB)^{-1} = B^{-1}A^{-1},$ so $((AB)^T)^{-1} = (A^T)^{-1}(B^T)^{-1}.$ So $\trace(A^T) = \trace(A),$ so \[\chi_{R^{-1}}(g) = \chi_R(g^{-1}) = \overline{\chi_R(g)}.\] 
+
+\end{proof}
+
+\begin{question}
+ Why is the transpose important --- if there was no transpose, would we still get a representation?
+\end{question}
+
+\begin{ans}
+We'd get what's called an \emph{anti-representation} instead --- we'd have a map with the property that $\rho_{gh} = \rho_h\rho_g$. (This is a representation if $G$ is abelian.) It's possible to get an anti-representation in two ways --- by inverting the elements, or by taking their transposes --- and doing \emph{both} gives us back a valid representation. 
+\end{ans}
+
+\begin{question}
+Why are the two definitions of the dual representation (the abstract one and the one given in terms of matrices) equivalent, and how do we get the formula for the character from the abstract definition?
+\end{question}
+
+\begin{ans}
+One way to think about this is to first think in terms of matrices --- in that setting, it's clear that $\chi_{R^*} = \overline{\chi_R}$. Now in the abstract setting, we can pick a basis for $V$. This gives a basis for $V^*$ as well --- given a basis $\{v_1, \ldots, v_n\}$ for $V$, we take $f_i$ to be the function which is $1$ on $v_i$ and $0$ on each of the other basis vectors. Then our abstract definition is equivalent to taking the inverse transpose of the corresponding matrices. 
+\end{ans}
+
+\begin{question}
+If $\rho : G \to \operatorname{GL}(V)$, does there exist a representation on the \emph{same} vector space $V$ with character $\overline{\chi_\rho}$?
+\end{question}
+
+\begin{ans}
+Technically, yes. The dual space $V^*$ is isomorphic to $V$ --- they have the same dimension, so fixing a basis for each gives an isomorphism between them. But they're not isomorphic in a canonical way. 
+% Yes --- they have the same dimension, so if we fix a basis, then we can see they're isomorphic. But they're not isomorphic in a canonical way.
+\end{ans}
+
+% \begin{question}
+%  What if there is no transpose? Do we still get a representation?
+% \end{question}
+% \begin{ans}
+% If there is no transpose, there will be an \textbf{anti-representation} instead, where $\rho_{gh} = \rho_h\rho_g.$ It will be a representation of $G$ is commutative.
+% \end{ans}
+
+\subsection{The Main Theorem}
+
+To understand the main theorem, we need to understand the space of \emph{class functions}.
+
+\begin{definition}
+A \textbf{class function} is a function $f : G \to \CC$ which is fixed on each conjugacy class of $G$. That is, for a class function $f,$ if $g$ and $h$ are conjugate, then $f(g) = f(h)$.
+\end{definition}
+
+The space of class functions is a vector space over $\CC$, with addition and scalar multiplication defined as usual for functions.
+
+We'll now state the main theorem in our story about representations, which gives surprisingly detailed information about the characters of irreducible representations. 
+
+\begin{theorem}[Main Theorem] \label{main theorem of rep theory}
+Let $G$ be a finite group. Then:
+\begin{enumerate}[label = (\alph*)]
+    \item The characters of irreducible representations form a basis in the space of class functions on $G$.
+    
+    \item This basis is \emph{orthonormal} with respect to the Hermitian form on the space of class functions given by \[\langle f_1, f_2 \rangle = \frac{1}{|G|} \sum_{g \in G} f_1(g)\overline{f_2(g)}.\] 
+    
+    \item If $d_1$, \ldots, $d_m$ are the dimensions of the irreducible representations of $G$, then \[d_1^2 + d_2^2 + \cdots + d_n^2 = |G|,\] and each $d_i$ divides $|G|$.
+\end{enumerate}
+\end{theorem}
+
+In particular, (a) also implies that the characters of different irreducible representations are \emph{distinct}, since they must form a basis. 
+
+For (c), note that although this isn't written in terms of characters, we can interpret it as a statement about characters as well, since $\dim(\rho) = \chi_\rho(1)$.
+
+We'll prove these properties in later classes; first we'll look at a few important implications. 
+
+\begin{corollary}
+The character of a representation uniquely determines the representation, up to isomorphism. 
+\end{corollary}
+
+\begin{proof}
+By Maschke's Theorem, we know that any representation $\rho$ can be decomposed as a sum of irreducibles --- if we use $\rho_1$, \ldots, $\rho_n$ to denote the irreducible representations, then by grouping together isomorphic summands, we can write \[\rho = \bigoplus_i \rho_i^{n_i}\] for some integers $n_i$ (the notation $\psi^k$, or $\psi^{\oplus k}$, denotes a direct sum of $k$ copies of the representation $\psi$). But then we have \[\chi_\rho = \sum n_i\chi_{\rho_i}.\] So the coefficients $n_i$ when decomposing $\rho$ as a sum of irreducibles are the same as the coefficients when decomposing $\chi_\rho$ as a sum of $\chi_{\rho_i}$. But since the $\chi_{\rho_i}$ form a \emph{basis} of the space of class functions, there's a \emph{unique} way to write $\chi_\rho$ (which is a class function) as a linear combination of these $\chi_{\rho_i}$! So the $n_i$ are uniquely determined from the character of $\rho$, and therefore so is $\rho$ itself. 
+\end{proof}
+
+% \begin{proof}
+
+% Our notation is that $\underbrace{\psi \oplus \cdots \oplus \psi}_{n \text{ times}} = \psi^{\oplus n}$. Consider a representation $\rho = \bigoplus \psi_i^{\oplus n_i}$, grouping together each of the irreducible representations. Then $\chi_g = \sum n_i \chi_{\psi_i},$ where $n_i$ are the coefficients of $\chi_g$ in that basis. 
+% \end{proof}
+
+\begin{corollary}
+The number of irreducible representations of $G$ is the number of conjugacy classes on $G$.
+\end{corollary}
+
+\begin{proof}
+The number of irreducible representations of $G$ is the dimension of the space of class functions (since their characters form a basis for this space). But this dimension is just the number of conjugacy classes, since to specify a class function $f : G \to \CC$, we need to specify its value on each conjugacy class. 
+\end{proof}
+
+This theorem gives a lot of concrete information that we can figure out about irreducible representations by just looking at the group; we'll see some examples of this next class. 

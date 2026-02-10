@@ -1,0 +1,166 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-011 Algebra I Student Notes, Fall 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\section{Euclidean and Hermitian Spaces}
+
+\subsection{Review: Orthogonal Projection}
+Last time, we ended by talking about orthogonal projections and splittings such that $V = W \oplus W^\perp$.
+Specifically, suppose we have a vector space $V$ with a bilinear form $\bform$ as well as a subspace $W$ such that the restriction $\bform|_W$ is non-degenerate.
+Then, given a orthogonal basis of $W = \spann \{ w_1, \ldots, w_k\}$, we were able to write a formula for the projection onto $W$:
+\[\proj(v) = \frac{\langle w_1, v \rangle}{\langle w_1, w_1 \rangle } w_1 + \cdots + \frac{\langle w_k , v \rangle}{\langle w_k, w_k \rangle} w_k.\]
+and we had that $v = \proj(v) + u$, where $\proj(v) \in W$ and $u \in W^\perp$. 
+
+\subsection{Euclidean and Hermitian Spaces}
+In order to evaluate the projection formula, we need an orthogonal basis of a subspace. How do we calculate this?
+
+To start, we will be talking about Euclidean and Hermitian spaces. Recall that a pairing $\bform$ is positive definite if $\langle v, v \rangle >0$ for all $v \neq 0.$
+\begin{definition}
+A \textbf{Euclidean} space is a real vector space $V$ and a symmetric bilinear form $\bform$ such that $\bform$ is positive definite. Analogously, a \textbf{Hermitian} space is a complex vector space $V$ and a Hermitian form $\bform$ such that $\bform$ is positive definite.
+\end{definition}
+
+These spaces have the following nice property.
+\begin{theorem}
+If $V$ is Euclidean or Hermitian, then there exists an orthonormal basis $\{v_1, \cdots, v_n \}$ for $V$ such that $\langle v_i, v_j \rangle = 0$ and $\langle v_i, v_i \rangle = 1$. In particular, the pairing $\bform$ looks like the dot product or the standard Hermitian product in this basis. 
+\end{theorem} 
+\begin{proof}
+    From last time, we saw that for any pairing, there exists an orthogonal basis where all of the self-pairings were either 1, 0, or $-1.$
+    By definition, all of the self-pairings must be 1 when the form is positive definite.
+\end{proof}
+Furthermore, we no longer have the case where a form can be degenerate on a subspace. 
+\begin{claim}
+    For any $W \subseteq V$ and $\bform|_W,$ the restriction $\bform|_W$ is \emph{always} nondegenerate. 
+\end{claim}
+\begin{proof}
+For each $w \in W,$ we need to find a $w' \in W$ such that $\langle w, w'\rangle \neq 0$. By the positive definiteness of the pairing, we can just take $w' = w.$ 
+\end{proof}
+This means that we can inherit all the properties that we showed last time about non-degenerate subspaces. 
+In particular, we can always perform the orthogonal projection on any subspace of a Euclidean/Hermitian space.
+
+\subsection{Gram-Schmidt Algorithm}
+As an application, we have the \textbf{Gram-Schmidt algorithm} for finding an orthonormal basis. 
+Take a Euclidean or Hermitian vector space $V$ and any basis $\{v_1, \cdots, v_n\}$ a basis for $V.$ In order to build an orthonormal basis $\{u_1, \cdots, u_n\},$ we inductively build $\{u_i\}$ such that $\spann\{u_1\} = \spann\{v_1\},$ $\spann\{u_1, u_2\} = \spann\{v_1, v_2\},$ and so on. Let $V_k = \spann\{v_1, \cdots, v_k\}.$
+
+\begin{itemize}
+    \item \textbf{Step 0.} Our first vector must just be a scaled version of $v_1$. We have to scale it such that $\langle u_1, u_1 \rangle = 1$. 
+    Let \[u_1 \coloneqq \frac{1}{\sqrt{\langle v_1, v_1 \rangle}}v_1.\] Then $\{u_1\}$ is a basis for $V_1$ and $\langle u_1, u_1 \rangle = 1.$
+    
+    \item \textbf{Step 1.} Set \[x_2 = \proj_{V_1}v_2,\] which is the projection of $v_2$ onto $V_1,$ and let \[y_2 = v_2 - x_2,\] which is the orthogonal portion of the vector $v_2.$ Then, let 
+    \[
+    u_2 = \frac{1}{\sqrt{\langle y_2, y_2\rangle}} y_2
+    \]
+    be the result of normalizing $y_2$. Then $\langle u_1, u_2 \rangle = 0,$ since the portion of $v_2$ spanned by $u_1 $ has been subtracted off, and $\langle u_2, u_2 \rangle = 1.$ Thus $\{u_1, u_2\}$ is an orthonormal basis of $V_2.$
+    
+    \item \textbf{Step $k.$} Assume that $\{u_1, \cdots, u_k\}$ is a basis for $V_k.$ Then, let 
+    \[
+    x_{k + 1} = \proj_{V_k}(v_{k + 1})y_k,
+    \]
+    the projection onto $V_k,$ and let
+    \[
+    y_{k + 1} = v_{k + 1} - x_{k + 1},
+    \]
+    the orthogonal portion of $v_{k +1}.$ Then let 
+    \[
+    u_{k + 1} = \frac{1}{\langle y_{k + 1}, y_{k + 1} \rangle}.
+    \]
+    By induction, $\{u_1, \ldots, u_{k+1} \}$ is an orthonormal basis for $V_{k+1}$.
+    
+    
+    
+\end{itemize}
+At every step, the projection formula is used, until a basis is found. Note that whenever we are calculating the projection, we conveniently have an orthogonal (even more, orthonormal) basis of the previous subspace to use the projection formula.
+Specifically, on step $k$ the projection formula simplifies to: \[ \proj_{v_k} (v_{k+1}) = \langle u_1, v_{k+1} \rangle u_1 + \cdots + \langle u_k, v_{k+1} \rangle u_k.\]
+
+We can interpret the algorithm in matrix form as well. 
+Take $M \in GL_n(\RR).$ The columns of $M$, $\{v_1, \cdots, v_n\}$, are a basis for $\RR^n.$ 
+The Gram-Schmidt algorithm says that we can take this basis and turn it into an orthonormal basis:
+\begin{align*}
+    u_1 &= a_{11}v_1 \\
+    u_2 &= a_{12}v_1 + a_{22}v_2 \\
+    u_3 &= a_{13}v_1 + a_{23}v_2 + a_{33}v_3,
+\end{align*}
+and so on, where $\{u_1, \cdots, u_n\}$ is an orthonormal basis of $\RR^n$.
+The upshot is that there exists an upper triangular matrix $A$ and an orthogonal matrix $B$ such that \[M = AB.\] $A$ is the matrix derived from putting $u_i$ as columns, and $B$ is the inverse of the matrix derived from the $a_{ij}$ values.  
+\begin{question}
+    What sense of orthogonal are we using in the algorithm?
+\end{question}
+\begin{ans}
+    This algorithm refers to orthogonal bases with respect to the standard dot product. 
+    One could consider more general kinds of symmetric bilinear forms, and what results are different kinds of groups. 
+    We will look at this later. 
+    
+    For Euclidean spaces, we can consider all pairings as the dot product, so orthogonality always is just the normal definition.
+    When the pairing is not positive definite, then we start getting weirder things.
+\end{ans}
+\subsection{Complex Linear Operators}
+Now, we want to focus on linear operators in a Hermitian space $(V, \bform)$. Consider a linear operator 
+\[
+T: V \rto V.
+\]
+%Then the Hermitian property of the space provides another linear operator. 
+We can the define the analogue of the adjoint operation on matrices.
+\begin{definition}
+Pick an orthonormal basis $\{u_1, \cdots, u_n\}$ of our Hermitian space. By doing so, we can map our vector space into coordinate vectors. We have the correspondence $V \rightsquigarrow \CC^n$, and the form $\bform$ maps to the standard Hermitian product. Then, $T \rightsquigarrow M \in \text{Mat}_{n \by n}(\CC).$ Then let the \textbf{adjoint} $T^*$ be the linear operator
+\[
+T^*: V \rto V
+\]
+such that, with respect to the basis $\{u_1, \cdots, u_n \}$, $T^*$ is the matrix $M^* = \overline{M^T}$. 
+\end{definition}
+
+The following claim gives the key property of the adjoint linear operator and another way to characterize the adjoint operator.
+
+\begin{claim}
+For $v, w \in V,$
+\[
+\langle Tv, w \rangle = \langle v, T^*w\rangle.
+\]
+This property means that $T^*$ is uniquely determined, by putting $v = u_i$ and $w = u_j.$
+\end{claim}
+
+\begin{proof}
+Using the correspondence given by taking a basis, 
+\begin{align*}
+    v &\rightsquigarrow x \in \CC^n \\
+    w &\rightsquigarrow y \in \CC^n \\
+    Tv &\rightsquigarrow Mx \in \CC^n.
+\end{align*}
+Then, 
+\[
+\langle Tv, w \rangle = (Mx)^*y = x^*M^*y = x^*(M^*y) = \langle v, T^*w\rangle.
+\]
+\end{proof}
+
+This also means that $T^*$ is independent of the choice of a basis.
+
+%Our earlier work can be carried into the world of Hermitian spaces. A Hermitian matrix was defined to be a matrix such that $A^* = A$. %watch again
+Just as we defined adjoint for both linear operators and matrices, we can do the same for the definition of Hermitian.
+\begin{definition}
+A linear operator $T: V \rto V$ is a \textbf{Hermitian operator} if $T^* = T,$ which is equivalent to $\langle Tv, w \rangle = \langle v, Tw \rangle.$ %check if it's Tw or T^*w
+\end{definition}
+
+Also, a unitary matrix is a matrix such that $U^*U = I_n$ and $U^* = U^{-1}.$ The following definition is analogous.
+\begin{definition}
+A linear operator $T: V \rto V$ is a \textbf{unitary} operator if $T^*T = \text{Id}$, or equivalently if $\langle Tv, Tw \rangle = \langle v, w \rangle$ for all $v, w \in V.$
+\end{definition}
+
+The following definition is harder to motivate, but encapsulates the previous two. 
+\begin{definition}
+A linear operator $T:V \rto V$ is \textbf{normal} if $T T^* = T^*T$, which is equivalent to \[\langle v, T^*Tw \rangle = \boxed{\langle Tv, Tw \rangle = \langle T^*v, T^*w \rangle} = \langle v, TT^*w \rangle.\]
+\end{definition}
+
+The set of unitary matrices and the set of Hermitian matrices are both subsets of the set of normal matrices. However, there are normal matrices that are neither Hermitian nor unitary. For example, $A = \begin{pmatrix}1 & 1 & 0 \\ 0 & 1 & 1 \\ 1 & 0 & 1 \end{pmatrix}$ is \emph{normal} but neither Hermitian nor unitary. 
+
+Next class, we will discuss the \emph{Spectral Theorem}, which is the main important property of normal matrices.
+\begin{theorem}[Spectral Theorem]
+For a Hermitian space $V,$ and a normal linear operator $T: V \rto V$, $V$ has an orthonormal basis $\{u_1, \cdots, u_n\}$ where each $u_i$ is an eigenvector of $T.$
+\end{theorem}
+In other words, we both diagonalize $T$ as well as find an orthonormal basis for $V$. 
+We don't need to mess around with Jordan forms. 
+
+The matrix version states that for a normal matrix $M \in \text{Mat}_{n \by n}(\CC)$,\footnote{$M^*M = MM^*$} it is possible to find a unitary matrix $P$\footnote{$P^*P = I$} such that \[P^*MP = P^{-1}MP = \begin{pmatrix} \lambda_1 & & \\
+& \ddots & \\ & & \lambda_n\end{pmatrix}.\] The columns of $P$ form our eigenbasis. 
+
+What about Euclidean spaces? In full generality, this theorem is false. However, for a Euclidean space $V$ and a \emph{symmetric} linear operator $T: V \rto V$, $T$ does have an orthonormal eigenbasis. Generalizing from symmetric to orthogonal, which is the analogous version of unitary, or some condition similar to ``normal," does not work. For example, we saw that it is not true for orthogonal matrices, as rotation matrices in the plane do not have any eigenvectors. 
+
+\newpage

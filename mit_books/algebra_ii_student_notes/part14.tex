@@ -1,0 +1,211 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-012 Algebra II Student Notes, Spring 2022
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+% \rhead{\rightmark}
+\lhead{Lecture 14: Number Fields}
+\section{Number Fields}
+
+\subsection{The Gaussian Integers}
+
+Last time, we discussed factorization in the Gaussian integers $\ZZ[i]$, and how it relates to the sum of squares problem. At the end of the lecture, we classified all Gaussian primes. Note that since $\ZZ[i]$ is a UFD, the primes in $\ZZ[i]$ are precisely the irreducible elements. In general, primes are defined as elements such that if $p \mid ab$, then $p \mid a$ or $p \mid b$ --- but in a UFD, an element is prime if and only if it's irreducible.
+
+% Last time, we talked about factorization in $\ZZ[i],$ the Gaussian integers, and sums of squares. At the end of the lecture, we classified all the Gauss primes. In particular, since $\ZZ[i]$ is a UFD, the primes in $\ZZ[i]$ are precisely the irreducible elements.
+
+% \begin{qq}
+% What are the Gauss primes in $\ZZ[i]$? Which integers $n \in \ZZ$ can be written as a sum of squares?
+% \end{qq}
+
+\begin{theorem}
+The complete list of all primes in $\ZZ[i]$, up to association, consists of:
+\begin{itemize}
+    \item for each integer prime $p = 4k + 3 \in \ZZ$, the Gaussian prime $p$ itself;
+    \item for each integer prime $p = 4k + 1 \in \ZZ$, the two Gaussian primes $a \pm bi$ where $a^2 + b^2 = p$;
+    \item the prime $1 + i$. 
+\end{itemize}
+\end{theorem}
+
+% \begin{proof}
+Note that we have $2 = (1 + i)(1 - i)$, but $1 + i$ and $1 - i$ are associate, so $2$ only contributes \emph{one} prime up to association. 
+
+\begin{proof}
+    First we'll check that all such elements are primes. For the second and third cases, where $p$ factors as $a^2 + b^2$ for some integers $a$ and $b$, it's enough to prove the following claim:
+
+    \begin{claim*}
+        If $a^2 + b^2 = p$ is an integer prime, then $a + bi$ is prime in $\ZZ[i]$. 
+    \end{claim*}
+
+    \begin{proof}
+        Define the norm $\operatorname{N}(a + bi) = a^2 + b^2$, which is multiplicative. Suppose $a + bi$ factors as $\alpha\beta$. Then we have \[p = \operatorname{N}(a + bi) = \operatorname{N}(\alpha)\operatorname{N}(\beta).\] Then since $p$ is an integer prime, $\operatorname{N}(\alpha)$ or $\operatorname{N}(\beta)$ must be $1$. But if $\operatorname{N}(\alpha) = 1$, then $\alpha\overline{\alpha} = 1$, so $\alpha$ is a unit. This means in any factorization of $a + bi$, one factor must be a unit, so $a + bi$ is irreducible and therefore prime. 
+    \end{proof}
+
+    Meanwhile, for the first case, we saw last class that every integer prime $p = 4k + 3$ is still prime in $\ZZ[i]$. 
+
+    Now we will check that there are no other primes --- it's enough to check that every non-unit $\alpha \in \ZZ[i]$ is divisible by some element of this list. To do so, we again use the norm --- if $\alpha$ is not a unit, then we have $\alpha\overline{\alpha} = n$ for some integer $n > 1$. Let $p$ be a prime divisor of $n$. 
+    
+    Then if $p \equiv 3 \pmod{4}$, we must have $p \mid \alpha$ (or $p \mid \overline{\alpha}$, which also implies $p \mid \alpha$), since $p$ is prime. Otherwise, we can write $p = (a + bi)(a - bi)$ where $a \pm bi$ are both primes. Then $a + bi$ must divide $\alpha$ or $\overline{\alpha}$, and therefore $a + bi$ or $a - bi$ must divide $\alpha$. 
+\end{proof}
+
+\begin{question}
+Does this still work when $p = 2$?
+\end{question}
+
+\begin{ans}
+Yes, the argument still works as written --- in fact, we don't even need the last step, since if $1 + i$ divides $\overline{\alpha}$, then $1 + i$ \emph{itself} also divides $\alpha$. 
+\end{ans}
+
+% If $a^2 + b^2 = p,$ a usual prime, then $a + bi \in \ZZ[i]$ is a prime in $\ZZ[i]$, which is equivalent to being irreducible. The norm is $N(a + bi) = a^2 + b^2.$ If there is a factorization $a + bi = \alpha \beta$, then $N(a + bi) = N(\alpha)N(\beta).$ Since $N(a + bi)$ is a usual prime, either $N(\alpha)$ or $N(\beta)$ is 1, so either $\alpha\overline{\alpha} = 1$ or $\beta\overline{\beta} = 1$, and then $\alpha$ or $\beta$ must be a unit. Therefore, the only divisors are units and associates, so $a + bi$ is irreducible and thus a prime. It is also the case that $p = 4k + 3$ is a prime in $\ZZ[i],$ and so all the listed elements are prime.
+
+% Moreover, no other primes exist. To show this, it is enough to check that if $\alpha \in \ZZ[i]$ is not a unit, then it is divisible by an element on the list. If $\alpha$ is not a unit, then $\alpha \overline{\alpha} = n \neq 1.$ Let $p$ be a prime divisor of $n.$ If $p = 4k + 3,$ then $p$ is a prime, so $p$ divides either $\alpha$ or $\overline{\alpha},$ but if $p$ divides $\overline{\alpha},$ by conjugating, $p$ also divides $\alpha.$ If $p = 4k + 1$ or $p = 2,$ then $p = (a + bi)(a - bi),$ where $(a + bi)$ divides $\alpha$ or $\overline{\alpha}$. Similarly, if $a + bi$ divides $\overline{\alpha}$, then $a - bi$ divides $\alpha.$ In every case, $\alpha$ is divisible by some element on the list. Therefore, the list consists precisely of all the primes in $\ZZ[i].$ 
+% % \end{proof}
+
+As a corollary, we can find the complete answer to the sum of squares question. 
+
+\begin{corollary}
+If $n$ has prime factorization $n = p_1^{d_1}\cdots p_r^{d_r}$ in $\ZZ$, then $n$ is a sum of squares if and only if the exponent $d_i$ is even for all primes $p_i \equiv 3 \pmod{4}$. 
+\end{corollary}
+
+For example, $21$ has odd exponents of $3$ and $7$, so it cannot be written as a sum of squares. 
+
+\begin{proof}
+First, to show that all $n$ of this form work, we've seen earlier that if $m$ and $n$ are sums of squares, then so is $mn$. For all $p \not\equiv 3 \pmod{4}$, we've seen that $p$ is a sum of squares; and for all $p \equiv 3 \pmod{4}$, we have that $p^2$ is trivially a sum of squares. Since $n$ is the product of such terms, it must be a sum of squares as well. 
+% The product of sums of squares is a sum of squares. Consider $n$ of this form. Then it is a product of primes $p$ that are not 3 modulo 4, which are sums of squares, and squares $m^2$ of primes that are 3 modulo 4, which are trivially sums of squares. So $n$ of this form is a sum of squares. 
+
+Conversely, suppose $n$ can be written as a sum of squares, so $n = (a + bi)(a - bi)$. Let $d$ be the power of a given prime $p \equiv 3 \pmod{4}$ in the prime factorization of $a + bi$ in the Gaussian integers. Since $p \in \ZZ$, then $d$ is also the power of $p$ in the prime factorization of $a - bi$, so the power of $p$ in the factorization of $n$ is $2d$. Therefore, the power of each prime $p \equiv 3 \pmod{4}$ in the prime factorization of $n$ must be even.  
+\end{proof}
+
+\begin{question}
+Why doesn't this statement have a condition involving $p = 2$?
+\end{question}
+
+\begin{ans}
+This is because $2$ is a sum of squares, as $2 = 1 + 1$. So $2$ is allowed to have either odd or even power in the prime factorization of $n$. 
+\end{ans}
+
+This is just one example of how such considerations can be applied to number theory. It is possible to go even further --- for example, it is possible to determine how many different presentations as a sum of squares there are for a given $n$. 
+
+\subsection{Fermat's Last Theorem, as an Aside}
+
+The ideas used to analyze solutions to $n = a^2 + b^2$ have some relevance to a more difficult equation as well, Fermat's Last Theorem. 
+
+% Consider the more difficult equation $a^n + b^n = c^n$ (over the integers).
+
+\begin{theorem}[Fermat]
+For an integer $n > 2$, the equation \[a^n + b^n = c^n\] has no solutions where $a$, $b$, and $c$ are all nonzero integers.  
+\end{theorem}
+
+Mathematicians have been trying to prove this theorem for a long time. Fermat famously proposed the theorem in the margin of a book, stating, ``I have a truly marvelous demonstration of this proposition that this margin is too narrow to contain.'' He most likely did not have a truly marvelous demonstration of the proposition. 
+
+Mathematician Gabriel Lam\'e announced a proof on March $1$ of $1847$. This proof was later found to be incorrect, then partially corrected to be valid in certain cases by Ernst Kummer.
+
+The initial steps of Lam\'e's proof proceed in a similar fashion as our analysis for Gaussian integers. Assume $n$ is odd (in fact, we can assume that $n$ is prime --- it suffices to prove the theorem for $n = 4$ and $n$ prime, and Fermat did have a proof for the case $n = 4$). When considering sums of squares, we used the factorization $a^2 + b^2 = (a + bi)(a - bi)$. In general, when $n$ is odd we have a similar factorization \[a^n + b^n = (a + b)(a + \zeta b)(a + \zeta^2 b) \cdots (a + \zeta^{n - 1}b),\] where $\zeta = e^{2\pi i/n}$. This gives a factorization of $a^n + b^n$ in the ring $\ZZ[\zeta]$, the ring of \emph{cyclotomic integers}.  
+
+In many cases, it is possible to check that the factors are pairwise coprime; that is, that they do not have a common divisor. In the usual integers, if an $n$th power is factored as a product of coprime factors, then every factor must be also an $n$th power (up to multiplication by $\pm 1$). In this case, we similarly want to conclude that each factor is an $n$th power (up to multiplication by units). This would eventually lead to a contradiction. %This leads to a contradiction. 
+
+The key point is that if $\ZZ[\zeta]$ were a UFD, then we could obtain our conclusion. This is what Lam\'e didn't show --- we're so used to dealing with the integers, where unique factorization \emph{does} hold, that even a major mathematician initially missed that unique factorization doesn't have to hold in this setting (though it was realized later). Unfortunately, this method doesn't work --- when $n$ is an odd prime, $\ZZ[\zeta]$ is \emph{almost never} a UFD. 
+
+However, Kummer showed that under a weaker condition than $\ZZ[\zeta]$ being a UFD, it's still possible to obtain this conclusion. This weaker condition is that $p$ is a \emph{regular} prime --- not every prime is regular, but many are. In order to explain what a regular prime is, we need more theory, which we'll see in future classes. As a glimpse into what this theory will be, when unique factorization fails, we can still analyze \emph{how much} it fails. This leads to the definition of the \emph{ideal class group}, which in some sense controls the non-uniqueness of prime factorization; then the regularity of a prime is a property of the ideal class group of $\ZZ[\zeta]$. 
+
+% The condition is that $p$ is a \emph{regular} prime --- this is a property of something that controls the non-uniqueness of factorization. (If unique factorization fails, we can still analyze \emph{how much} it fails.) More precisely, it's a property of the \emph{ideal class group}, which we'll see in a later class. 
+
+% , which Lam\'e did not show at the time, is that if $\ZZ[\zeta]$ were a UFD, we could obtain our conclusion. Unfortunately, without loss of generality we can assume $n$ is a prime, in which case $\ZZ[\zeta]$ is never a UFD. However, under some weaker condition, the conclusion can still be reached. 
+
+\subsection{Number Fields}
+
+Now we will move on to a more general case. 
+
+\begin{qq}
+How does factorization work in rings like $\ZZ[i]$ and $\ZZ[\zeta]$?
+\end{qq}
+
+Both rings sit inside a larger field: $\ZZ[i] \subset \QQ[i]$ and $\ZZ[\zeta] \subset \QQ[\zeta]$. This is helpful because fields can be easier to work with than rings. The concept of a \emph{number field} generalizes this.
+
+\begin{definition}
+A \textbf{number field} is a subfield in $\CC$ that is finite-dimensional as a vector space over $\QQ$.
+\end{definition}
+
+\begin{example}
+The number field $\QQ[i] = \{a + bi \mid a, b \in \QQ\}$ is two-dimensional over $\QQ$.
+\end{example}
+
+\subsubsection{Algebraic Numbers and Integers}
+
+An important observation is that every element in a number field is algebraic.
+
+\begin{definition}
+A number is an \textbf{algebraic number} if it is a root of a polynomial with rational coefficients.
+\end{definition}
+
+If $F$ is a number field, and $\alpha \in F$, then there is a linear dependence between $1$, $\alpha$, $\alpha^2$, \ldots, $\alpha^n$ for any $n \geq \dim_{\QQ}(F)$. So $\alpha$ is a root of some polynomial $P \in \QQ[x]$, and therefore $\alpha$ is algebraic. Conversely, $\QQ[\alpha]$ is a number field if $\alpha$ is algebraic --- if $\alpha$ is the root of a polynomial of degree $d$, then we can express powers $\alpha^i$ with $i \geq d$ in terms of lower powers, so the only possible terms we have are $1$, $\alpha$, \ldots, $\alpha^{d - 1}$. This argument generalizes to show that $\QQ[\alpha_1, \ldots, \alpha_n]$ is also a number field if $\alpha_1$, \ldots, $\alpha_n$ are all algebraic, since there are only finitely many terms $\alpha_1^{e_1}\cdots \alpha_n^{e_n}$ which we need to consider (if a term contains a high power of some $\alpha_i$, we can rewrite it in terms of lower powers). 
+
+If $\alpha$ is algebraic, then $\{P \mid P(\alpha) = 0\}$ is an ideal in $\QQ[x]$. Since $\QQ[x]$ is a PID, it has the form $(P)$, where $P$ is a monic polynomial of minimal degree. Such a $P$ is called the \textbf{minimal polynomial} for $\alpha$ over $\QQ$.
+
+A number field is a generalization of fields like $\QQ[i]$ or $\QQ[\zeta]$, but we really want to analyze factorization in \emph{rings} like $\ZZ[i]$ or $\ZZ[\zeta]$, not the underlying fields. To describe the generalization of such rings to an arbitrary number field, we need to define an \emph{algebraic integer}. 
+
+\begin{definition}
+An algebraic number is an \textbf{algebraic integer} if its minimal polynomial has integer coefficients.
+\end{definition}
+
+\begin{lemma}
+The element $\alpha$ is an algebraic integer if and only if $P(\alpha) = 0$ for \emph{some} monic polynomial $P \in \ZZ[x].$ 
+\end{lemma}
+
+It is evident that a polynomial with rational coefficients can be scaled to either be monic or have integer coefficients, but an algebraic integer requires that both can be achieved simultaneously.
+
+\begin{proof}
+The proof is another application of Gauss's Lemma and the ideas from last lecture. One direction is obvious: if the minimal polynomial $P$ is in $\ZZ[x]$, then $P(\alpha) = 0$, so the condition is clearly satisfied. 
+
+For the other direction, suppose there exists a monic polynomial $P \in \ZZ[x]$ such that $P(\alpha) = 0$. Now consider the minimal polynomial $P_{\min}$. By clearing denominators and pulling out the gcd of its coefficients, rescale it to a polynomial $Q = aP_{\min}/b$ which is primitive and in $\ZZ[x]$. 
+
+Then $Q$ divides $P$ in $\QQ[x]$, since $P_{\min}$ divides $P$. But $Q$ is primitive, so by the results in the last lecture, $Q$ must also divide $P$ in $\ZZ[x]$. But then the leading coefficient of $Q$ must divide the leading coefficient of $P$. Since $P$ is monic, $\pm Q$ must be monic as well. Then since $P_{\min}$ is also monic, we have $Q = \pm P_{\min}$, so $P_{\min}$ has integer coefficients. 
+\end{proof}
+
+
+\begin{example}
+A rational number $\alpha \in \QQ$ has minimal polynomial $x - \alpha$, so $\alpha$ is be an algebraic integer if and only if $\alpha$ is a usual integer. 
+\end{example}
+
+The next example is the primary setting that we will work with.
+
+\begin{example}[Quadratic Number Fields]
+What are the algebraic integers in the number field $\QQ[\sqrt{d}]$? (Here $d$ may or may not be positive.)
+\end{example}
+
+\begin{proof}
+Without loss of generality, we can assume $d$ is squarefree (since factoring squares out of $d$ doesn't change the number field). Then let $\alpha = a + b\sqrt{d}$ with $a, b \in \QQ$. The minimal polynomial of $\alpha$ is \[(x - a - b\sqrt{d})(x - a + b\sqrt{d}) = x^2 - 2a + (a - b^2d),\] so $\alpha$ is an algebraic integer if and only if $2a \in \ZZ$ and $a^2 - b^2d \in \ZZ$. 
+
+Now we have two cases: 
+
+\emph{Case 1 ($a \in \ZZ$).} Then we must have $b^2d \in \ZZ$ as well, and since $d$ is squarefree, $b \in \ZZ$ as well. 
+
+\emph{Case 2 ($a = k + \frac{1}{2}$ for $k \in \ZZ$).} Then we must have $2b \in \ZZ$ as well, and $b = m + \frac{1}{2}$. In this case, we have \[a^2 - b^2d = \frac{1}{4}((2k + 1)^2 - (2m + 1)^2d).\] This is an integer if and only if $d \equiv 1 \pmod{4}$. 
+
+So the conclusion is that if $d \not\equiv 1 \pmod{4}$, the algebraic integers are precisely $a + b\sqrt{d}$ for $a, b \in \ZZ$ --- for example, the algebraic integers in $\QQ[i]$ and $\QQ[\sqrt{-5}]$ are $\ZZ[i]$ and $\ZZ[\sqrt{-5}]$. Meanwhile, if $d \equiv 1 \pmod{4}$, the algebraic integers are precisely $a + b\sqrt{d}$ where $a, b \in \ZZ$ or $a + \frac{1}{2}, b + \frac{1}{2} \in \ZZ$ --- for example, the algebraic integers in $\QQ[\sqrt{-3}]$ are $\ZZ[\omega]$ for a primitive third root of unity $\omega$, which are exactly the elements of this form. 
+\end{proof}
+
+% \begin{example}[Quadratic Number Fields]
+% Consider $F = \QQ[\sqrt{d}],$ where $d$ may or may not be positive. Without loss of generality, $d$ is squarefree.\footnote{A square part of $d$ would not change the field $\QQ$} When $\alpha = a + b \sqrt{d}$, the minimal polynomial is $x^2 - 2a + (a^2 - b^2d),$ so $\alpha$ is an algebraic integer if and only if $2a \in \ZZ$ and $a^2 - b^2 d$ is an integer. 
+% \end{example}
+% This example splits into two cases. If $a \in \ZZ,$ then $b^2 d \in \ZZ$ as well, and since $d$ is squarefree, $b \in \ZZ$ as well. The other case is that $a$ is a half-integer $k + 1/2$ for $k \in \ZZ$. Then $2b \in \ZZ$ as well, and $b = m + \frac{1}{2}.$ In this case, the polynomial becomes $\frac{1}{4}((2k + 1)^2 - (2m + 1)^2d) \in \ZZ$ and $d = 1$ modulo 4.
+
+% The conclusion is that $\alpha = a + b \sqrt{d}$ where for $d \neq 1$ mod 4, $a$ and $b$ are integers, such as in $\ZZ[i]$ and $\ZZ[\sqrt{-5}],$ and for $d = 1$ mod 4, $a$ and $b$ are half-integers, which is true in fields like $\QQ[\sqrt{-3}].$
+
+In general, the algebraic integers of a number field have quite a bit of additional structure. 
+
+\begin{theorem}
+For a number field $F$, the set of algebraic integers in $F$ is a subring of $F$. Furthermore, this is the largest subring that is finitely generated as an abelian group under addition. 
+% The set of algebraic integers in a number field has quite a bit of additional structure.
+% \begin{enumerate}[label = (\alph*)]
+%     \item If $F$ is a number field, then the set of algebraic integers is a subring of $F$.
+%     \item In fact, this is the largest subring that is finitely generated as an abelian group under addition.
+% \end{enumerate}
+\end{theorem}
+
+\todo{post proof of this as part of the appendix??}
+
+We won't prove this in general; but it's fairly straightforward in our specific example $F = \QQ[\sqrt{d}]$.
+
+Next time, we will study factorization in rings of algebraic integers. The general idea is that if a statement fails to be true, mathematicians often try to generalize it to find a version that \emph{is} true. In this case, where unique factorization fails for a general ring of algebraic integers, we can consider a more general version of it which works. 
+
+To motivate what this more general version will be, note that in the cases where unique factorization works, primes are considered up to association. In fact, an element in a ring $\alpha \in R$ up to association is equivalent to the ideal $(\alpha)$. So in the more general case, we actually consider products of \emph{ideals} rather than \emph{elements}. We will show that in a ring of algebraic integers, there is unique factorization, not into prime elements, but into prime ideals. 

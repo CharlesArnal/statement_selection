@@ -1,0 +1,160 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-012 Algebra II Student Notes, Spring 2022
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+% \rhead{\rightmark}
+\lhead{Lecture 30: Main Theorem of Galois Theory}
+
+\section{Main Theorem of Galois Theory}
+
+Last class, we introduced the main theorem: 
+
+\begin{theorem}
+    If $E/F$ is a Galois extension (i.e. $\lvert\operatorname{Gal}(E/F)\rvert = [E : F]$), then intermediate subfields $F \subset K \subset E$ are in bijection with subgroups $H \subset G$, where a subgroup $H$ is mapped to its \textbf{fixed field} $E^H$, and a subfield $K$ is mapped to the set of $g \in G$ which fix all elements of $K$. 
+\end{theorem}
+
+Recall that $E/F$ is Galois if and only if $E$ is a splitting field of some polynomial (and is separable). 
+
+\subsection{Examples of Galois Groups}
+
+Last class, we saw the following example: 
+
+\begin{example}
+    If $F = \mathbb{Q}$ and $E = \mathbb{Q}(\zeta)$, where $\zeta$ is a $p$th root of unity for $p$ prime, then $\operatorname{Gal}(E/F) = (\mathbb{Z}/p\ZZ)^\times \cong \mathbb{Z}/(p - 1)\ZZ$. 
+\end{example}
+
+This is an example where the Galois group is as small as possible (given the degree of the polynomial). Meanwhile, we also saw an example in the opposite direction:
+
+\begin{example}
+    If $P \in \mathbb{Q}[x]$ is irreducible, has degree $p$ (for $p$ prime), and has exactly $p - 2$ real roots, then if $E$ is its splitting field, we have $\operatorname{Gal}(E/F) = S_p$. 
+\end{example}
+
+It's easy to write down such a polynomial. For example, $P(x) = 2x^5 - 10x + 5$ is irreducible by Eisenstein's criterion, while by graphing (or by computing its derivative) we can see that it has three real roots. 
+
+\begin{center}
+    \begin{asy}
+    unitsize(0.75cm);
+    import graph;
+    draw((-2.5, 0)--(2.5, 0), Arrows);
+    draw((0, -4)--(0, 4), Arrows);
+    real f(real x) {
+        return (2*x^5 - 10*x + 5)/8;
+    }
+    draw(graph(f, -1.9, 1.8), heavycyan);
+    \end{asy}
+\end{center}
+
+\begin{proof}
+    The proof is based on a lemma about the symmetric group:
+
+    \begin{lemma} \label{group theory lemma}
+        Suppose $p$ is prime, and $G \subset S_p$ such that $G$ acts on $[1, \ldots, p]$ transitively, and $G$ contains a transposition $(ij)$. Then $G = S_p$. 
+    \end{lemma}
+    
+    First we'll show how the lemma implies that $\operatorname{Gal}(E/F) = S_p$ in our example: if we let $G = \operatorname{Gal}(E/F)$, then we know $G$ acts (by permutations) on the $p$ roots. We know that since $P$ is irreducible, this action is transitive (we can send any root to any other root, which we proved by comparing the abstract procedure of adjoining a root to the procedure of adjoining a specific root). 
+    
+    Meanwhile, complex conjugation permutes the roots of $P$, so $E = \mathbb{Q}(\alpha_1, \ldots, \alpha_p)$ is invariant under complex conjugation --- this means it's an element in the Galois group. This element clearly permutes the two non-real, and fixes the real roots; so it is a transposition. 
+    
+    We'll now prove the group-theoretic lemma. 
+
+    \begin{proof}[Proof of Lemma \ref{group theory lemma}]
+        Since $G$ acts transitively on $[1, \ldots, p]$, it follows that $p \mid \lvert G\rvert$; so by the Sylow Theorems, $G$ has an element of order $p$, which we denote by $\sigma$. Recalling the description of elements of $S_p$ using cycle notation, we can see that the only element of order $p$ is a long cycle (meaning a cycle of all $p$ elements), so $\sigma$ is a long cycle. 
+
+        Now recall that $G$ also contains a transposition, which we can without loss of generality assume is $(12)$. 
+
+        Now we can find some $1 \leq i < p$ such that $\sigma^i$ sends $1 \mapsto 2$ (since we can follow the arrows from $1$ until we reach $2$). But since $i < p$, the order of $\gamma = \sigma^i$ is also $p$; so $\gamma$ is also a long cycle. 
+        
+        Now $G$ contains $(12)$ and $\gamma$, which we can without loss of generality assume is $(123\cdots p)$. Now recalling how conjugation in the symmetric group works (by essentially taking the same cycles, but substituting different elements into them), we have \[\gamma (12) \gamma^{-1} = (23), \, \gamma^2(12)\gamma^{-1} = (34), \, \ldots.\] So then $G$ contains all the standard transpositions $(12)$, $(23)$, $(34)$, \ldots (which transpose two consecutive elements). It's a standard fact about the symmetric group that these transpositions generate $S_p$ (given any permutation, we can swap consecutive elements to eventually sort it), so $G = S_p$.
+    \end{proof}
+
+    This shows that $\operatorname{Gal}(E/F) = S_p$, as desired. 
+\end{proof}
+
+\begin{question}
+How did we show that $p \mid \lvert G\rvert$ in the proof of the lemma?
+\end{question}
+
+\begin{ans}
+If $G$ acts on $X$ transitively, then we have the formula \[\lvert G \rvert = \lvert X\rvert \cdot \lvert \operatorname{Stab}_G x\rvert\] for any $x \in X$. To show this, we can break the elements of $G$ into subsets based on where they send a given point $x$; there will be $\lvert X\rvert$ groups, and each group will have $\lvert \operatorname{Stab}_G x\rvert$ elements. 
+\end{ans}
+
+\begin{question}
+    Is the Galois group always a transitive subgroup of $S_n$?
+\end{question}
+
+\begin{ans}
+    The Galois group is always a subgroup of $S_n$ (since it always permutes the roots of the polynomial). It's always transitive if the polynomial is irreducible, but the polynomial doesn't have to be irreducible in general (we can consider the splitting field of \emph{any} polynomial). 
+\end{ans}
+
+\begin{question}
+Does this work when there's more than two complex roots? Or does the Galois group become smaller than $S_n$?
+\end{question}
+
+\begin{ans}
+The particular trick used in this argument doesn't work. But if you write a random polynomial, its Galois group should be $S_n$ --- for the group to be smaller, you'd need some condition on the roots. 
+\end{ans}
+
+\begin{note}
+    A similar argument can be used to produce an extension of the rational function field $F = \mathbb{C}(t)$ with Galois group $S_n$, for $n$ prime. 
+    
+    Earlier, we saw a ramified covering $X \to Y = \mathbb{C}$, where $X$ is the zero set of a polynomial $P(t, x) \in F[x]$. The analog of our conditions here becomes that there should be one \emph{simple} ramification point (meaning that at this ramification point $y_0$, there are $n - 1$ pre-images $x_1$, \ldots, $x_{n - 1}$; $f$ is an isomorphism at $x_2$, \ldots, $x_{n - 1}$, while at $x_1$, $f$ looks (locally) like the map $z \mapsto z^2$. 
+    
+    Then if $E$ is the splitting field of $P$, we can show $\operatorname{Gal}(E/F) = S_n$ in a similar way --- $P$ is assumed to be irreducible, and the condition on ramification ensures that the Galois group contains a transposition.
+\end{note}
+
+\subsection{Proof of Main Theorem}
+
+We'll now prove the theorem. 
+
+\begin{lemma}
+Both maps in the correspondence send $[E : K]$ to $\lvert H \rvert$. 
+\end{lemma}
+
+Note that in the tower of extensions $E/K/F$, we're looking at the degree of the \emph{top} extension $E/K$, rather than the bottom one $K/F$.
+
+\begin{proof}
+One direction is clear --- if we start with a subfield $K$, the corresponding subgroup is $\operatorname{Gal}(E/K)$ (we can forget that $F$ exists, and just look at the extension $E/K$ --- then we've defined the corresponding subgroup as the automorphisms of $E$ which fix $K$, which is just this Galois group). But we know $E$ is a splitting field over $K$ (if $E$ is the splitting field of a polynomial over $F$, then it's also the splitting field of the same polynomial over $K$). So then $\lvert \operatorname{Gal}(E/K)\rvert = [E : K]$. 
+To prove the other direction, fix a subgroup $H \subset G$, and consider its fixed field $K = E^H$; we want to show that $[E : E^H] = \lvert H \rvert$. 
+
+First, by definition $H$ is a subgroup of $\operatorname{Gal}(E/E^H)$, which means \[\lvert H \rvert \leq \lvert \operatorname{Gal}(E/E^H)\rvert = [E : E^H].\] So it suffices to show the other direction of this inequality, meaning that $[E : E^H] \leq \lvert H \rvert$. 
+
+Let $\lvert H \rvert = n$. By the Primitive Element, we know $E = E^H(\alpha)$ for some $\alpha$. So it's enough to check that $\alpha$ is a root of some polynomial in $E^H[x]$ of degree $n$. 
+
+We now apply a version of the averaging trick we saw earlier. Set \[P(x) = \prod_{g \in H} (x - g(\alpha)).\] (For example, if $E = \mathbb{C}$ and $H$ consisted of the identity and complex conjugation, this would give $(x - z)(x - \overline{z})$.) 
+
+This polynomial starts its life as a polynomial in $E[x]$, but it actually has coefficients in $E^H$ --- to see this, observe that the action of any $h \in H$ just permutes the factors $g$ from $P$ (since $hH = H$ for any $h \in H$). So $P$ is a degree $n$ polynomial in $E^H[x]$ with $\alpha$ as a root, which shows that $[E : E^H] \leq n$, as desired. 
+\end{proof}
+
+\begin{proof}[Proof of Main Theorem]
+Once we have the equality of degrees, the remaining part is essentially just formal --- suppose $H \to E^H \to H'$. By definition we know $H \subset H'$; but the lemma implies $\lvert H \rvert = \lvert H' \rvert$, so $H = H'$. Similarly, if $K \to H \to K'$, then $K' \supset K$ (since $K'$ consists of all elements fixed by $H$, but $H$ is defined as the set of elements which fix $K$). But $[E : K] = [E : K']$, so then $K = K'$. 
+\end{proof}
+
+\subsection{Properties of the Correspondence}
+
+Note that the correspondence \emph{reverses} inclusion --- the larger the group, the smaller its fixed field (each element of the group gives a condition on the elements of the field; if there are more conditions, fewer elements will satisfy them). 
+
+Consider the tower of extensions $E/K/F$. By definition, the extension $E/K$ is always Galois (we have $[E : K] = \lvert H \rvert = \lvert \operatorname{Gal}(E/K)\rvert$). On the other hand, $K/F$ may or may not be a Galois extension. 
+
+\begin{proposition}
+    The extension $K/F$ is Galois if and only if $K$ is invariant under all $g \in \operatorname{Gal}(E/F)$, which happens if and only if the corresponding $H \subset G$ is normal. In that case, $\operatorname{Gal}(K/F) = G/H$. 
+\end{proposition}
+
+\begin{proof}
+    First we'll prove $K/F$ is Galois if and only if $K$ is invariant under all $g \in G = \operatorname{Gal}(E/F)$. 
+    
+    If $K/F$ is Galois, then it's a splitting field. Every $g \in \operatorname{Gal}(E/F)$ has to permute the roots of any polynomial in $F[x]$; this means $G : K \to K$ (since $K$ is generated by the roots of some such polynomial). 
+
+    Meanwhile, if $K$ is invariant under all $g \in G$, then we have a homomorphism $\operatorname{Gal}(E/F) \to \operatorname{Gal}(K/F)$ by restricting the automorphisms to $K$ (since they are automorphisms of $K$ as well). The kernel of this homomorphism is $\operatorname{Gal}(E/K)$. So by the homomorphism theorem, the image of this homomorphism has cardinality \[\frac{\lvert\operatorname{Gal}(E/F)\rvert}{\lvert\operatorname{Gal}(E/K)\rvert} = \frac{[E : F]}{[E : K]} = [K : F].\] We saw that we must have $\lvert \operatorname{Gal}(K/F)\rvert \leq [K : F]$, so then equality must hold, and $K/F$ is Galois. 
+    
+    We've now shown that $K/F$ is Galois if and only if $K$ is invariant under $G$; so now it suffices to show that $K$ is invariant if and only if $H$ is normal. But it's clear that if $H$ corresponds to $K = E^H$, then $gHg^{-1}$ corresponds to $g(K)$. So $K$ is invariant under all $g \in G$ if and only if $gHg^{-1} = H$ for all $g \in G$, meaning $H$ is normal. 
+\end{proof}
+
+\begin{question}
+Why does $gHg^{-1}$ correspond to $g(K)$?
+\end{question}
+
+\begin{ans}
+This is because an element $\gamma$ fixes $x$ if and only if $g\gamma g^{-1}$ fixes $g(x)$. 
+\end{ans}
+

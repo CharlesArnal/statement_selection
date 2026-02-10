@@ -1,0 +1,251 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-012 Algebra II Student Notes, Spring 2022
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+% \rhead{\rightmark}
+\lhead{Lecture 6: Orthonormality of Characters}
+
+\section{Orthonormality of Characters}
+
+\subsection{Review: Schur's Lemma}
+
+Last time, we presented Schur's Lemma.
+
+Recall that $\operatorname{Hom}_G(\rho, \psi)$, which may also be written as $\operatorname{Hom}_G(V, W)$, denotes the space of homomorphisms (or in other words, linear maps) from $V$ to $W$ which are $G$-equivariant, meaning that \[\homo_G(\rho, \psi) = \{f : V \to W \mid f \text{ linear, and } f(\rho_g(v)) = \psi_g(f(v)) \text{ for all } g \in G, v \in V\}.\]
+
+\begin{theorem}[Schur's Lemma]
+Suppose $\rho: G \to \operatorname{GL}(V)$ and $\psi: G \to \operatorname{GL}(W)$ are irreducible (and complex and finite-dimensional). Then \[\dim\left(\operatorname{Hom}_G(\rho, \psi)\right) = \begin{cases} 0 & \text{if } \rho \not\cong \psi \\ 1 & \text{if } \rho \cong \psi.\end{cases}\] 
+\end{theorem}
+
+In other words, the first statement means that if $\rho \not\cong \psi$, then the only $G$-equivariant homomorphism $V \to W$ is the zero map; the second statement means that if $\rho \cong \psi$, then the only $G$-equivariant homomorphisms $V \to W$ are the scalar maps --- or in other words, $\operatorname{End}_G(\rho) = \CC\cdot \operatorname{Id}$. 
+
+The first statement is true for representations over \emph{any} field of coefficients (and the same proof we saw last time works in the general case). However, the second statement is \emph{not} true for arbitrary fields of coefficients --- in the proof, we used the fact that eigenvectors must always exist, which isn't true in general (for example, $\RR$ is not algebraically closed, so it's possible that the characteristic polynomial does not have roots, and there are no real eigenvalues). In particular, there are examples of real representations for which $\operatorname{End}_G(\rho) \neq \RR$:
+
+\begin{example}
+Consider the representation of $\ZZ/3\ZZ$ acting on $\RR^2$, where $\overline{1}$ is mapped to the matrix \[\begin{bmatrix} \cos 2\pi/3 & -\sin 2\pi/3 \\ \sin 2\pi/3 & \cos 2\pi/3 \end{bmatrix}\] which corresponds to rotation by $2\pi/3$. In this case, $\operatorname{End}_{\ZZ/3\ZZ}(\RR^2)$ is $\CC$, not $\RR$. 
+\end{example}
+
+\begin{proof}
+As usual, multiplication by any scalar is in $\operatorname{End}_{\ZZ_3}(\RR^2)$; these elements correspond to $\RR$ (in the case of $\CC$, Schur's Lemma states that the \emph{only} elements of $\operatorname{End}_G(\rho)$ are multiplication by scalars). 
+
+But there are actually other possible endomorphisms --- rotation by $\pi/2$ about the origin is \emph{also} a $G$-equivariant endomorphism, since any two rotations about the origin must commute. We can think of this element as $i$; then taking linear combinations, all elements $a + bi$ (for real $a$ and $b$) are in $\operatorname{End}_{\ZZ/3\ZZ}(\RR^2)$ (and it's possible to check that there's no others). 
+
+Composing two such endomorphisms corresponds to multiplying their corresponding complex numbers (since the endomorphism corresponding to $z$ can be thought of as multiplication by $z$ in the complex plane). So then this means $\operatorname{End}_{\ZZ/3\ZZ}(\RR^2) = \CC$. 
+\end{proof}
+
+We won't discuss this, but there also exists a real irreducible representation $\rho$ of some group $G$ for which $\operatorname{End}_G(\rho) = \HH$ (where $\HH$ denotes the quaternions). 
+
+\subsection{An Implication of Schur's Lemma}
+
+We've seen earlier that every representation $\rho : G \to \operatorname{GL}(V)$ can be written as the sum of irreducible representations, with certain coefficients. Using Schur's Lemma, we can describe what these coefficients are:
+
+\begin{corollary}
+Let $\rho: G \to \operatorname{GL}(V)$ be a representation. Let $\rho_1$, \ldots, $\rho_n$ be the list of all irreducible representations of $G$ (up to isomorphism). Then \[\rho \cong \bigoplus_{i = 1}^n \rho_i^{d_i}\] where $d_k = \dim \operatorname{Hom}_G(\rho_k, \rho)$ for all $k$.
+\end{corollary}
+
+\begin{proof}
+From Maschke's Theorem, we know that we can write \[\rho \cong \bigoplus_{i = 1}^n \rho_i^{d_i}\] for \emph{some} coefficients $d_i$, so then \[\operatorname{Hom}_G(\rho_k, \rho) = \operatorname{Hom}_G\left(\rho_k, \bigoplus \rho_i^{d_i}\right) = \bigoplus_{i = 1}^n \operatorname{Hom}_G(\rho_k, \rho_i)^{d_i} = \CC^{d_k},\] using the fact that by Schur's Lemma, $\operatorname{Hom}_G(\rho_k, \rho_i) $ is $0$ if $i \neq k$ and $\CC$ if $i = k$. This means \[\dim \operatorname{Hom}_G(\rho_k, \rho) = d_k\] for each $k$, as desired. 
+\end{proof}
+
+\begin{question}
+Why could we write \[\operatorname{Hom}_G\left(\rho_k, \bigoplus \rho_i^{ d_i}\right) = \bigoplus_{i = 1}^n \operatorname{Hom}_G(\rho_k, \rho_i)^{ d_i}?\]
+\end{question}
+
+\begin{ans}
+It's enough to see that $\operatorname{Hom}_G(U, V \oplus W) = \operatorname{Hom}_G(U, V) \oplus \operatorname{Hom}_G(U, W)$. 
+
+First, by looking at matrices, it's possible to see that $\operatorname{Hom}_{\CC}(U, V \oplus W) = \operatorname{Hom}_{\CC}(U, V) \oplus \operatorname{Hom}_{\CC}(U, W)$ (where this denotes \emph{all} linear maps, not just the $G$-equivariant ones) --- if $\dim U = m$, $\dim V = n_1$, and $\dim W = n_2$, then a linear map $U \to V \oplus W$ is a $(n_1 + n_2) \times m$ matrix, which we can think of as a pair of a $n_1 \times m$ matrix and a $n_2 \times m$ matrix: \[\begin{bmatrix} \textcolor{blue}{*} &  \textcolor{blue}{*} & \textcolor{blue}{*} \\ \textcolor{blue}{*} & \textcolor{blue}{*} & \textcolor{blue}{*} \\ \textcolor{red}{*} & \textcolor{red}{*} & \textcolor{red}{*}\end{bmatrix}.\] Then such a map is compatible with the $G$-action if and only if each component is.
+
+It's possible to think of this without matrices, as well. By definition, $V \oplus W$ is the space of pairs $(v, w)$ with $v \in V$ and $w \in W$. So in order to describe a linear map from $U$ to $V \oplus W$, for an element $u \in U$, we need to specify the \emph{first} coordinate of its image (corresponding to a linear map $U \to V$) and the \emph{second} coordinate of its image (corresponding to a linear map $U \to W$). Then since $G$ essentially acts separately on $V$ and $W$ (by the definition of a direct sum of representations), the map $U \to V \oplus W$ is $G$-equivariant if and only if the two individual maps $U \to V$ and $U \to W$ are. 
+\end{ans}
+
+\begin{question}
+What exactly does it mean to have a list of irreducible representations up to isomorphism --- what happens if there are two isomorphic representations, but they act on different vector spaces?
+\end{question}
+
+\begin{ans}
+We can think of $\rho_1$, \ldots, $\rho_n$ as an abstract list of representations, without thinking about the subspaces being acted on. For example, when writing down the character table of $S_3$, we saw that there are three irreducible representations; this means every irreducible representation is isomorphic to one of them. We're using ``up to isomorphism'' in the same sense here. 
+
+More generally, when we write $\rho = \bigoplus_{i = 1}^n \rho_i^{d_i}$, when $d_k > 0$, this really means that $\rho_k$ is isomorphic to a sub-representation of $\rho$. 
+\end{ans}
+
+\subsection{Matrices and a New Representation}
+
+We'll now rewrite the concept of $G$-equivariance in terms of matrices --- this will give a useful construction of a new representation, which we can apply Schur's Lemma to in order to prove the orthonormality of irreducible characters. 
+
+Choose a basis for $V$ and $W$. Then if $n = \dim V$ and $m = \dim W$, we can write a linear map $V \to W$ as a $m \times n$ matrix, where the map sends $v \in V$ to $Av \in W$. 
+
+We can also write our representations $\rho$ and $\psi$ as the matrix representations $R : G \to \operatorname{GL}_n(\CC)$ and $S : G \to \operatorname{GL}_m(\CC)$. Then by rewriting the definition of $G$-equivariance (that $f(\rho_g(v)) = \psi_g(f(v))$ for all $v$ and $g$) in terms of these matrices, we have that a matrix $A \in \operatorname{Mat}_{m\times n}(\CC)$ corresponds to a linear map $f \in \operatorname{Hom}_G(\rho, \psi)$ if and only if \[AR_g = S_gA \text{ for all } g \in G.\] (Our initial definition was written in terms of $v$, but we can think of it instead as an equality of the \emph{linear maps} themselves --- that the linear maps $f \circ \rho_g$ and $\psi_g \circ f$ are the same --- which corresponds to an equality of matrices.) We can rewrite this condition as \[A = S_gAR_g^{-1} \text{ for all } g \in G.\] 
+
+The key point is that we can get \emph{another} representation of $G$ from this expression (starting with our original representations $\rho$ and $\psi$). Note that the space $M = \operatorname{Mat}_{m \times n}(\CC)$ is \emph{itself} a $\CC$-vector space --- we can forget everything we know about how to multiply matrices, and just imagine adding them and multiplying by scalars, which makes $\operatorname{Mat}_{m \times n}(\CC)$ a $mn$-dimensional vector space over $\CC$. 
+
+\begin{lemma}
+There is a representation $C$ of $G$ acting on $\operatorname{Mat}_{m \times n}(\CC)$, where for each $g \in G$, $g$ is sent to the matrix \[C_g : A \mapsto S_gAR_g^{-1}.\] 
+\end{lemma}
+
+In other words, if we think of $\operatorname{Mat}_{m \times n}(\CC)$ as a $\CC$-vector space, then for each $g \in G$, the map $A \mapsto S_gAR_g^{-1}$ is a linear operator on this vector space. So we're sending $g$ to the $mn \times mn$ matrix corresponding to that linear operator (which we denote by $C_g$).
+
+\begin{proof}
+It suffices to check that $C_{gh} = C_gC_h$ for all $g$ and $h$. But for any $A \in \operatorname{Mat}_{m \times n}(\CC)$, we have \[C_{gh}(A) = S_{gh}AR_{gh}^{-1} = S_gS_hAR_h^{-1}R_g^{-1} = C_g(C_h(A)).\] So then $C_{gh} = C_gC_h$, as desired. 
+\end{proof}
+
+In this new representation, $\operatorname{Hom}_G(\rho, \psi)$ is exactly the space of $G$-invariant vectors (note that here ``vectors'' means matrices of dimension $m \times n$, since the vector space our representation is acting on is actually the space of such matrices). 
+
+We can also describe this construction without using matrices --- let $M = \operatorname{Hom}_{\CC}(V, W)$ be the space of \emph{all} linear maps $V \to W$ (which we thought of as $\operatorname{Mat}_{m \times n}(\CC)$ when writing down the construction in matrices). Then $M$ is a vector space over $\CC$. So we can define a representation $\gamma$ acting on $M$, where for each $g \in G$, we send $g$ to the linear map $\gamma_g : M \to M$ which sends $E \mapsto \psi_gE\rho_g^{-1}$ for all $E \in M$. As before, $\operatorname{Hom}_G(\rho, \psi)$ is exactly the space of $G$-invariant vectors in $\gamma$. 
+
+\begin{question}
+Why is $E \mapsto \psi_gE\rho_g^{-1}$ a linear map?
+\end{question}
+
+\begin{ans}
+Thinking in terms of matrices, we want to see that $A \mapsto S_gAR_g^{-1}$ is a linear map. But this follows from the distributive property of matrix multiplication --- for example, we have \[S_g(A + B)R_g^{-1} = S_gAR_g^{-1} + S_gBR_g^{-1}.\] 
+\end{ans}
+
+\begin{proposition} \label{charproduct}
+    For the representation $\gamma$ described above, we have \[\chi_{\gamma} = \chi_\psi \overline{\chi_\rho}.\] 
+\end{proposition}
+
+The proposition quickly reduces to a statement about matrices:
+
+\begin{lemma}
+    Let $A$ and $B$ be $n \times n$ and $m \times m$ matrices. Consider the linear map $A \otimes B$ from $\operatorname{Mat}_{m\times n}(\mathbb{C})$ to itself defined as \[A \otimes B : E \mapsto BEA.\] Then we have \[\trace(A\otimes B) = \trace(A) \cdot \trace(B).\] 
+\end{lemma}
+
+\begin{proof}
+    The space of matrices has a basis consisting of the matrices $E_{ij}$ which have a $1$ in the $i$th row and $j$th column, and $0$'s everywhere else (for all $1 \leq i \leq m$ and $1 \leq j \leq n$).
+    
+    But by straightforward computation, we can see that $BE_{ij}A$ has $b_{ii}a_{jj}$ in its $i$th row and $j$th column --- this means $BE_{ij}A$ is $b_{ii}a_{jj}E_{ij}$, plus some entries corresponding to the other basis elements. So if we write out the matrix corresponding to $A \otimes B$ (in the basis formed by the $E_{ij}$), the diagonal entry corresponding to $E_{ij}$ is $b_{ii}a_{jj}$. The trace of $A \otimes B$ is then the sum of the diagonal entries of this matrix, which is \[\trace(A \otimes B) = \sum_{i = 1}^m \sum_{j = 1}^n b_{ii}a_{jj} = \sum_{i = 1}^m b_{ii} \sum_{j = 1}^n a_{jj} = \trace(B)\cdot \trace(A). \qedhere\] 
+\end{proof}
+
+\begin{proof}[Proof of Proposition \ref{charproduct}] 
+    Using the above lemma, for all $g \in G$ we have \[\chi_{\gamma}(g) = \trace(\rho_{g^{-1}} \otimes \psi_g) = \trace(\rho_{g^{-1}})\cdot \trace(\psi_g) = \chi_\rho(g^{-1})\cdot \chi_\psi(g).\] We saw earlier that $\chi_\rho(g^{-1}) = \overline{\chi_\rho(g)}$ --- this follows from the fact that $\chi_\rho(g^{-1})$ is the sum of the eigenvalues of $\rho_{g^{-1}} = \rho_g^{-1}$, which are the inverses of the eigenvalues of $\rho_g$, and since all these eigenvalues have magnitude $1$, their inverses are also their conjugates. So \[\chi_\gamma(g) = \overline{\chi_\rho(g)} \cdot \chi_\psi(g)\] for all $g \in G$, as desired. 
+\end{proof}
+
+\subsection{Orthonormality of Characters}
+
+We have now developed the tools that we can use to prove one part of the main theorem stated earlier, the orthonormality of irreducible characters. 
+
+\begin{proposition}
+    The characters of the irreducible representations of $G$ are orthonormal.
+\end{proposition}
+
+\begin{proof}
+    Let $\rho$ and $\psi$ be irreducible representations, acting on the spaces $V$ and $W$. Then our Hermitian form is \[\langle \chi_\psi, \chi_\rho \rangle = \frac{1}{|G|} \sum_{g \in G} \overline{\chi_\rho(g)}\chi_\psi(g),\] so we want to check this expression is $0$ if $\rho \not\cong \psi$ and $1$ if $\rho \cong \psi$. 
+    
+    But we saw a representation $\gamma$, acting on the space $M = \operatorname{Hom}_{\CC}(V, W)$, whose character is exactly the expression inside the sum! So we can rewrite our sum as \[\langle \chi_\psi, \chi_\rho \rangle = \frac{1}{|G|} \sum_{g \in G} \chi_\gamma(g) = \trace \left(\frac{1}{|G|}\sum_{g \in G} \gamma_g\right).\] (Here we used the fact that $\trace(A + B) = \trace A + \trace B$ --- our original sum calculates the traces of each $\gamma_g$ \emph{first}, and then averages them, but we can instead average the $\gamma_g$ and \emph{then} compute the trace).  
+    
+    Now let's consider what the linear operator on $M$ given by $ \sum_{g \in G} \gamma_g/|G|$ looks like; denote this operator by $f$. 
+    
+    Since $f$ is an averaging operator (we're averaging over all $g \in G$), it must always output a $G$-invariant vector --- similar to the averaging trick we saw earlier, for any $v \in M$ and any fixed $h \in G$, we have \[\gamma_h(f(v)) = \gamma_h \cdot \frac{1}{|G|} \sum_{g \in G} \gamma_g v = \frac{1}{|G|} \sum_{g \in G} \gamma_h\gamma_g v = \frac{1}{|G|} \sum_{g \in G} \gamma_{hg}v = \frac{1}{|G|} \sum_{g \in G} \gamma_gv = f(v),\] since if we fix $h$ and let $g$ range over all elements in $G$, then $hg$ also ranges over all elements in $G$. 
+    
+    But we know what the $G$-invariant vectors are! Recall that vectors in the space $M$ that $\gamma$ acts on are actually homomorphisms $V \to W$, and by the way $\gamma$ was defined, the vectors in $M$ which are $G$-invariant are exactly the homomorphisms $V \to W$ which are $G$-equivariant --- which are described by Schur's Lemma. 
+    
+    If $\rho \not\cong \psi$, then by Schur's Lemma, then $\operatorname{Hom}_G(\rho, \psi)$ only contains the zero map, so the only $G$-invariant vector in $M$ is the zero vector. So since our operator $f$ sends every vector $v \in M$ to \emph{some} $G$-invariant vector, it must actually send every vector $v$ to $0$. So $f$ is the zero operator, and \[\langle \chi_\psi, \chi_\rho \rangle = \trace(f) = 0.\] 
+    
+    Now suppose $\rho \cong \psi$. Then by Schur's Lemma, $\operatorname{Hom}_G(\rho, \psi)$ only contains scalar maps; so there's only one $G$-invariant vector in $M$ up to scaling (the identity matrix and its scalar multiples). Let $u$ be such a (nonzero) invariant vector. 
+    
+    This means $f$ must send every vector $v \in M$ to some scalar multiple of $u$ (since $f$ sends every $v$ to some $G$-invariant vector, and the only $G$-invariant vectors are multiples of $u$). On the other hand, since we're averaging and $u$ is already $G$-invariant, $f$ must send $u$ to itself --- we have \[\frac{1}{\lvert G \rvert} \sum_{g \in G} \gamma_g u = \frac{1}{\lvert G \rvert} \sum_{g \in G} u = u.\] 
+    
+    Now choose a basis for $M$ whose first element is $u$. Then in this basis, the matrix for $f$ is of the form \[\begin{bmatrix} 1 & * & * & \cdots & * \\ 0 & 0 & 0 & \cdots & 0 \\ 0 & 0 & 0 & \cdots & 0 \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ 0 & 0 & 0 & \cdots & 0 \end{bmatrix},\] which has trace $1$. So in this case, \[\langle \chi_\psi, \chi_\rho \rangle = \trace(f) = 1. \qedhere\] 
+\end{proof}
+
+
+% \rhead{\rightmark}
+% \lhead{Lecture 6: Schur's Lemma}
+
+% \section{Schur's Lemma}
+% \subsection{Review}
+
+
+% Last time, we presented Schur's Lemma.
+
+% Recall that \begin{align*}\homo_G(\rho, \psi) &= \homo_G(V, W) \\
+% &= \{F: V \rto W: F \text{ a linear map is such that } F(\rho_g(v)) = \psi_g(F(v)) \text{ for all } g \in G, v \in V\}.\end{align*}
+
+
+% \begin{proposition}
+% Suppose $\rho: G \rto GL( )$ and $|psi: G \rto GL(W)$ are irreducible\footnote{and complex finite-dimensional}. Then, \[\text{Hom}_G(\rho, \psi) =
+% 0 \text{ if } \rho \ncong \psi\] and  \[\dim \text{Hom}_G(\rho, \psi) =
+% 1 \text{ if } \rho \cong \psi.\] The second statement implies that 
+%  \[\text{End}_G(\rho) = \CC \cdot \text{Id}.\]
+
+% \end{proposition}
+
+
+% The last statement works for real representations or any field of coefficients. The second statement requires the existence of eigenvectors, which does not work over $\RR$\footnote{Since $\RR$ is not algebraically closed, the characteristic polynomial does not always have roots and so there are not always eigenvalues.}. 
+% \begin{example}
+% There is a representation of $\ZZ_3$ acting on $\RR^2$ given by $\overline{1} \mto 2\pi/3$ rotation.\todo{fix this} Then $\text{End}_{\ZZ_3}(\RR^2) = \CC \neq \RR.$\todo{explain this more} 
+% \end{example}
+
+% It is possible to find an example of an irreducible representation where $\text{End} = \HH.$\todo{ask roman about this? what is the end over?}
+
+% \subsection{Implications of Schur's Lemma}
+
+% Schur's Lemma has important implications.
+% \begin{corollary}
+% Let $\rho: G \rto GL(V)$ be a representation. Let $\rho_1, \cdots, \rho_n$ be the list of all irreducible representations, up to isomorphism. Then $\rho \cong \bigoplus_{i = 1}^n \rho_i^{\oplus d_i}$ where $d_k = \dim \homo_g(\rho_k, \rho).$ 
+% \end{corollary}
+
+
+% \begin{proof}
+% Recall that $V \oplus W = \{(v, w): v \in V, w \in W\},$ and so $\homo(U, V \oplus W) = \homo(U, V) \oplus \homo(V, W)$, because specifying a ($G$-invariant, linear) map from $U$ to $V \oplus W$ is equivalent to specifying a ($G$-invariant, linear) map from $U$ to $V$ and also a ($G$-invariant, linear) map from $U$ to $W$, simply by specifying each coordinate. 
+
+% Thus, we have that \[\homo(\rho_k, \rho) = \homo(\rho_k, \bigoplus_{i = 1}^n \rho_i^{\oplus d_i}) = \bigoplus_i \homo(\rho_k, \rho_k)^{\oplus d_i} = \CC^{\oplus d_k},\] since all summands are 0 except for $i = k.$ Then $d_i$ is the right dimension. We used that \[\homo_\CC(V_k, \bigoplus V_i) = \bigoplus \homo_\CC(V_k, V_i).\] \todo{flesh this out this is confusing}
+% \end{proof}
+
+% Choosing a basis in $V, W$, we can write a linear map as a matrix. If $\dim(V) = n$ and $\dim(W) = m,$ it will be an $m \by n$ matrix. The matrix will take $V \ni v = (v_1, \cdots, v_n)^t \mto Av \in W.$ Also, choosing a basis provides matrix representations $R: G \rto GL_n(\CC)$ and $S: G \rto GL_m(\CC).$ Then a matrix $A \in \matnn(\CC)$ corresponds to an element in $\homo_G(V, W)$ if and only if $AR_g = S_gA$ for all $g \in G,$ which is the condition of $G$-invariance. \todo{ask about homo}
+
+% The key point is that it is possible to rewrite this as $A = S_g^{-1}AR_g$. The space $M = \matnn(\CC)$ can be made into a representation of $G$ given by $g: A \rto S_gAR_g^{-1}$, which is conjugation. \todo{what does this mean HAHAHHA} 
+
+% Starting with two representations, the space of matrices is formed, which is a vector space. Forgetting the rest of the structure on matrices, the space of matrices can be thought of as the vector space that $G$ is acting on.
+
+% The representation can be written as $C_g: A \rto S_gAR_g^{-1}.$ It is a representation because \[C_{gh}(A) = S_g(S_hAR_h^{-1})R_g^{-1} = C_g(C_h(A)).\] \todo{reorganize this}
+
+% In fact, in this representation, $\homo_G(V, W)$ is the space of \textbf{invariant matrices}. The same construction without matrices is possible! Defining $M = \homo_\CC(V, W)$\footnote{This is \emph{not} $\homo$ over $G,$ but simply over vector spaces $\CC.$}, there is another representation $\gamma_g: E \mto \psi_g E \rho_g^{-1}.$\footnote{This is clearly a linear map from the distributive law for compositions; for example, $S_g(A + B)R_g^{-1} = S_gAR_g^{-1} + S_gBR_g^{-1}.$}
+
+% \begin{proposition}\label{otimes character}
+% For this new representation $\gamma,$ its character is $\chi_\gamma = \chi_\psi \overline{\chi_\rho}.$ 
+% \end{proposition}\todo{proof?}
+
+% The product of characters of two irreducible representations is another irreducible representation. If they both have high dimension, the product of two characters will correspond to this new representation $\gamma.$ 
+
+% \begin{lemma}
+% Let $A$ be an $n \by n$ matrix and $B$ an $m \by m$ matrix. Consider the map from $\text{Mat}_{m \by n}(\CC)$ to itself that sends a matrix $E$ to $BEA,$ denoted $A \otimes B: E \rto BEA.$ Then $\trace(A \otimes B) = \trace(A) \otimes \trace(B).$
+% \end{lemma}
+% \begin{proof}
+% The space $\text{Mat}_{m \by n}(\CC)$ has a basis consisting of elementary matrices $E_{ij}.$\footnote{The elementary matrix $E_{ij}$ is the matrix with a 1 at entry $(i, j)$ and 0 everywhere else.} We have $BE_{ij}A = b_{ii}a_{jj}E_{ij} + $ a linear combination of other elementary matrices. Thus, the $(n, m)$ diagonal matrices for the matrix of $A \otimes B$ are pairwise products $a_{jj}b_{ii}$ where $i = 1, \cdots, m$ and $j = 1, \cdots, n.$ \todo{check the n and m lol} Evidently, \[\trace(A \otimes B) = \sum_{i, j} a_{jj}b_{ii} = \left(\sum_{j = 1}^n a_{jj} \right)\left(\sum_{i = 1}^m b_{ii} \right)= \trace(A) \trace(B).\]
+% \end{proof}
+
+% From this lemma, Proposition \ref{otimes character} follows immediately. 
+% \begin{proof}[Proof of Proposition \ref{otimes character}]
+% The character is \begin{align*}
+%     \chi_\gamma(g) &= \trace(\rho_{g^{-1}} \otimes \psi_g) \\
+%     &= \trace(\rho_g) \trace(\psi_g) \\
+%     &= \chi_\rho(g^{-1})\chi_\psi(g) \\
+%     &= \overline{\chi_\rho(g)}\chi_\psi(g).
+% \end{align*}
+% \todo{he said something about the inverse and eigenvalues here}
+% \end{proof}
+
+% \subsection{Orthonormality of Characters}
+% Now, the tools have been developed to prove a statement from last lecture. 
+% \begin{proposition}
+% The irreducible characters of $G$ are orthonormal.
+% \end{proposition}
+% \begin{proof}
+% Let $\rho$ and $\psi$ be two irreducible representations. Then
+% \begin{align*}
+%     \langle \chi_\psi, \chi_\rho \rangle &= \frac{1}{|G|} \sum \overline{\chi_\rho(g)}\chi_\psi(g) \\
+%     &= \frac{1}{|G|} \sum \chi_\gamma(g) \\
+%     &= \trace\left(\frac{1}{|G|} \sum_g \gamma_g\right).
+% \end{align*}
+% This averaging operation provides an invariant vector. Consider the case where $\rho \ncong \psi.$ With Schur's Lemma, if $\psi \ncong \rho,$ the only invariant vector is the zero vector. So this operator must be 0 in this case. \todo{how come we can use schurs lemma here HAHHAHAHAH }
+
+% On the other hand, if $\rho \cong \psi,$ then there is an invariant vector, unique up to scalar. Choose a basis in this space such that the first vector is this invariant vector.\todo{what space is this on LOL} Then the matrix of averaging will look like 
+% $\begin{pmatrix} 1 & \star & \cdots & \star \\
+% 0 & 0 & \cdots & 0 \\
+% \vdots & \vdots & \ddots & \vdots \\
+% 0 & 0 & \cdots & 0 
+% \end{pmatrix}$, so its trace will be 1, and we are finished.
+% \end{proof}

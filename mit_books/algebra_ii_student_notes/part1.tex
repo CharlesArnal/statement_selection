@@ -1,0 +1,180 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-012 Algebra II Student Notes, Spring 2022
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+% \rhead{\rightmark}
+\lhead{Lecture 1: Representations}
+
+\section{Representations}
+\subsection{Introduction}
+The lecturer is \href{https://math.mit.edu/~bezrukav/}{Roman Bezrukavnikov}. These notes are taken by \textbf{Sanjana Das} and \textbf{Jakin Ng}, and the note-taking is supervised by \textbf{Ashay Athalye}. Here is some basic information about the class:
+\begin{itemize}
+    \item The text used in this class will be the 2nd edition of \textbf{Algebra}, by Artin. 
+
+    \item The course website is found on \textbf{Canvas}, and the problem sets will be submitted on \textbf{Gradescope}. 
+    
+    \item The problem sets will be due Wednesday at 11:59PM.
+\end{itemize}
+
+During this class, we will cover three main topics. 
+\begin{enumerate}
+    \item Representation theory: In 18.701, we studied group actions, which let us think of groups as a set of symmetries of the set being acted on. Here we'll study how groups can act by symmetry on a \emph{vector space} --- this combines the fundamental concepts of of symmetry and linearity. 
+    \item Ring theory: We'll learn to add \emph{and} multiply in abstract settings.
+    \item Galois theory: We'll study the symmetries of solutions to polynomial equations. For example, a quadratic equation $ax^2 + bx + c = 0$ has two solutions, \[x_{\pm} = \frac{-b \pm \sqrt{b^2 - 4ac}}{2}.\] There's an ambiguity in the sign of the square root, and this gives a symmetry between the two roots (by swapping the sign). For higher-degree polynomial equations, we'll see that symmetries (such as changing $+$ to $-$ in the above formula) control the existence of formulas such as the quadratic formula, and the shape of such formulas when they do exist. 
+\end{enumerate}
+
+\subsection{What is a Representation?}
+
+In representation theory, we think of a group as the symmetries of a \emph{vector space} --- this perspective lets us study the group using tools from linear algebra. 
+
+\begin{qq}
+How can we represent elements of groups as symmetries or linear operations on vector spaces?
+\end{qq}
+
+The following definition formalizes this idea, by representing elements of groups as \emph{matrices}: 
+
+\begin{definition}\label{representation}
+Let $G$ be a group. A \textbf{complex, $n$-dimensional matrix representation} of $G$ is a homomorphism \[R: G \to \operatorname{GL}_n(\CC)\footnote{Recall that $\operatorname{GL}_n(\CC)$ denotes the group of invertible $n \times n$ matrices with entries in $\CC$. }.\]
+\end{definition}
+
+Similarly, a real representation is a homomorphism \[R: G \to \operatorname{GL}_n(\RR).\] Representations can be defined over any field (for instance, we could even define representations over the finite field $\FF_p$), but in this class, we will mostly work with only \emph{complex} representations of \emph{finite} groups.
+
+% In representation theory, the image $R(g)$ of an element $g \in G$ will generally be written as $R_g$ (this is just a notational convention). In order to write down a representation $R$, we want to choose the image $R_g \in \operatorname{GL}_n(\CC)$ of each element $g \in G$ in such a way that $R_{gh} = R_gR_h$ and $R_1$ is the identity matrix. (These conditions are equivalent to stating that $R$ is a homomorphism; technically, the second condition can be demonstrated from the first.) 
+
+Earlier, we mentioned that in representation theory, we want to think of elements of a group as symmetries of a vector space. To see why the above definition achieves this, note that invertible matrices play a special role for the vector space $\CC^n$: they act on the column vectors. More explicitly, any matrix $A \in \operatorname{Mat}_{n \times n}(\CC)$ defines a linear transformation from $\CC^n$ to itself, by taking $v \mapsto Av$. Moreover, $\operatorname{GL}_n(\CC)$ consists of invertible $n \by n$ matrices, which are exactly the matrices for which $v \mapsto Av$ is a \emph{bijective} linear transformation. So $\operatorname{GL}_n(\CC)$ equivalent to a group of linear automorphisms\footnote{Isomorphisms from $\CC^n$ to itself} on $\CC^n$, which can be thought of as the symmetries of the vector space.
+
+This means that writing down a homomorphism $R : G \to \operatorname{GL}_n(\CC)$ is equivalent to writing down a \emph{linear group action} of $G$ on $\CC^n$, where each $g \in G$ acts by taking $v \mapsto R_g(v)$. More explicitly, to write down a representation $R$ by thinking in terms of group actions, for each $g \in G$ we need to define an operator $R_g$ on $\CC^n$ such that it is:
+\begin{itemize}
+    \item \textbf{Group Action.} The map \begin{align*} G \times V &\to V \\ (g, v) &\mapsto R_g(v)\end{align*} satisfies the axioms of a group action of $G$ on $V$:
+    \begin{enumerate}
+        \item Since $R$ is a homomorphism, $R_{gh} = R_gR_h$, so $R_{gh}(v) = R_g(R_h(v))$ for all $g, h \in G$ and $v \in V$.
+        \item Again, because $R$ is a homomorphism, $R_{1_G} = \operatorname{Id}$, and so $R_{1_G}(v) = v$ for all $v \in V$.
+    \end{enumerate} 
+    \item \textbf{Linear.} For each $g \in G$, the map $v \mapsto R_g(v)$ is linear. We have \[R_g(v + w) = R_g(v) + R_g(w)\] and \[R_g(\lambda v) = \lambda R_g(v)\] for all $v, w \in V$ and $\lambda \in \CC$. From definition \ref{representation}, these properties correspond to the fact that elements of $\operatorname{GL}_n(\CC)$ are linear operators on $\CC^n$.
+\end{itemize}
+
+\begin{note}
+It is a notational convention to write $R_g$ instead of $R(g)$. Using the notation of group actions, $R_g(v)$ can also be written as $gv$ for a vector $v \in \CC^n$. 
+\end{note}
+
+\subsection{Examples of Representations}
+
+The simplest example of a representation is the \emph{trivial representation}.
+
+\begin{example}[Trivial Representation]
+The \textbf{trivial representation} of any group $G$ is the one-dimensional representation where $R_g = 1$ for all $g$. That is, every element of the group maps to the $1 \times 1$ identity matrix $\begin{bmatrix} 1 \end{bmatrix} \in \operatorname{GL}_1(\CC) \cong \CC^\times$.
+\end{example}
+
+The trivial representation is clearly a homomorphism\footnote{Try writing a short proof of this!}, and therefore a valid representation. Every group has a trivial representation, and it will turn out to be a ``building block'' for more complicated representations.
+
+The symmetric group $S_n$ has another one-dimensional representation:  
+
+\begin{example}[Sign Representation]
+A symmetric group $S_n$ has a one-dimensional representation, called the \textbf{sign representation}, where 
+
+\[R_{\sigma} = \sign(\sigma)\footnote{Recall that every $\sigma \in S_n$ can be written as a product of transpositions $\tau_1\tau_2\cdots \tau_k$; the parity of $\sigma$ is the parity of $k$, and $\sign(\sigma) = (-1)^k$.} = \begin{cases}1 &\text{if $\sigma$ is even} \\ -1 & \text{if $\sigma$ is odd}.\end{cases}\]
+Again, the target space is $\operatorname{GL}_1(\CC) \cong \CC^\times$.
+\end{example}
+
+As an example of a representation that is not one-dimensional, $S_n$ also has another representation with dimension $n$, the permutation representation.
+
+\begin{example}[Permutation Representation]
+The group $S_n$ has a $n$-dimensional representation, called the \textbf{permutation representation}, which takes each element $\sigma \in S_n$ to its corresponding permutation matrix --- the $n \times n$ matrix which sends the $i$th basis vector $\vec{e}_i$ to the $\sigma(i)$th basis vector $\vec{e}_{\sigma(i)}$, meaning that its $i$th column is $\vec{e}_{\sigma(i)}$. As an example, when $n = 3$, \[R_{(123)} = \begin{bmatrix} 0 & 0 & 1 \\ 1 & 0 & 0 \\ 0 & 1 & 0 \end{bmatrix}.\]
+\end{example}
+
+A representation is called \textbf{faithful} if it is injective, in which case $G$ is isomorphic to its image under the representation. The permutation representation is faithful, while the trivial and sign representations are not faithful (except for very small $n$\footnote{For $n = 1,$ the trivial representation is faithful, since there is only one element, and for $n = 1, 2$, the sign representation is faithful}). 
+
+A familiar example of a representation is $\ZZ/m\ZZ$\footnote{The group of integers mod $m$; we'll use $\overline{a}$ to denote the residue of $a$ mod $m$} acting as a group of rotational symmetries.
+\begin{example}\label{zm}
+The group $\ZZ/m\ZZ$ corresponds to the rotational symmetries of a regular $m$-gon. By placing the polygon in the two-dimensional plane and using the standard basis for the plane, we get a two-dimensional representation of $\ZZ/m\ZZ$ where every element $\overline{a} \in \ZZ/m\ZZ$ is mapped to the corresponding rotation matrix: more explicitly, the representation is \[\overline{a} \mapsto \begin{bmatrix} \cos 2\pi a/m & -\sin 2\pi a/m \\ \sin 2\pi a/m & \cos 2\pi a/m \end{bmatrix}.\] This can be thought of either as a real representation, where the target space is $GL_2(\RR)$ or a complex one, where the codomain is $GL_2(\CC)$. 
+\end{example}
+
+When describing a representation of a given group $G$, it may be somewhat time-consuming to list the images of \emph{all} elements of $G$. But it's possible to describe a representation much more efficiently --- if $G$ is given by generators and relations, then to define a matrix representation $R$, it's enough to specify the images of the generators and check that they satisfy the relations. More explicitly, suppose \[G = \langle x_1, \ldots, x_k \mid r_1, \ldots, r_m \rangle,\] where the $x_i$ are the generators, and the $r_i$ are the relations. It is enough to specify \[R_{x_1}, R_{x_2}, \cdots R_{x_k}\] in order to define a unique representation. It's clear that $R_{x_1}$, \ldots, $R_{x_k}$ must satisfy the same relations as $x_1$, \ldots, $x_k$. Conversely, given any $n$ matrices $\gamma_1$, \ldots, $\gamma_k$ in $\operatorname{GL}_n(\CC)$ which satisfy these relations, we can set $R_{x_i} = \gamma_i$ for all $i$; then this determines the entire representation, since we can obtain $R_g$ for \emph{any} $g \in G$ simply by multiplying the $\gamma_i$ in the same way that we would multiply the $x_i$ to obtain $g$ (since $R$ is a homomorphism). The $\gamma_i$ may also satisfy additional relations other than the $r_{j = 1, \cdots m}$; if they do not, the representation will be faithful. 
+
+\begin{example}
+The group $\ZZ/m\ZZ$ can be written as $\langle x \mid x^m = 1\rangle$ (this denotes that it's generated by one element $x$, with the relation $x^m = 1$). So to define the above two-dimensional representation in Example \ref{zm}, it's enough to specify that \[\overline{1} \mapsto A = \begin{bmatrix}
+    \cos 2\pi/m & -\sin 2\pi/m \\
+    \sin 2\pi/m & \cos 2\pi/m
+    \end{bmatrix},\]
+    and to verify that $A^m = 1$.
+\end{example}
+
+Another familiar example is the following representation of the dihedral group, which is the group of \emph{all} symmetries of a regular $m$-gon (meaning rotations and reflections).
+\begin{example}
+We can write the dihedral group as $D_m = \langle r, s \mid r^m = 1, s^2 = 1, srs^{-1} = r^{-1} \rangle$. Then $D_m$ has a two-dimensional representation given by 
+\begin{align*}
+    r &\mapsto \begin{bmatrix}
+    \cos 2\pi/m & -\sin 2\pi/m \\
+    \sin 2\pi/m & \cos 2\pi/m
+    \end{bmatrix},\\
+    s &\mapsto \begin{bmatrix} 1 & 0 \\ 0 & -1\end{bmatrix},
+\end{align*}
+since it can be verified that the images of $r$ and $s$ satisfy the same relations. Intuitively, this construction is quite similar to the representation of $\ZZ/m\ZZ$ in Example \ref{zm} --- we can think of $r$ as a rotation by $2\pi/m$ and $s$ as a reflection, since these are the symmetries of the $m$-gon. Then to obtain this representation, we simply place the $m$-gon on the plane, and take the matrices corresponding to these transformations of the plane. 
+\end{example}
+
+\subsection{Linear Representations}
+
+Unfortunately, the current formulation of a representation requires a basis, as it is not possible to write down a matrix without choosing a basis. We are interested in the \emph{story} of a journey, and not the particular \emph{coordinates} of the journey.
+
+\begin{qq}
+How can we think about representations in a coordinate-free way, without specifying a basis?
+\end{qq}
+
+Given a matrix representation, a new \textbf{conjugate representation} can be obtained by choosing a different basis of $\CC^n$ and rewriting the original matrices in the new basis. 
+
+\begin{example}\label{z3}
+The representation of $\ZZ/3\ZZ$ described in Example \ref{zm} (as the rotations of a triangle) can be written in the standard basis as \[\overline{1} \mapsto \begin{bmatrix}-1/2 & -\sqrt{3}/2 \\ \sqrt{3}/2 & 1/2\end{bmatrix}.\] But if we instead take the basis consisting of $v_1= (1, 0)^t$ and $v_2 = (-1/2, \sqrt{3}/2)^t$, then this representation can be written as \[\overline{1} \mapsto \begin{bmatrix}0 & -1 \\ 1 & -1\end{bmatrix}.\] 
+\end{example}
+
+\begin{center}
+    \begin{asy}
+    unitsize(2cm);
+    draw((-1.5, 0)--(1.5, 0), mediumgray, Arrows);
+    draw((0, -1.5)--(0, 1.5), mediumgray, Arrows);
+    pair A1 = dir(0);
+    pair A2 = dir(120);
+    pair A3 = dir(240);
+    filldraw(A1--A2--A3--cycle, heavycyan+opacity(0.1), heavycyan);
+    draw((0, 0)--A1, heavyred, EndArrow, EndMargin);
+    draw((0, 0)--A2, heavyred, EndArrow, EndMargin);
+    draw((0, 0)--A3, heavyred, EndArrow, EndMargin);
+    label("$v_1$", A1, dir(45), heavyred);
+    label("$v_2$", A2, dir(135), heavyred);
+    label("$-v_1 - v_2$", A3, dir(270), heavyred);
+    draw(arc((0, 0), 0.2, 0, 120), deepgreen, EndArrow(size=5), Margins);
+    draw(arc((0, 0), 0.2, 120, 240), deepgreen, EndArrow(size=5), Margins);
+    \end{asy}
+\end{center}
+
+Clearly, the new representation is in fact technically a different matrix representation, but conceptually, it can be interpreted in the same way --- it still describes the rotations of a triangle.
+
+In general, suppose we have two bases of $\operatorname{GL}_n(\CC)$ with change of basis matrix $P$ --- in Example \ref{z3}, the change of basis matrix was \[P = \begin{bmatrix} 1 & -1/2 \\ 0 & \sqrt{3}/2 \end{bmatrix}.\] Then if we have a representation $R$ with matrices written in the first basis, the conjugate representation obtained by writing $R$ in the new basis is given by \[R_g' = P^{-1}R_gP,\] by simply applying the change of basis formula to each matrix. 
+
+Conjugate representations are essentially the same story, just presented in different coordinates, so we generally consider conjugate matrix representations as the same --- we want to study the conjugacy classes of matrix representations, rather than the basis-dependent matrix representations themselves. In fact, we can eliminate the need for matrices altogether by using the concept of a \emph{linear representation}, which does not require specifying a basis.
+
+\begin{definition}
+For a vector space $V$, let $\operatorname{GL}(V)$ be the group of linear automorphisms of $V$. A \textbf{linear representation} of $V$ is a homomorphism \[\rho: G \to \operatorname{GL}(V).\] 
+\end{definition}
+
+Note that a linear representation doesn't depend on coordinates or column vectors! In a matrix representation, we thought of group elements as acting on a vector space (specifically $\CC^n$) by linear automorphisms, and we wrote down these automorphisms in a given basis by using matrices. But here instead of writing down the matrices corresponding to the linear automorphisms, we work with the automorphisms themselves.
+
+We \emph{can} turn a linear representation into a matrix representation --- if we fix a basis of $V$, then we get an isomorphism between $\operatorname{GL}_n(\CC)$ and $\operatorname{GL}(V)$ (where $n = \dim V$), and for each linear automorphism $\rho_g$, we can write down the matrix corresponding to $\rho_g$ in that basis. Choosing a different basis of $V$ would give us a conjugate representation; thus specifying a linear representation provides a conjugacy class of matrix representations. Choosing a suitable basis and working with matrix representations can be helpful in computations, but we generally want to work with properties that are basis-independent and thus well-defined for linear representations.
+
+As in our definition of conjugate \emph{matrix} representations, we still need a way of describing when two \emph{linear} representations are essentially the same: 
+
+\begin{definition}\label{l1:iso}
+Two linear representations $\rho : G \to \operatorname{GL}(V)$ and $\rho' : G \to \operatorname{GL}(W)$ are \textbf{isomorphic} if there exists a linear isomorphism $I : V \to W$ such that $I(\rho_g(v)) = \rho'_g(I(v))$ for all $g \in G$ and $v \in V$ --- in other words, an isomorphism between vector spaces that is also compatible with the action of $G$.
+\end{definition}
+
+Note that given two finite-dimensional vector spaces $V$ and $W$, there exists an isomorphism between $V$ and $W$ if and only if they have the same dimension. However, we can't just pick \emph{any} isomorphism --- our isomorphism should also be compatible with the action of $G$. (Definition \ref{l1:iso} essentially states that we should be able to relabel the elements of $W$ as elements of $V$ without changing the vector space structure or the way $G$ acts on the space.) Linear representations up to isomorphism correspond precisely to matrix representations up to conjugacy. 
+
+As mentioned earlier, we want to study properties of a representation which don't depend on the basis. For a matrix, operations such as the trace or the determinant are invariant under conjugation, and thus are basis-independent. This motivates the following definition.
+\begin{definition}[Character]
+The \textbf{character} of a representation $R$ is the function $\chi_R$ on $G$ defined as $\chi_R(g) = \trace(R_g).$
+\end{definition}
+
+It might be surprising that we use the trace in this definition, rather than the determinant or some other basis-independent property. However, the trace will turn out to be the right choice, as it is extremely useful. In particular, by the end of next week, it will be shown that for a finite group $G$, the character completely determines the isomorphism class of the representation!
+
+% \todo{are there any outer automorphisms? there is one it has G goes to G inverse}
+% \todo{add all the student questions}

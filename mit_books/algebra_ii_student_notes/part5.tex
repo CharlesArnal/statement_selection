@@ -1,0 +1,358 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-012 Algebra II Student Notes, Spring 2022
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+% \rhead{\rightmark}
+\lhead{Lecture 5: Characters and Schur's Lemma}
+
+
+\section{Characters and Schur's Lemma}
+
+\subsection{Review}
+Last time, we stated the Main Theorem about characters. 
+\begin{theorem}
+Let $G$ be a finite group, and let $\rho_1$, \ldots, $\rho_n$ be a full list of irreducible representations up to isomorphism. 
+\begin{enumerate}[label = (\alph*)]
+    \item The characters $\chi_{\rho_0}$, \ldots, $\chi_{\rho_n}$ form a basis for the space of class functions on $G$.
+
+    \item The basis formed by $\chi_{\rho_0}$, \ldots, $\chi_{\rho_n}$ is orthonormal.
+    
+    \item If $d_i = \dim \rho_i$ for each $i$, then $\sum d_i^2 = |G|$, and each $d_i$ divides $|G|$.
+\end{enumerate}
+\end{theorem}
+
+Today we will look at some ways this can be used to describe characters, and begin developing the tools needed to prove it. 
+
+\subsection{Character Tables}
+
+The information about characters can be put into a table, known as a \textbf{character table}, where the columns correspond to conjugacy classes and the rows to irreducible representations (this is enough to record \emph{all} information about the irreducible characters, since characters are constant on each conjugacy class). 
+
+A general observation we can make is that $\chi_\rho(1_G) = \dim \rho$ for any representation $\rho$ --- this is because $\chi_\rho(G)$ is the identity matrix of dimension $\dim \rho$, which whose trace is $\dim \rho$. 
+
+% For the identity, $\chi_\rho(1_G) = \dim \rho.$ Because the trace is simply the sum of the entries on the diagonal, the character evaluated at $1_G$ will be the sum of $\dim \rho$ 1's.
+
+\begin{example}
+Consider the group $\ZZ/4\ZZ$. Since it's an abelian group, each conjugacy class has one element. As we've seen before, the irreducible representations of $\ZZ/4\ZZ$ are all one-dimensional, and must send $\overline{1}$ to any fourth root of unity. The choice of which one determines the rest of the representation, since $\overline{1}$ is a generator. 
+
+Using $\chi_j$ to denote the character of the representation where $\overline{1} \mapsto i^j$ (so $\chi_0$ is the trivial representation), we have the following table:
+
+
+% Let $G = \ZZ_4.$ Obviously, the trivial representation is a representation of $\ZZ_4.$ Furthermore, it can be verified that there are four total one-dimensional representations given by mapping the generator $\overline{1}$ to $1, i, -1,$ and $-i,$ which are the fourth roots of unity.
+
+
+\begin{center}
+    \begin{tabular}{c||c|c|c|c}
+        & $\overline{0}$ & $\overline{1}$ & $\overline{2}$ & $\overline{3}$ \\
+        \hline
+        \hline
+        $\chi_0 = 1$ & $1$ & $1$ & $1$ & $1$ \\
+        \hline
+        $\chi_2$  & $1$ & $-1$ & $1$ & $-1$ \\
+        \hline
+        $\chi_1$ & $1$ & $i$ & $-1$ & $-i$ \\
+        \hline
+        $\chi_3$ & $1$ & $-i$ & $-1$ & $i$
+    \end{tabular}
+\end{center}
+% These are all the irreducible characters!\footnote{All one-dimensional representations are irreducible.} This can be verified because the dimension of each of the characters is 1, and $\sum d_i^2 = 1 + 1 + 1 + 1 = 4,$ which is $|\ZZ_4|$, so there cannot be any more irreducible characters.
+
+% In fact, it is possible to show that for abelian groups, an irreducible character will always be one-dimensional.
+A very similar story occurs for $\ZZ/m\ZZ$ for any integer $m$ --- the irreducible representations of $\ZZ/m\ZZ$ are all one-dimensional and send $\overline{1}$ to a $m$th root of unity, so a full list of irreducible characters is \[\chi_a : \overline{x} \mapsto e^{2\pi a x/m}\] for all $0 \leq a \leq m - 1$. 
+\end{example}
+
+One observation about this table is that the product of any two rows is another row in the table. This isn't a coincidence --- if $\chi$ and $\chi'$ are one-dimensional characters, then $\chi\chi'$ is again a one-dimensional character (since for a one-dimensional representation, $\chi_\rho$ is essentially the same as $\rho$, and is therefore a homomorphism). 
+
+\begin{question}
+If you multiply two characters which are \emph{not} one-dimensional, do you still get another character?
+\end{question}
+
+\begin{ans}
+Yes --- we'll actually come across a construction for this in a later class, when proving the Main Theorem! But the new character will generally not be irreducible, even if the two characters we started with were --- so it won't generally be an entry in the character table. 
+\end{ans}
+
+The fact that the product of two one-dimensional characters is also a character can be used to check orthogonality quite directly:
+
+
+% If $\chi$ and $\chi'$ are one-dimensional (irreducible) characters, then $\chi\chi'$ will again be a one-dimensional (irreducible) character. However, in general, the product of two characters (which are not one-dimensional), will be a character, but not necessarily of an irreducible representation. 
+
+\begin{proposition}
+Any two one-dimensional characters are orthogonal.
+\end{proposition}
+% \todo{A one-dimensional character acts as \[\chi_a: \overline{x} \rto e^{2\pi i/n(ax)},\] since its images must be $n$-dimensional roots of unity.
+% } % I think this is not true
+\begin{proof}
+For two one-dimensional characters $\chi$ and $\chi',$ we want to show that \[\sum_{g \in G} \chi'(g)\overline{\chi(g)} = \begin{cases}
+|G| &\text{if } \chi = \chi' \\
+0 &\text{otherwise}.
+\end{cases}\]
+
+We have $\overline{\chi(g)} = \chi(g)^{-1}$ since $\chi(g)$ is a root of unity. Now define the one-dimensional representation $\psi = \chi'\overline{\chi}$. Then $\psi(g) = \chi'(g)\chi(g)^{-1}$ for each $g$, so $\psi$ is trivial (meaning $\psi(g) = 1$ for each $g$) if and only if $\chi' = \chi$. 
+
+
+
+
+% , and so $\psi = \chi'\overline{\chi}(g) = 1$ for all $g$ if and only if $\chi = \chi'.$  
+So now proving orthogonality reduces to a statement about \emph{one} representation, instead of two --- we want to check that \[\sum_{g \in G} \psi(g) = \begin{cases}
+|G| &\text{if $\psi$ is trivial} \\
+0 &\text{otherwise}.
+\end{cases}\]
+
+The first case is obvious --- if $\psi$ is trivial, we're just summing $|G|$ copies of $1$. For the second case, we use a familiar trick --- let $S = \sum_{g \in G} \psi(g)$, and pick some $g_0 \in G$ such that $\psi(g_0) \neq 1$ (which exists since $\psi$ is nontrivial); let $\psi(g_0) = \lambda$. Now we have \[\lambda S = \sum_{g \in G} \psi(g_0)\psi(g) = \sum_{g \in G} \psi(g_0g) = \sum_{g \in G} \psi(g) = S,\] since as $g$ runs over $G$, so does $g_0g$. So then $\lambda S = S$ for some $\lambda \neq 1$, which means $S = 0$. 
+\end{proof}
+
+\begin{example}
+To make the above argument a bit more concrete, consider the case where our group is $\ZZ/n\ZZ$ and $\psi$ is the representation $\overline{x} \mapsto e^{2\pi ix/n}$. Then the set of points $\psi(g)$ form a regular $n$-gon, and our claim is that the center of mass of this regular $n$-gon is the origin. Our proof corresponds to the fact that rotating the $n$-gon by $2\pi/n$ preserves the $n$-gon and therefore its center of mass; but it must also rotate the center by $2\pi/n$, and the only point fixed by a $2\pi/n$ rotation is the origin. 
+\end{example}
+
+\begin{center}
+    \begin{asy}
+    unitsize(2cm);
+    draw((-1.5, 0)--(1.5, 0), mediumgray, Arrows);
+    draw((0, -1.5)--(0, 1.5), mediumgray, Arrows);
+    pair A1 = dir(0);
+    pair A2 = dir(72);
+    pair A3 = dir(144);
+    pair A4 = dir(216);
+    pair A5 = dir(288);
+    dot(A1^^A2^^A3^^A4^^A5);
+    filldraw(A1--A2--A3--A4--A5--cycle, heavycyan+opacity(0.1), heavycyan);
+    draw(A1..dir(36)..A2, deepgreen, EndArrow, Margins);
+    label("$2\pi/n$", dir(36), dir(36), deepgreen);
+    dot((0, 0), heavyred);
+    \end{asy}
+\end{center}
+
+
+% Let $S = \sum_{g \in G} \psi(g)$. Pick $g_0$ such that $\psi(g_0) = \lambda \neq 1.$\todo{why does this exist} If there is no such $g_0$, then $\psi$ is the trivial character and then clearly we have that $\sum_{g \in G} \psi(g) = |G|.$ Otherwise,
+
+% \begin{align*} 
+% \lambda S &= \sum_{g \in G} \psi(g_0)\psi(g) \\
+% &= \sum_{g \in G} \psi(g_0g) \\
+% &= \sum_{g \in G} \psi(g) = S.
+% \end{align*}
+
+% Since $\lambda \neq 1,$ we have that $S = 0.$ and we are done. 
+
+% \end{proof}
+
+\begin{proposition}
+If $G$ is abelian, then every irreducible representation is one-dimensional.
+\end{proposition}
+
+This has several proofs. 
+
+\begin{proof}[Proof 1]
+We use the Main Theorem. Let $d_1$, \ldots, $d_n$ be the dimensions of the irreducible representations of $G$. First, there must be exactly $|G|$ irreducible representations, since the dimension of the space of class functions is $|G|$ (every function is a class function, as every element is in its own conjugacy class). So we have $n = |G|$. But then \[d_1^2 + d_2^2 + \cdots + d_n^2 = |G| = n.\] Since the $d_i$ are positive integers, they must all be $1$. 
+\end{proof}
+
+
+\begin{proof}[Proof 2 (Sketch)]
+We've already proven this for \emph{cyclic} groups --- we've proven that for $\ZZ/n\ZZ$, all irreducible representations are one-dimensional and are given by $\rho_k : \overline{1} \mapsto e^{2\pi i k/n}$. 
+
+In a much later class, we'll see that every finite abelian group is isomorphic to a product of cyclic groups, meaning that $G = G_1 \times \cdots \times G_n$ where each $G_i$ is of the form $\ZZ/m_i\ZZ$. From this, we can deduce the proposition for \emph{all} abelian groups. One way to do so is to note that if we take any list of irreducible characters $\chi_1$, \ldots, $\chi_n$ of $G_1$, \ldots, $G_n$ (which are all one-dimensional), we can define a one-dimensional character of $G$ as $\chi(g_1, \ldots, g_n) = \chi_1(g_n)\cdots \chi_n(g_n)$. Since each $G_i$ has $|G_i|$ irreducible characters, this gives us $|G_1|\cdots |G_n| = |G|$ one-dimensional characters of $|G|$. But we know there are exactly $|G|$ irreducible characters, so this list must contain all of them. 
+\end{proof}
+% This is true for $G \cong \ZZ_n$, since we can just take the $n$ irreducible representations given by $\overline{1} \mto e^{2\pi ik/n}$, which maps the generator to an $n$th root of unity. Then we already have $\sum d_i^2 = n$ for these irreducible representations, and so these are all of them. 
+
+% We will see that an abelian group is isomorphic to $\Pi_{i = 1}^{m} \ZZ_{n_i}$, which will give this result.\todo{flesh this out plsss}
+% \end{proof} 
+\begin{proof}[Proof 3]
+Finally, here is a proof that doesn't rely on as much theory. 
+
+\begin{claim*}
+If we have a collection of pairwise commuting matrices, each of which is diagonalizable, then we can diagonalize \emph{all} of them simultaneously. 
+\end{claim*}
+
+\begin{proof}
+The key point is that if $AB = BA$, then if $v$ is an eigenvector of $A$ with $Av = \lambda v$, then \[A(Bv) = BAv = B(\lambda v) = \lambda(Bv),\] so $Bv$ is also a $\lambda$-eigenvector, and so the $\lambda$-eigenspace of $A$ is $B$-invariant. 
+
+Then using this, we can take the first matrix $A$, and split our vector space as a direct sum of the eigenspaces of $A$. Now no matter what basis we choose for those eigenspaces, $A$ will be diagonalized (since it acts as a scalar matrix on each space). Meanwhile, since these eigenspaces are each invariant under all the other matrices, it's enough to diagonalize our remaining set of matrices on each of those spaces. So we can finish by using induction on the number of matrices. 
+\end{proof}
+
+In our situation, we know all matrices $\rho_g$ are diagonalizable (since they must have finite order). So by the claim, it must be possible to diagonalize them simultaneously; this then splits $V$ as a direct sum of one-dimensional subspaces which are invariant under all $\rho_g$, and therefore $\rho$ is a direct sum of one-dimensional representations. 
+\end{proof}
+
+% A collection of pairwise commuting diagonalizable matrices can be diagonalized simultaneously. The key point is that if $AB = BA,$ then if $Av = \lambda v$ where $v$ is a $\lambda$-eigenvector, then $A(Bv) = BAv = B(\lambda v) = \lambda Bv,$ and so $Bv$ is also a $\lambda$-eigenvector, and so the $\lambda$-eigenspace of $A$ is $B$-invariant. 
+
+% As a result, any invariant subspaces of a group element $g$ will also be an invariant subspace of all the other group elements, and since matrices of finite order are always diagonalizable (that is, there will always be invariant subspaces for a given group element), they must all have dimension 1 in order to be irreducible.\todo{expand on this}
+% \end{proof}
+
+Now let's calculate the character tables for a few symmetric groups. In the first character table for $\ZZ/4\ZZ$, we already \emph{knew} what all the irreducible representations (and their characters) were. But here we'll see that we can actually use the Main Theorem to \emph{deduce} information about the characters --- for example, knowing that we have listed \emph{all} irreducible characters, or even calculating their values. 
+
+\begin{example}
+Find the character table of $S_3$. 
+\end{example}
+
+\begin{proof}[Solution]
+There are three conjugacy classes, with representatives $1$, $(12)$, and $(123)$. Meanwhile, we've already seen three irreducible representations --- the trivial representation $\mathds{1}$, the sign representation $\sign$, and the representation $\tau$, the two-dimensional subrepresentation of the permutation representation acting on $V = \{(x, y, z) \mid x + y + z\} \subset \CC^3$. 
+
+The characters of the trivial and sign representations are easy to compute. For $\tau$, we know that $\CC^3 = V \oplus \operatorname{Span}((1, 1, 1)^t)$, and the permutation representation is trivial on $\operatorname{Span}((1, 1, 1)^t)$, so if $\rho$ denotes the permutation representation on $\CC^3$, then $\rho = \tau \oplus \mathds{1}$. This means \[\chi_\rho = \chi_\rho + \chi_{\mathds{1}} = \chi_\rho + 1.\] But $\chi_\rho(\sigma)$ is just the number of fixed points of $\sigma$ --- this is because $\rho_\sigma$ is the permutation matrix corresponding to $\sigma$, so $1$'s on the diagonal of $\rho_\sigma$ correspond to fixed points of $\sigma$. This gives the following table: 
+
+
+% and so where $\rho$ denotes the permutation representation, $\rho = \tau \oplus \mathds{1}.$ Therefore, $\chi_{\rho} = \chi_{\tau} \oplus \chi_{\mathds{1}},$ and so $\chi_{\tau}(g) = \chi_{\rho}(g) - 1.$ The character of the permutation representation can be calculated simply as the number of fixed points.\footnote{This comes from looking at the permutation matrix.}
+\begin{center}
+    \begin{tabular}{c||c|c|c}
+         & $1$ & $(12)$ & $(123)$ \\
+         \hline
+         \hline
+        $\mathds{1}$ & $1$ & $1$ & $1$ \\
+        \hline
+        $\sign$ & $1$ & $-1$ & $1$ \\
+        \hline
+        $\tau$ & $2$ & $0$ & $-1$
+    \end{tabular}
+\end{center}
+
+Since we've already found three irreducible representations, we know these are the only ones (since the number of irreducible representations is the same as the number of conjugacy classes). 
+
+As an example of the orthogonality of the character, \[\langle \tau, \tau \rangle = \frac{1}{6}(2 \cdot 2\cdot 1 + 0\cdot 0 \cdot 3 + (-1)(-1)\cdot 2) = \frac{1}{6}(4 + 2) = 1.\]  Note that we have to keep track of how many group elements are in each conjugacy class, since we're summing over the entire group and not conjugacy classes --- for example, there are two elements in the conjugacy class of $(123)$, which is why we multiply $(-1)(-1)$ by $2$. 
+\end{proof}
+
+\begin{example}
+Find the character table of $S_4$. 
+\end{example}
+
+\begin{proof}
+There are five conjugacy classes, with representatives $1$, $(12)$, $(12)(34)$, $(123)$, and $(1234)$. There are a few representations we already know --- $\mathds{1}$ and $\sign$ are still irreducible representations, and so is $\tau$, the permutation representation acting on  $V = \{(w, x, y, z) \mid w + x + y + z = 0\} \subset \CC^4$ (whose character we can compute in the same way as we did for $S_3$). So far, this gives us the following table: 
+\begin{center}
+    \begin{tabular}{c||c|c|c|c|c}
+    & $1$ & $(12)$ & $(12)(34)$ & $(123)$ & $(1234)$ \\
+    \hline 
+    \hline 
+    $\mathds{1}$ & $1$ & $1$ & $1$ & $1$ & $1$ \\ 
+    \hline 
+    $\sign$ & $1$ & $-1$ & $1$ & $1$ & $-1$ \\
+    \hline 
+    $\tau$ & $3$ & $1$ & $-1$ & $0$ & $-1$
+    \end{tabular}
+\end{center}
+We earlier mentioned that the product of one-dimensional characters is again a character. But we actually only need \emph{one} of the characters to be one-dimensional, not both of them; so $\chi_{\sign}\cdot \chi_{\tau}$ is also an irreducible character, of the representation denoted $\sign \otimes \tau$. Now there's one remaining representation which we \emph{don't} know how to describe (since there must be exactly five representations); denote that by $\rho$. 
+\begin{center}
+    \begin{tabular}{c||c|c|c|c|c}
+    & $1$ & $(12)$ & $(12)(34)$ & $(123)$ & $(1234)$ \\
+    \hline 
+    \hline 
+    $\mathds{1}$ & $1$ & $1$ & $1$ & $1$ & $1$ \\ 
+    \hline 
+    $\sign$ & $1$ & $-1$ & $1$ & $1$ & $-1$ \\
+    \hline 
+    $\tau$ & $3$ & $1$ & $-1$ & $0$ & $-1$ \\
+    \hline 
+    $\sign \otimes \tau$ & $3$ & $-1$ & $-1$ & $0$ & $1$ \\
+    \hline 
+    $\rho$ & & & & & 
+    \end{tabular}
+\end{center}
+In order to figure out the last row, first we can use the fact that $\sum d_i^2 = |G|$ to calculate the dimension of $\rho$ --- this gives \[1^2 + 1^2 + 3^2 + 3^2 + (\dim \rho)^2 = 24,\] so $\dim \rho = 2$. This means $\chi_\rho(1) = 2$. 
+\begin{center}
+    \begin{tabular}{c||c|c|c|c|c}
+    & $1$ & $(12)$ & $(12)(34)$ & $(123)$ & $(1234)$ \\
+    \hline 
+    \hline 
+    $\mathds{1}$ & $1$ & $1$ & $1$ & $1$ & $1$ \\ 
+    \hline 
+    $\sign$ & $1$ & $-1$ & $1$ & $1$ & $-1$ \\
+    \hline 
+    $\tau$ & $3$ & $1$ & $-1$ & $0$ & $-1$ \\
+    \hline 
+    $\sign \otimes \tau$ & $3$ & $-1$ & $-1$ & $0$ & $1$ \\
+    \hline 
+    $\rho$ & $2$ & $a$ & $b$ & $c$ & $d$
+    \end{tabular}
+\end{center}
+In order to calculate the remaining entries $a$, $b$, $c$, and $d$, we use the orthogonality relations. By using the fact that $\langle \chi_\rho, \chi_{\mathds{1}} - \chi_{\sign} \rangle$ and $\langle \chi_\rho, \chi_{\tau} - \chi_{\sign \otimes \tau} \rangle$ are both zero, we can get that $a = d = 0$, and by using two other orthogonality relations, we can get $b = 2$ and $c = -1$. So our answer is the following table: 
+\begin{center}
+    \begin{tabular}{c||c|c|c|c|c}
+    & $1$ & $(12)$ & $(12)(34)$ & $(123)$ & $(1234)$ \\
+    \hline 
+    \hline 
+    $\mathds{1}$ & $1$ & $1$ & $1$ & $1$ & $1$ \\ 
+    \hline 
+    $\sign$ & $1$ & $-1$ & $1$ & $1$ & $-1$ \\
+    \hline 
+    $\tau$ & $3$ & $1$ & $-1$ & $0$ & $-1$ \\
+    \hline 
+    $\sign \otimes \tau$ & $3$ & $-1$ & $-1$ & $0$ & $1$ \\
+    \hline 
+    $\rho$ & $2$ & $0$ & $2$ & $-1$ & $0$
+    \end{tabular}
+\end{center}
+Although we were able to compute $\chi_\rho$ without knowing what $\rho$ is by using the Main Theorem, it's also possible to describe $\rho$ explicitly. Note that the Klein $4$-group $K_4$ is a normal subgroup of $S_4$, with $S_4/K_4 \cong S_3$. This means we have a homomorphism $S_4 \to S_3$, and a homomorphism $S_3 \to \operatorname{GL}_2(\CC)$ given by the representation $\tau$ of $S_3$. Composing these gives a homomorphism $S_4 \to \operatorname{GL}_2(\CC)$, which is exactly the representation $\rho$. 
+\end{proof}
+
+
+% \begin{example}
+% Consider $G = S_4.$ The product of irreducible characters will yield another irreducible character when one of them is one-dimensional, so what we denote $\sign \otimes \tau$ will be another irreducible character. \todo{explain this} The character table is 
+% \begin{center}
+%     \begin{tabular}{c|c|c|c|c|c}
+%          & 1 & (12) & (12)(34) & (123) & (1234) \\
+%         \hline 
+%         $\mathds{1}$ & 1 & 1 & 1 & 1 & 1 \\
+%         $\sign$ & 1 & -1 & 1 & 1 & -1 \\
+%         $\tau$ & 3 & 1 & -1 & 0 & -1  \\
+%         $\sign \otimes \tau$ & 3 & -1 & -1 & 0 & 1 \\ 
+%         S & 2 & 0 & 2 & -1 & 0
+%     \end{tabular}
+% \end{center}
+
+% The last row comes from orthogonality of the characters, and $\sum d_i^2 = 24$, so this is all of the irreducible representations. 
+
+% Also, note that the Klein 4 group is a normal subgroup of $S_4$ and $S_4/K \cong S_3.$ Then $S_4 \rto S_3 \xrightarrow[]{\tau} GL_2$ \todo{explain this?} gives $\rho,$ the permutation representation.\todo{check that this is accurate.}
+% \end{example}
+
+\subsection{Schur's Lemma}
+
+Now we'll start proving the Main Theorem, starting with orthogonality of characters. For that, we'll need Schur's Lemma, which is quite important in its own right. 
+
+We've defined what \emph{one} representation is, but we can also ask how to compare \emph{two} representations. The way to do this is by looking at $G$-equivariant maps between them: 
+
+\begin{definition}
+Suppose $\rho : G \to \operatorname{GL}(V)$ and $\psi : G \to \operatorname{GL}(W)$ are (not necessarily irreducible) representations. Then define \[\operatorname{Hom}_G(\rho, \psi) = \{f : V \to W \mid f \text{ is a linear map such that $f(\rho_g(v)) = \psi_g(f(v))$ for all $g$, $v$}\}.\] Such linear maps $f$ are called $G$-\textbf{equivariant}. 
+\end{definition}
+
+Intuitively, $\operatorname{Hom}_G(\rho, \psi)$ is the space of linear maps (or homomorphisms) from $V$ to $W$ which are compatible with the $G$-action --- such maps $f$ are said to \emph{intertwine} the $G$-action.  
+
+Also, $\operatorname{Hom}_G(\rho, \rho)$ is also denoted as $\operatorname{End}_G(\rho)$; this is the space of $G$-equivariant endomorphisms (an endomorphism is a homomorphism from a space to itself). 
+
+Note that $\operatorname{Hom}_G(\rho, \psi)$ is a $\CC$-vector space --- we can add two $G$-equivariant homomorphisms or scale one, and get another $G$-equivariant homomorphism. We'll see later how to think about it in terms of matrices; but for now, we'll prove the following important theorem about it: 
+
+\begin{theorem}[Schur's Lemma] 
+Let $\rho : G \to \operatorname{GL}(V)$ and $\psi : G \to \operatorname{GL}(W)$ be \emph{irreducible} representations. Then $\operatorname{Hom}_G(\rho, \psi)$ is $0$ if $\rho \not\cong \psi$, and is one-dimensional if $\rho \cong \psi$. 
+\end{theorem}
+
+In other words, the second statement can be written as $\operatorname{End}_G(\rho) = \CC\cdot \operatorname{Id}$ --- any $G$-equivariant endomorphism is scalar. It's clear that every scalar map is a $G$-equivariant endomorphism, so the second part of Schur's Lemma states that these are the only ones.
+
+\begin{proof}
+Suppose $f : V \to W$ is a nonzero linear map which is $G$-equivariant. We're now going to show that $f$ is an isomorphism; it suffices to show that it's both surjective and injective. 
+
+First consider $\im(f)$; this must be a $G$-invariant subspace of $W$, since for any $f(v) \in \im(f)$, we have that $\psi_g(f(v)) = f(\rho_g(v))$ is also in the image of $f$ for any $g$. But since $\psi$ is irreducible, the only $G$-invariant subspaces are $0$ and $W$ itself; so since $f$ is nonzero (and therefore its image is nonzero), its image must be the entire space $W$! So $f$ is surjective. 
+
+Now consider $\ker(f)$. This is also a $G$-invariant subspace of $V$, since if $f(v) = 0$, then $f(\rho_g(v)) = \psi_g(f(v)) = 0$, so $\rho_g$ is also in the kernel for any $g$. But since $\rho$ is irreducible, the only $G$-invariant subspaces are $0$ and $V$; and the kernel cannot be $V$ since $f$ is nonzero, so the kernel must be $0$. This means $f$ is injective. 
+
+Therefore $f$ is both surjective and injective, and is therefore an isomorphism. So we've shown that if there exists a nonzero $G$-equivariant homomorphism, then we must have $\rho \cong \psi$; this proves the first part of Schur's Lemma. 
+
+Now to prove the second part of Schur's Lemma, assume $\rho = \psi$, so $f$ is a map $V \to V$. Then $f$ must have some eigenvalue $\lambda$. Now consider the map $f - \lambda \operatorname{Id}$, where $\operatorname{Id}$ denotes the identity map; this is also a $G$-equivariant endomorphism. We must have $\ker(f - \lambda \operatorname{Id}) \neq 0$, since $f$ has a $\lambda$-eigenvector (which must be in the kernel). But since the kernel must be a $G$-invariant subspace, this implies that $\ker(f - \lambda \operatorname{Id}) = V$. Therefore $f - \lambda \operatorname{Id}$ is the zero map, and $f = \lambda \operatorname{Id}$. So the only $G$-equivariant endomorphisms are scalar maps. 
+\end{proof}
+
+% This following lemma will be very important for our theory of representations.
+% \begin{lemma}
+% If $\rho: G \rto GL(V)$ and $\psi: G \rto GL(W)$ are representations, define \[\text{Hom}_G(\rho, \psi) = \{F: V \rto W : F \text{ is a linear map such that for all } g \in G, v \in V, F(\rho_g(v)) = \psi_g(F(v)).\}\] Such $F$ are said to intertwine the $G$-action, or to be $G$-equivariant. \todo{check that this is correct} Also, $\text{Hom}_G(\rho, \rho) = \text{End}_G(\rho),$ the $G$-equivariant endomorphisms.
+
+% Suppose that $\rho:  G \rto GL(V)$ and $\psi: G \rto GL(W)$ are irreducible representations. Then \[
+% \text{Hom}_G(\rho, \psi) = \begin{cases} 0 \text{ if } \rho \ncong \psi \\
+% 1-\text{dimensional if } \rho = \psi\end{cases}.
+% \]\todo{explain this}
+
+% So $\text{End}_G(\rho) = \CC \text{Id}$ and any $G$-endomorphism is scalar.
+% \end{lemma}
+% \begin{proof}
+
+
+% Suppose that $F: V \rto W$ is a nonzero $G$-equivariant linear map. Then $\im(F)$ is a $G$-invariant subspace. If $F \neq 0,$ then $\im(F) \neq 0.$ Since $W$ irreducible, $\im(F) = W;$ that is, $F$ is an endomorphism. Consider $\ker(F)$, a $G$-invariant subspace in $V.$ If $F \neq 0,$ then $\ker(F) \neq V,$ so since $V$ is irreducible, $\ker(F) = V.$ Then $F$ is both one-to-one and onto, and so $F$ is an isomorphism. This is the main idea of the proof, but there is more to check.
+% \end{proof}
+
+% \todo{There's more to this.}
+
+% As a corollary, consider $F: V \rto V.$ Let $\lambda$ be an eigenvalue for $F.$ Then, $F -\lambda I$ is not one-to-one. The kernel $\ker(F-\lambda I)$ is nonzero because it contains the eigenvectors of $\lambda.$ So $\ker(F - \lambda I) = V$, so $F - \lambda I = 0$ and thus $F = \lambda I.$
+
+

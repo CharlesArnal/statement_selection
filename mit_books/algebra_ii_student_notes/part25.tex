@@ -1,0 +1,255 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-012 Algebra II Student Notes, Spring 2022
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+% \rhead{\rightmark}
+\lhead{Lecture 25: Field Extensions}
+\section{Field Extensions}
+
+\subsection{Primary Fields}
+
+We have the following useful fact about fields:
+
+\begin{fact}
+    Every field is a (possibly infinite) extension of either $\QQ$, or $\FF_p$ for a prime $p$. These are called the \textbf{primary fields}. 
+\end{fact}
+
+\begin{proof}
+    In general, for any ring $R$, there is a unique ring homomorphism $\ZZ \to R$ --- we must have $1 \mapsto 1_R$, so then $n \mapsto \underbrace{1_R + \cdots + 1_R}_n = n_R$ for positive integers $n$, and $-n \mapsto -n_R$. 
+
+    The image of the homomorphism is a quotient of $\ZZ$ --- it's either $\ZZ$ or $\ZZ/n\ZZ$. Now consider the kernel of this homomorphism. If $R$ is an integral domain (note that all fields are domains), then either the homomorphism is one-to-one, or its kernel is $(p)$ for a prime $p$ --- otherwise, the image would be $\ZZ/n\ZZ$ for composite $n$, which is not a domain (as it has zero divisors). 
+    
+    Now taking $R = F$ to be a field, if the kernel is zero, then $\ZZ$ is a subring of $F$. But then $\QQ = \operatorname{Frac}(\ZZ)$ must be inside $F$ as well (since we can invert elements in a field) --- in our original notation, the copy of $\QQ$ in $F$ is the fractions of the form $n_R/m_R$.
+    
+    On the other hand, if the kernel is $(p)$, then we have a copy of $\ZZ/p\ZZ$ in $F$, and we're done. 
+\end{proof}
+
+\begin{definition}
+The generator of the kernel (as in the above proof) is called the \textbf{characteristic} of the field. 
+\end{definition}
+
+So fields of characteristic $0$ contain $\QQ$, and fields of characteristic $p$ contain $\ZZ/p\ZZ$ (and these are the only possible characteristics). 
+
+\subsection{Algebraic Elements}
+
+Last time, we defined algebraic elements in a field extension $L/K$: 
+
+\begin{definition}
+An element $\alpha \in L$ is \textbf{algebraic} over $K$ if $P(\alpha) = 0$ for some nonzero $P \in K[x]$. 
+\end{definition}
+
+As stated last class, $\alpha$ is algebraic if and only if $K(\alpha)/K$ is finite (since a polynomial in $\alpha$ is the same as a linear relation between powers of $\alpha$). 
+
+We also looked at towers of extensions $E/F/K$ --- here $E/K$ is called the \textbf{composite} extension, while $E/F$ and $F/K$ are called \textbf{intermediate} extensions. In particular, we saw the following theorem:
+
+\begin{theorem} \label{tower2}
+We have \[[E : K] = [E : F]\cdot [F : K].\] In particular, $E/K$ is finite if and only if both $E/F$ and $F/K$ are finite.
+\end{theorem}
+
+This has some useful corollaries regarding algebraic elements. 
+
+\begin{corollary} \label{algebraic}
+    If $\alpha, \beta \in L$ are algebraic over $K$, then $\alpha + \beta$, $\alpha\beta$, and $\frac{\alpha}{\beta}$ are also algebraic. 
+\end{corollary}
+
+\begin{proof}
+    If $\alpha$ and $\beta$ are algebraic, then $K(\alpha)/K$ and $K(\alpha, \beta)/K(\alpha)$ are both finite --- since $\beta$ satisfies a polynomial relation with coefficients in $K$, it satisfies the same polynomial relation with coefficients in $K(\alpha)$. So we can conclude that $K(\alpha, \beta)/K$ is finite, and therefore any element in it is algebraic. 
+\end{proof}
+
+\begin{corollary}
+    Given an arbitrary extension, the set of elements in $L$ which are algebraic over $K$ form a subfield of $L$, called the \textbf{algebraic closure} of $K$ in $L$. 
+\end{corollary}
+
+For example, the algebraic closure of $\QQ$ in $\CC$ is called the \textbf{algebraic numbers}. 
+
+This is an abstract argument that doesn't exactly tell us how to construct the polynomial; but it's possible to come up with a procedure to write down an equation as well. 
+
+\begin{example}
+    Let $\alpha = \sqrt{2}$ and $\beta = \sqrt{3}$, and $\gamma = \alpha + \beta$. How can we write down a polynomial equation for $\gamma$?
+\end{example}
+
+One possible method is that by Corollary \ref{algebraic}, we know that $1$, $\gamma$, $\gamma^2$, \ldots must be linearly dependent. In this case, they are all linear combinations of $1$, $\sqrt{2}$, $\sqrt{3}$, and $\sqrt{6}$ with coefficients in $\QQ$ --- so they lie in a vector space of dimension at most $4$. Then $1$, $\gamma$, \ldots, $\gamma^4$ are five elements in a four-dimensional vector space, so they must be linearly dependent; and using linear algebra, it's possible to explicitly calculate this linear relation. 
+
+There is another way to find the polynomial equation --- right now we'll present it as a guess, but later we'll see that it's part of a more general story. 
+
+We'd like to find a polynomial $P$ with $\gamma$ as a root, so we can try to think about what the other roots of $P$ should be. Suppose $P$ factors as $(x - \gamma_1)(x - \gamma_2)\cdots$, for $\gamma_i \in \CC$ --- it suffices to choose the $\gamma_i$ such that $P$ has rational coefficients, and $\gamma_1 = \sqrt{2} + \sqrt{3}$. 
+
+We can guess that all of $\pm \sqrt{2} \pm \sqrt{3}$ should be roots --- from an algebraic perspective, if $\sqrt{2} + \sqrt{3}$ shows up, we ``should'' be able to switch the sign of the square root (since there isn't a difference between the two signs). So then we can take 
+\begin{align*}
+    \gamma_1 &= \sqrt{2} + \sqrt{3} \\
+    \gamma_2 &= \sqrt{2} - \sqrt{3} \\
+    \gamma_3 &= -\sqrt{2} + \sqrt{3} \\
+    \gamma_4 &= -\sqrt{2} - \sqrt{3}.
+\end{align*}
+We can expand out the polynomial to see that it does indeed have rational coefficients (essentially, this involves using the equation $a^2 - b^2 = (a - b)(a + b)$ twice). 
+
+The main idea we used here is to exploit the symmetry between the roots (there is a group of symmetries acting on the roots, by replacing one of the square roots with its negative); we'll later discuss ways to find these symmetries, using Galois theory. 
+
+% \begin{example}
+% Consider $\alpha = \sqrt{2}$ and $\beta = \sqrt{3}$. Then $\gamma = \sqrt{2} + \sqrt{3}$. In order to write an equation for $\gamma,$ take $1, \gamma, \gamma^2, \gamma^3, \cdots$, the powers of $\gamma$. These are all linear combinations of $1, \sqrt{2}, \sqrt{3}, \sqrt{2}\sqrt{3},$ and so on. Then, $1 \gamma, \cdots, \gamma^4$ is a set of five elements in a 4-dimensional vector space, so there must exist some relation.
+% \end{example} 
+
+% There is also another way to look for the minimal polynomial $P$ such that $P(\gamma) = 0.$ The polynomial factors as \[P = (x - \gamma_1)(x - \gamma_2)\cdots,\footnote{In fact, we know that there are \emph{four} linear terms in this expansion.}\]where $\gamma_i \in \CC.$ First, we know that the first root must be $\gamma_1 = \gamma = \sqrt{2} + \sqrt{3}$. Next, we want to find the other roots. From an algebraic perspective, there is no difference between $\sqrt{2}$ and $-\sqrt{2}$, and between $\sqrt{3}$ and $-\sqrt{3}$. As a result, we know that the roots are 
+
+\subsection{Compass and Straightedge Construction}
+
+Proposition \ref{tower2} also relates to compass and straightedge constructions. It has the following corollary:
+
+\begin{corollary}
+    If $E/F/K$ is a tower of finite extensions, then $[F : K] \mid [E : K]$. 
+\end{corollary}
+
+The problem of which regular $n$-gons can be constructed using a compass and straightedge can be rephrased algebraically in the following way (we won't discuss the details here). 
+
+\begin{fact}
+A regular $n$-gon is constructible with compass and straightedge if and only if $\zeta_n = e^{2\pi i/n}$ lies in an extension $\QQ(\alpha_1, \alpha_n)$ such that $\alpha_i^2 \in \QQ(\alpha_1, \ldots, \alpha_{n - 1})$ for all $i$.
+\end{fact}
+
+This means we have a tower of quadratic extensions, where every step in this tower has degree $2$ --- more explicitly, we can define $F_i = \QQ(\alpha_1, \ldots, \alpha_i)$, with $F_0 = \QQ$. Without loss of generality we can assume $\alpha_i \not\in F_{i - 1}$ (or else adding it to the set of generators would be useless). Then we have the tower of extensions $F_n/F_{n - 1}/\cdots/F_1/F_0$ where $[F_i : F_{i - 1}] = 2$ for all $i$. 
+
+For convenience, we'll assume $n$ is prime. (The general case involves a few more details, but works very similarly.)
+
+\begin{theorem}\label{constructible}
+    Let $n = p$ be prime. Then a regular $p$-gon can be constructed if and only if $p = 2^k + 1$. 
+\end{theorem}
+
+Primes $p = 2^k + 1$ are called \textbf{Fermat primes}. There's only $5$ known Fermat primes ($3$, $17$, $257$, and $65537$); it's conjectured that there are no others, but we don't even know whether there's finitely or infinitely many. (Note that if $2^k + 1$ is prime, then $k$ must be a power of $2$ --- otherwise, $2^k + 1$ can be factored.) 
+
+We'll only show one direction: that if $\zeta_p$ is constructible, then $p$ is a Fermat prime. To prove this, the following proposition will be useful: 
+
+\begin{proposition}
+    If $p$ is prime, we have $\deg(\zeta_n) = p - 1$, or equivalently $[\QQ(\zeta_p) : \QQ] = p - 1$. 
+\end{proposition}
+
+The extension $\QQ(\zeta_p)$ is called a \textbf{cyclotomic extension}. 
+
+\begin{proof}
+    We know $\zeta_p$ is a root of $x^p - 1$. We can easily factor \[x^p - 1 = (x - 1)(x^{p - 1} + x^{p - 2} + \cdots + 1),\] so it suffices to show that the second factor, which we call $P(x)$, is irreducible. Since the polynomial is primitive, it's enough to show that it's irreducible over $\ZZ$. 
+    
+    Now we can perform a trick --- substitute $t = x - 1$. Then if we write $P(x) = Q(t)$, we have \[tQ(t) = (t + 1)^p - 1.\] But by expanding and using the Binomial Theorem, we then have \[Q(t) = \sum_{i = 0}^{p - 1} \binom{p}{i + 1}t^i.\] (For example, when $p = 3$, we have $Q(t) = t^2 + 3t + 3$.)
+    
+    But the leading term is $1$, and all other terms are divisible by $p$; and the free term is not divisible by $p^2$ (in fact, \emph{none} of the terms are divisible by $p^2$, but we only need to use the free term here). 
+    
+    Now assume for contradiction that $Q$ is reducible, so $Q = Q_1Q_2$ for polynomials $Q_1$ and $Q_2$ of degree at least $1$. Now consider the reduction mod $p$, where \[\overline{Q} = \overline{Q_1}\overline{Q_2}.\] But $\overline{Q}$ is now $t^{p - 1}$, and the only way to factor $t^{p - 1}$ in $\FF_p[x]$ is as $t^it^{p - 1 - i}$. But we have $\deg(\overline{Q_1}) = \deg(Q_1) > 1$ (and the same is true for $Q_2$), since the leading coefficients of $Q_1$ and $Q_2$ cannot be divisible by $p$ (their product is the leading coefficient of $Q$, which is $1$). So then we must have $i \neq 0, p - 1$. 
+    
+    But then since $Q_1$ and $Q_2$ are $t^i$ and $t^{p - 1 - i}$ for $0 < i < p - 1$, their free terms must both be divisible by $p$. So the product of their free terms is divisible by $p^2$; but this product is the free term of $Q$, which is \emph{not} divisible by $p^2$. So this is a contradiction, and $Q$ is irreducible. 
+\end{proof}
+
+\begin{proof}[Proof of Necessity in Theorem \ref{constructible}]
+    We've seen that $\deg(\zeta_p) = p - 1$. So we have $\deg(\zeta_p) = p - 1$. On the other hand, if $\zeta_p \in F_n$ for a field extension of the form described, then $\deg(\zeta_p)$ must divide $[F_n : \QQ]$, which is a power of $2$. So $p - 1$ must be a power of $2$ as well. 
+\end{proof}
+
+With our current tools, we can only show one direction --- to show the other direction, we need a better extension of which fields can be obtained as the top floor of a tower of quadratic extensions. It's necessary that the degree is a power of $2$, but this may not be sufficient. In the case of $\QQ(\zeta_p)$, the condition turns out to be sufficient as well (as we'll see later). 
+
+% \subsection{Application to Compass and Straightedge Constructions}
+
+% This is a corollary of the previous theorem.\todo{which theroem}
+% \begin{corollary}
+% The field $E/K$ is finite when $[F:K] \mid [E:K]$ if $E/F/K$ with $E/K$ is finite. \todo{what} 
+% \end{corollary}
+
+
+% As an application, we can analyze compass and straightedge constructions. To save time, this fact is provided.
+
+% \begin{fact}A regular $n$-gon can be constructed if and only if $\zeta_n\footnote{$e^{2\pi i/n}$}$ lies in $\QQ(\alpha_1, \alpha_2, \cdots, \alpha_n)$, where $\alpha_i^2 \in \QQ(\alpha_1, \cdots, \alpha_{i - 1}).$ That is, if it lies in a series of field extensions of degree 2. 
+% \end{fact}
+
+% From this fact, the following theorem can be obtained.
+
+% \begin{theorem}[Fermat Primes]
+% Assume that $n = p$ is a prime. Then the regular $n$-gon is constructible if and only if $p$ can be written as $2^a + 1$ for some $a$; this is called a \textbf{Fermat prime}.
+% \end{theorem}
+
+% In fact, there are five known Fermat primes, and it is conjectured that these are the only ones.\footnote{Actually, if $p = 2^a + 1,$ it must also be of the form $2^{2^b} + 1.$}
+% \begin{example}
+% For example, $p = 3, 5, 17, 257,$ and $65537$ correspond to constructible $n$-gons.
+% \end{example}
+
+
+
+% \begin{proposition}
+% The degree is \[\deg(\zeta_n) = p - 1,\] where $p$ is a prime, since this is $[\QQ(\zeta_n) : Q]$. This is called a cyclotomic extension.
+% \end{proposition}
+% \begin{proof}[Proof of Proposition]
+
+
+% We have \[(x^n - 1) = (x-1)(x^{n-1} + x^{n-2} + \cdots + 1)\], where both factors are irreducible.\footnote{In fact, the second factor is irreducible by the Eisenstein criterion, which we did not discuss.} The polynomial $P = x^{p-1} + \cdots + 1$ is irreducible over $\QQ.$ It is primitive, so it is enough to see that it is irreducible over $\ZZ.$ As a trick, take $t = x-1.$ Then $P(x) = Q(t)$, where $Q(t) = (t + 1)^p - 1$.\footnote{For example, for $p = 3,$ we would have $t^2 + 3t + 3.$} The coefficients of $Q(t)$ are the binomial coefficients $\binom{p}{i}$. The polynomial is \[Q(t) = \sum_{i = 0}^{p -1} \binom{p}{i - n}t^i,\] where all these except for the leading term are $0 \mod p$, and the free term is not divisible by $p^2.$ If $Q$ were reducible, then we have $Q = Q_1Q_2,$ where $\deg Q_1, \deg Q_2 > 0.$ Consider the reduction modulo $p.$ Then \[\overline{Q} = \overline{Q_1}\overline{Q_2},\] which is \[t^{p-1} = t^it^{p - 1 - i},\] where $i \neq 0$ and $i \neq p -1.$ We have $\deg{\overline{Q_1}} = \deg{Q_1} > 0.$ The free terms are 0 mod $p,$ so the free term of $Q_1Q_2$ is divisible by $p^2,$ which is not true, and so $Q$ is irreducible. 
+% \end{proof}
+
+
+% \begin{proof}[Proof that if $\zeta_n$ is constructible then $p = 2^n + 1$]
+% Now, if $\zeta_p$ lies in $F_n,$ where the notation is as above, \todo{copy the notation} \[\deg(\zeta_p) \mid [F_n, \QQ] = 2^n],\] and so $(p-1) \mid 2^n,$ and thus $p- 1$ is a power of 2. 
+% \end{proof}
+
+% Evidently, $p-1$ being a power of 2 is a necessary condition, but we have not yet proved that it is sufficient. In order to do so, we must gain a better extension of what kinds of fields can be in the top floor of such a tower consisting of quadratic extensions. \todo{he said more stuff here}
+
+\subsection{Splitting Fields}
+
+We've seen the construction where we start with an irreducible polynomial $P \in F[x]$, and construct the field extension $E = F[x]/(P)$. This is an extension of $F$ of degree $n = \deg(P)$, and we can think of it as adjoining a root of the polynomial. 
+
+But there's another construction which also produces a finite extension from a polynomial, which is in some sense harder to control. Here, we do not require the polynomial to be irreducible. 
+
+\begin{definition}
+    For a polynomial $P \in F[x]$, a \textbf{splitting field} of $P$ is an extension $E/F$ such that:
+    \begin{enumerate}
+        \item $P$ splits as a product of linear factors in $E[x]$;
+        \item $E = F(\alpha_1, \ldots, \alpha_n)$, where the $\alpha_i$ are the roots of $P$.
+    \end{enumerate}
+\end{definition}
+
+The first condition guarantees that $P$ splits completely (so we can find all its roots) in $E$; the second prevents $E$ from being too large (it only contains the elements which are necessary for $P$ to split). 
+
+\begin{proposition}
+Given any polynomial $P$, its splitting field exists, and any two splitting fields of $P$ are isomorphic. 
+\end{proposition}
+
+We'll discuss the proof in more detail next time --- the main idea is to add one root of $P$ so that it splits partially, then add another root of any remaining irreducible factor, and so on. 
+
+\begin{example}
+The splitting field of $P(x) = x^3 - 2$ over $F = \QQ$ is $E = \QQ(\sqrt[3]{2}, \omega \sqrt[3]{2})$, where $\omega$ is a primitive $3$rd root of unity. We have $[E : \QQ] = 6$. 
+\end{example}
+
+On the other hand, we could start by adjoining $\omega$: 
+
+\begin{example}
+The splitting field of $P(x) = x^3 - 2$ over $F = \QQ(\omega)$ is $E = F(\sqrt[3]{2})$ --- the polynomial $x^3 - 2$ remains irreducible, but after adjoining one root, we already have all the others. Here $[E : F] = 3$. 
+\end{example}
+
+Note that $E$ is the same in both examples (even though $F$ is not). 
+
+% \begin{example}
+%     Find the splitting field of $P(x) = x^3 - 2$ over $F = \QQ$ and $F = \QQ(\omega)$, where $\omega$ is a primitive $3$rd root of unity. 
+% \end{example}
+
+% \begin{solution}
+%     The splitting field of $P$ over $F = \QQ$ is $E = \QQ(\sqrt[3]{2}, \omega\sqrt[3]{2})$, and we saw earlier that $[E : F] = 6$. 
+    
+%     On the other hand, if $F = \QQ(\omega)$, then $P$ is still irreducible. But if we add one root then it becomes reducible --- if $\alpha$ is a root, we have $x^3 - 2 = (x - \alpha)(x - \omega\alpha)(x - \omega^2\alpha)$. So $E = F(\sqrt[3]{2})$, and we have $[E : F] = 3$. 
+% \end{solution}
+
+\begin{example}
+    The splitting field of $P(x) = x^{p - 1} + \cdots + 1$ over $F = \QQ$ is $E = \QQ(\zeta_p)$ (since all roots are powers of $\zeta_p$), where $[E : F] = p - 1$. 
+\end{example}
+
+
+
+% \subsection{Splitting Field}
+
+% Starting with an irreducible polynomial $P \in F[x],$ we constructed a field extension $F = F(x)/(P)$ with degree $[E:F] = n = \deg(P)$. In fact, another construction, which is arguably more powerful, starts with any $P$ and constructs the splitting field.
+
+% \begin{definition}
+% A \textbf{splitting field} of $P$ is an extension $E/F$ such that $P$ splits as a product of linear factors in $E[x]$ and $E$ is generated by roots of $P:$ \[E = F(\alpha_1, \cdots, \alpha_n),\] where $\alpha_i$ are roots of $P.$\footnote{This prevents $E$ from being too large.}
+% \end{definition}
+
+% \begin{proposition}
+% Given $P,$ the splitting field exists, and any two such splitting fields are isomorphic as extensions of $F.$
+% \end{proposition}
+
+% \begin{example}
+% Let $F = \QQ$ and $P(x) = x^3 + 2.$ Then $E$ will essentially be $\QQ(\sqrt[3]{2}, \omega \sqrt[3]{2})$, where $\omega = \exp(2\pi i /3)$. We have $[E:Q] = 6.$
+% \end{example}
+
+%  On the other hand, we could first expand it as $F = \QQ(\omega)$ where $x^3 - 2$ is irreducible in $F[x].$ We have $E = F(\sqrt[3]{2})$ the splitting field of $F$, and $[E:F] = 3$.
+ 
+%  The last example is where $F = \QQ,$ and $P = x^{p - 1} + \cdots + 1.$ All other roots of $P$ are powers $\zeta_p^i$ where $i = 1, \cdots, p - 1.$ Then the splitting field of the polynomial is $E = \QQ(\zeta_p)$ where $[E:Q] = p-1.$

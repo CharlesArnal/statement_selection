@@ -1,0 +1,158 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-011 Algebra I Student Notes, Fall 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\section{Dimension Formula}
+\subsection{Review}
+Last time, we ended off with the definition of linear transformations.
+\subsection{Matrix of Linear Transformations}
+Given a linear transformation $T: V \rightarrow W$, we know 
+\[ T(a_1 \vvv_1 + \cdots + a_n \vvv_n) = a_1 T(\vvv_1) + \cdots + a_n T(\vvv_n) .\]
+Then, given any basis $\vvv_1, \ldots , \vvv_n$ for $V$, the above property tell us that $T$ is completely determined by the values of $T(\vvv_1), \ldots, T(\vvv_n)$. 
+
+\begin{example} \label{basistrans}
+    Last time, we discussed a linear transformation from column vectors to another vector space. 
+    In particular, if we have a basis $\vv{w}_1, \ldots, \vv{w}_m $ of $W$, then we can create the following linear transformation:
+    \begin{align*}
+        B: F^n &\rightarrow W \\
+        \vv{e}_i & \mapsto \vv{w}_i \\
+        (a_1, \cdots, a_n) &\mapsto \sum a_i \vv{w}_i,
+    \end{align*}
+    where $\vv{e}_i$ is the zero column vector with a 1 in the $i$th position.
+    This is an isomorphism due to choosing $\vv{w}_i$ to be a basis. 
+    The inverse map $B^{-1}(\vv{w}) = (a_1, \cdots, a_n)$ sends a vector to the \emph{coordinates} of $\vv{w}$ for the given basis.
+    % maybe this should go in review? i think it wasn't exactly covered last time though
+\end{example}
+\begin{example}
+    There is a bijection between matrices $A \in \text{Mat}_{m\times n} (F)$ and linear transformations $T : F^n \rightarrow F^m$.
+    For every matrix $A$, it can be mapped to the linear transformation $T = A\cdot \vv{x}$.
+    For every transformation $T$, it can be mapped to 
+    \[A = \begin{pmatrix} T(\vv{e}_1) & T(\vv{e}_2) &\cdots  & T(\vv{e}_n) \end{pmatrix}. \]
+
+    Both the set of matrices and the set of linear transformations are vector spaces, so this defines an isomorphism between two vector spaces. We will switch between these notions frequently.
+
+    As a special case, if we have an isomorphism $T : F^n \xrightarrow{\sim} F^m$, then this forces $m = n$ and the corresponding matrix $A$ must be in $\GL_n(F)$.
+\end{example}
+From Example \ref{basistrans}, suppose we have two different bases of $V$ and create their corresponding linear transformations $B$ and $B'$. Let the corresponding bases be $\{\vvv_1, \ldots, \vvv_n \}$ and $\{ \vv{w}_1, \ldots, \vv{w}_n \}$ respectively.
+Then, $P \coloneqq B^{-1} \circ B'$ defines a mapping from $F^n$ to $F^n$, and we must have $P \in GL_n(F)$.
+Furthermore, $B' = B \circ P$. These relations can be seen by following the arrows in the below diagram:
+\[
+\begin{tikzcd}
+F^n \arrow[r, "B"] & V \\
+& F^n \arrow[lu, "P"] \arrow[u, "B'"]
+\end{tikzcd}
+\]
+We can figure out the columns of $P$ as well: 
+\[P(\vv{e}_i) = B^{-1} (B'(\vv{e}_i)) = B^{-1}(\vv{w}_i).\]
+We know $B^{-1}(\vv{w}_i)$ is just the coordinates of $\vv{w}_i$ for the basis $\{\vvv_1, \ldots, \vvv_n \}$. 
+Similarly, we can figure out the columns of $P^{-1}$ by taking the each $\vvv_i$ and writing it in terms of the basis of $\vv{w}$'s.
+
+Given a vector $\vvv \in V$, we can write the coordinates $\vv{x} = B^{-1}(\vvv)$ and $\vv{x}' = (B')^{-1} (\vvv)$. The coordinates are related by $P\vv{x}' = \vv{x}$ and $P^{-1}\vv{x} = \vv{x}'$ by using our expression for $P$.
+
+For any finite-dimensional vector space, by picking a basis, we can write every vector in terms of coordinates. 
+Then, for every transformation $T: V \rightarrow W$, we can write it as a matrix $A$ using coordinates. 
+Suppose we have the coordinate maps $B: F^n \rightarrow V$ and $C : F^m \rightarrow W$ and the respective bases are $\{ \vvv_i\}$ and $\{ \vv{w}_i \}$.
+\[
+\begin{tikzcd}
+V \arrow[r, "T"] & W \\
+F^n \arrow[u, "B"]\arrow[r, "A"] & F^m \arrow[u, "C"]
+\end{tikzcd}
+\]
+Following the arrows, we have $A \coloneqq C^{-1} \circ T \circ B \in \text{Mat}_{m\times n}(F)$.
+To write down $A$, we can find the $i$th column of $A$ by writing $T(\vvv_i)$ in terms of the $\vv{w}$'s.
+
+\begin{example} 
+    Let's see an example of computing $A$.
+    Let $V$ be the set of complex functions such that $f''(t) = f(t)$.
+    Let $W$ be the set of complex functions such that $f''(t) = -f(t)$. 
+    We can define the transformation 
+    \begin{align*}
+        T:V &\rightarrow W \\
+        f(t) &\mapsto f(it) .
+    \end{align*}
+    Note that $T$ looks nothing like a matrix right now, but we can turn it into one by picking bases for $V$ and $W$. One choice of basis is $V = \spann(e^t, e^{-t})$ and $W = \spann(\cos t, \sin t)$. 
+
+    Then, by writing $T(e^t) = e^{it} = \cos t + i \sin t$ and $T(e^{-t}) = e^{-it} = \cos t + -i \sin t$, we have found the columns of $A$:
+    \[A = \begin{pmatrix} 1 & 1 \\ i & -i \end{pmatrix} .\]
+
+    If we had chosen a different basis for $W = \spann(e^{it}, e^{-it})$, then our matrix $A'$ would just be the identity matrix.
+
+\end{example}
+
+
+\begin{qq}
+    We have seen that the same linear transformation leads to different $A$, so can we pick bases so that $A$ ``looks very nice"? For example, in the previous example, we were able to make $A$ the identity matrix by picking a different basis. 
+\end{qq}
+We will answer this question at the end of the next section.
+\subsection{Dimension Formula}
+Note that linear transformations are very similar to group homomorphisms. 
+They are both mappings that preserve the structure that we care about. 
+We can define and prove similar results as the ones we showed for group homomorphisms.
+
+\begin{definition}
+    Given a linear transformation $T : V \rightarrow W$, we can define the \textbf{kernel} and \textbf{image}.
+    \begin{align*}
+        \Ker(T) &\coloneqq \{ \vvv \mid T(\vvv) =\vv{0} \} \\
+        \im(T) &\coloneqq \{ \vv{w} \mid T(\vvv) \vv{w} \text{ for some $\vvv \in V$} \} 
+    \end{align*}
+    By similar logic to group homomorphisms, these are vector \emph{subspaces} of $V$ and $W$ respectively.
+    We also define the \textbf{nullity} and the \textbf{rank} as the dimension of the kernel and image respectively.
+\end{definition}
+
+\begin{theorem}[Dimension formula]
+    Given $T : V \rightarrow W$,
+    \[\dim(\Ker T ) + \dim (\im T) = \dim (V). \]
+\end{theorem}
+This is somewhat reminiscent of the theorem on groups $|G| = \lvert\Ker(G)\rvert \lvert\im(G)\rvert$.
+\begin{proof}
+    Pick $\vvv_1, \ldots, \vvv_k$ as a basis for $\Ker(T)$. 
+    From a theorem from last class, we can add vectors $\vvv_{k+1}, \ldots, \vvv_n$ to get a basis for $V$ where $n = \dim V$ and $k = \dim( \Ker(T))$.
+
+    Let $\vv{w}_i \coloneqq T(\vvv_i)$. By the definition of kernel, $\vv{w}_i = 0$ for $1 \leq i \leq k$. 
+    We will show that $\{\vv{w}_{k+1}, \ldots, \vv{w}_n \}$ is a basis for $\im(T)$, so that \[\text{rank}(T) = n-k = \dim(V) - \dim(\Ker(T)). \] 
+    To prove that it is a basis, we need to show that they are linearly independent and they span $\im(T)$.
+    For the span,
+    \begin{align*}
+        \im(T) &= \spann(T(\vvv_1), \ldots, T(\vvv_n))\\
+               &= \spann(T(\vvv_{k+1}), \ldots, T(\vvv_n)) \\
+               &= \spann(\vv{w}_{k+1}, \ldots, \vv{w}_n).
+    \end{align*}
+    For linear independence, we consider the solutions to: 
+    \[ a_{k+1} \vv{w}_{k+1} + \cdots + a_n \vv{w}_n = \vv{0}. \]
+    This implies that 
+    \[ T(a_{k+1} \vv{v}_{k+1} + \cdots + a_n \vv{v}_n) = \vv{0} \]
+    and thus 
+    \[ a_{k+1} \vv{v}_{k+1} + \cdots + a_n \vv{v}_n \in \Ker(T) .\]
+    Since $\vvv_1, \ldots, \vvv_k$ is a basis for the kernel, there must exist coefficients $a_1, \ldots, a_k$ such that 
+    \[ a_{k+1} \vv{v}_{k+1} + \cdots + a_n \vv{v}_n = a_1 \vvv_1 + \cdots + a_k \vvv_k. \]
+    However, this forces $a_i = 0$ for all $i$ since the $\vvv$'s form a basis for $V$. 
+    Therefore, $\{\vv{w}_{k+1}, \ldots, \vv{w}_n \}$ are linearly independent and thus a basis of $\im(T)$.
+\end{proof}
+The proof of the dimension formula shows a bit more. 
+Using the same notation as in the proof, take a basis for $V$ to be $\vvv_{k+1}, \ldots, \vvv_n, \vvv_1, \ldots, \vvv_k$. This is essentially the same basis, but permuted so that the coordinate vectors are also permuted. 
+We extend the basis for $\im(T)$ to a basis for $W$ with the vectors $\vv{w}_{k+1} , \ldots, \vv{w}_n, \vv{u}_1, \ldots, \vv{u}_r$. 
+Then we find the matrix for $T$ by writing down the coordinates of $T(\vvv_i)$ with respect to the $\vv{w}$'s. 
+When $k+1 \leq i \leq n$, $T(\vvv_i) = \vv{w}_i$. When $1 \leq i \leq k$, $T(\vvv_i) = 0$.
+Our matrix for $T$ is particularly simple (written in block form):
+\[A=
+\begin{pmatrix}
+    I_{n-k} & 0 \\
+    0 & 0
+\end{pmatrix}.\]
+\begin{corollary}
+    For any linear transformation, we can write its matrix in the above form for some choice of basis for $V$ and $W$.
+\end{corollary}
+\begin{corollary}
+As a special case, if we already are given a matrix $M \in \text{Mat}_{m\times n}$ representing a linear transformation from $F^n \rightarrow F^m$, then there exists change of basis matrices $P \in \GL_n(F), Q \in \GL_m(F)$ such that $Q^{-1} M P$ is in the above form.
+Pictorially, this looks like: 
+\[
+\begin{tikzcd}
+F^n \arrow[r, "M"] & F^m \\
+F^n \arrow[u, "P"]\arrow[r, "A"] & F^m \arrow[u, "Q"]
+\end{tikzcd}
+\]
+\end{corollary}
+
+
+\newpage

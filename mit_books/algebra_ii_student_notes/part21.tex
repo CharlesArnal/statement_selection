@@ -1,0 +1,260 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-012 Algebra II Student Notes, Spring 2022
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+% \rhead{\rightmark}
+\lhead{Lecture 21: Modules}
+
+\section{Smith Normal Form}
+
+\subsection{Review}
+
+Last time, we looked at presentation matrices for a module. We saw that if we perform elementary row and column operations on the presentation matrix, then this leads to an isomorphic module. We then stated the theorem that we can use such operations to reduce any matrix to Smith normal form. We will prove this today; but first, let's look at a few examples. 
+
+\subsection{Some Examples in \texorpdfstring{$\ZZ$}{Z}}
+
+We'll consider the case of $2 \times 2$ matrices over $\ZZ$ --- consider the presentation matrix \[B = \begin{bmatrix}
+a & c \\
+b & d
+\end{bmatrix},\] whose corresponding module is \[M_B = \ZZ^2/\operatorname{Span}((a, b)^t, (c, d)^t).\] 
+
+The simplest case is when $B$ is diagonal:
+
+\begin{example}
+Consider the presentation matrix \[B = \begin{bmatrix} 2 & 0 \\ 0 & 3 \end{bmatrix}.\] 
+\end{example}
+
+\begin{center}
+    \begin{asy}
+    unitsize(0.7cm);
+    for (int i = -1; i <= 3; ++i) {
+        draw((i, -1.5)--(i, 4.5), mediumgray);
+    }
+    for (int i = -1; i <= 4; ++i) {
+        draw((-1.5, i)--(3.5, i), mediumgray);
+    }
+    draw((-1.5, 0)--(3.5, 0), Arrows);
+    draw((0, -1.5)--(0, 4.5), Arrows);
+    draw((0, 0)--(2, 0), heavycyan, EndArrow);
+    draw((0, 0)--(0, 3), heavycyan, EndArrow);
+    draw((0, 3)--(0, 0)--(2, 0), heavycyan+linewidth(2));
+    fill((0, 0)--(2, 0)--(2, 3)--(0, 3)--cycle, heavycyan+opacity(0.1));
+    \end{asy}
+\end{center}
+In this case, we have \[M_B \cong \ZZ/2\ZZ \oplus \ZZ/3\ZZ,\] since given any vector $(m, n)$, its coset mod $\operatorname{Span}((2, 0)^t, (0, 3)^t)$ is just given by taking the first component mod $2$ and the second mod $3$. (To be pedantic, the isomorphism is given by $(m, n) \mapsto (m \mod 2, n \mod 3)$ --- given any vector, we can subtract multiples of our two vectors to bring it into the rectangle.)
+
+% An easy case is where $B$ is diagonal. For example, consider $B = \begin{bmatrix} 2 & 0 \\ 0 & 3 \end{bmatrix}$. In this case, \[M_B = \ZZ / 2 \times \ZZ/ 3,\] where the isomorphism is given by \[(n, m) \mto (n \text{ mod } 2, m \text{ mod } 3).\]
+
+% \todo{insert picture of two basis vectors.}
+
+\begin{example}
+Consider the presentation matrix \[B = \begin{bmatrix} 5 & 0 \\ 0 & 1 \end{bmatrix}.\]
+\end{example}
+
+Now the corresponding module is $M_B = \ZZ/5\ZZ$ --- the second coordinate is ``useless'' since we're allowed to subtract multiples of $(0, 1)^t$, so we can always eliminate it. So to keep track of the coset of a vector, we only need to keep track of the first component mod $5$. 
+
+% Similarly, for $B = \begin{bmatrix} 5 & 0 \\ 0 & 1\end{bmatrix},$ the corresponding module is $M_B = \ZZ/5.$
+
+Now we'll look at a more complicated example, where the original matrix is \emph{not} diagonal. 
+
+\begin{example}
+Consider the presentation matrix \[B = \begin{bmatrix} 2 & 1 \\ 1 & 3 \end{bmatrix}.\] 
+\end{example}
+
+\begin{center}
+    \begin{asy}
+    unitsize(0.7cm);
+    for (int i = -1; i <= 3; ++i) {
+        draw((i, -1.5)--(i, 4.5), mediumgray);
+    }
+    for (int i = -1; i <= 4; ++i) {
+        draw((-1.5, i)--(3.5, i), mediumgray);
+    }
+    draw((-1.5, 0)--(3.5, 0), Arrows);
+    draw((0, -1.5)--(0, 4.5), Arrows);
+    draw((0, 0)--(2, 1), heavycyan, EndArrow);
+    draw((0, 0)--(1, 3), heavycyan, EndArrow);
+    draw((1, 3)--(0, 0)--(2, 1), heavycyan+linewidth(2));
+    fill((0, 0)--(2, 1)--(3, 4)--(1, 3)--cycle, heavycyan+opacity(0.1));
+    label("$v$", (2, 1), dir(315), heavycyan);
+    label("$w$", (1, 3), dir(135), heavycyan);
+    \end{asy}
+\end{center}
+We can see $\det(B) = 5$, so we can use elementary column operations to make one column a multiple of $5$ --- if we add twice the first column to the second, then we get \[B' = B\begin{bmatrix} 1 & 2 \\ 0 & 1 \end{bmatrix} = \begin{bmatrix} 2 & 5 \\ 1 & 5 \end{bmatrix}.\] So we've replaced $w$ with $w' = 5(1, 1)^t$, without changing the lattice spanned by our vectors: 
+
+\begin{center}
+    \begin{asy}
+    unitsize(0.7cm);
+    for (int i = -1; i <= 5; ++i) {
+        draw((i, -1.5)--(i, 5.5), mediumgray);
+    }
+    for (int i = -1; i <= 5; ++i) {
+        draw((-1.5, i)--(5.5, i), mediumgray);
+    }
+    draw((-1.5, 0)--(5.5, 0), Arrows);
+    draw((0, -1.5)--(0, 5.5), Arrows);
+    draw((0, 0)--(2, 1), heavycyan, EndArrow);
+    draw((0, 0)--(5, 5), heavycyan, EndArrow);
+    draw((5, 5)--(0, 0)--(2, 1), heavycyan+linewidth(2));
+    label("$v$", (2, 1), dir(315), heavycyan);
+    label("$w'$", (5, 5), dir(45), heavycyan);
+    \end{asy}
+\end{center}
+
+But $(2, 1)^t$ and $(1, 1)^t$ form a basis for $\ZZ^2$! So this means to get our lattice, we started with a basis for $\ZZ^2$, then fixed one of the basis vectors and scaled the other by $5$. So this is isomorphic to the previous example --- by changing the basis we use for $\ZZ^2$, we can rewrite $v$ and $w'$ as $(1, 0)^t$ and $(0, 5)^t$. So we have $M_B \cong \ZZ/5\ZZ$. 
+
+% Now, consider $B = \begin{bmatrix} 2 & 1 \\ 1 & 3.\end{bmatrix}$. The determinant is $\det(B) = 5.$ By elementary row operations, \todo{explain more} a matrix with isomorphic module is \[B' = B\begin{bmatrix} 1 & 2 \\ 0 & 1 \end{bmatrix} = \begin{bmatrix} 2 & 5 \\ 1 & 5 \end{bmatrix}.\] 
+
+% \todo{draw picture}
+
+% The two columns are $v = \begin{bmatrix} 2 \\ 1 \end{bmatrix}$ and $w' = 5\begin{bmatrix} 1 \\ 1 \end{bmatrix}$. Then $\begin{bmatrix} 2 \\ 1 \end{bmatrix}$ and $\begin{bmatrix} 1 \\ 1 \end{bmatrix}$ form a lattice basis in $\ZZ^2.$ By changing the basis in the lattice, $v$ and $w'$ can become $\begin{bmatrix} 1 \\ 0 \end{bmatrix}$ and $\begin{bmatrix} 0 \\ 5 \end{bmatrix}$. Thus, \[M_B \cong \ZZ/5.\]
+
+\subsection{Smith Normal Form}
+
+Now we'll return to the general case, and prove the theorem. 
+
+\begin{theorem}\label{smith normal form}
+For a Euclidean domain $R$, any $n \times m$ matrix $B$ can be reduced using elementary row and column operations to a matrix $D$, where $d_{ij} = 0$ for all $i \neq j$, and $d_{11} \mid d_{22} \mid \cdots$. 
+\end{theorem}
+
+One example of a matrix written in this form (which is called Smith normal form) is \[D = \begin{bmatrix} 2 & 0 & 0 & 0 \\ 0 & 6 & 0 & 0 \\ 0 & 0 & 12 & 0 \end{bmatrix}.\] 
+
+Note that if $D$ can be obtained from $B$ by elementary row and column operations, then we can write $D = ABC$, where $A$ is an invertible $n \times n$ matrix and $C$ is an invertible $m \times m$ matrix. For any such $D$, we then have $M_D \cong M_B$. 
+
+\begin{note}
+In a PID, it's still possible to obtain $D$ in Smith normal form with $D = ABC$ (for $A$ and $C$ invertible). However, it may not be possible to obtain $D$ by using the elementary operations.  
+\end{note}
+
+% When the ring is a Euclidean domain, there is a powerful theorem that applies.
+% \begin{theorem}\label{euclidean domain}
+% If $R$ is a Euclidean domain, any $n \times m$ matrix $B \in \matnn(R)$ can be reduced by elementary row operations to a matrix $D,$ where $d_{ij} = 0,$ $i \neq j,$ and $d_{11} \mid d_{22} \mid \cdots.$ Each entry on the diagonal divides the following entry. Then $D = ABC$ where $A$ is an invertible $n \times n$ matrix, $C$ is an invertible $m \times m$ matrix, and \[M_D \cong M_B.\]
+% \end{theorem}
+
+% Before we get into the proof, we'll give a bit of motivation. Notice that the gcd of all the matrix entries doesn't change under elementary operations. 
+
+% For example, a matrix of this form would be 
+% \[D = 
+% \begin{bmatrix}
+% 2 & 0 & 0 & 0 \\
+% 0 & 6 & 0 & 0 \\
+% 0 & 0 & 12 & 0
+% \end{bmatrix}.
+% \]
+
+% \begin{note}
+% When $R$ is a PID, it is also true that there is a matrix $D$ of such a form where $D = ABC$, but such a $D$ may not be a result of elementary operations.
+
+% \end{note}
+
+To motivate the proof, notice that the greatest common divisor of all the matrix entries does \emph{not} change under elementary operations --- it's clear that scaling by a unit doesn't change the gcd; meanwhile if we perform the operation $a_{ij} \mto a_{ij} + ca_{kj}$, we have \[\gcd(a_{ij}, a_{kj}) = \gcd(a_{ij} + ca_{kj}, a_{kj}).\] (This is the same idea as in the Euclidean algorithm.) So if we are able to obtain a matrix $D$ in Smith normal form, then we \emph{must} have \[d_{11} = \gcd(b_{ij})\] (since $d_{11}$ divides all other entries of $D$). So this suggests the main idea of the proof --- we want to run some sort of Euclidean algorithm in order to isolate the gcd of all matrix entries in the top-left corner. 
+
+
+
+% This is the same idea as in the Euclidean algorithm. So if we have $D$ as in Theorem \ref{euclidean domain}, then \[d_{11} = \gcd(b_{ij}),\] since the $\gcd$ of $D$ will be the $\gcd$ of all the diagonal elements, $d_{11},$ which must also be the $\gcd$ of all the matrix entries.
+
+
+\begin{proof}[Proof of Theorem \ref{smith normal form}]
+Recall that in a Euclidean domain, we have a size function $\sigma : R \setminus \{0\} \to \ZZ_{\geq 0}$ such that we can divide with remainder --- given any $a$ and $b$, with $b \neq 0$, we can write $a = bq + r$ where $r = 0$ or $\sigma(r) < \sigma(b)$. For convenience, we write $|a|$ instead of $\sigma(a)$. 
+
+% Recall that in a Euclidean domain, there is a size function \[\sigma: R\setminus\{0\} \rto \ZZ_{\geq 0}\] such that given $a, b \neq 0,$ if $a = bq + r,$ either $r = 0$ or $\sigma(r) < \sigma(b).$ Here we write $|a|$ instead of $\sigma(a).$ 
+
+If $B = 0$, we are done, so assume $B \neq 0$. Then we'll use induction on the size of the matrix; the key step is the following. 
+
+\begin{lemma}\label{b prime gcd}
+By row and column operations, we can arrive at a matrix $B'$ such that $b_{11}' = \gcd(b_{ij}) = \gcd(b_{ij}')$.
+\end{lemma}
+
+\begin{proof}
+By permuting the rows and columns, we can ensure that $b_{11} \neq 0$, and $b_{11}$ is the nonzero element of minimal size. Now if $b_{11} \mid b_{ij}$ for all $i$ and $j$, then we're done, so assume not. 
+
+Now the main idea is to modify the matrix to make a \emph{smaller} element appear (which we can again move to the top-left corner by rearranging rows and columns). 
+First, if there is an entry with $b_{11} \nmid b_{ij}$ in the first row or column, then we can perform a row or column operation to reduce it --- if $b_{ij} = qb_{11} + r$, then we can subtract $q$ times the first row or column from the row or column of $b_{ij}$, which replaces $b_{ij}$ with $r$.
+
+If not, then we can use $b_{11}$ to eliminate all other entries in the first row and column (by subtracting multiples of the first column and row), to get a matrix of the form \[\begin{bmatrix} b_{11} & 0 & \cdots & 0 \\ 0 & * & \cdots & * \\ \vdots & \vdots & \ddots & \vdots \\ 0 & * & \cdots & * \end{bmatrix}.\] 
+
+Now there must be some $b_{ij}$ with $b_{11} \nmid b_{ij}$. We can add its row to the first row; this adds $0$ to $b_{11}$, so we now have a matrix \[\begin{bmatrix} b_{11} & * & b_{ij} & \cdots & * \\ 0 & * & * & \cdots & * \\ 0 & * & * & \cdots & * \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ 0 & * & * & \cdots & * \end{bmatrix}.\] Then we can again add a multiple of the first column to the $j$th column in order to produce an entry with smaller size. 
+
+So either way, we've now produced a matrix with an element smaller in size than $b_{11}$. Now permute the rows and columns to move this element to the position of $b_{11}$. Then we repeat the process. At every step, we replace $b_{11}$ with a nonzero entry of smaller size. Since the size is always a nonnegative integer, at some point this process must terminate; this means that $b_{11}$ now divides all entries. 
+\end{proof}
+% By permuting rows and columns, we can make sure that $b_{11} \neq 0$ and $|b_{11}| \leq |b_{ij}|$ for all $i$ and $j.$ If $b_{11}$ divides $b_{ij}$ for all $i, j$, then $b_{11} = \gcd(b_{ij}).$ Suppose otherwise. If there is a $b_{11} \nmid b_{ij}$ in the first column or row, apply row or column operations. If \[b_{ij} = qb_{11} + r,\] replace the row or column of $b_{ij}$ by $-q$ multiplied by the first row or column. If not, then "kill" the first row or column except for $b_{11}$ to get a matrix \[\begin{bmatrix}
+% b_{11} & 0 & \cdots & 0 \\
+% 0 & \star & \star & \star \\
+% \vdots & \star & \ddots & \vdots \\
+% 0 & \star & \cdots & \star
+% \end{bmatrix}\]
+% \todo{draw picture}
+
+% Pick $b_{ij}$ and $b_{11} \nmid b_{ij}$ and add its row to the first row. Then, add a multiple of the first column to that column to get an entry with smaller size. Permute the rows and columns to get a matrix with a nonzero entry at the top left corner which is smaller in size. Now, repeat. Every time, the top left entry becomes a smaller entry, and at some point this must terminate and we have achieved that $b_{11}$ divides all entries.
+% \end{proof}
+
+To complete the proof of Theorem \ref{smith normal form}, we induct on the size of $B$. By Lemma \ref{b prime gcd}, we can replace $B$ with a matrix $B'$ where $b_{11}'$ divides $b_{ij}'$ for all $i$ and $j$. 
+
+Now using row and column operations, we can eliminate the first row and column (meaning that we make $b_{i1}'$ and $b_{1j}'$ all zero). So we get \[
+\begin{bmatrix}
+b_{11}' & * & \cdots & * \\
+* & * & \cdots & * \\
+\vdots & \vdots & \ddots & \vdots \\
+* & * & \cdots & * \end{bmatrix} 
+ \rightsquigarrow \begin{bmatrix} b_{11}' & 0 & \cdots & 0 \\
+0 & * & \cdots & * \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & * & \cdots & * \end{bmatrix}.
+\]
+
+Now we ignore the first row and column, and use elementary operations on rows and columns $2$, \ldots, $n$. (These do not affect the first row or column.) By the induction assumption, we can reduce the submatrix of $*$s to Smith normal form (since $b_{11}'$ already divides all other entries, this will remain true when we perform the operations). 
+\end{proof}
+
+The theorem has more theoretical value than computational value, but we will compute an example nonetheless.
+\begin{example}
+We have 
+\[
+\begin{bmatrix}
+2 & 1 \\ 1 & 3
+\end{bmatrix}  \rightsquigarrow\begin{bmatrix}
+1 & 3 \\ 2 & 1
+\end{bmatrix}\rightsquigarrow \begin{bmatrix}
+1 & 3 \\ 0 & -5
+\end{bmatrix} \rightsquigarrow\begin{bmatrix}
+1 & 0 \\ 0 & -5
+\end{bmatrix}.
+\]
+\end{example}
+
+\begin{example}
+We have 
+\[
+\begin{bmatrix}
+4 & 2 & 6 \\ 1 & 2 & 3
+\end{bmatrix}  \rightsquigarrow\begin{bmatrix}
+1 & 2 & 3 \\ 4 & 2 & 6
+\end{bmatrix}\rightsquigarrow \begin{bmatrix}
+1 & 0 & 0\\ 4 & -6 & -6
+\end{bmatrix} \rightsquigarrow\begin{bmatrix}
+1 & 0 & 0 \\ 0 & -6 &  -6
+\end{bmatrix} \rightsquigarrow\begin{bmatrix}
+1 & 0 & 0 \\ 0 & -6 &  0
+\end{bmatrix}.
+\]
+\end{example}
+
+\subsection{Applications}
+
+As a corollary, by taking $R$ to be $\ZZ$, we can classify all finitely presented abelian groups.
+
+\begin{corollary}\label{abelian groups}
+Every finitely presented abelian group is isomorphic to \[\ZZ/d_1\ZZ \times \ZZ/d_2\ZZ \times \cdots \times \ZZ/d_n\ZZ \times \ZZ^a,\] for some positive integers $d_i$ with $d_1 \mid d_2 \mid \cdots \mid d_n$.
+\end{corollary}
+
+Sometimes, it's more useful to write this classification in a different form. Recall that the Chinese Remainder Theorem states that if $n = ab$ with $\gcd(a, b) = 1$, then \[\ZZ/n\ZZ \cong \ZZ/a\ZZ \times \ZZ/b\ZZ.\] So then if we factor $d_i = p_1^{a_{i1}}\cdots p_n^{a_{in}}$, we can decompose $\ZZ/d_i\ZZ$ as a product of groups of the form $\ZZ/p^m\ZZ$ (cyclic groups of prime power order).
+
+% There is an alternate form. Recall the Chinese remainder theorem: if $n = ab$ and $\gcd(a, b) = 1,$ then $\ZZ/n \cong \ZZ/a \times \ZZ/b.$ Factoring $d_i = p_1^{a_{i1}} \cdots p_{n_i}^{a_{in_i}},$ it is possible to decompose $\ZZ/d_i$ as a product of groups of the form $\ZZ/p^{m}$.
+
+Another application of Theorem \ref{smith normal form} is in the case $R = F[x]$, where $F$ is a field. A finitely generated module over $R$ must then be of the form \[R^a \oplus R/(P_1) \oplus \cdots \oplus R/(P_n),\] where $P_1 \mid \cdots \mid P_n$. Alternatively, again using the Chinese Remainder Theorem, we can instead assume that each $P_i$ is a power of an irreducible polynomial. 
+
+In particular, consider $F = \CC$; then the only irreducible polynomials are linear, so we must have $P_i = (x - \lambda_i)^{n_i}$. If we only consider finite-dimensional modules, then as we said earlier, a module over $F[x]$ is equivalent to a (finite-dimensional) vector space along with one linear operator (corresponding to the action of $x$). So it turns out that this classification of modules actually implies the Jordan decomposition theorem --- we will discuss this in more detail next lecture. 
+
+% Theorem \ref{abelian groups} also applies in general to $R = F[x],$ where $F$ is a field. A finitely generated module over $F(x) = R$ must be of the form \[R^a \oplus R/(P_1) \cdots R/(P_n),\] where $P_1 \mid \cdots \mid P_n.$ Alternatively, we can assume that $P_i$ is the power of some irreducible polynomial. 
+
+
+% If $F = \CC,$ and $P_i = (x - \lambda_{ij}),$ this actually implies the Jordan decomposition theorem. We will discuss this in more detail next lecture.

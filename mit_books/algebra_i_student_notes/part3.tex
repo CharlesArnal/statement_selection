@@ -1,0 +1,146 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-011 Algebra I Student Notes, Fall 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\section{Homomorphisms and Isomorphisms}
+\subsection{Review}
+Last time, we discussed subgroups and cyclic groups. A subgroup of a group is essentially a subset of that group that is compatible with the group or multiplicative structure on it. A cyclic subgroup of an element $g$ in a group is essentially the subgroup consisting of all the powers of $g.$
+\subsection{Homomorphisms}
+Now that we understand a little bit more about groups and their structures, the natural next step is to look at maps \emph{between} groups.
+\begin{qq}
+How can we understand groups by considering maps between different groups? What kinds of maps can provide useful insight into various groups?
+\end{qq}
+
+First, we define a type of map that is compatible with the group structure on both groups.
+
+\begin{definition}
+Given groups $G$ and $G'$, a homomorphism between them is a map 
+\[
+f: G \rto G'
+\]
+such that:
+\begin{itemize}
+    \item For all $a, b \in G,$ $f(ab) = f(a)f(b)$.
+    \item The identity element is mapped to the identity: $f(e_G) = e_{G'}.$
+    \item Inverses are preserved under the mapping: $f(a)^{-1}=f(a^{-1})$ for all $a \in G.$
+\end{itemize}
+\end{definition}
+
+Essentially, each of these conditions requires that the map preserve the group structure (multiplication, identity, inverse) from the domain $G$ to the codomain $G'$. Either $f$ can be applied to a product, or the product can be taken after $f$ is applied, and it should yield the same element $f(ab) = f(a)f(b).$\footnote{In other words, a homomorphism will \emph{commute} with multiplication in that they can be applied in either order. This results in a commutative diagram.} In fact, only the first condition is really necessary, and implies the second two.\footnote{In some way, this shows that the multiplication is the essential part of the group structure, and the identity and inverse properties are simply there to make sure nothing is able to go wrong with the multiplication.}
+
+\begin{proposition}
+If $f(ab) = f(a)f(b)$, then $f(e_G) = e_{G'}$ and $f(a)^{-1} = f(a^{-1})$. 
+\end{proposition}
+\begin{proof}
+For the first part, take $f(e_G \cdot e_G) = f(e_G) = f(e_G) \cdot e_{G'}$ by the definition of $e_{G'}.$ Since $f$ is a homomorphism, this will also be equal to $f(e_G)f(e_G).$ Multiplying on both sides by $f(e_G)^{-1}$\footnote{This must exist by the group property of invertibility.} gives $f(e_G) = e_G'.$
+
+The second part is similar. Take $a \in G.$ Then $f(a)\cdot f(a^{-1}) = f(a \cdot a^{-1}) = f(e_G) = e_G',$ and multiplying on the left by $f(a)^{-1}$ gives $f(a^{-1}) = f(a)^{-1}.$
+\end{proof}
+
+\subsection{Examples}
+Let's see some examples.
+\begin{example}
+The determinant $\text{det}: GL_n(\RR) \rto (\RR^{\by}, \by)$ is a homomorphism from invertible matrices to the real numbers under multiplication, since $\det(AB) = \det(A)\det(B).$ 
+\end{example}
+
+\begin{example}
+The exponential $\text{exp}: (\CC, +) \rto (\CC^{\by}, \by)$ taking $z \rto e^z$ is a homomorphism, since $e^{a+b} = e^a e^b.$
+\end{example}
+Let the standard basis vectors of $\RR^n$ be $\vec{e}_1 = (1, 0, \cdots, 0)^t, \vec{e}_2 = (0, 1, \cdots, 0)^t,$ and so on, where $\vec{e}_i$ is the vector consisting of a 1 in the $i$th entry and 0s elsewhere.
+
+For a permutation $p \in S_n,$ let $A_p$ be the permutation matrix taking $\vec{e}_i \mto \vec{e}_{p(i)}.$ In particular, the $i$th column of $A_p$ will be $\vec{e}_{p(i)}.$ 
+
+For example, for $p  (123),$ $A_p = \begin{pmatrix} 0 & 0 & 1 \\ 1 & 0 & 0 \\ 0 & 1 & 0 \end{pmatrix}$.
+
+\begin{example}
+The mapping
+\begin{align*}
+\varphi: S_n &\rto GL_n(\RR) \\
+p\in S_n &\mto A_p,
+\end{align*}
+where $A_p$ is the permutation matrix, is a homomorphism. This is because $A_p(A_q(\vec{e}_i)) = A_p(\vec{e}_{q(i)}) = \vec{e}_{p(q(i))},$ and $A_{pq}(\vec{e}_i) = \vec{e}_{pq(i)} = \vec{e}_{p(q(i))},$ which matches, so $A_pA_q = A_{pq}.$
+\end{example}
+
+There is also another important homomorphism from $S_n$ to another group.
+
+\begin{example}
+Let $\text{sign} = \det \circ \varphi$ take $S_n \rto \RR^{\by}$ by taking the determinant of the permutation matrix. This mapping $\text{sign}$ is also a homomorphism, since $\varphi$ and $\det$ are both homomorphisms. 
+\end{example}
+
+In fact, $\text{sign}(p) = \pm 1$. It is always possible to write any permutation as a composition of transpositions\footnote{Permutations that swap two elements and leave all other elements fixed.}: $p = \tau_1\tau_2 \cdots \tau_r$ for transpositions $\tau_i$. The determinant of a transposition matrix is $-1,$ since $\det\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} = -1,$ so $\text{sign}(p) = (-1)^r$ where $r$ is the number of transpositions making up $p.$ In fact, if $p = \tau_1\cdots \tau_r = \tau_1'\cdots\tau_s',$ $r = s$ modulo 2, since the sign homomorphism can be applied on either side. For example, for $S_3,$ $e, (123),$ and $(132)$ all have a sign of $+1,$ while $(12), (13),$ and $(23),$ the transpositions, all have a sign of $-1.$
+
+Notice that $\RR^{\by} = GL_1(\RR),$ since $1 \by 1$ invertible matrices are simply nonzero real numbers. These two examples provide a hint as to why homomorphisms are so useful: matrices/linear mappings and $GL_n$ are generally well-understood, so if there is a homomorphism from a group to $GL_n,$ the knowledge from $GL_n$ can then be used to learn more about that particular group. This idea is the core theme of a branch of math called \textbf{representation theory.}\footnote{These examples actually provides the so-called \emph{permutation representation} and \emph{sign representation} of $S_n$.}
+
+\begin{example}\label{fx example}
+For any $G$ and any $x \in G,$ let 
+\begin{align*}
+    f_x: \ZZ &\rto G \\
+    n &\mto x^n.
+\end{align*}
+This is a homomorphism because $x^{a + b} = x^ax^b,$ and is related to the cyclic subgroups of $G.$
+\end{example}
+Last time, in class, we studied cyclic subgroups $\langle g \rangle$ using $\ZZ$ and essentially used this homomorphism. In general, homomorphisms allow us to study complicated groups with simpler groups.
+
+\begin{theorem}
+Let $f$ be a homomorphism from $G \rto G'.$ Then $\im(f)$\footnote{The image of $f$ consists of all the elements in $G'$ that are mapped to by $f.$} is a subgroup of $G'.$
+\end{theorem}
+
+This theorem is not surprising; the whole point of a homomorphism is that it plays nicely with the group structure, and the whole point of a subgroup is that it also plays nicely with the group structure.
+\begin{example}
+For example, $\im(f_x)$ from Example \ref{fx example} is $\langle x \rangle.$
+\end{example}
+
+\begin{proof}
+Consider $y, y' \in \im(f)$. Then there exist $x, x'\in G$ such that $y = f(x)$ and $y' = f(x').$ Then $yy' = f(x)f(x') = f(xx') \in \im(f).$ The inverse and identity conditions are verified similarly.\footnote{For inverse, consider $y \in \im(f).$ Then there exists $x$ such that $y = f(x).$ From the definition of a homomorphism, $y^{-1} = f(x)^{-1} = f(x^{-1}) \in \im(f).$ For identity, $f(e_G) = e_{G'}$, so $e_{G'} \in \im(f).$}
+\end{proof}
+
+\begin{definition}
+The \textbf{kernel} of $f$ is \[\ker(f) \coloneqq \{x \in G: f(x) = e_{G'}\}.\]
+
+
+\end{definition}
+
+\begin{theorem}
+The kernel of a homomorphism $f$ is also a subgroup.
+\end{theorem}
+\begin{proof}
+If $x, x' \in \ker(f),$ then $f(xx') = f(x)f(x') = e_{G'}e_{G'} = e_{G'},$ so $xx' \in \ker(f)$. Also, $f(e_G) = e_{G'}$ so $e_G \in \ker(f).$ Lastly, if $x \in \ker(f),$ then $f(x^{-1}) =f(x)^{-1} = e_{G'}^{-1} = e_{G'}$, so $x^{-1} \in \ker(f)$ as well.
+\end{proof}
+
+The image and kernel of each of the previous examples can be seen to be subgroups. The fact that $f$ is a homomorphism is imperative to the proofs of either fact, and these two theorems demonstrate that a homomorphism does in fact respect the group structure.
+\begin{example}
+Consider $\text{det}: GL_n(\RR) \rto (\RR^{\by}, \by)$. Since the determinant for invertible matrices can take on any nonzero value, the image of the determinant is all of $\RR^{\by}.$ The kernel of the determinant is $SL_n(\RR),$ the special linear group consisting of the $n \by n$ matrices with determinant 1.
+\end{example}
+\begin{example}
+For $\text{exp}: (\CC, +) \rto (\CC^{\by}, \by)$, the image is all of $\CC^{\by}$, and the kernel is $2\pi i\ZZ \subseteq \CC,$ since $e^{2\pi ik} = 1.$
+\end{example}
+\begin{example}
+For \begin{align*}
+\varphi: S_n &\rto GL_n(\RR) \\
+p\in S_n &\mto A_p,
+\end{align*} the image is the set of permutation matrices in $GL_n(\RR),$ whereas $\ker(\varphi) = \{e\},$ the identity permutation.
+\end{example}
+\begin{example}
+The image of the sign homoomorphism $\text{sign} = \det \circ \varphi$ is $\{\pm 1\} \in \RR^{\by}$. The kernel defines a new group, called the \textbf{alternating group} $A_n \coloneqq \ker(\text{sign}).$
+\end{example}
+
+For example, $A_3 = \{e, (123), (132)\} \subseteq S_3.$
+\begin{example}
+The kernel of $f_x$ is $\{n: x^n = e_G\},$ which was used in the previous class, and is $d\ZZ$ where $d$ is the order of $x$ if it is finite, and $\{0\}$ if the order of $x$ is infinite. 
+\end{example}
+
+\begin{definition}
+A mapping $f: G \rto G'$ is an \textbf{isomorphism} if it is a bijective homomorphism.
+\end{definition}
+In some sense, if two groups are isomorphic (that is, if there exists an isomorphism between them), they are essentially the same group, because there are the exact same number of elements and the multiplication relationships between the elements will be exactly the same. Usually, in group theory, groups are considered with respect to the isomorphism classes. 
+\begin{example}
+The exponential map from the real numbers under addition onto the positive real numbers under multiplication \begin{align*}
+    \text{exp}: (\RR, +) &\rto (\RR_{>0}, \by) \\
+    t &\mto e^t
+\end{align*} is an isomorphism.
+\end{example}
+
+Given an isomorphism $f: G \rto G'$, $f^{-1}: G' \rto G$ is also an isomorphism, since $f^{-1}(yy') = f^{-1}(y)f^{-1}(y')$. If there exists an isomorphism between $G$ and $G'$, this is denoted as $G \cong G'$. 
+
+\newpage

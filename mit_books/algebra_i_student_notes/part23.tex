@@ -1,0 +1,171 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-011 Algebra I Student Notes, Fall 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\section{Proofs and Applications of the Sylow Theorems}
+\subsection{Review}
+Last time, we introduced the Sylow theorems. While they may be a lot to take in, the main takeaway is how general the Sylow theorems are. When provided with \textbf{any} finite group, we automatically already know that there exist certain $p$-subgroups\footnote{The size is the largest power of $p$ that divides $|G|$} that must be conjugate, and additionally there is a strong constraint on the possible number of such subgroups.
+
+The applications for $C_{15}$ and $C_{10}$ discussed last lecture demonstrate how powerful these theorems can be.
+
+We restate the theorems briefly here:
+\begin{theorem}[Sylow Theorems]
+    Let $G$ be a finite group where \[|G| = n = p^em\] and $\gcd(p, m) =1$. The three parts of the theorem follow:
+    \begin{enumerate}
+        \item 
+            Recall that a Sylow $p$-subgroup is a subgroup $H \leq G$ such that $|H| = p^e$. The first theorem states that there always exists a Sylow $p$-subgroup.
+        \item 
+            Given any $K \leq G$  where $|K| = p^f$, there exists some $g\in G$ such that $gKg^{-1} \leq H$.
+        \item 
+            The number of Sylow $p$-subgroups is a factor of $m$ and congruent to 1 mod $p$.
+    \end{enumerate}
+\end{theorem}
+
+\subsection{Application: Decomposition of Finite Abelian Groups}
+One application of the Sylow theorems is the decomposition of finite abelian groups. 
+
+Consider a finite \emph{abelian} group $G$ such that the prime factorization of the order is \[|G| = p_1^{e_1} \cdots p_r ^{e_r}.\]
+
+Then we know that we have a Sylow subgroup $H_i$ such that \[|H_i| = p_i^{e_i}\] for each of these primes. Since $G$ is abelian, conjugating a group produces the same group, so by Sylow II, these (abelian) subgroups $H_i$ are \textbf{unique} for each prime.
+
+\begin{theorem}
+Every abelian group $G$ is isomorphic to a product of groups of prime power order.
+\end{theorem}
+
+Using that $G$ is abelian, if we take the product \[H_1 \times \cdots \times H_r,\] we can construct a homomorphism\footnote{Because $G$ is abelian, we use + as the group operation.}
+\begin{align*}
+    f: H_1 \times \cdots \times H_r &\rto G \\
+    (x_1, \ldots, x_r) &\mto x_1+ \cdots + x_r.
+\end{align*}
+
+\begin{lemma}
+    The homomorphism $f$ is an isomorphism.
+\end{lemma}
+
+
+\begin{proof}
+    First, $f$ is a homomorphism because $G$ is abelian and the terms will commute when verifying the homomorphism property. It is necessary that $G$ is abelian. \footnote{Essentially, since $G$ is abelian, there is really only one way to "combine" the Sylow $p$-subgroups. When $|G| = 10$ for a non-abelian group, we saw that the Sylow subgroups for 2 and 5 could combine in a different way to make $D_{10}.$} Next, we know that $\im(f)$ is a subgroup of $G$ and also contains a copy of $H_i$ for all $i$\footnote{Take $H_1 \by \{1\} \by \cdots \{1\}$ to get $H_1 \leq \im(f),$ for example.}: \[H_i \leq \im(f) \leq G\] for all $i.$
+    Thus, $p_i^{e_i}$ divides $\lvert\im(f)\rvert$ for each $i$, and since they are relatively prime, the product 
+    \[\prod p_i^{e_i}\] divides $\lvert\im(f)\rvert.$ This forces the image to be the same order as $|G|$, and thus they must be the same. We can conclude that $f$ is surjective. Both the domain and image of $f$ have the same size, so it is also injective and an isomorphism.
+\end{proof}
+
+As a result, the study of finite abelian groups can be reduced to studying abelian $p$-groups. These are completely understood, and will potentially be covered more in 18.702! In contrast, non-abelian groups are complicated and not well understood.
+
+\subsection{Proof of Sylow Theorems}
+The main idea to prove all of these theorems is to find a useful action of $G$ on a set and exploit it. This is a continuation of what we have been doing in the last few weeks, in geometric situations with symmetries as well as with the conjugation action of $G$ on itself. The striking part about these three proofs is that unlike rotational symmetries of the cube, where there are lots of sets to think about, such as vertices and faces and so on, here, there is no prior knowledge about $G$, and the only group action we have for any arbitrary group is $G$ acting on itself, and not much else. 
+
+\begin{theorem}[Sylow I]
+
+Given $G$ such that \[|G| = n = p^e \cdot m,\] where $p^e$ is the largest power of $p$ (that is, $\gcd(p, m) = 1$), then there exists a subgroup $H \leq G$ such that \[|H| = p^e.\]
+\end{theorem}
+\begin{proof}[Proof of Sylow I]
+    Take $G$ such that \[|G| = p^e\cdot m.\]Let $S$ be the subsets of $G$ of size $p^e$ and let $n$ be the order of $G$. By basic combinatorics, there are $\binom{n}{p^e}$ such subsets, so \[|S| = \binom{n}{p^e}.\] Let $G$ act on $S$ by left translations: given an element $g \in G$ and a subset $U \in S$, we map \[U \mto gU.\]
+
+    Our eventual goal is to find a subgroup of $G$ of size $p^e$ by looking at stabilizers, as they are always subgroups of $G.$ We find the size of a stabilizer by trying to find an orbit of size $m$, as we then know that the stabilizer will be order $p^e$.\footnote{The product of the size of an orbit and the size of the stabilizer is the size of the group $G,$ which here is $m \cdot p^e.$}
+    We begin with some lemmas. The first lemma provides information about the size of the set modulo $p.$ 
+    \begin{lemma}
+    Where $n = |G| = m \cdot p^e,$ we have that \[|S| = \binom{n}{ p^e} \neq 0 \pmod{p}.\] Furthermore, \[\binom{n}{ p^e} \equiv m \pmod{p}.\] 
+    \end{lemma}
+    \begin{proof}[Sketch of Proof]
+        The proof is not particularly relevant to group theory and can be proved by expanding the binomial coefficient and showing that the number of powers of $p$ in the numerator is the same as the denominator. Alternatively, one could expand $(1+x)^n$ and look at it modulo $p$.
+    \end{proof}
+    
+    To reiterate, $S$ consists of \textbf{all} subsets of $G$ of size $p^e,$ and these subsets do not have to be subgroups. 
+    
+    \begin{lemma}
+        Suppose we have a subset $U \in S$\footnote{Note that $U$ is an element of $S$ but is itself also a subset of $G$, so $U \subset G.$}, which is a subset of $G$. Also, let $H$ be a subgroup of $G$ that stabilizes $U$. Then, $|H|$ divides $|U|.$
+    \end{lemma}
+    \begin{proof}
+        Since $H$ stabilizes $U$, for any $h \in H$, we know $hU = U$. In other words, for each $u \in U$, we have \[Hu \subset U.\] Equivalently, for each $u\in U$, the corresponding right coset of $H$ is a subset of $U$. This implies that the right cosets partition $U$. Since the cosets have the same size, we know that $|H|$ divides $|U|$. 
+    \end{proof}
+
+    With these lemmas in hand, we can continue with the proof of the main theorem. The first lemma tells us that $|S| \neq 0 \pmod{p}$. We know that the orbits partition $S$, so \[|S| = |O_1| + \cdots + |O_r|.\] Since $p$ does not divide the LHS, there must exist an orbit $\theta$ where \[\gcd(p, |\theta|) = 1.\] Let the size of $\theta$ be $|\theta| = k$. 
+    
+    Now, consider some element $u$ of $\theta$. By the counting formula, we also know that \[|G| = |\theta| \cdot \lvert\stab(u) \rvert.\] And so $p^em = k \lvert\stab(u)\rvert$ and $p^e \mid \lvert\stab(u)\rvert$ because $\gcd(k, p) = 1$. 
+    By the second lemma, $\lvert\stab(u)\rvert$ divides $|u| = p^e$.
+
+    Thus, \[\lvert\stab(u)\rvert = p^e\] and we have found a Sylow $p$-group.
+\end{proof}
+
+The proof of the second Sylow theorem is similar. 
+
+
+\begin{theorem}[Sylow II]
+There are two parts; part a) is what is usually referred to as the second Sylow theorem.
+
+\begin{enumerate}[label = (\alph*)]
+    \item Given $H \leq G,$ where $H$ is a Sylow $p$-subgroup, any other Sylow $p-$subgroup $H' \leq G$ is conjugate to $H$; i.e. there exists $g$ such that $H' = gHg^{-1}$.
+    
+    \item Given any subgroup $K \leq G$ such that $|K| = p^d,$ for any Sylow subgroup $H,$ there exists $g$ such that $gKg^{-1} \leq H.$\footnote{Notice that $|K|$ does not have to be the maximal prime power, and can have order smaller than $|H|.$ \textbf{Every} prime power order subgroup, up to conjugation, sits inside a Sylow subgroup.}
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}[Proof of Sylow II]
+    We approach this proof similarly, finding a nice set and an action on it.
+    Fix $H$ to be a Sylow subgroup.
+    Our set is $X = G/H$, the left cosets of $H$. 
+    The index of $H$ is the same as $|X|$, so $|X| = m$. 
+    
+    Let $K$ be the subgroup we want to show is a subgroup of $H$ up to conjugation, where $|K| = p^f$.
+    We will look at how $K$ acts on $X$ by left translation, the mapping: $$k(aH) \mto kaH.$$
+
+    We decompose into orbits, $|X| = |O_1| + \cdots + |O_r|$. 
+    Note that these orbits are with respect to the action of $K$, not the action of $G$, as that would be transitive and we'd only have one orbit.
+    We have that $|O_i|$ divides $|K| = p^f$, but $p$ does not divide $m$. 
+    Thus this orbit decomposition can only work if some orbit $O$ has size 1. 
+    In other words, there exists some coset $aH$ that is fixed by all $k \in K$. 
+    Then,
+    \begin{align*}
+        kaH &= aH\\
+        a^{-1}kaH &= H \\
+        a^{-1} ka &\in H \\
+        a^{-1}Ka &\leq H
+    \end{align*}
+    which is what we needed to show.
+\end{proof}
+A lot of the work done in these proofs are choosing some set and action, then looking at the orbits and seeing what we can do what them. The third proof is similar. 
+
+
+\begin{theorem}[Sylow III]
+The number of Sylow $p$-subgroups of $G$ divides \[m = \frac{n}{p^e}\] and is congruent to 1 modulo $p.$
+\end{theorem}
+
+
+\begin{proof}[Proof of Sylow III]
+    Our set will be $Y$ as the set of Sylow $p$-subgroups of $G$. 
+    We will be trying to find the size of $Y$.
+    $G$ acts on $Y$ by conjugation, $H \mto gHg^{-1}$.
+    By Sylow II, there is only one orbit. 
+    Pick a Sylow subgroup $H \in Y$.
+    Then $$|G| = \lvert\stab(Y)\rvert \lvert\text{orbit}(H)\rvert = |Y| \lvert\stab(Y)\rvert.$$
+    This already tells us that $|Y|$ divides $|G| = n$, but we can say more.
+
+    The stabilizer here has a name, the \emph{normalizer} of $H$. 
+    It turns out that $H \leq  \stab(H)$ because for all $h \in H$, $hHh^{-1} = H$. 
+    So $|\stab(H)|$ is divisible by $p^e = |H|$. 
+    The counting formula then says that $|G| = p^em = |Y| \cdot (p^e \cdot \text{stuff})$ which implies that $|Y|$ divides $m$.
+
+    The last part is showing that $|Y| \equiv 1 \pmod{p}$. 
+    We now use the action of $H$ on $Y$ by conjugation. 
+    \begin{fact}
+        Suppose we have another Sylow subgroup $H' \in Y$, $H'$ is fixed by $H$ if and only if $H = H'$. 
+        In other words, under the action of $H$, there is only one fixed point.
+    \end{fact}
+    By looking at orbits, there is only one orbit of size 1 because there is only one fixed point. 
+    The rest are powers of $p$ because the size of $H$ is a power of $p$.
+    Thus the decomposition into orbits looks like \[ Y = 1 + p + \cdots + p^2 + \cdots + p^3 + \cdots \equiv 1 \pmod{p}.\]
+
+    \begin{proof}[Proof of fact]
+        If we look at the stabilizer/normalizer, $\stab_G(H') = N(H')$, we know that $H \leq N(H')$ because $H'$ is fixed by $H$, and that $H' \leq N(H')$ by what we said above about normalizers. 
+        
+        Now $N(H')$ is a subgroup of $G$ as well, so the largest power of $p$ that divides $N(H')$ can only be $p^e$. 
+        So $H$ and $H'$ are Sylow subgroups of $N(H')$ as well.
+        By Sylow II on $N(H')$, there exists $n \in N(H')$ such that $nH'n^{-1} = H$. 
+        But then by the definition of $N$, $nH' n^{-1} = H'$, and so $H = H'$. 
+    \end{proof}
+    
+    Given this fact, we are done with the third proof.
+\end{proof}
+
+\newpage

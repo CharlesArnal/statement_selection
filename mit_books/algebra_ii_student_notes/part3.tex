@@ -1,0 +1,270 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-012 Algebra II Student Notes, Spring 2022
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+% \rhead{\rightmark}
+\lhead{Lecture 3: Irreducible Representations}
+
+
+\section{Irreducible Representations}
+
+\subsection{Review}
+
+Last time, we discussed characters and direct sums, and began thinking about \emph{irreducible representations}. 
+
+In particular, we saw that any representation of the cyclic group $\ZZ/m\ZZ$ can be decomposed as a direct sum of one-dimensional representations. To prove this, we saw that it's possible to diagonalize the matrix corresponding to $\overline{1}$ --- this matrix has finite order, and it's possible to use Jordan normal form to show that any matrix of finite order is diagonalizable (by showing that it cannot have nontrivial Jordan blocks). Then once we've diagonalized this matrix, the span of each eigenvector provides a one-dimensional subrepresentation, and the original representation is the direct sum of these subrepresentations. 
+
+% In particular, we discussed the diagonalization of a finite order matrix, or equivalently, the decomposition of a representation of a cyclic group $\ZZ_m$ as a sum of 1-dimensional representations.\footnote{A representation of $\ZZ_m$ is described by the image of the generator $\overline{1},$ which will be a finite order matrix, since it must satisfy $\rho(\overline{1})^m = I_n.$ The span of each eigenvector provides a one-dimensional subrepresentation.} The diagonalizability of a finite order matrix is proved in Theorem 4.7.14 of Artin, as a corollary of the Jordan normal form.
+
+Irreducible representations (commonly abbreviated \emph{irreps} for convenience) will turn out to be the fundamental building blocks for the theory of representations --- today we'll discuss Maschke's Theorem, which states that any representation can be decomposed into a sum of irreducible representations. 
+
+\subsection{Examples}
+
+% Throughout this class, we will be discussing Maschke's Theorem, which states that any representation can be decomposed into a sum of irreducible representations.
+
+% \begin{qq}
+% How can a given representation be built as a direct sum of irreducible representations?
+% \end{qq}
+
+First, let's start with a nontrivial example of an irreducible representation. Recall that given a representation of $G$ acting on $V$, a subspace $W$ is $G$-invariant if every element $g \in G$ carries $W$ to itself, or in other words, $gw \in W$ for all $w \in W$. We call the representation on $V$ \emph{irreducible} if the only $G$-invariant subspaces are $V$ itself and the trivial subspace.
+
+If the representation is \emph{not} irreducible, there exists a $G$-invariant subspace $W \subset V$. Then by restricting our original representation to $W$, we get a smaller representation of $G$. 
+
+\begin{example}
+Consider the permutation representation of $S_3$, where each permutation acts on $\CC^3$ by permuting the coordinates (so $\sigma \in S_3$ maps $\vec{e}_i \mapsto \vec{e}_{\sigma(i)}$ for each basis vector $\vec{e}_i$). This representation is not irreducible, since the two-dimensional subspace \[V = \{(x, y, z) \mid x + y + z = 0 \}\] is an invariant subspace, and therefore there is a two-dimensional subrepresentation of the permutation representation acting on $V$. 
+
+Note that the vector $v = (1, 1, 1)^t$ is orthogonal to $V$, and it is fixed by all permutation matrices. So the permutation representation also has a one-dimensional subrepresentation acting on $\operatorname{Span}(v)$, namely the trivial representation. This means the permutation representation decomposes as the direct sum of its restrictions to $V$ and to $\operatorname{Span}(v)$.
+
+
+% Let $G = S_3.$ Then $G$ acts on $\CC^3$ by permuting the coordinates; this is known as the \textbf{permutation representation}\footnote{Recall that for the permutation representation, $\sigma \in S_3$ takes the $i$th basis vector $\vec{e}_i$ to $\vec{e}_{\sigma(i)}.$}. The subspace \[V = \{(x, y, z): x + y + z = 0\}\] is an invariant subspace, and therefore corresponds to a 2-dimensional subrepresentation of the permutation representation. Note that the vector $v = (1, 1, 1)^t$, which is orthogonal to this subspace, is fixed by every permutation matrix, and spans a copy of the trivial representation. 
+
+% \begin{proof}[Proof of Irreducibility of $V$]
+% Suppose that $W \subset V$ is a nonzero subspace. Pick a nonzero vector $0 \neq \overline{v} = (x, y, z) \in W.$ If $x \neq y,$ then the permutation $(12)v - v = (y-x, x - y, 0) \neq 0$
+% \end{proof}
+\end{example} 
+
+\begin{proposition}
+The permutation representation restricted to $V = \{(x, y, z) \mid x + y + z = 0\}$ is irreducible. 
+\end{proposition}
+
+\begin{proof}
+Suppose that $W \subset V$ is a nonzero subspace which is $S_3$-invariant. Pick a nonzero vector $v = (x, y, z) \in W$. We cannot have $x = y = z$, as this would imply all coordinates are zero, so without loss of generality we may assume that $x \neq y$. 
+
+Then since $W$ is $G$-invariant, \[(12)v - v = (y - x, x - y, 0) \in W.\] Since $x - y \neq 0$, by scaling we have $(1, -1, 0) \in W$ as well. Then $(23)(1, -1, 0) = (1, 0, -1) \in W$ as well. But $(1, -1, 0)$ and $(1, 0, -1)$ are linearly independent, and since $V$ is two-dimensional, this means they span $V$. So we must have $W = V$. This means there are no invariant subspaces of $V$ other than $0$ and $V$, so the representation is irreducible. 
+\end{proof}
+
+% \begin{itemize}
+%     \item If $x \neq y,$ then \[(12)\overline{v} - \overline{v} = (y-x, x-y, 0) \neq 0 \in W,\] since $W$ is $G$-invariant. Rescaling this linear combination by $\frac{1}{y-x}$, it can be seen that $(1, -1, 0) \in W.$ Moreover, by acting on this vector by $(23),$ $(1, 0, -1) \in W$ as well. These are two linearly independent vectors in $W$, and since $V$ is 2-dimensional, it is clear that every vector in $V$\footnote{vectors with coordinates summing to 0} can be written as a linear combination of $(1, -1, 0)$ and $(1, 0, -1),$ and therefore $W$ must be the entire space $V.$ For example, a vector in $V$ of the form $(x + y, -x, -y)$ can be written as $x(1, -1, 0) + y(1, 0, -1).$ 
+    
+%     \item If $x = y$ but $y \neq z,$ it is possible to either use an analogous argument to show that $W = V$, or simply to reduce to the previous case by first permuting the coordinates; if $(x, y, z) \in W,$ then $(y, z, x) \in W$ as well.
+
+%     \item If $x = y = z,$ then $x = y = z = 0,$ which is a contradiction of the assumption that $W$ is nonzero.
+% \end{itemize}
+
+% In all possible cases, $W$ must be the entire space $V,$ and thus $V$ is irreducible.
+% \end{proof}\todo{add this AND add the pictoral argument (11:25AM)}
+
+In fact, this statement generalizes to $S_n$ for all $n$, and the proof is essentially the same. 
+
+\begin{proposition}
+For every $n$, the permutation representation of $S_n$ on $\CC^n$ has an $(n - 1)$-dimensional invariant subspace \[V = \left\{(x_1, \ldots, x_n) \mid \sum x_i = 0\right\} \subset \CC^n,\] consisting of vectors whose coordinates sum to zero. Furthermore, the representation of $S_n$ obtained by restricting the permutation representation to $V$ is irreducible. 
+\end{proposition}
+
+In the case $n = 3$, there's a geometric way to think of this argument as well. Since $S_3$ is isomorphic to $D_3$, we can think of it as the group of symmetries of an equilateral triangle --- more precisely, consider the equilateral triangle with vertices at $(2, -1, -1)$, $(-1, 2, -1)$, and $(-1, -1, 2)$. Then the actions of the permutations in $S_3$ on $V$ correspond exactly to the symmetries of this triangle.
+
+\begin{center}
+    \begin{asy}
+    unitsize(2cm);
+    pair A = dir(210);
+    pair B = dir(330);
+    pair C = dir(90);
+    filldraw(A--B--C--cycle, heavycyan+opacity(0.1), heavycyan);
+    label("$(2, -1, -1)$", A, dir(A), heavycyan);
+    label("$(-1, 2, -1)$", B, dir(B), heavycyan);
+    label("$(-1, -1, 2)$", C, dir(C), heavycyan);
+    draw(dir(90)--dir(270), deepgreen+dotted);
+    label("$(12)$", dir(270), dir(270), heavyred);
+    draw(A..(0.7*dir(270))..B, heavyred, Arrows, Margins);
+    \end{asy}
+\end{center}
+
+In this interpretation, it's possible to see geometrically that there are no invariant subspaces other than $0$ and $V$ (any such subspace would have to be one-dimensional and therefore a line, but just by considering the reflections, we can see that no line is preserved by more than one reflection). However, we have to be careful when reasoning geometrically:
+
+% Since $S_3$ is isomorphic to $D_3,$ which is the symmetry group of an equilaterial triangle, the $n = 3$ case can actually be thought of as acting on the plane, which is 2-dimensional.
+
+\begin{example}
+The representation of $\ZZ/3\ZZ$ acting as the group of \emph{rotational} symmetries of an equilateral triangle is \emph{not} irreducible. %on $V$ by permuting coordinates (where we think of $\ZZ_3$ as the subgroup of $S_3$ consisting of $\{(1), (123), (132)\}$, or equivalently the \emph{rotational} symmetries of the equilateral triangle) is \emph{not} irreducible. 
+\end{example}
+
+From the geometric interpretation, it may appear that this representation is irreducible for the same reason as the representation of $S_3$ was --- after all, it \emph{looks} like if we rotate any line, we get a different one. But something has to have gone wrong, since we saw earlier that \emph{every} representation of a cyclic group is the sum of one-dimensional representations! The problem is that this reasoning only works for \emph{real} representations --- and in fact, if we take this as a real representation instead of a complex one, then it \emph{is} irreducible. But working over the complex numbers, there \emph{are} in fact invariant subspaces. The source of the confusion is that although rotations don't have \emph{real} eigenvalues, they do have \emph{complex} eigenvalues.  
+
+We can also compute these invariant subspaces explicitly. First, place the equilateral triangle in the plane, in the standard basis: 
+
+\begin{center}
+    \begin{asy}
+    unitsize(2cm);
+    draw((-1.5, 0)--(1.5, 0), mediumgray, Arrows);
+    draw((0, -1.5)--(0, 1.5), mediumgray, Arrows);
+    pair A1 = dir(0);
+    pair A2 = dir(120);
+    pair A3 = dir(240);
+    filldraw(A1--A2--A3--cycle, heavycyan+opacity(0.1), heavycyan);
+    
+    draw((0, 0)--(1, 0), heavyred, EndArrow, EndMargin);
+    draw((0, 0)--(0, 1), heavyred, EndArrow, EndMargin);
+    label("$(1, 0)$", (1, 0), dir(300), heavyred);
+    label("$(0, 1)$", (0, 1), dir(45), heavyred);
+    \end{asy}
+\end{center}
+
+Then we have \[\overline{1} \mapsto \begin{bmatrix} \alpha & -\beta \\ \beta & \alpha \end{bmatrix},\] where $\alpha = -1/2$ and $\beta = \sqrt{3}/2$ (this is the matrix corresponding to $2\pi/3$ rotation). To write down an invariant subspace, note that \[\begin{bmatrix} \alpha & -\beta \\ \beta & \alpha \end{bmatrix} \begin{bmatrix} 1 \\ i \end{bmatrix} = \begin{bmatrix} \alpha - \beta i \\ \beta + \alpha i \end{bmatrix} = (\alpha - \beta i)\begin{bmatrix} 1 \\ i \end{bmatrix},\] so the span of $(1, i)^t$ is invariant under the action of $\overline{1}$, and therefore all of $\ZZ/3\ZZ$. Similarly, the span of $(1, -i)^t$ is also an invariant subspace. So our representation splits as the direct sum of representations on these two subspaces --- in the basis consisting of $(1, i)^t$ and $(1, -i)^t$, we have \[\overline{1} \mapsto \begin{bmatrix} \alpha - \beta i & 0 \\ 0 & \alpha + \beta i \end{bmatrix}.\]  
+
+% What if we consider $V$ as a representation of $C_3 = \ZZ_3$ instead, consisting of rotations of a triangle? Is it irreducible? As a complex representation, it is \emph{reducible}. Let $A$ be the linear operator mapped to by the generator $\overline{1}$ representing rotation by $2\pi/3$; it has an invariant subspace. Where $\alpha = -\frac{1}{2}$ and $\beta = \frac{\sqrt{3}}{2},$
+% \[\begin{pmatrix}
+% \alpha & -\beta \\ \beta & \alpha
+% \end{pmatrix}\begin{pmatrix}
+% 1 \\ i
+% \end{pmatrix} = \begin{pmatrix}
+% \alpha - \beta i \\ \beta + 2i
+% \end{pmatrix} = (2-\beta i)\begin{pmatrix} 1 \\ i \end{pmatrix},\] so $(1, i)^T$ is an eigenvector and its span is a one-dimensional representation. In particular, $A$ is diagonalizable in the basis consisting of the eigenvector $v_1 = \begin{pmatrix}1 \\ i \end{pmatrix}$ and its orthogonal complement $v_2 = \begin{pmatrix} 1 \\ -i\end{pmatrix}$. It becomes the matrix $\begin{pmatrix} 2-\beta i & 0 \\ 0 & 2+\beta i\end{pmatrix}.$ 
+
+\subsection{Invariant Complements}
+
+Last class, we began discussing the following question:
+
+\begin{qq}
+Given a reducible representation, is it possible to decompose it as a direct sum of smaller representations?
+\end{qq}
+
+Let $\rho : G \to \operatorname{GL}(V)$ be a reducible representation of dimension $n$, and let $W \subset V$ be a $G$-invariant subspace of dimension $m$ (with $0 < m < n$). Pick a basis $\{v_1, \ldots, v_n\}$ for $V$ such that the first $m$ basis vectors $\{v_1, \ldots, v_m\}$ form a basis for $W$. Then $G$ acts by block matrices of the form \[\begin{bmatrix} \psi_g & \vline & * \\ \hline 0 & \vline &  \eta_g\end{bmatrix},\] where $\psi_g$ is an $m \times m$ matrix and $\eta_g$ is an $(n - m) \times (n - m)$ matrix. Since $\rho_g\rho_h = \rho_{gh}$ for all $g, h \in G$, by performing block matrix multiplication we see that $\psi_g\psi_h = \psi_{gh}$ and $\eta_{gh} = \eta_g\eta_h$. So $\psi$ and $\eta$ are both valid representations --- $\psi$ is a representation on $W$, and $\eta$ is a representation on the $(n - m)$-dimensional quotient space $V/W$. 
+
+% block matrix multiplication, since $\rho_g\rho_h = $$\psi_g\psi_h = \psi_{gh}$ and $\eta_{gh} = \eta_g\eta_h.$ 
+
+% In a basis-free language, $\psi$ will be a representation for $W,$ and $\eta$ will be a representation for the $n-m$-dimensional quotient space $V/W:$ \begin{align*}
+%     \psi: G &\rto GL(W) \\
+%     \eta: G &\rto GL(V/W).
+% \end{align*}
+
+So any reducible representation carries information about two smaller representations $\rho$ and $\eta$; and if the top-right corner $*$ is a block of zeros, then in fact $\rho \cong \psi \oplus \eta$. (The converse is not quite true, since $*$ may consist of all zeros in one choice of basis but not another.) 
+
+
+
+% \begin{proposition}
+% If the top right corner of the matrix, $\star,$ is in fact the zero block matrix, then $\rho \cong \psi \oplus \eta$ is the direct sum of two representations. 
+% \end{proposition}
+
+% The property that $\star$ is the zero block matrix may hold for one choice of basis for $V$ and not for another, so the converse is not quite true. 
+
+Note that $*$ is a block of zeros if and only if for all $m + 1 \leq i \leq n$,  \[\rho_g(v_i) = \sum_{j = m + 1}^n a_{ij} v_j\] for some scalars $a_{ij}$. This condition is equivalent to requiring that $U = \operatorname{Span}(v_{m + 1}, \ldots, v_n)$ is $G$-invariant as well --- intuitively, it states that the two spaces live on their own and do not interact with each other.
+
+So this gives us a way to interpret our condition without thinking about matrices and coordinates! We need to choose our basis vectors so that $U$ is invariant as well, but if that condition is satisfied, then \emph{any} basis of $U$ works. So in a basis-free language, we can decompose $\rho \cong \psi \oplus \eta$ if and only if $W$ has an \emph{invariant complement}. (A \emph{complement} of $W$ is a subspace $U$ such that $W \cap U = 0$ and $W + U = V$, or equivalently such that $V \cong W \oplus U$; so an \emph{invariant complement} is such a subspace $U$ which is also $G$-invariant.)
+
+% This condition is equivalent to requiring that $U = \spann(v_{m + 1}, \hdots, v_n)$ is $G$-invariant. \todo{he had more explanation here} 
+
+% \begin{example}
+% Take the trivial group $\{e\}.$ It has an $n$-dimensional representation for every $n.$ \todo{what is this example lmfaoooo}
+% \todo{pleaseeee clean up this section i have no idea what's going on af;dsklj where is he going with this}
+% \end{example}
+
+% \begin{proposition}
+% As a result, $\rho \cong \psi \oplus \eta$ if and only if $W$ has an invariant \emph{complement}; i.e., if and only if there exists a subspace $U$ such that $W \cap U = 0,$ $W + U = V,$ and $V \cong W \oplus U.$\todo{are these equivalent conditions??}
+% \end{proposition}
+
+\begin{question}
+Is the invariant complement of a given subspace always unique?
+\end{question}
+
+\begin{ans}
+Not necessarily. As a trivial but legitimate example, consider a $n$-dimensional version of the trivial representation, where every $g \in G$ is sent to the $n \times n$ identity matrix. Then \emph{every} subspace is invariant; so given a subspace $W$, \emph{all} of its complements are invariant complements of $W$. 
+\end{ans}
+
+So our question about whether we could decompose $\rho$ as a sum of smaller representations reduces to the following:
+
+\begin{qq}
+Given an invariant subspace $W \subset V$, does it necessarily have an invariant complement?
+\end{qq}
+
+In the \emph{general} case, the answer is no --- there are situations where there is an invariant subspace with no invariant complement (and therefore the representation cannot be split as a direct sum, even though it's not irreducible). 
+
+\begin{example}
+Take the representation $\rho$ of $\ZZ$ acting on $V = \CC^2$ given by \[1 \mapsto \begin{bmatrix} 1 & 1 \\ 0 & 1 \end{bmatrix},\] which means that for all $n$, \[n \mapsto \begin{bmatrix} 1 & n \\ 0 & 1 \end{bmatrix}.\] 
+
+The vector $(1, 0)^t$ is an eigenvector of every matrix in this representation, with eigenvalue $1$ --- so its span $W$ is an invariant subspace, and $\rho$ has a subrepresentation on $W$ (which is the trivial representation). 
+
+But $W$ does not have an invariant complement. To see this, note that $\rho$ acts trivially on $V/W$ as well (since the entry in the bottom-right corner is $1$). So if $W$ had an invariant complement, then $\rho$ would be the direct sum of two trivial representations, which is clearly not the case as $\rho$ is nontrivial. 
+\end{example}
+
+\subsection{Maschke's Theorem}
+
+As the previous example shows, in general it may not always be possible to find an invariant complement. But it turns out that for \emph{finite} groups, it \emph{is} always possible! (From now, we'll assume that all representations are complex and finite-dimensional, and our group is finite, unless stated otherwise.)
+
+The proof that an invariant complement always exists will include two parts --- first we'll define a \emph{Hermitian form} with useful properties, and then we'll use this Hermitian form to construct the desired complement. We'll start by stating the two main steps:
+
+\begin{lemma} \label{hermitian exists}
+If $\rho : G \to \operatorname{GL}(V)$ is a complex representation of a finite group, then there exists a $G$-invariant positive Hermitian form on $V$.
+\end{lemma}
+
+To explain this terminology, recall that a Hermitian form $\langle -, -\rangle$ is a pairing $V \times V \to \CC$ such that: 
+\begin{itemize}
+    \item It is linear in the first variable --- we have $\langle v_1 + v_2, w \rangle = \langle v_1, w\rangle + \langle v_2, w\rangle$ for all $v_1, v_2, w \in V$, and $\langle \lambda v, w \rangle = \lambda \langle v, w \rangle$ for all $v, w \in V$.
+    \item We have $\langle w, v \rangle = \overline{\langle v, w \rangle}$ for all $v, w \in V$. 
+\end{itemize}
+The second condition immediately implies that $\langle v, v \rangle$ is real for all $v \in V$; the Hermitian form is \emph{positive} if $\langle v, v \rangle$ is in fact positive for all $v \neq 0$. 
+
+Meanwhile, a Hermitian form is $G$-invariant if it's preserved by the $G$-action, meaning that $\langle gv, gw \rangle = \langle v, w \rangle$ for all $v, w \in V$ and $g \in G$. 
+
+\begin{lemma} \label{hermitian to invariant complement}
+If $\rho : G \to \operatorname{GL}(V)$ has an invariant Hermitian form, then every invariant subspace of $V$ has an invariant complement. 
+\end{lemma}
+
+Now let's prove these two steps; we'll start with the second. 
+
+\begin{proof}[Proof of Lemma \ref{hermitian to invariant complement}]
+As discussed in 18.701, if $\langle -, -\rangle$ is a positive Hermitian form, then the orthogonal complement of any subspace $W$, the subspace \[W^\perp = \{v \mid \langle v, w \rangle = 0 \text{ for all $w \in W$}\},\] is a complementary subspace to $W$. But now if $\langle -, -\rangle$ and $W$ are both $G$-invariant, then so is $W^\perp$ --- if $v$ is in $W^\perp$, then $\langle v, w \rangle = 0$ for all $w \in W$, so for each $g \in G$, we have $\langle gv, gw \rangle = 0$ for all $w \in W$ as well; since $gW = W$, this means $gv$ is in $W^\perp$ as well. 
+\end{proof}
+
+Now that we've seen why having such a Hermitian form is useful, let's construct one. 
+
+\begin{proof}[Proof of Lemma \ref{hermitian exists}]
+    Start with \emph{any} positive Hermitian form $\langle -, -\rangle'$, and now employ the \emph{averaging trick} --- take our Hermitian form to be \[\langle v, w \rangle = \sum_{g \in G} \langle gv, gw \rangle.\] It's clear that this is a positive Hermitian form. To see that it's $G$-invariant, for any $h \in G$ we have \[\langle hv, hw \rangle = \sum_{g \in G} \langle hgv, hgw \rangle' = \sum_{g \in G} \langle gv, gw \rangle' = \langle v, w\rangle,\] since as $g$ ranges over all elements of $G$, so does $hg$.  
+\end{proof}
+
+Putting these two steps together, we get that if we have a reducible representation $\rho : G \to \operatorname{GL}(V)$ with an invariant subspace $W \subset V$ (which must exist by definition), then we can always find an invariant complement of $W$, and we can therefore decompose $\rho$ as a direct sum! So by repeatedly splitting up a representation until our components are irreducible (or more formally, using induction on the dimension), we get the following theorem:
+
+\begin{theorem}[Maschke's Theorem]
+Every complex, finite-dimensional representation of a finite group is a direct sum of irreducible representations. 
+\end{theorem}
+
+
+% \todo{What the hell is this? }
+
+% \begin{theorem}
+% If $\rho: G \rto GL(V)$ is a complex, finite-dimensional\footnote{From now on, we assume without statement that all representations are finite-dimensional.}  representation with an invariant Hermitian form. Then, every invariant subspace has an invariant complement, and $\rho$ is a sum of irreducible representations. \todo{so is there always an invariant complement or not LMFAO}
+% \end{theorem}
+% \begin{corollary}[Maschke's Theorem]
+% A complex, finite-dimensional representation of a finite group always is a sum of irreducible representations\footnote{"irreps"}. 
+% \end{corollary}
+
+
+
+% Recall that a Hermitian form is a pairing $V \by V \rto \CC$ with $\langle v, w \rangle \in \CC$ such that 
+% \begin{align*}
+%     &\langle v_1, v_2, w \rangle = \langle v_1, w \rangle + \langlev_2, w \rangle \\
+%     &\langle \lambda v, w \rangle = \lambda\langle v, w \rangle \\
+%     &\langle w, z \rangle = \overline{\langle z, w \rangle}.
+% \end{align*}
+
+% The third condition \todo{add the numbers on the align} implies that $\langle v, v \rangle \in \RR$ and that $\langle z, z \rangle > 0$ if $z \neq 0.$ This is known as positivity.\todo{clean this up}
+
+% The Hermitian form $\langle \cdot, \cdot \rangle$ is $G$-invariant if $\langle gz, gw \rangle = \langle z, w \rangle$ for all $g \in G.$ \todo{explain who follows from who LOL}
+
+% \begin{proof}
+
+% For $W \subset V$ a subspace, $W^{\perp} = \{z: \langle z, w \rangle = 0 \text{ for all } w \in W\}$ is the complement subspace. If $\langle \cdot, \cdot \rangle$ is $G$-invariant and $W$ is $G$-invariant, then $W^\perp$ is $G$-invariant as well. 
+% \end{proof}
+
+% \begin{proof}[Theorem 1 = 3.7]
+% Start with some form $\langle \cdot, \cdot \rangle$ and set $\langle z, w \rangle = \sum_{g \in G} \langle gz, gw \rangle$. Now, 
+% \[\langle hz, hw \rangle = \sum \]
+% \end{proof}

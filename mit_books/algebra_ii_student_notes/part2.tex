@@ -1,0 +1,176 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-012 Algebra II Student Notes, Spring 2022
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+% \rhead{\rightmark}
+\lhead{Lecture 2: Characters and The Direct Sum}
+
+
+\section{Characters and The Direct Sum}
+
+\subsection{Review}
+
+Last time, we defined linear representations of a group as homomorphisms $\rho: G \to \operatorname{GL}(V)$. We saw that by choosing a basis, we can rewrite linear representations as matrix representations, or homomorphisms $R: G \to \operatorname{GL}_n(\CC)$. We also introduced the \textbf{character} of a representation, which we'll discuss more today (and again in future lectures). 
+
+\subsection{Characters}
+
+% \begin{qq}
+% What basis-free information can be obtained about a particular representation without needing to know exactly what the representation is?
+% \end{qq}
+
+Recall that the character of a representation $\rho$ is defined as the function $\chi_\rho$ on $G$ where \[\chi_\rho(g) = \trace \rho(g)\] for each $g \in G$. In other words, if we choose a basis and write $\rho_g$ as a $n \by n$ matrix $R_g = (a_{ij})$, then $\chi_\rho(g) = \sum_{i = 1}^{n} a_{ii}$.
+
+At first glance, this definition appears to require us to work with \emph{matrix} representations and to specify a basis, since the character is defined as the trace of a matrix. But thankfully, the character does not actually depend on the basis of $\operatorname{GL}(V)$ used to turn a linear representation into a matrix representation --- a key property of the trace is that $\trace(AB) = \trace(BA)$ for any two matrices $A$ and $B$, and so $\trace(A) = \trace(P^{-1}AP)$ for any invertible matrix $P$. So the characters of conjugate matrix representations coincide, and therefore the character of a linear representation is well-defined. 
+
+The fact that trace is invariant under conjugation also gives us an important property of the character --- for any $g, x \in G$ we have \[\chi_\rho(xgx^{-1}) = \chi_\rho(g),\] since $\rho(xgx^{-1})$ and $\rho(g)$ are conjugate matrices and therefore have the same trace. So $\chi_\rho(g)$ depends only on the conjugacy class of $g$ (meaning that $\chi_\rho$ evaluated at two conjugate elements of $G$ will give the same result). Functions which only depend on the conjugacy class are known as \textbf{class functions}; so the character of any representation is a class function, and in order to compute the character, it's enough to compute its value on one representative of each conjugacy class. 
+ 
+\begin{example}
+Consider the permutation representation of $S_3$ on $\CC^3$, which we denote by $\rho$. 
+
+The conjugacy classes of $S_n$ are described by cycle type --- two elements are in the same conjugacy class if and only if the cycles in their cycle decomposition have the same lengths. So there are three conjugacy classes in $S_3$, with representatives $(1)$, $(12)$, and $(123)$, respectively. 
+
+Clearly the permutation $(1)$ maps to the identity matrix, which has trace $3$, and therefore $\chi_\rho(1) = 3$. Meanwhile, the remaining two representatives map to the matrices 
+\[
+     (12) \mapsto \begin{bmatrix} 0 & 1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 1 \end{bmatrix}, \, (123) \mapsto \begin{bmatrix} 0 & 0 & 1 \\ 1 & 0 & 0 \\ 0 & 1 & 0 \end{bmatrix},
+ \]
+ so $\chi_\rho(12) = 1$ and $\chi_\rho(123) = 0$. So $\chi_\rho$ has the following description:
+ 
+ \begin{center}
+     \begin{tabular}{c|c|c|c}
+        Conjugacy class & $(1)$ & $(12)$ & $(123)$ \\
+         \hline 
+        $\chi_\rho$ & $3$ & $1$ & $0$
+     \end{tabular}
+ \end{center}
+ \end{example}
+ 
+Note that in a $n$-dimensional representation, the identity element of $G$ must always map to the identity matrix, which consists of $n$ entries of $1$ on the diagonal --- so $\chi_\rho(1) = \dim(\rho)$ for any representation $\rho$.
+
+The simplest example of a character is a one-dimensional character (a character of a one-dimensional representation); such characters have fairly nice properties. If $\dim(\rho) = 1$, then each element $\rho_g$ is a $1 \times 1$ invertible matrix, which can be thought of as a single nonzero number --- in other words, $\operatorname{GL}_1(\CC) = \CC^\times$. Then $\chi_\rho(g)$ is just that number, so loosely speaking, we have $\chi_\rho(g) = \rho(g)$. 
+
+So in this case, $\chi : G \to \CC^\times$ is a homomorphism, meaning that $\chi(gh) = \chi(g)\chi(h)$ for all $g, h \in G$. (This is \emph{not} generally true for representations of higher dimension.) In particular, when $G$ is finite, every $g \in G$ has finite order, and if $\ord(g) = k$, then $\chi(g)$ must be a $k$th root of unity --- written out explicitly, this is because $\chi(g)^k = \chi(g^k) = \chi(1) = 1$. 
+ 
+\begin{example}
+    Consider the group $\ZZ/n\ZZ$. Any one-dimensional representation of $\ZZ/n\ZZ$ is determined by the image of $\overline{1}$. So if we let $\zeta_n = e^{2\pi i/n}$, then we must have \[\rho(\overline{1}) = \zeta^a = \cos \frac{2\pi a}{n} + i \sin \frac{2\pi a}{n}\] for some integer $a$. Then the rest of the representation is given by $\overline{x} \mapsto \zeta_n^{ax}$ for each $\overline{x} \in \ZZ/n\ZZ$. So the character of this representation is also $\chi_\rho(\overline{x}) = \zeta_n^{ax}$.
+\end{example}
+ 
+\subsection{Direct Sums}
+
+Now we'll focus on how various representations of a group relate to each other. 
+
+% The main focus of today will be understanding the structures of various representations of a given group and how they relate to each other.
+
+\begin{qq}
+Given two representations of a group, can we combine them to create a new representation?
+\end{qq}
+
+One way to combine two representations is by taking their \emph{direct sum}; this will turn out to be an important construction. 
+
+% Taking the direct sum of two representations is one way to combine two representations into a new representation, and this idea will be an important one.
+
+\begin{definition}[Direct Sum]
+Let $\psi: G \to \operatorname{GL}(V)$ and $\eta: G \to \operatorname{GL}(W)$ be two representations of the same group. Then their \textbf{direct sum} $\rho = \psi \oplus \eta$ is the representation $\rho: G \to \operatorname{GL}(U \oplus W)$ where for each $g \in G$, \[\rho_g(u, w) = (\psi_g(u), \eta_g(w)).\] 
+\end{definition}
+
+To describe this construction in terms of matrices, we can obtain a basis of $U \oplus W$ by appending the bases of $U$ and $W$. In this basis, $\rho = \psi \oplus \eta$ will consist of the block diagonal matrices \[\rho_g = \begin{pmatrix}\psi_g & \vline & 0 \\ \hline 0 & \vline & \eta_g \end{pmatrix}.\] In particular, if $\rho = \psi \oplus \eta$, then we have \[\chi_\rho = \chi_{\psi} + \chi_\eta.\] 
+
+\begin{qq}
+Given a representation, can it be split as a direct sum of smaller representations?
+\end{qq}
+
+Clearly, if a representation $\rho$ is given in a form where all the matrices $\rho_g$ are block diagonal with blocks of the same dimensions, then it is possible to decompose $\rho$ as a direct sum. The tricky part is when $\rho$ is given by matrices which are not in block diagonal form, but may \emph{become} block diagonal after a change of basis.
+
+% The following is a simple example of determining a given representation to be a direct sum of smaller representations.
+\begin{example}\label{2d rep}
+Consider the group $\ZZ/2\ZZ$, and take the two-dimensional representation given by \[\overline{1} \mapsto \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix}.\] Clearly, in the standard basis, this matrix. However, we can instead take the basis consisting of $v_1 = (1, 1)^t$ and $v_2 = (1, -1)^t$. Then the matrix can be written as the diagonal matrix 
+\[\overline{1} \mapsto \begin{bmatrix}1 & 0 \\ 0 & -1 \end{bmatrix},\] and so the representation can in fact be written as a direct sum of two one-dimensional representations --- the trivial representation on $\operatorname{Span}(v_1)$, and the representation on $\operatorname{Span}(v_2)$ where $\overline{1} \mapsto \begin{bmatrix}-1 \end{bmatrix}$. 
+\end{example}
+
+In fact, $\ZZ/m\ZZ$ is relatively simple to analyze in general.
+
+\begin{example}
+Every $n$-dimensional representation of $\ZZ/m\ZZ$ can be split as the sum of $n$ one-dimensional representations. 
+\end{example}
+
+\begin{proof}
+A representation $\rho$ of $\ZZ/m\ZZ$ is determined by the matrix $A$ corresponding to $\overline{1}$, since $\overline{1}$ generates $\ZZ/m\ZZ$; this matrix must satisfy the constraint $A^m = 1$. 
+
+So showing that $\rho$ can be split as the direct sum of one-dimensional representations is equivalent to showing that $A$ can be diagonalized --- if $A$ can be diagonalized, then we can find a basis $\{v_1, \ldots, v_n\}$ of $V$ consisting of eigenvectors of $A$. Then we can split $V$ as a direct sum of the spans of these eigenvectors. If $v_i$ corresponds to the eigenvalue $\lambda_i$ for each $i$, then we can write \[\rho = \psi_1 \oplus \cdots \oplus \psi_n,\] where $\psi_i$ is the representation given by $\overline{1} \mapsto \lambda_i$, acting on $\operatorname{Span}(v_i)$. 
+
+% find a basis of $V$ consisting of eigenvectors of $A$, and split $V$ as a direct sum of the one-dimensional spaces spanned by these eigenvectors. Since these spaces are each preserved by $A$ (and therefore by all matrices corresponding to the elements of $\ZZ_m$, which are powers of $A$), we then have \[\rho = \psi_1 \oplus \cdots \oplus \psi_n,\] where $\psi_i$ is a one-dimensional representation acting on the span of the $i$th eigenvector --- more specifically, $\psi_i$ sends $\overline{1} \mapsto \lambda_i$, where $\lambda_i$ is the corresponding eigenvalue (which must in fact be a $m$th root of unity). 
+
+But it's possible to show that any matrix of finite order is in fact diagonalizable, by rewriting it in Jordan normal form and then showing that there can be no Jordan blocks of size greater than one. Since we know $A$ has finite order, it is then possible to diagonalize $A$, and therefore to decompose $\rho$ as a sum of one-dimensional representations. 
+\end{proof}
+
+% \begin{example}
+% For $G = \ZZ_m$, any $n$-dimensional representation $\rho$ will be determined by only one matrix $A = \rho(\overline{1}) = \rho_{\overline{1}}$ satifying $A^m = 1.$\footnote{Since $\overline{1}$ is the only generator, only one matrix needs to be specified and the remaining matrices can be determined from it.} In this case, the question of whether $\rho$ is a direct sum is related to a question in linear algebra. If $A$ is diagonalizable; that is, if there is a basis of eigenvectors of $A,$ then the vector space can be split into a sum of one-dimensional vector spaces, the spans of the eigenvectors, preserved under each $g \in \ZZ_m$. In this case, there is an isomorphism \begin{equation}\rho = \psi_1 \oplus \cdots \oplus \psi_n,\end{equation} where each $\psi_i$ is one-dimensional. Because $A^n = I_n,$ it can be verified that it must in fact be diagonalizable\footnote{This can be proved by showing that in the Jordan normal form, there can be no Jordan blocks of size greater than 1.}, and so any representation of $\ZZ_m$ can be decomposed into one-dimensional representations $\psi_i$, where each $\psi_i$ takes $\overline{1} \mto \lambda_i$ for some eigenvalue $\lambda_i.$\footnote{In fact, each one-dimensional representation must be determined by some $m$th root of unity $\zeta$, which $\overline{1}$ will map to.}
+% \end{example}
+
+\subsection{Irreducible Representations}
+
+Now that we've seen how to build new representations out of smaller ones, we would like to describe the ``building blocks'' of representations. 
+
+% The following definition will be useful in determining the decomposition of a representation as a direct sum. 
+\begin{definition}
+Let $\rho: G \to \operatorname{GL}(V)$ be a representation of $G$. Then a subspace $W \subset V$ is called $G$-\textbf{invariant} if for each $g \in G$, we have $\rho_g(w) \in W$ for all $w \in W$. 
+\end{definition}
+
+In other words, $W$ is $G$-invariant if it is taken to itself under the action of each element in $G$. In 18.701, we saw the concept of a $T$-invariant subspace for a linear operator $T$ (a subspace taken to itself under the map $T$); in this situation, a subspace is $G$-invariant if it is invariant with respect to every one of the operators $\rho_g$. 
+
+% Note that if $\rho_g$ is in block diagonal form, then the vector space corresponding to each block is invariant under $\rho_g$. So if a rep$\rho : G \to \operatorname{GL}(V)$
+
+% The idea of $T$-invariant subspaces for a linear operator $T$ was introduced in 18.701; here, a subspace is $G$-invariant if it is invariant with respect to every one of the operators $\rho_g$. It's clear that if the matrix of one linear operator $\rho_g$ is in block diagonal form, then the vector space corresponding to each block is invariant under $\rho_g$. Then if these blocks are the same for \emph{all} the matrices $\rho_g$, then the corresponding vector spaces are $G$-invariant. For instance, in Example \ref{2d rep}, $\operatorname{Span}(v_1)$ and $\operatorname{Span}(v_2)$ are both invariant subspaces. 
+
+% If there is an invariant subspace $W \subset V$, then we can obtain an action of $G$ on $W$ simply by restricting the action of $G$ on $V$ to $W$ --- so our representation, in some sense, contains a smaller representation sitting inside it. So we define a representation to be irreducible when this doesn't happen (and our representation cannot be broken down further): 
+
+% Given an invariant subspace $W \subset V$, an action of $G$ on $W$ can be obtained by the restriction of the action of $G$ on $V$.
+
+% Given the concept of invariant spaces, the following definition gives a way to characterize representations that cannot be "broken down" further.
+\begin{definition}
+A representation $\rho: G \to \operatorname{GL}(V)$ is \textbf{irreducible} if the only $G$-invariant subspaces of $V$ are $0$ and $V$. 
+\end{definition}
+
+Note that if a representation $\rho : G \to \operatorname{GL}(V)$ can be decomposed as a direct sum $\rho = \psi \oplus \eta$, where $\psi$ annd $\eta$ act on nonzero subspaces $U$ and $W$ with $V = U \oplus W$, then $U$ is a $G$-invariant subspace of $V$ (here $U$ consists of the elements $(u, 0)$ in $V = U \oplus W$). So a direct sum of representations is always reducible (that is, not irreducible). 
+
+
+
+% As a trivial example, any one-dimensional representation is irreducible, since there are no proper, nontrivial subspaces.
+
+% If $\rho: G \to \operatorname{GL}(V)$ can be decomposed as a direct sum $\rho = \psi \oplus \eta$ where $\psi$ and $\eta$ act on nonzero subspaces $U$ and $W$ (so $V = U \oplus W$), then $U \cong \{(u, 0)\} \subset V$ is a $G$-invariant subspace of $V.$ Therefore, a direct sum of representations is always \emph{reducible} (that is, not irreducible). 
+
+Meanwhile, if a representation $\rho: G \to \operatorname{GL}(V)$ is reducible, then by definition it has an invariant subspace $W \subset V$. Then we can restrict $\rho$ to $W$. Initially each $\rho_g$ is an automorphism of $V$, but since $\rho_g$ preserves $W$, we can also think of $\rho_g$ as an endomorphism of $W$ (a linear map from $W$ to itself). In fact, $\rho_g$ must be an \emph{automorphism}\footnote{An invertible endomorphism} of $W$, since $\rho_{g^{-1}}$ restricted to $W$ is still the inverse of $\rho_g$ restricted to $W$. So then by restricting each $\rho_g$ to $W$, we get a \emph{subrepresentation} of $\rho$ acting on $W$. This means any reducible representation $V$ has a smaller representation $W$ sitting inside it, in some sense. 
+
+% then there exists by definition some invariant subspace $W \subset V$. As a result, there is a subrepresentation $G \to \operatorname{GL}(W)$, given by restricting $\rho$ to $W$ --- since $W$ is invariant under $\rho_g$ for all $g \in G$, then $\rho_g$ is also an endomorphism from $W$ to itself; and it's actually an automorphism, since $\rho_{g^{-1}}$ restricted to $W$ is the inverse of $\rho_g$ restricted to $W$. So a representation which is not irreducible has a smaller representation sitting inside it, in some sense. 
+
+In matrix form, we can let $\{v_1, \ldots, v_m\}$ be a basis of the invariant subspace $W$, and complete it to a basis $\{v_1, \ldots, v_n\}$ of $V$. With respect to this basis, the matrices in $\rho$ are the block matrices \[\rho_g = \begin{bmatrix} \psi_g & \vline & * \\ \hline 0 & \vline & \eta_g \end{bmatrix},\] where $\psi$ is the representation formed by restricting $\rho$ to $W$, the top-right entries $*$ are ``junk,'' and $\eta$ is the \emph{quotient representation} $G \to \operatorname{GL}(V/W)$. 
+
+We would like to split $\rho$ as a direct sum of $\psi$ and another smaller representation. To do this, we'd like to pick a basis that turns the ``junk'' into a block of zeros for each $g \in G$. Then if $U = \operatorname{Span}(v_{m + 1}, \ldots, v_n)$, we can split $V = W \oplus U$, and since $W$ and $U$ are both $G$-invariant, this would let us split $\rho = \psi \oplus \eta$. 
+
+It isn't immediately clear whether it's always possible to choose the basis in such a way. But as we'll see next class, for complex representations of \emph{finite} groups, it is always possible! More precisely, we'll see the following result: 
+
+\begin{theorem}
+Given a finite-dimensional complex representation of a finite group, each invariant subspace has a corresponding invariant complementary subspace. 
+\end{theorem}
+
+This states that not only does a reducible representation have an invariant subspace $W \subset V$ (which we already know exists by definition), but there is also another invariant subspace $U \subset V$ for which $V = U \oplus W$. This will imply that a representation is reducible if and only if it can be broken down as a direct sum of nonzero representations, leading to the following result:
+
+\begin{theorem}[Maschke's Theorem]
+Every finite-dimensional complex representation of a finite group can be written as a direct sum of irreducible representations. 
+\end{theorem}
+
+This will turn out to be an incredibly useful result. Note that the proof requires the group to be \emph{finite} --- the theorem will not generally be true for infinite groups, although there is a generalization to compact groups (which we won't discuss). 
+
+% We'd like to pick a basis that turns the ``junk'' into all zeroes --- this would then imply that $V$ is actually a direct sum $W \oplus U$ for some $U$ (here $U$ would be $\operatorname{Span}(e_{m + 1}, \ldots, e_n)$). It's not immediately clear whether this is possible, but the following theorem states that (for finite groups and complex representations) this \emph{is} in fact always possible, and so if $\rho$ is reducible, we can split $V = W \oplus U$ for invariant subspaces $W$ and $U$. 
+
+
+% % given by $\rho_g$ restricted to $W.$\footnote{For $V$, $\rho$ takes $g$ to an element of $GL(v);$ that is, $\rho_g: V \rto V$, and since $W$ is $G$-invariant, it is possible to restrict $\rho_g$ to $\rho_g: W \rto W.$ A priori, restricting gives a map $G \rto \text{End}(W),$ which does not require the map to be invertible, but in fact $G \rto \text{Aut}(W),$ which is the space of invertible maps on $W$, since $\rho(g^{-1})|_W$ is inverse to $\rho(g)|_W.$ If $g(z) \in W,$ then $z = g^{-1}(g(z)) \in W.$} In matrix form, let $\{e_1, \hdots, e_k\}$ be a basis of the invariant subspace $W,$ and complete it to a basis of $V,$ $\{e_1, \hdots, e_n\}.$ With respect to this basis, the matrix of $\rho$ will be a block matrix $\begin{pmatrix} \star & \star \\ 0 & \star \end{pmatrix},$ where the top left matrix is a subrepresentation $\psi: G \rto GL(V)$, the top right is "junk," and the bottom right is a different representation.\footnote{It will be the \emph{quotient representation} $\eta: G \rto GL(V/W).$} We would like to be able to pick a basis that turns the top right "junk" to 0's, which would imply that $V$ is actually a direct sum $W \oplus U$ for some $U.$ The following theorem states that this \emph{is} in fact always possible, and so if $V$ is reducible, then $V = U \oplus W$ for invariant subspaces $U, W.$
+
+% \begin{theorem}[Maschke's Theorem]
+% Given any finite-dimensional complex representation of a finite group, each invariant subspace has a corresponding invariant complementary subspace. Therefore, every finite-dimensional complex representation of a finite group is a direct sum of irreducible representations. 
+% \end{theorem}
+
+
+
+% Maschke's Theorem states that not only does a reducible representation have the invariant subspace $W \subset V$ (which we know exists by the definition), but there is also another invariant subspace $U \subset V$ such that $V = U \oplus W$. Therefore, the theorem states that a representation is reducible if and only if it can be broken down as a direct sum of nonzero representations, which turns out to be an incredibly powerful result. The proof requires that the group be \emph{finite} --- the theorem will not generally be true for infinite groups (although there is a generalization to \emph{compact} groups, which we won't discuss). %.\footnote{The theorem will not generally be true for infinite groups. There is a generalization to compact groups, which we will not discuss.\todo{maybe include this in an appendix?}}
+

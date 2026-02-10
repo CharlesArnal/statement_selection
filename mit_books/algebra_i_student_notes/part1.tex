@@ -1,0 +1,226 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-011 Algebra I Student Notes, Fall 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\section{Groups}
+\subsection{Introduction}
+The lecturer is \textbf{Davesh Maulik}. These notes are taken by \textbf{Jakin Ng}, \textbf{Sanjana Das}, and \textbf{Ethan Yang}, andthe note-taking is supervised by Ashay Athalye. Here is some basic information about the class:
+\begin{itemize}
+    \item The text used in this class will be the 3rd edition of \textbf{Algebra}, by Artin. 
+
+    \item The course website is found on \textbf{Canvas}, and the problem sets will be submitted on \textbf{Gradescope}. 
+    
+    \item The problem sets will be due every Tuesday at midnight.
+\end{itemize}
+
+Throughout this semester, we will discuss the fundamentals of \emph{linear algebra} and \emph{group theory}, which is the study of symmetries. In this class, we will mostly study groups derived from geometric objects or vector spaces, but in the next course, 18.702\footnote{Algebra 2}, more exotic groups will be studied. 
+
+As a review of basic linear algebra, let's review invertible matrices.
+
+\begin{definition}
+An $n \by n$ matrix\footnote{An array of numbers (or some other type of object) with $n$ rows and $n$ columns} $A$ is invertible if there exists some other matrix $A^{-1}$ such that $AA^{-1} = A^{-1}A = I$, the $n \by n$ identity matrix. Equivalently, $A$ is invertible if and only if the determinant $\det(A) \neq 0.$  
+\end{definition}
+
+\begin{example}[$n = 2$]
+Let $A = \begin{pmatrix}a & b \\ c & d\end{pmatrix}$ be a $2 \by 2$ matrix. Then its inverse $A^{-1}$ is $\frac{1}{ad-bc}\begin{pmatrix}
+d & -b \\ -c & a
+\end{pmatrix}$.
+\end{example}
+
+\begin{example}[$GL_n(\RR)$]
+A main example that will guide our discussion of groups\footnote{The concept of a \emph{group} will be fleshed out later in this lecture} is the \textbf{general linear group}, $GL_n(\RR),$ which is the group of $n \by n$ invertible real matrices. 
+\end{example}
+
+Throughout the course, we will be returning to this example to illustrate various concepts that we learn about.
+
+\subsection{Laws of Composition}
+With our example in mind, let's start.
+\begin{qq}
+How can we generalize the nice properties of matrices and matrix multiplication in a useful way?
+\end{qq}
+
+Given two matrices $A, B \in GL_n(\RR),$ there is an operation combining them, in particular \emph{matrix multiplication}, which returns a matrix $AB \in GL_n(\RR)$.\footnote{Since the determinant is multiplicative, $\det(AB) = \det(A)\det(B),$ which is nonzero.} The matrices under matrix multiplication satisfy several properties:
+\begin{itemize}
+    \item \textbf{Noncommutativity.} Matrix multiplication is noncommutative, which means that $AB$ is not necessarily the same matrix as $BA.$ So the order that they are listed in \emph{does} matter.
+    \item \textbf{Associativity.} This means that $(AB)C = A(BC),$ which means that the matrices to be multiplied can be grouped together in different configurations. As a result, we can omit parentheses when writing the product of more than two matrices.
+    
+    \item \textbf{Inverse.} The product of two invertible matrices is also invertible. In particular, 
+    \[
+    (AB)^{-1} = B^{-1}A^{-1}.
+    \]
+\end{itemize}
+
+Another way to think of matrices is as an \emph{operation} on a different space. Given a matrix $A \in GL_n(\RR),$ a function or transformation on $\RR^n$\footnote{Vectors with $n$ entries which are real numbers.} can be associated to it, namely 
+\begin{align*}
+    T_A: \RR^n &\rto \RR^n \\
+    \vvv = (x_1, \cdots, x_n) &\mto A\vvv \footnotemark.
+\end{align*}
+\footnotetext{The notation $A\vvv$ refers to the matrix product of $A$ and $\vvv$, considered as $n \by n$ and $n \by 1$ matrices.}
+
+Since $A\vvv$ is the matrix product, we notice that $T_{AB}(\vvv) = T_A(T_B(\vvv)),$ and so matrix multiplication is the same as function composition. 
+
+With this motivation, we can define the notion of a group. 
+\begin{definition}[Group]
+A \textbf{group} is a set $G$ with a composition (or product) law 
+\begin{align*}
+    G \by G &\rto G \\
+    (a, b) &\mto a\cdot b\footnotemark %\footnote{Also denoted $ab$}
+\end{align*}
+\footnotetext{Also denoted $ab$}
+fulfilling the following conditions:
+\begin{itemize}
+    \item \textbf{Identity.} There exists some element $e \in G$ such that $a \cdot e = e \cdot a = a$
+    \item \textbf{Inverse.} For all $a \in G,$ there exists $b \in G$, denoted $a^{-1}$, such that $a \cdot b = b \cdot a = e$. 
+    
+    \item \textbf{Associative.} For $a, b, c \in G,$
+    \[
+    (ab)c = a(bc).
+    \]
+\end{itemize}
+\end{definition}
+In the definition, both the first and second conditions automatically give us a unique inverse and identity. For example, if $e$ and $e'$ both satisfy property 1, then $e\cdot e' = e = e',$ so they must be the same element. A similar argument holds for inverses. 
+
+Why does associativity matter? It allows us to define the product $g_1 \cdot g_2\cdot  \cdots \cdot g_n$ without the parentheses indicating which groupings they're multiplied in. 
+
+\begin{definition}
+Let $g$ taken to the power $n$ be the element $g^n = \underbrace{g\cdot \cdots \cdot g}_{n \text{ times}}$ for $n > 0,$ $g^n = \underbrace{g^{-1}\cdot \cdots \cdot g^{-1}}_{n \text{ times}}$ for $n < 0,$ and $e$ for $n = 0.$
+\end{definition}
+
+\begin{example}
+Some common groups include:
+
+\begin{center}
+\begin{tabular}{ c c c c }
+ Group & Composition Law & Identity & Inverse \\ 
+ $GL_n(\RR)$\footnote{The general linear group} & matrix multiplication & $I_n$ & $A \mapsto A^{-1}$ \\  
+ $\ZZ$\footnote{The integers under addition} & + & 0 & $n \mapsto -n$ \\
+ $\CC^{\by} = \CC\setminus \{0\}$\footnote{The complex numbers (except 0) under multiplication} & $\by$ & 1 & $z \mapsto \frac{1}{z}$
+\end{tabular}
+\end{center}
+
+\end{example}
+
+For the last two groups, there is additional structure: the composition law is \emph{commutative}. This motivates the following definition.
+\begin{definition}
+A group $G$ is \textbf{abelian} if $a \cdot b = b \cdot a$ for all $a, b \in G.$ Otherwise, $G$ is called \textbf{nonabelian}.
+\end{definition}
+
+Often, the composition law in an abelian group is denoted $+$ instead of $\cdot.$
+
+
+\subsection{Permutation and Symmetric Groups}
+Now, we will look at an extended example of another family of nonabelian groups.
+
+\begin{definition}
+Given a set $S,$ a \textbf{permutation} of $S$ is a \emph{bijection}\footnote{A function $f: A \rto B$ is a bijection if for all $y \in B$, there exists a unique $x \in A$ such that $f(x) = y$. Equivalently, it must be one-to-one and onto.} $p: S \rto S$.
+\end{definition}
+
+\begin{definition}
+Let $\text{Perm}(S)$ be the set of permutations of $S$. 
+\end{definition}
+
+In fact, $\text{Perm}(S)$ is a group, where the product rule is function composition.\footnote{We can check that the composition of two bijections $p \circ q$ is also a bijection.}
+\begin{itemize}
+    \item \textbf{Identity.} The identity function $e: x \mto x$ is is the identity element of the group.
+    
+    \item \textbf{Inverse.} Because $p$ is a bijection, it is invertible. Let $p^{-1}(x)$ be the unique $y \in S$ such that $p(y) = x.$
+    
+    \item \textbf{Associativity.} Function composition is always associative.
+\end{itemize}
+
+Like groups of matrices, $\text{Perm}(S)$ is a group coming from a set of \emph{transformations} acting on some object; in this case, $S$. 
+
+\begin{definition}
+When $S = \{1, 2, \cdots, n\},$ the permutation group $\text{Perm}(S)$ is called the \textbf{symmetric group}, denoted $S_n.$
+\end{definition}
+
+\begin{definition}
+For a group $G,$ the number of elements in the set $G,$ $|G|,$ is called the \textbf{order} of the group $G,$ denoted $|G|$ or $\ord(G).$
+\end{definition}
+
+The order of the symmetric group is $|S_n| = n!$\footnote{The number of permutations of the numbers 1 through $n$ is $n!$ --- there are $n$ possibilities for where 1 maps to, and then $n-1$ for where 2 maps to, and so on to get $n(n-1)\cdots (2)(1) = n!$} so the symmetric group $S_n$ is a \emph{finite} group. 
+
+For $n=6,$ consider the two permutations $p$ and $q$
+\begin{center}
+    \begin{tabular}{c|c c c c c c}
+     $i$ & 1 & 2 & 3 & 4 & 5 & 6 \\
+     \hline 
+     $p(i)$ & 2 & 4 & 5 & 1 & 3 & 6
+\end{tabular}
+\end{center}
+\begin{center}
+    \begin{tabular}{c|c c c c c c}
+     $i$ & 1 & 2 & 3 & 4 & 5 & 6 \\
+     \hline 
+     $q(i)$ & 3 & 4 & 5 & 6 & 1 & 2
+\end{tabular},
+\end{center}
+where the upper number is mapped to the lower number. 
+
+We can also write these in \textbf{cycle notation}, which is a shorthand way of describing a permutation that does not affect what the permutation actually is. In cycle notation, each group of parentheses describes a cycle, where the number is mapped to the following number, and it wraps around. 
+\begin{example}[Cycle notation]
+In cycle notation, $p$ is written as $(124)(35),$ where the 6 is omitted. In the first cycle, 1 maps to 2, 2 maps to 4, and 4 maps to 1, and in the second cycle, 3 maps to 5 and 5 maps back to 3.\footnote{In fact, we say that $p$ has \emph{cycle type} $(3, 2),$ which is the lengths of each cycle.} 
+\end{example}
+
+Similarly, $q$ is written as $(135)(246).$\footnote{It has cycle type $(3, 3).$} In cycle notation, it is clear that there are multiple ways to write or represent the same permutation. For example, $p$ could have been written as $(241)(53)$ instead, but it represents the \emph{same} element $p \in S_6.$
+
+Cycle notation allows us to more easily invert or compose two permutations; we simply have to follow where each number maps to. 
+
+\begin{example}[Inversion]
+The inverse $p^{-1}$ flips the rows of the table:
+\begin{center}
+    \begin{tabular}{c|c c c c c c}
+     $i$ & 2 & 4 & 5 & 1 & 3 & 6 \\
+     \hline 
+     $p(i)$ & 1 & 2 & 3 & 4 & 5 & 6 
+\end{tabular}
+\end{center}
+
+In cycle notation, it reverses the cycles, since each number should be mapped under $p^{-1}$ to the number that maps to it under $p$:
+\[
+p^{-1} = (421)(53) = (142)(35).
+\]
+\end{example}
+
+\begin{example}[Composition]
+The composition is
+\[
+q \circ p = (143)(26).
+\]
+Under $p,$ 1 maps to 2, which maps to 4 under $q$, and so 1 maps to 4 under $q \circ p.$\footnote{Remember that the rightmost permutation is applied first, and then the leftmost, and not the other way around, due to the notation used for function composition.} Similarly, 4 maps to 3 and 3 maps back to 1, which gives us the first cycle. The second cycle is similar.  
+\end{example}
+
+\begin{example}[Conjugation]
+Another example of composition is
+\[
+p^{-1} \circ q \circ p = (126)(345).
+\]
+This is also known as \emph{conjugation} of $q$ by $p.$\footnote{Notice that under conjugation, $q$ retains its cycle type $(3, 3).$ In fact, this is true for conjugation of any element by any other element!}
+\end{example}
+
+\subsection{Examples of Symmetric Groups}
+For $n \geq 3,$ $S_n$ is always non-abelian. Let's consider $S_n$ for small $n \leq 3.$
+\begin{example}[$S_1$]
+In this case, $S_1$ only has one element, the identity element, and so it is $\{e\},$ the \emph{trivial group.}
+\end{example}
+
+\begin{example}[$S_2$]
+For $n = 2,$ the only possibilities are the identity permutation $e$ and the transposition $(12).$ Then $S_2 = \{e, (12)\};$ it has order 2.
+\end{example}
+
+Once $n$ gets larger, the symmetric group becomes more interesting. 
+\begin{example}[$S_3$]
+The symmetric group on three elements is of order $3! = 6.$ It must contain the identity $e.$ It can also contain $x = (123).$ Then we also get the element $x^2 = (132)$, but \[\boxed{x^3 = e.}\] Higher powers are just $x^4 = x, x^5 = x^2,$ and so on. Now, we can introduce $y = (12),$ which is its own inverse, and so \[\boxed{y^2 = e}.\] Taking products gives $xy = (13)$ and $x^2y = (23).$ So we have all six elements of $S_3$:
+\[
+S_3 = \{e, (123), (132), (12), (13), (23)\}.
+\]
+
+In fact, $yx = (23) = x^2y,$ so taking products in the other order does not provide any new elements. The relation
+\[
+\boxed{yx = x^2y}
+\]
+holds. In particular, using the boxed relations, we can compute \emph{any} crazy combination of $x$ and $y$ and reduce it to one of the elements we listed. For example, $xyx^{-1}y = xyx^2y = xyyx = xy^2x = x^2.$ 
+\end{example}
+
+\newpage

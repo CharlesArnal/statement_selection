@@ -1,0 +1,241 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-011 Algebra I Student Notes, Fall 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\section{The Special Unitary Group \texorpdfstring{$SU_2$}{SU2}}
+
+\subsection{Review}
+
+Last time, we started looking at subgroups of the group of invertible matrices. We saw that one thing these groups have in common, that finite or discrete groups don't, is that they have some sort of shape or geometry. In particular, we looked at the group \[SU_2 \coloneqq \{A \in GL_2(\CC) \mid A^* = A^{-1}, \det A = 1\},\] the special unitary group. By playing around with the definitions, we found that $SU_2$ sits inside the quaternions \[\mathbb{H} = \{x_0I + x_1\mathbf{i} + x_2\mathbf{j} + x_3\mathbf{k}\},\] where we defined \[ \mathbf{i} = \begin{bmatrix} i & 0 \\ 0 & -i \end{bmatrix}, \, \mathbf{j} = \begin{bmatrix}0 & 1 \\ -1 & 0 \end{bmatrix}, \, \mathbf{k} = \begin{bmatrix} 0 & i \\ i & 0 \end{bmatrix} . \] In particular, $SU_2$ is the subset with $x_0^2 + x_1^2 + x_2^2 + x_3^2 = 1$, corresponding to the $3$-sphere $S^3$ in $\mathbb{R}^4$. 
+
+\begin{note}
+We've seen that the $1$-dimensional sphere and $3$-dimensional spheres both have a group structure, so we can ask whether the same is true for other dimensions. It turns out the answer is no -- there are no other $n$-dimensional spheres which can be made into groups. (This is a deeper fact.)
+\end{note}
+
+Last class, we started taking geometric properties of the $3$-sphere and seeing how they correspond to the group structure. In particular, we looked at the latitudes -- the horizontal slices $\operatorname{Lat}_c = \{x_0 = c\} \cap S^3$ for $-1 \leq c \leq 1$. We proved last class that these latitudes are precisely the conjugacy classes of $SU_2$. We call $\operatorname{Lat}_0$ the \textbf{equator}, denoted $\mathbb{E}$. 
+
+\subsection{Longitudes}
+
+Another thing we can think about are the \textbf{longitudes} -- the circles which go through the north and south pole. 
+
+\begin{center}
+        \begin{asy}
+            unitsize(2.5cm);
+            draw(circle((0, 0), 1));
+            real latc(real a, real b) {
+                return sqrt((1 - a^2)*(a^2 - b^2)/a^2);
+            }
+            path lat2(real a, real b) {
+                return shift((0, latc(a, b)))*scale(a, b)*arc((0, 0), 1, 0, 180);
+            }
+            path lat1(real a, real b) {
+                return shift((0, latc(a, b)))*scale(a, b)*arc((0, 0), 1, 180, 360);
+            }
+            draw(lat1(1, 0.2), gray);
+            draw(lat2(1, 0.2), gray+dashed);
+            real aq = 0.8;
+            real bq = aq/5;
+            draw(lat1(aq, bq), heavycyan);
+            draw(lat2(aq, bq), heavycyan+dashed);
+            draw(rotate(180)*lat2(aq, bq), heavycyan);
+            draw(rotate(180)*lat1(aq, bq), heavycyan+dashed);
+            real vr = 0.4;
+            draw(rotate(90)*lat1(1, 0.4), deepgreen);
+            draw(rotate(90)*lat2(1, 0.4), deepgreen+dashed);
+        \end{asy}
+    \end{center}
+    
+We can define these more precisely: for each $x \in \mathbb{E}$, the longitude containing $x$ is  $\operatorname{Long}_x := \operatorname{Span}(I, x) \cap S^3$. Here $\operatorname{Span}(I, x)$ is a $2$-dimensional plane, so we're taking the unit circle of a $2$-dimensional plane. 
+
+\begin{theorem}
+For each $x \in \EE,$ $\operatorname{Long}_x $ is a \emph{subgroup} of $SU_2$. In fact, given $\theta \in \mathbb{R}/2\pi\mathbb{Z}$, the map $\theta \mapsto \cos \theta I + \sin \theta x$ is an isomorphism between $\RR/2\pi \ZZ$ and $\operatorname{Long}_x$.
+\end{theorem}
+
+What this means is that the longitudes aren't just circles as \emph{shapes}, they're also circles as \emph{groups} (since we've seen that the unit circle as a group is isomorphic to $\mathbb{R}/2\pi\mathbb{Z}$. 
+\begin{proof}
+To see this is true, we'll first consider the special case $x = \mathbf{i}$. Then we can check that given two points in $\operatorname{Long}_{\mathbf{i}}$, we have \[(c + s\mathbf{i})(c' + s'\mathbf{i}) \in \operatorname{Span}(I, \mathbf{i})\] as well, since $\mathbf{i}^2 = -I$. Meanwhile, since both elements are in $SU_2$, their product must be as well; so their product is in $SU_2 \cap \operatorname{Span}(I, \mathbf{i}) = \operatorname{Long}_{\mathbf{i}}$. So this longitude is closed under multiplication, and is therefore a subgroup. 
+
+We won't check the isomorphism to $\mathbb{R}/2\pi\mathbb{Z}$ here, but it's possible to check this directly by multiplying out.
+
+We can then use this to solve the general case -- for any $x \in \mathbb{E}$, we know $x$ is conjugate to $\mathbf{i}$ (since we saw that the equator is a conjugacy class). So then we can write $x = P^{-1}\mathbf{i}P$, and then $\operatorname{Long}_x = P^{-1}\operatorname{Long}_{\mathbf{i}}P$ is conjugate to $\operatorname{Long}_{\mathbf{i}}$. But when we conjugate a subgroup, we get another subgroup. 
+
+So not only are the longitudes all circle subgroups, but they're also all conjugate to each other. 
+\end{proof}
+
+\subsection{More Group Theoretic Properties}
+
+When we studied conjugacy classes, we also studied centralizers:
+
+\begin{qq}
+What is the centralizer of $\mathbf{i}$?
+\end{qq}
+
+Recall that this means the set of elements for which if we conjugate $\mathbf{i}$ by them, we get back $\mathbf{i}$. 
+
+We know that $\operatorname{Long}_{\mathbf{i}}$ is a subgroup of $SU_2$, and it's \emph{abelian} (since it's isomorphic to the circle). Since $\mathbf{i}$ is in this longitude, this means it commutes with everything in this longitude. So $Z(\mathbf{i}) \supset \operatorname{Long}_{\mathbf{i}}$. In fact, this turns out to be an equality -- we have $Z(\mathbf{i}) = \operatorname{Long}_{\mathbf{i}}$. This is true for any other point on the equator as well -- its longitude is exactly its centralizer. 
+
+Another thing we saw when studying conjugacy classes was that there's a bijection between the conjugacy class $C(g)$ and the cosets of the centralizer $G/Z(g)$. In our case, this is still true, but now both sides are geometric objects. If we fix a point $g$ on the equator, then $C(g) = \mathbb{E}$ is a $2$-dimensional sphere. Meanwhile, $G/Z(g)$ corresponds to taking cosets of a longitude. We're taking a $3$-sphere and covering it in cosets -- so we have a map $S^3 \to S^2$, where the fibers are circles (the cosets of the longitude). 
+
+This is really hard to picture, but the idea is that we start with the $3$-sphere and a given longitude, and we're taking its cosets (which correspond to circles not necessarily through the north and south pole) and covering the entire $3$-sphere in these circles. When we collapse all these circles to a point, we get a copy of the $2$-sphere. 
+
+\begin{note}
+This is really difficult to think about, but it's a construction in topology relating spheres of dimensions $1$, $2$, and $3$, and it can also be thought of in this group theory setting. 
+
+What we would like to illustrate is that group theoretic facts about this group also become interesting geometric facts; it doesn't really matter if you don't understand all of them. 
+\end{note}
+
+\subsection{Conjugation and the Orthogonal Group}
+
+There's another thing we can look at: we know the equator is a conjugacy class, so $SU_2$ acts on $\mathbb{E}$ transitively (with the action given by conjugation). In fact, $SU_2$ acts on the space $\{x_0 = 0\} \subset \mathbb{H}$ (which is the $3$-dimensional vector space containing the equator), and it preserves the equator $\mathbb{E}$ inside this space. 
+
+Conjugation by an element of $SU_2$ is a linear map, so it defines a group homomorphism $\rho : SU_2 \to GL_3(\mathbb{R})$, where $\rho(g)$ is the matrix such that $\rho(g)\vec{v} = gvg^{-1}$. But $\rho(g)$ preserves $\mathbb{E}$, so since it preserves vectors of length $1$, this means it must preserve length in general. So $\rho(g)$ is actually an isometry -- which means this map is actually $\rho : SU_2 \to O_3$. 
+
+In fact, we can say even more. We've seen that orthogonal matrices in $3$ dimensions are either reflections or rotations -- and you can tell which by looking at the determinant (which is always $\pm 1$). But $SU_2$ is connected (we can get from any point to any other point by following some path), so $\det(\rho(g))$ can't jump between $\pm 1$ (since $\rho$ is continuous). So then $\det(\rho(g))$ is constant as $g$ varies. We know that $\det(\rho(I)) = 1$, so then $\det(\rho(g))$ is always $1$. So in fact, this is a homomorphism $\rho : SU_2 \to SO_3$. 
+
+\begin{note}
+We could write down this homomorphism in terms of the matrix entries -- we start with a $2 \times 2$ complex matrix and create a $3 \times 3$ real one, and we could explicitly write down the homomorphism. But it's more interesting to think about it geometrically, by considering the action of $SU_2$ on one of its conjugacy classes. 
+\end{note}
+
+\begin{note}
+You can go further with this -- given a point on the $3$-sphere, we can ask how to figure out what angle and axis of rotation it corresponds to. This is written up in the notes, but we won't discuss it here. But you can go really far by playing around with the group-theoretic constructions we've seen earlier and trying to picture what they mean. 
+\end{note}
+
+% \begin{qq}
+% What about ?? 
+% \end{qq}
+% We have $SU_2$ acting on $\EE$ transitively. In fact, $SU_2$ acts on the space $\{x_0 = 0 = \RR^3\} \subset \HH$, preserving $\EE \subset \{x_0 = c\}.$ 
+
+% In fact, this defines a group homomorphism \[\rho: SU_2 \rto GL_3(\RR).\] We have $\rho(g)\vec{v} = g\vec{v}g^{-1}$ for $\vec{v} \in \{x_0 = 0\}.$ Also, $\rho(g)$ preserves $\EE,$ which implies that $\rho(g)$ preserves length and in fact is an isometry. Thus, there is a group homomorphism \[\rho: SU_2 \rto O_3.\] We can even say more. Orthogonal matrices are either reflections, which have determinant $-1$, or rotations, which have determinant 1. The group $SU_2$ is a 3-sphere, and is connected, so the determinant of $\rho(g)$ must be constant, since the map from $SU_2 \rto O_3$ is continuous. In particular, the identity has determinant 1, so $\det(\rho(g)) = 1$ for all $g.$ Thus, we actually have a group homomorphism \[SU_2 \rto SO_3;\] this can be written down in terms of the entries, from complex matrices to real matrices, but it is much more interesting geometrically. It comes from the action of $SU_2$ on one of its conjugacy classes!\footnote{It is even possible to go further. Given a point on the 3-sphere $SU_2,$ what is the angle and axis of rotation that it corresponds to? What is the kernel of $\rho$? It is written up in the notes.} %add the kernel stuff in the notes ell oh ell
+
+\begin{question}
+Did we show that $\rho$ was continuous?
+\end{question}
+
+\begin{ans}
+No, we did not. In order to check that it's continuous, you can write down the map in terms of the entries. But this shouldn't be surprising -- we have $\rho(g)v = gvg^{-1}$, and we can write down a explicit formula for $g^{-1}$ in terms of $g$. So the matrix $\rho(g)$ is something we can write down explicitly in terms of coordinates. (In fact, you can also use this explicit formula to show it's in $SO_3$, but it's nicer to just show that it's continuous and then deduce it's in $SO_3$ by thinking about it geometrically.)
+\end{ans}
+
+\begin{question}
+Was the action $SU_2$ defined on $\mathbb{E}$ just left multiplication?
+\end{question}
+
+\begin{ans}
+No, it's conjugation. The idea is that $\mathbb{E}$ is one of the conjugacy classes of the group, and all the conjugacy classes are orbits with respect to the conjugation action. (This is why the action is transitive as well.)
+\end{ans}
+
+%what?
+%Each of the group theoretic terms that we talked about for group actions has a geometric visualization for $SU_2.$ 
+
+\subsection{One-Parameter Groups}
+
+Now we'll return to looking at linear groups more generally -- subgroups $G$ of $GL_n(\mathbb{R})$ or $GL_n(\mathbb{C})$ which satisfy some condition (for example, preserving volume or a bilinear form). 
+
+\begin{definition}
+A \textbf{one-parameter group} (in $GL_n(\RR)$ or $GL_n(\CC)$) is a differentiable homomorphism from $\RR \to GL_n(\RR)$ or $\RR \to GL_n(\CC).$
+\end{definition}
+
+In otherwords, it's a function $\varphi : \mathbb{R} \to GL_n(\mathbb{C})$ with $t \mapsto \varphi(t)$. It should be a group homomorphism, so $\varphi(s + t) = \varphi(s) + \varphi(t)$, and it should be differentiable (where we think of $GL_n(\mathbb{C})$ as sitting inside $\mathbb{R}^{2n^2}$ -- then each entry of the function should be a differentiable function on $\mathbb{R}$). 
+
+One way to think of this definition is as an analog of when we looked at maps $\mathbb{Z} \to G$. The integers are in some sense the simplest group we can write down -- it has just one generator and no relations -- and we can look at maps $\mathbb{Z} \to G$, to help us study $G$. 
+
+The idea here is that $(\mathbb{R}, +)$ is basically the simplest one-dimensional group. (We haven't defined dimension, but you can think of dimension as how many parameters we have. There are other one-dimensional groups, like a circle, but the real numbers are simpler because we don't have relations like $2\pi = 0$ here.)
+
+% It is a function 
+% \begin{align*}
+%     \varphi: \RR &\rto GL_n(\CC)  \\
+%     t &mto \varphi(t).
+% \end{align*}
+% Because it is a group homomorphism, $\varphi(s + t) = \varphi(s)\varphi(t).$ Also, we have $GL_n(\CC) \subset \RR^{2n^2}$, since there are $2n^2$ real numbers that determine one matrix in $GL_n(\CC),$ and each of these real numbers is a continuous function of $t$. An analogue of this is a map $\ZZ \rto G.$ %write down what he said here
+
+% The simplest "1-dimensional"\footnote{A 1-dimensional group is basically a group described by only one parameter. A circle would also be 1-dimensional, but it is more complicated and has relations.} group is $(\RR, +).$ 
+
+We've already seen a few examples of one-parameter groups:
+\begin{example}
+In $SU_2$, the map $\theta \mapsto \cos \theta I + \sin \theta x$ (for any $x \in \mathbb{E}$) is a one-parameter group. 
+\end{example}
+
+These one-parameter groups are the longitudes. We've seen that every point lies in some longitude, and therefore some one-parameter group; in general, that isn't always true. 
+
+% \begin{example}
+% For $SU_2$, we have a map $\RR \rto SU_2$ taking $\theta \mto \cos\theta I + \sin\theta x,$ which we discussed when talking about longitudes.
+
+% Essentially every point in $SU_2$ lies in a longitude, a one-parameter subgroup. 
+% \end{example}
+
+Let's see another example, when $n = 1$.
+
+\begin{example}
+When $n = 1$, the map $\varphi : \mathbb{R} \to \mathbb{C}^\times$ with $\varphi(t) = e^{\alpha t}$ (for any $\alpha \in \mathbb{C}$) is a one-parameter group.
+\end{example}
+
+Here one-dimensional matrices are just numbers. This construction works because we have \[\varphi(s + t) = e^{\alpha s + \alpha t} = e^{\alpha s}e^{\alpha t} = \varphi(s)\varphi(t).\] 
+
+% \begin{example}[$n = 1$]
+% Consider 
+% \begin{align*}
+%     \varphi: \RR &\rto \CC^{\by} \\
+%     \varphi(t) &\mto e^{\alpha t}.
+% \end{align*}
+
+% For any $\alpha \in \CC,$ we have $\varphi(s + t) = e^{\alpha(s + t)} = e^{\alpha s} e^{\alpha t} = \varphi(s)\varphi(t).$ 
+% \end{example}
+% This isn't an analysis class, so we won't check the differentiability (and then continuity) of these maps, but in this example it can be done by writing it down in terms of sines and cosines.
+
+\begin{note}
+This isn't an analysis class, so we won't check the differentiability of these maps. In this example, it can be done by writing everything down in terms of sines and cosines. 
+\end{note}
+
+\begin{qq}
+Is there a version of this construction for $n > 1$?
+\end{qq}
+
+The answer is yes -- if we have $A \in \operatorname{Mat}_{n\times n}(\mathbb{C})$, we can try to define $e^A$. Taking a number to the power of a matrix doesn't make any sense, but the exponential function also has a description using power series: we have \[e^x = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots.\] This is a very nice power series -- it converges to $e^x$ everywhere. In fact, you can even take this as the definition of $e^x$, and you can take the derivative term-by-term. 
+
+So we can use this to define $e^A$ as well:
+\begin{definition}
+The exponential of a matrix $A \in \operatorname{Mat}_{n\times n}(\mathbb{C})$ is \[e^A = I + A + \frac{A^2}{2!} + \frac{A^3}{3!} + \cdots \in \operatorname{Mat}_{n \times n}(\mathbb{C}).\] 
+\end{definition}
+
+% The Taylor series expansion of $e^x$ is $e^x = 1 + x + \frac{x^2}{2} + \cdots.$ This is a very nice series that converges everywhere and can even be taken to be the definition of the exponential. 
+% In order to generalize the exponential function for $A \in \text{Mat}_{n \by n}(\CC),$ we can define the matrix exponential. 
+% \begin{definition}
+% The exponential of a matrix $A \in \text{Mat}_{n \by n}(\CC)$ is
+% \[
+% e^A \coloneqq I + A + \frac{A^2}{2!} + \frac{A^3}{3!} + \cdots \in \text{Mat}_{n \by n}(\CC).
+% \]
+% \end{definition}
+
+This also converges uniformly as $A$ varies in a bounded region, meaning that for every entry of the matrix, if we take the corresponding entries of each term, then we get a convergent series. As we vary $A$ in a neighborhood, this convergence of that series is uniform. So this gives us a well-defined $n \times n$ matrix $e^A$. (To be more precise, we can actually put a metric on the space of matrices, and use this to be careful about the notion of convergence.)
+
+This exponential has several nice properties, similarly to the normal exponential.
+\begin{itemize}
+    \item The exponential interacts well with conjugation -- we have 
+    \begin{align*} P^{-1}e^AP &= P^{-1}IP + P^{-1}AP + P^{-1}A^2/2 P + \cdots \\ 
+    &= I + P^{-1}AP + \frac{(P^{-1}AP)^2}{2} + \cdots \\
+    &= e^{P^{-1}AP}.\end{align*} (To be more careful, the LHS and RHS are both defined by limits -- where we take the power series and truncate it. The equality is true on the level of these truncations, so the limits are equal as well.)
+    
+    \item If $v$ is an eigenvector of $A$ with eigenvalue $\lambda$, then $v$ is also an eigenvector of $e^A$ with eigenvalue $e^\lambda$. 
+    
+    \item We have $e^{sA}e^{tA} = e^{(s + t)A}$. To prove this, we can expand the RHS out using the Binomial Theorem as \[\sum_{n \geq 0} \frac{(s + t)^nA^n}{n!} = \sum_{k, \ell \geq 0} \frac{s^kt^\ell}{(k + \ell)!}\cdot \frac{(k + \ell)!}{k!\ell!}A^kA^\ell.\] Then using uniform convergence, we can factor out the infinite sum as \[\left(\sum_{k\geq 0} \frac{s^kA^k}{k!}\right)\left(\sum_{\ell \geq 0} \frac{t^\ell A^\ell}{\ell!}\right) = e^{sA}e^{tA}\] (the fact that we can rearrange in this way is the result of the strong convergence properties). 
+    
+    In particular, $e^A e^{-A} = I$, so we actually have $e^A \in GL_n(\CC)$. (We're working in the complex case, but this works equally well in the real case.)
+\end{itemize}
+
+The last result means that for any $A \in \operatorname{Mat}_{n \times n}(\mathbb{C})$, $\varphi(t) = e^{tA}$ is a one-parameter group in $GL_n(\mathbb{C})$. 
+
+We can ask two questions about these one-parameter groups:
+
+\begin{qq}
+Is every one-parameter group of this form?
+\end{qq}
+
+The answer will be yes, and we will see why in future lectures!
+
+\begin{qq}
+Given a subgroup $G \leq GL_n,$ what are the one-parameter subgroups living inside of $G$?
+\end{qq}
+
+We will discuss this question in future lectures as well. 
+
+\newpage

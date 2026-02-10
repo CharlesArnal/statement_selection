@@ -1,0 +1,236 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-012 Algebra II Student Notes, Spring 2022
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+% \rhead{\rightmark}
+\lhead{Lecture 12: Factorization in Rings}
+
+\section{Factorization in Rings}
+
+\subsection{Review}
+
+Last class, we began discussing factorization. 
+
+\begin{definition}
+ An element $a \in R$ is \textbf{irreducible} if it is not a unit, and if $a = bc$ then either $b$ or $c$ is a unit.
+\end{definition}
+
+In other words, irreducible elements are ones which cannot be factored in a nontrivial way; so when attempting to factor in a ring, we want to factor our elements as a product of irreducibles. 
+
+In our discussion of factorization, we'll always assume $R$ is an integral domain (meaning that if $ab = 0$, then either $a = 0$ or $b = 0$) --- this allows us to perform cancellation. 
+
+When discussing unique factorization, we can always multiply the factors by units; so to make the notion of ``essentially unique'' (as mentioned last class) more precise, we use the following definition:
+
+\begin{definition}
+ Two elements $a, b \in R$ are \textbf{associate} if $a = bu$ for a unit $u \in R$. 
+\end{definition}
+
+Then a domain $R$ is a unique factorization domain (UFD) if every non-unit element can be written as a product of irreducible elements in a unique way, up to ordering and association. 
+
+% Recall that a nonunit element $a \in R$ is \textbf{irreducible} if $a = bc$ implies that either $b$ or $c$ is a unit; that is, it has no proper divisor. Also, $R$ is called an \textbf{integral domain} if $ab = 0$ implies that $a = 0$ or $b = 0.$ Irreducible elements $a, b$ are \textbf{associate} if $a = bu$ for some unit $u.$
+
+% A domain $R$ is a UFD (unique factorization domain) if every nonunit element is a product of irreducible elements in an essentially unique way, up to ordering and association. 
+
+Recall that a domain $R$ is a principal ideal domain (PID) if every ideal in $R$ is principal. As mentioned last class, we can generalize our proof that $F[x]$ is a UFD to work for any PID:
+
+\begin{theorem}
+Any PID is a UFD.
+\end{theorem}
+
+\begin{proof}[Sketch of Proof]
+We need to show that a factorization exists, and is unique. 
+
+To prove uniqueness, since $R$ is a PID, we have that if $p \in R$ is irreducible, then $(p)$ is maximal. So then $R/(p)$ is a field, and since fields have no zero divisors, it follows that if $p$ divides $ab$, then $p$ divides $a$ or $p$ divides $b$. This implies uniqueness --- now given any two factorizations $p_1p_2\cdots p_m = q_1q_2\cdots q_m$, we can show that $p_1$ must appear on the right-hand side as well (up to association), and cancel it out from both sides. 
+
+% Uniqueness of factorization is true if $R$ is a PID. Pick some irreducible $p$ is in $R$. Then $(P)$ is smaximal, so $R/(P)$ is a field, implying that if $p$ divides $ab,$ then $p$ divides $a$ or $p$ divides $b$ ($p$ is a prime.) This implies uniqueness. 
+We won't prove existence in general now (it requires a new idea, which we'll see later). But in the examples we'll deal with, existence is clear. We can start with any element of $R$ and keep factoring it until we're stuck, at which point all factors must be irreducible. Then in our examples, this factorization process always ``shrinks'' the elements in some sense --- in the case of integers, their size decreases, and in the case of polynomials, their degree decreases --- so it must terminate. (We can't perform this argument in an abstract PID because it doesn't necessarily have a notion of size. We will later see a different way to show that the process terminates, using \emph{Noetherian rings}.)% The existence of a factorization is not difficult to verify; in the examples we will see, existence is clear. \todo{add in the proof or add in the proof in an appendix}
+\end{proof}
+
+\begin{note}
+    Elements with the property that if $p \mid ab$, then $p \mid a$ or $p \mid b$ (which we used in the proof of uniqueness) are called \textbf{prime}. 
+\end{note}
+
+\subsection{Euclidean Domains}
+
+Earlier, we saw that for a field $F$, the ring $F[x]$ is a PID. We can apply the argument used here to a somewhat more general class of rings. 
+
+\begin{definition}
+A Euclidean domain is a domain $R$ together with a size function $\sigma: R \setminus \{0\} \to \ZZ_{>0}$ such that for every $a, b \in R$ with $b \neq 0$, there exist $q, r \in R$ such that \[a = bq + r,\] and $\sigma(r) < \sigma(b)$ or $r = 0$. 
+\end{definition}
+
+In other words, a Euclidean domain is a domain where we can perform division with remainder, such that the remainder has smaller size than the element we're dividing by. 
+
+
+\begin{proposition}\label{euclidean pid}
+A Euclidean domain is a PID, and therefore a UFD. 
+\end{proposition}
+
+\begin{example}
+The familiar ring $\ZZ$ is a Euclidean domain with size function $\sigma(a) = \lvert a\rvert$.
+\end{example}
+
+\begin{example}
+For a field $F$, the polynomial ring $F[x]$ is a Euclidean domain with $\sigma(P) = \deg P$.
+\end{example}
+
+\begin{example}
+The Gaussian integers $\ZZ[i]$ form a Euclidean domain with size function $\sigma(a + bi) = a^2 + b^2.$
+
+
+% \begin{center}
+%     \includegraphics[width=8cm]{lec12.png}
+% \end{center}
+% \todo{include the picture and explain it better}
+% The elements of $\ZZ[i]$ form a square lattice in the complex plane, and the multiples of some nonzero element $b$ form the principal ideal $(b)$, which is a different lattice on the plane. For any complex number, as can be seen from the picture, it is always possible to get $r$ in the shaded square such that $r = \alpha b + \beta ib$ for $\alpha, \beta \in \left[-\frac{1}{2}, \frac{1}{2}\right].$ Then $|r|^2 \leq \frac{1}{2} |b|^2$ and so $|sigma(r) \leq \frac{1}{2}\sigma(b) < \sigma(b)$ for $b \neq 0.$
+\end{example}
+
+\begin{proof}
+    We can prove that the division with remainder property holds by geometry. Given $b$, the multiples of $b$ form a square lattice (generated as a lattice by $b$ and $bi$). 
+
+    \begin{center}
+        \begin{asy}
+            unitsize(1cm);
+            pair x = (1, 0.2);
+            pair y = (-0.2, 1);
+            filldraw((x/2 + y/2)--(x/2 - y/2)--(-x/2 - y/2)--(-x/2 + y/2)--cycle, deepgreen+opacity(0.1), deepgreen);
+            for (int i = -1; i <= 2; ++i) {
+                for (int j = -1; j <= 2; ++j) {
+                    dot(i*x + j*y);
+                }
+            }
+            draw((-1.5, 0)--(3, 0), mediumgray, Arrows);
+            draw((0, -1.5)--(0, 3), mediumgray, Arrows);
+            draw((0, 0)--x, heavycyan, EndArrow);
+            label("$b$", x, dir(45), heavycyan);
+            draw((0, 0)--y, heavycyan, EndArrow);
+            label("$bi$", y, dir(135), heavycyan);
+        \end{asy}
+    \end{center}
+
+    So by subtracting multiples of $b$, we can guarantee that $a$ lands in the small square centered at the origin --- more precisely, we can guarantee that $r = \alpha b + \beta ib$ where $-\frac{1}{2} \leq \alpha, \beta \leq \frac{1}{2}$. Then we have $\sigma(r) \leq \frac{1}{2}\sigma(b) < \sigma(b)$, as desired.     
+\end{proof}
+
+So the concept of a Euclidean domain is useful --- there exist examples other than the ones we started thinking about. We can now prove that Euclidean domains are PIDs, in the same way as we did with polynomials.
+
+\begin{proof}[Proof of Proposition \ref{euclidean pid}]
+% If $I \subset R$ is a nonzero ideal, we can find $b \in I$ with minimal $\sigma(b)$ For any $a \in I$, $a = bq + r$, where either $r = 0$ or $\sigma(r) < \sigma(b),$ where the second option is a contradiction, and thus $r = 0$. That is, $a \in (b),$ and so $I = (b).$
+If $I \subset R$ is a nonzero ideal, then take an element $b \in I$ with minimal $\sigma(b)$. We know that for any $a \in I$, we can write $a = bq + r$, with $r = 0$ or $\sigma(r) < \sigma(b)$. The second case is impossible --- we have $r \in I$, but we chose $b$ to have minimal size of the nonzero elements in $I$ --- so we must have $r = 0$. So $b$ divides all elements of $I$, which means $I = (b)$. 
+\end{proof}
+
+However, this isn't \emph{very} general --- there are many rings which it \emph{doesn't} cover. 
+
+% \begin{example}
+% Consider $R = \ZZ[\sqrt{5}].$ It is not a UFD, not a PID, and also not a Euclidean domain. For example, $6 = 2 \cdot 3 = (1 - \sqrt{-5})(1 + \sqrt{-5}),$ where $2, 3, 1 \pm \sqrt{-5}$ are irreducible in $\ZZ[-\sqrt{5}].\footnote{Try proving that they are irreducible!}$
+% \end{example}
+
+\begin{example}
+    The ring $\mathbb{Z}[\sqrt{-5}]$ is not a UFD, and therefore not a PID or Euclidean domain. 
+\end{example}
+
+\begin{proof}
+    We have \[6 = 2\cdot 3 = (1 + \sqrt{-5})(1 - \sqrt{-5}).\] It's possible to show that all of the elements $2$, $3$, and $1 \pm \sqrt{-5}$ are irreducible, so $R$ does not have unique factorization.
+
+    Note that it \emph{is} still possible to bound $\sigma(r)$ in terms of $\sigma(b)$ by the same geometric argument as before; but this bound will not be strong enough to imply $\sigma(r) < \sigma(b)$. 
+\end{proof}
+
+\begin{question}
+The size functions in our examples have nice properties --- the size functions on $\ZZ$ and $\ZZ[i]$ are multiplicative, and the size function in $F[x]$ satisfies $\sigma(PQ) = \sigma(P) + \sigma(Q)$. Does something like this have to hold in general?
+\end{question}
+
+\begin{ans}
+No --- the ones that we've seen in our examples \emph{do} satisfy additional properties, but we didn't need those nice properties for the argument to work. The definition itself also doesn't guarantee any other nice properties. For example, in a field, the size function can be \emph{anything} --- every element is divisible by every nonzero element, so we can perform division even without remainder (meaning that $r = 0$). 
+\end{ans}
+
+\subsection{Polynomial Rings}
+
+Every PID is a UFD, but the converse is not true! There are cases where unique factorization is true, but there are non-principal ideals. For example, we'll see that $\ZZ[x]$ and $\CC[x_1, \ldots, x_n]$ are UFDs. But the ideal $(2, x) \subset \ZZ[x]$ and the ideal $(x, y) \subset \CC[x, y]$ are not principal. 
+
+The theorem that will imply both of these examples is the following. 
+
+\begin{theorem} \label{R UFD implies R[x]}
+If $R$ is a UFD, then $R[x]$ is also a UFD.
+\end{theorem}
+
+\begin{corollary}
+    The rings $\mathbb{Z}[x]$ and $\mathbb{C}[x_1, \ldots, x_n]$ are UFDs. 
+\end{corollary}
+
+\begin{proof}[Proof of Corollary]
+    For $\mathbb{Z}[x]$, this follows directly from the theorem (since we know $\mathbb{Z}$ is a PID). Meanwhile, for $\mathbb{C}[x_1, \ldots, x_n]$, we can use induction: we have \[\mathbb{C}[x_1, \ldots, x_n] = \mathbb{C}[x_1, \ldots, x_{n - 1}][x_n]\] by thinking of $n$-variable polynomials as polynomials in the last variable $x_n$, whose coefficients are polynomials in the other $n - 1$ variables --- for example, \[x + xy + y^2x^2 + xy^2 = (x) + (x)y + (x + x^2)y^2\] is a polynomial in $y$ whose coefficients are in $\CC[x]$. So using induction, this follows immediately from the theorem as well. 
+\end{proof}
+
+% As a result, $\ZZ[x]$ and $\CC[x_1, \cdots, x_n]$ are UFDs. To show that $\CC[x_1, \cdots, x_n]$ is a UFD, use that $\CC[x_1, \cdots, x_n] = \CC[x_1, \cdots, x_{n-1}][x_n]$.\footnote{It is extensively discussed in the textbook that multivariable polynomial rings can be built up in this way. For example, $x + xy + y^2x^2 + xy^2 = (x) + (x)y + (x + x^2)y^2,$ where the coefficients of $y^2$ are polynomials in $x$.}\todo{add the discussion in the textbook that polynomials can be built up.} The claim then follows by induction.
+\subsubsection{Greatest Common Divisors}
+
+To prove Theorem \ref{R UFD implies R[x]}, we'll need the concept of a gcd in $R$. 
+
+\begin{definition}
+In a domain $R$, a \textbf{greatest common divisor} of two elements $a, b \in R$, denoted $\gcd(a, b)$, is an element $d$ such that $d$ divides both $a$ and $b$, and any other element $\delta$ that divides both $a$ and $b$ must also divide $d$.
+\end{definition}
+
+A gcd may or may not exist. But if $\gcd(a, b)$ exists, it is unique up to association, i.e., up to multiplying by a unit --- if $d$ and $d'$ are both gcd's of $a$ and $b$, then we must have $d \mid d'$ and $d' \mid d$. This implies we have $d = ud'$ and $d' = zd$ for some elements $u$ and $z$. Then $d = uzd$, and since $R$ is a domain, we have $uz = 1$, so $u$ and $z$ are both units. %. If $d$ and $d'$ are two $\gcd$s, then $d$ divides $d'$ and $d'$ divides $d.$ Using that $R$ is a domain, we have $d = ud'$ and $d' = zd$, which implies that $uzd = d$ and so $uz = 1$ and $u$ and $z$ are units. \todo{when do we use domain lol}
+
+% \begin{example}
+% In $\ZZ[\sqrt{-5}]$, $\gcd(2, 2 + 2\sqrt{-5}, 6)$ does not exist --- both $2$ and $1 + \sqrt{-5}$ are common divisors, but 
+% \end{example}
+% In $\ZZ[-\sqrt{5}]$, no $\gcd$ exists of $2 + 2\sqrt{-5}.$ Both $2$ and $1 + \sqrt{-5}$ are common divisors, but the only multiple of $2$ which is a common divisor is $u \pm 2,$ but $1 + \sqrt{-5}$ does not divide $2.$\todo{what did he say here lol}
+
+\begin{example}
+    In $\ZZ[\sqrt{-5}]$, there is no gcd of $2 + 2\sqrt{-5}$ and $6$. 
+\end{example}
+
+\begin{proof}
+    Note that $2$ is a common divisor of $2 + 2\sqrt{-5}$ and $6$, and it's maximal in the sense that if multiplied by any non-unit element, the result is no longer a common divisor. So if the gcd existed, it would have to be $2$ (up to association). But $1 + \sqrt{-5}$ has the same property --- in particular, $1 = \sqrt{-5}$ is a common divisor but does not divide $2$. So there cannot exist a gcd. %Both $2$ and $1 + \sqrt{-5}$ are common divisors, and they are maximal in the sense that it's impossible to multiply them by non-units and still get a common divisor. This implies that if the gcd existed, it would have to be $2$ (since $2$ divides both This property for $2$ implies that if the gcd existed, it would have to be $2$, but $1 + \sqrt{-5}$ does not divide $2$, contradiction.
+\end{proof}
+
+\begin{proposition}
+In a UFD, the gcd of any two elements always exists.
+\end{proposition}
+
+% \todo{write down hwy this is true (he explained it in class)}
+
+\begin{proof}
+    The usual way of calculating the gcd using prime factorization (for example, in the case of integers) works in any PID. More explicitly, to find $\gcd(a, b)$ we can write down the factorizations of $a$ and $b$, and take the smaller power of each irreducible element. 
+\end{proof}
+
+% \begin{proposition}
+% In a principal ideal domain, the $\gcd$ is the generator of the ideal generated by $(a, b).$ As a result, $d$ has the form $ap + bq$, which is not true in general.
+% \end{proposition}
+
+\begin{note}
+    In a PID, if $\gcd(a, b) = d$, then we have $(a, b) = (d)$, which means $d$ can be written in the form $ap + bq$. But this is not true in general --- for example, in $\CC[x, y]$, we have $\gcd(x, y) = 1$, but $1 \not\in (x, y)$. 
+\end{note}
+
+\subsubsection{Gauss's Lemma}
+
+Our goal is to analyze factorization in $R[x]$. We know how factorization works in $R$, and we \emph{also} know how factorization works in a closely related ring --- if $F = \operatorname{Frac}(R)$, then since $F$ is a field, $F[x]$ is a PID. To relate factorization in $R[x]$ to factorization in these two better-understood rings, we use Gauss's Lemma. 
+
+\begin{definition}
+ A polynomial $P \in R[x]$ is \textbf{primitive} if the $\gcd$ of all its coefficients is a unit. 
+\end{definition}
+
+\begin{lemma}[Gauss's Lemma]
+    If $P, Q \in R[x]$ are primitive, then so is $PQ$. 
+\end{lemma}
+
+\begin{proof}
+    It's enough to show that for any irreducible $p \in R$, we can find a coefficient of $PQ$ not divisible by $p$ (as then by unique factorization, no element other than units can divide the gcd of its coefficients). 
+
+    Let $P = \sum a_ix^i$ and $Q = \sum b_jx_j$, and let $m$ be the maximal integer with $m \nmid a_m$ and $n$ the maximal integer with $n \nmid b_n$. Then in $PQ$, the coefficient of $x^{m + n}$ comes from $a_mb_n$, and other terms $a_ib_j$ where at least one of $a_i$ and $b_j$ is divisible by $p$; so this coefficient cannot be divisible by $p$. 
+\end{proof}
+
+Using this, we can get a good sense of which polynomials are irreducible in $R$ --- as we'll see later, these are the irreducible elements of $R$, and primitive polynomials in $R[x]$ which are irreducible in $F[x]$, where $F = \operatorname{Frac}(R)$. So we can use unique factorization in $R$ and in $F[x]$ to prove unique factorization in $R[x]$. 
+
+% \todo{is a polynomial capital or not capital}
+% \begin{lemma}[Gauss' Lemma]
+% If $P$ and $Q$ are primitive, then $PQ$ is primitive. Take $P, Q \in R[x]$; $R$ is a UFD.  \todo{what does this mean}
+% \end{lemma}
+%  \begin{proof}
+%  It is enough to see that if $p \in R$ is irreducible, then we can find coefficients of $PQ$ not divisible by $p$. 
+ 
+%  Suppose $P = \sum a_ix^i,$ $Q = \sum b_jx^j$. Pick maximal $n$ such that $p$ does not divide $a_n$ and maximal $m$ such that $p$ does not divide $b_m$. \todo{write down the rest of the proof} 
+%  \end{proof}
+ 
+
+% \todo{Using this elementary point,} \todo{what did he say here pls help}

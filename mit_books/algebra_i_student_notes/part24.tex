@@ -1,0 +1,273 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-011 Algebra I Student Notes, Fall 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\section{Bilinear Forms}
+
+\subsection{Review}
+Last week, we talked about the Sylow theorems, which are fundamental to the theory of finite groups. 
+
+\subsection{Bilinear Forms}
+Throughout this class, we have been pivoting between group theory and linear algebra, and now we will return to some linear algebra.
+
+Today, we will be discussing the notion of \textbf{bilinear forms}. Let's look at some examples first and then provide the general definition. 
+
+For now, we will be working with a vector space $V$ over $F= \RR,$ and later on we will look at the case of $F = \CC,$ the complex numbers.
+
+Let's consider three examples of bilinear forms on $\RR^3.$
+\begin{example}\label{bilinear forms}
+
+Consider these three different examples of mappings:
+\begin{align*} \RR^3 \by \RR^3 &\rto \RR \\
+\begin{pmatrix}
+x_1 \\ x_2 \\ x_3
+\end{pmatrix},
+\begin{pmatrix}
+y_1 \\ y_2 \\ y_3
+\end{pmatrix} 
+& \xmapsto{(1)} x_1y_1 + x_2y_2 + x_3y_3 \\
+& \xmapsto{(2)} x_1y_1 + 2x_2y_2 + 3x_2y_1 + 4x_2y_3 + 5x_3y_1 \\
+& \xmapsto{(3)} x_1y_1 + 2x_2y_1 + 2x_1y_2 + 3x_2y_2.
+\end{align*}
+
+\end{example}
+These all take in pairs of vectors in $\RR^3$ and return a real number. They all have the property that when keeping the $y$'s fixed, the mapping is "linear" in the $x$'s, and when keeping the $x$'s fixed, the mapping is "linear" in the $y$'s.\footnote{The general idea of a bilinear form is that it is linear when varying in $x$ (and keeping $y$ fixed) and linear when varying in $y$ (and keeping $x$ fixed); hence, it is linear in two different variables, independently, so it is "bilinear." However, being bilinear is \emph{not} the same as being linear; for example, if both $x$ and $y$ were doubled, the output would quadruple.} In particular, there are no constant terms or terms that are squared or higher order in $x_i$ or $y_i$. 
+
+\begin{definition}
+A \textbf{bilinear form} is a function \begin{align*} V \by V &\rto \RR \\
+(v, w) &\mto \langle v, w \rangle\footnotemark
+\end{align*} 
+\footnotetext{The angle brackets $\langle \cdot, \cdot \rangle$ are how a bilinear form is usually denoted.}
+such that 
+\begin{enumerate}
+    \item $\langle v, cw \rangle = c\langle  v, w\rangle $ 
+    \item $\langle v, w_1 + w_2 \rangle = \langle v, w_1 \rangle + \langle v, w_2\rangle$
+    \item $\langle cv, w \rangle = c\langle v, w \rangle$ 
+    \item $\langle v_1 + v_2, w \rangle = \langle v_1, w \rangle + \langle v_2, w \rangle.$
+\end{enumerate}
+
+Requirements (1) and (2) are linearity in the second variable $w,$ and requirements (3) and (4) are linearity in the first variable $v.$
+\end{definition}
+
+A bilinear form takes in \emph{two} inputs and returns a real number in a way that is linear in either of its two inputs.\footnote{A "trilinear form" would also be possible.} Intuitively, a bilinear form looks like Example \ref{bilinear forms}.
+
+\begin{definition}
+A bilinear form is \textbf{symmetric} if \[\langle v, w \rangle = \langle w, v\rangle\] for all $v, w \in V.$
+\end{definition}
+
+For instance, (1) and (3) in Example \ref{bilinear forms} are symmetric, but (2) is not, by looking at the coefficients.
+
+Linear transformations from $\RR^n \rto \RR^n$ can be written down explicitly using matrices. In a similar way, bilinear forms can also be described concretely using matrices. Consider the special case where $V = \RR^n.$ Then the \textbf{dot product} is a symmetric bilinear form. More generally, given any matrix $A \in \matnn{R},$ the mapping \[\langle x, y \rangle \coloneqq x^T A y \in \RR\] turns out to describe a bilinear form, satisfying the four properties.\footnote{We won't verify this, but the properties follow from the way matrix multiplication works.}
+
+\begin{proposition}
+Given a symmetric matrix, the corresponding bilinear form is a symmetric bilinear form.
+\end{proposition}
+\begin{proof}
+A matrix $A \in \matnn{R}$ is \textbf{symmetric} if $A^T = A,$ and in this case, \[\langle x, y \rangle = x^TAy\] and \[\langle y, x \rangle = y^TAx = (y^TAx)^T = x^TA^Ty = x^TAy= \langle x, y \rangle.\]
+\end{proof}
+
+For every matrix, there is an associated bilinear form, and for every symmetric matrix, there is an associated symmetric bilinear form. It turns out that \emph{every} bilinear form arises in this manner.
+
+\begin{proposition}\label{bilinear form comes from matrix}
+Every bilinear form $\langle \cdot, \cdot \rangle$ on $\RR^n$ arises from a matrix $A.$ That is, there exists some $A$ such that \[\langle x, y \rangle = x^{T} Ay.\] Moreover, the form $\bform $ is symmetric if and only if $A$ is symmetric. 
+\end{proposition}
+
+So there is a bijective correspondence between bilinear forms and $n \by n$ matrices. 
+
+In particular, for each example in \ref{bilinear forms}, there is an associated matrix. 
+\begin{example}
+The associated matrices come from the coefficients, and can be verified by simply carrying out the multiplication process. 
+\begin{enumerate}
+    \item 
+$A = \begin{pmatrix} 1 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 1\end{pmatrix}$
+\item $A = \begin{pmatrix} 1 & 2 & 0 \\
+3 & 0 & 4 \\
+5 & 0 & 0\end{pmatrix}$
+
+\item $A = \begin{pmatrix} 1 & 2 & 0 \\
+2 & 3 & 0 \\
+0 & 0 & 0\end{pmatrix}$
+\end{enumerate}
+
+\end{example}
+
+From this example, we see that the matrix entry $A_{ij}$ is the coefficient of $x_iy_j.$
+
+\begin{proof}[Proof of Proposition \ref{bilinear form comes from matrix}]
+Given a bilinear form, we want to produce the corresponding matrix. Let $V = \RR^n,$ and let the standard basis vectors be 
+\[\vec{e}_1 = \begin{pmatrix}
+1 \\ 0 \\ \vdots \\ 0
+\end{pmatrix}, \vec{e}_2 = \begin{pmatrix}
+0 \\ 1 \\ \vdots \\ 0
+\end{pmatrix}, \cdots, \vec{e}_n = \begin{pmatrix}
+0 \\ 0 \\ \vdots \\ 1
+\end{pmatrix}.\] Any other column vector can be written as a linear combination of these basis vectors: \[\begin{pmatrix}
+x_1 \\ \vdots \\ x_n
+\end{pmatrix} = x_1 \vec{e}_1 + \cdots + x_n\vec{e}_n.\] In order to produce the matrix for the bilinear form, we look at the form evaluated on pairs of basis vectors. Let \[a_{ij} = \langle \vec{e}_i, \vec{e}_j \rangle.\] Now, placing these coefficients in a matrix, take \[A = (a_{ij})_{i, j = 1, \cdots, n}.\]
+
+To verify that this matrix actually produces the same result as the bilinear form on any two pairs of vectors, take $\vec{x}, \vec{y} \in \RR^n,$ and use bilinearity on both coordinates $x$ and $y$.
+
+\begin{align*}
+    \langle \vec{x}, \vec{y}\rangle &= \left\langle \sum_{i = 1}^n x_i \vec{e}_i, \sum_{j = 1}^n y_j\vec{e}_j \right\rangle \\
+    &= \sum_{i = 1}^n x_i \langle \vec{e}_i, \vec{y} \rangle \\
+    &= \sum_{i = 1}^n \sum_{j = 1}^n x_i \langle \vec{e}_i, \vec{e}_j \rangle y_j \\
+    &= \sum_{i = 1}^n \sum_{j = 1}^n x_i a_{ij} y_j \\
+    &= \vec{x}^T A\vec{y}.
+\end{align*}
+
+In addition, if and only if $\bform$ is symmetric,  $a_{ij} = a_{ji}$, which is precisely the condition that $A$ is symmetric.
+\end{proof}
+
+From the bilinear hypothesis, the bilinear form on any two vectors can be written in terms of the form on a basis, which provides us the matrix. The upshot is that when $V = \RR^n,$ the information of a bilinear form can be encoded in a matrix.
+
+Like when studying linear transformations, we do not have to restrict ourselves to only $\RR^n.$ More generally, for \emph{any} vector space $V$ along with a basis $\{v_1, \cdots, v_n\}$ of $V,$ a (symmetric) bilinear form on $V$ corresponds with a (symmetric) matrix $A \in \text{Mat}_{n \by n}(\RR).$\footnote{The way this form depends on the basis chosen will differ from the case of linear transformations, and will be discussed later in this lecture.}
+%We have some dictionary of bilinear forms on $V.$
+
+\begin{qq}
+What is the correspondence between a bilinear form on a vector space and the matrix, given a basis?
+\end{qq}
+
+In some sense, a basis is simply a linear isomorphism 
+\[
+\mathcal{B}: \RR^n \rto V.
+\]
+
+A basis provides a dictionary between vectors in $V$ and column vectors in $\RR^n.$ Given two vectors, the result of the bilinear form will be
+\[
+\langle \vec{v}, \vec{w} \rangle = \vec{x}^T A\vec{y},
+\]
+where \[
+\mathcal{B}\vec{x} = \vec{v} \text{ and } \mathcal{B}\vec{y} = \vec{w}.
+\] 
+
+How can we find the entries of $A$? We take $a_{ij} = \langle \vec{v}_i, \vec{v}_j\rangle,$ and the same argument as in the proof of Proposition \ref{bilinear form comes from matrix} holds, by using bilinearity.
+\subsection{Change of Basis}
+As always, we need to be careful about what basis we are working in and what effects the basis has.
+
+\begin{note}[Warning!]
+A linear operator $T: V \rto V$ corresponds to an $n \by n$ matrix by picking a basis: \[\text{linear operator } T: V \rto V \leadsto n \by n \text{ matrix} \] Today, we saw that a bilinear form on $V$ also corresponds to an $n \by n$ matrix by picking a matrix:  \[\text{bilinear form on } V \leadsto n \by n \text{ matrix} \] But in fact, these two correspondences act extremely differently! 
+\end{note}
+
+For a linear transformation, where the change of basis matrix is $Q,$ the change of basis formula takes \[P \mto QPQ^{-1}.\]
+
+Now, we can explore a change of basis for a bilinear form instead. Pick two bases \[B: \RR^n \rto V, B': \RR^n \rto V\] for $V,$ and consider a bilinear form $\langle \cdot, \cdot \rangle_V$ on $V.$ The two bases are related by some invertible matrix $P$ such that $B' = BP$ and $P \in GL_n(\RR).$\footnote{The columns of $P$ indicate how to write one basis in terms of the other.} Using $B$, there is one bilinear form $\bform$ associated with some matrix $A$ and using $B'$, there is another bilinear form $\bform'$ associated with a matrix $A'.$
+
+\begin{center}
+    \begin{tikzcd}
+\mathbb{R}^n \arrow[rd, "B"]                                     &   \\
+\mathbb{R}^n \arrow[r, "B'"'] \arrow[u, "P", dashed, shift left] & V
+\end{tikzcd}
+
+\end{center}
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRAB12BbOnACwBGA4ACUAvgD1CY0uky58hFGQCMVWoxZtOPfkNGTpskBmx4CRFaTXV6zVohAA1EGPUwoAc3hFQAMwAnCC4kMhAcCCQAJmoGLDAHEDgIOKgQW01EgCFXY0DgpCtwyMQYkAY6ARgGAAV5cyUQAKxPPhx0jXs2LIByXP8gkMQiiNDY+MSoOjg+Dw6Kqtr6xTYGGD92jK7HGo6ZrA2kAFoVNzEgA
+
+
+
+
+Given two column vectors$ \vec{x}, \vec{y} \in \RR^n,$ the result in $B'$ is \[\langle \vec{x}, \vec{y} \rangle = \langle B'\vec{x}, B'\vec{y} \rangle_V = \langle BP\vec{x}, BP\vec{y} \rangle_V.\] This is the same as 
+\[
+\langle P\vec{x}, P\vec{y} \rangle = (P\vec{x})^T A (Py) = \vec{x}^TP^TAPy.
+\]
+So the matrices are related by \[\boxed{A' = P^TAP},\] which is \emph{not} $P^{-1}AP.$ Changing basis for bilinear forms, unlike linear transformations, does \emph{not} change the matrix by conjugation! If $A$ is a symmetric matrix, then $A'$ is also a symmetric matrix, which is expected. That's kind of alarming.
+
+The same question for linear mappings can be asked in this situation.
+\begin{qq}
+Given $V$ and $\langle \cdot, \cdot \rangle_V,$ can we pick a basis $\mathcal{B} = \{\vec{v}_1, \cdots, \vec{v}_n\}$ of $V$ such that $A$ is as nice as possible?
+\end{qq}
+
+For linear mappings, we ended up with the Jordan normal form. It turns out that the answer for bilinear forms is very nice! We will discuss this in the future. 
+
+\subsection{Bilinear Forms over \texorpdfstring{$CC$}{C}}
+The definitions provided so far generally work over any field. The \textbf{standard dot product}, which is a typical example of a bilinear form, has an additional property.
+
+\begin{definition}
+A \textbf{dot}, or \textbf{inner product} is a symmetric bilinear form such that 
+\[
+\langle x, x \rangle \geq 0,\] and if $x \neq 0,$ then $\langle x, x \rangle > 0.$\footnote{This condition is called being positive definite.}
+
+\end{definition}
+
+We can use an inner product to measure distances and lengths in a vector space. In $\RR^n,$ $||\vec{v}|| = \sqrt{\langle \vec{v}, \vec{v} \rangle} = \sqrt{\vec{v} \cdot \vec{v}}.$
+
+\begin{qq}
+Can we extend this to the complex numbers, when $F = \CC$?
+\end{qq}
+
+First, let's extend the notion of a dot product. We would like to do so in a way that captures our notion of distance. Naively setting the dot product in the same way as over $\RR$ results in a complex number, which does not measure distance in a way that we would prefer. 
+
+In $\CC$, the length of a complex number $z$ is $z\overline{z}$, which is the distance from the complex number $z$ to the origin in the complex plane. The analogue of an inner product over $\CC$ will coincide with this definition of distance and use complex conjugation.
+
+\begin{definition}
+The standard Hermitian form on $\CC^n$ looks almost like the normal inner product, but with some complex conjugates thrown in. We have 
+\[
+\langle \vec{x}, \vec{y} \rangle = \overline{x}_1y_1 + \overline{x}_2y_2 + \cdots + \overline{x}_ny_n \in \CC.
+\]
+
+In particular, \[\langle \vec{x}, \vec{y} \rangle = \overline{\vec{x}}^T\vec{y} \in \CC.\]
+\end{definition}
+
+Once we do this, we get 
+\begin{align*}
+    \langle \vec{x}, \vec{x} \rangle &= \overline{x}_1x_1 + \overline{x}_2x_2 + \cdots. \\
+    &= |x_1|^2 + |x_2|^2 + \cdots,
+\end{align*}
+which is actually a non-negative real number! So we prefer to use this Hermitian form over the complex numbers, as it can capture some notion of distance.
+
+In the definition of the standard Hermitian form, we took the transpose and then the complex conjugate of every entry. This is a move we will do over and over. 
+
+\begin{definition}
+For $M \in \text{Mat}_{m \by n}(\CC),$ the \textbf{adjoint} matrix is 
+\[
+M^* \coloneqq \overline{M^T} \in \text{Mat}_{n \by m}(\CC).
+\]
+It behaves very much like taking the transpose does: $(AB)^* = B^*A^*.$
+\end{definition}
+
+Then the equation from before becomes
+\[
+\langle \vec{x}, \vec{y} \rangle = \vec{x}^*\vec{y} \in CC.
+\]
+
+Notice that for $\alpha \in \CC,$
+\[
+\langle \alpha \vec{x}, \vec{y} \rangle \neq \alpha\langle \vec{x}, \vec{y} \rangle,
+\]
+so it is \emph{not} bilinear in the first entry! We instead get 
+\[
+\langle \alpha \vec{x}, \vec{y} \rangle = \overline{\alpha}\langle \vec{x}, \vec{y} \rangle,
+\]
+so it is linear in the second factor but nonlinear (it is only linear up to complex conjugation) in the first factor. This leads us to our last definition for today. 
+
+We can generalize the properties of the standard Hermitian form for a complex vector space. 
+
+\begin{definition}
+For $V$ a vector space over $F = \CC,$ then a Hermitian form is a function from 
+
+\begin{align*}
+    V \by V &\rto \CC \\
+    (\vec{v}, \vec{w}) &\mto \langle \vec{v}, \vec{w} \rangle
+\end{align*}
+where 
+\begin{enumerate}
+    \item $\langle \vec{v}, \vec{w}_1 + \vec{w}_2 \rangle = \langle \vec{v}, \vec{w}_1 \rangle + \langle \vec{v}, \vec{w}_2 \rangle$ 
+    
+    \item $\langle \vec{v}, \alpha\vec{w} \rangle = \alpha \langle \vec{v}, \vec{w} \rangle$
+    
+    \item $\langle \vec{w}, \vec{v} \rangle = \overline{\langle \vec{v}, \vec{w} \rangle}$. 
+\end{enumerate}
+A Hermitian form is like a symmetric form, except instead of being symmetric, it is symmetric with a conjugation thrown in.
+\end{definition}
+
+Notice that 
+\begin{align*}
+    \langle \alpha \vec{v}, \vec{w} \rangle &= \langle \vec{w}, \alpha \vec{v} \rangle \\
+    &= \overline{\alpha \langle \vec{w}, \vec{v} \rangle} \\
+    &= \overline{\alpha} \overline{\langle \vec{w}, \vec{v} \rangle} \\
+    &= \overline{\alpha} \langle \vec{v}, \vec{w} \rangle.
+\end{align*}
+
+So the Hermitian product of a vector with itself is in $\RR.$
+\newpage

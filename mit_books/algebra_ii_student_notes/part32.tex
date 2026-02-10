@@ -1,0 +1,198 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-012 Algebra II Student Notes, Spring 2022
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+% \rhead{\rightmark}
+\lhead{Lecture 32: Solving Polynomial Equations}
+
+
+\section{Solving Polynomial Equations}
+
+One application of Galois theory is the impossibility of a solution in radicals to polynomial equations of degree at least $5$. The fundamental theorem of algebra states that a degree $n$ polynomial has $n$ (not necessarily distinct roots). For linear polynomials $ax + b$, the root is obviously $x = -b/a;$ for quadratics, the quadratic formula is well-known. Even for degree 3 and 4 polynomials, the cubic and quartic equations (which are much longer) provide universal formulae to find the roots. For a long time, mathematicians searched for the elusive "quintic formula," but now we know that there is no way to "write down" the roots of polynomials of degree 5 or higher, and Galois theory is the key to proving this fact.
+
+\subsection{Solvable Groups}
+
+Last class, we established the following definition:
+
+\begin{definition}
+    A finite group $G$ is \textbf{solvable} if there exists a sequence of subgroups $G = G_0 \supset G_1 \supset G_2 \supset \cdots \supset G_n = \{1\}$, such that for each $i$, $G_i$ is a normal subgroup of $G_{i - 1}$, and $G_{i - 1}/G_i$ is abelian. 
+\end{definition}
+
+Informally, a group is solvable if it can be built from putting together abelian groups. 
+
+\begin{lemma}
+    If $G/K \cong H$ (equivalently, if there is an onto map $G \twoheadrightarrow H$ with kernel $K$), then:
+    \begin{enumerate}
+        \item If $K$ and $H$ are solvable, then $G$ is solvable. 
+        \item If $G$ is solvable, then $H$ is solvable. 
+    \end{enumerate}
+\end{lemma}
+
+\begin{proof}[Proof sketch]
+    The first direction is clear from the correspondence theorem --- we can essentially put the filtrations for $H$ and $K$ together. If we have a filtration $H = H_0 \supset H_1 \supset \cdots \supset H_n = \{1\}$ with this property, we can take their pre-images $G = G_0 \supset G_1 \supset \cdots \supset G_n = K$. We then can place the filtration for $K$ at the end. 
+    
+    For the second, we can take our filtration of $G$, and simply take its image. The intermediate subgroups we get for $H$ will be quotients of the intermediate subgroups for $G$, and the quotient of an abelian group is also abelian; so this gives a valid filtration for $H$. 
+\end{proof}
+
+We have the following group-theoretic lemma:
+
+\begin{lemma}
+    $S_5$ is not solvable. In fact, $A_5$ is simple.
+\end{lemma}
+
+Recall that a group is \emph{simple} if it has no normal subgroups except for itself and $\{1\}$. 
+
+This lemma is also true for $n \geq 5$ (meaning $S_n$ is not solvable). But for $n < 5$ it's not true --- we have $A_3 \cong \ZZ/3\ZZ$, which is abelian; while $S_4$ contains the Klein $4$-group $K_4$ (consisting of $(12)(34)$, $(13)(24)$, $(14)(23)$, and the identity), which is a normal subgroup. 
+
+\begin{proof}
+    The best proof is to think about the structure of conjugacy classes in symmetric groups; but we don't have time, so we'll do a more quick and dirty proof for just the case $n = 5$. 
+    
+    The class equation for $A_5$ is \[60 = 1 + 15 + 20 + 12 + 12\] (corresponding to the conjugacy classes of $(12)(34)$, $(123)$, $(12345)$, and $(13245)$). Note also that if we have a $5$-cycle in one of the conjugacy classes of size $12$, its square is in the other. 
+
+    If $N$ is a normal subgroup, then it's a union of conjugacy classes, which means $\lvert N \rvert$ is a sum of $1$, plus a subset of $\{15, 20, 24\}$. But it also has to divide $60$. This is impossible --- we have to take $1$, but then we have to take $15$ (or else the sum would be odd, and would need to divide $15$). Then we have to take $20$ (otherwise the sum would be $1$ mod $3$, and would have to divide $20$). Then we must take $24$ because otherwise the sum wouldn't be divisible by $5$ (and would have to divide $12$). 
+\end{proof}
+
+\begin{question}
+    How does this argument generalize to all $n \geq 5$?
+\end{question}
+
+\begin{ans}
+This argument doesn't really generalize --- but there is a slightly longer argument that does. We essentially just look at the possible cycle structures, take one conjugagy class, and show that the products of elements in that conjugacy class cover every other conjugacy class. 
+\end{ans}
+
+\subsection{Radical Extensions}
+
+Now we'll relate this to polynomial equations. 
+
+\begin{definition}
+    A finite extension $E/F$ is a \textbf{radical extension} if $E = F(\alpha_1, \ldots, \alpha_n)$, where $\alpha_i^{n_i} \in F(\alpha_1, \ldots, \alpha^{i - 1})$ for all $i$ (for some positive integers $n_i$). 
+\end{definition}
+
+Informally, a radical extension is one that can be obtained by adjoining a bunch of radicals --- in simple English, we're allowed to perform arithmetic operations and to extract radicals of any order.
+
+\begin{example}
+    The extension \[\QQ\left(\sqrt[3]{3 + \sqrt[5]{7 + \sqrt{2}}}\right)\] is a radical extension.
+\end{example}
+
+\begin{proposition} \label{radical implies solvable}
+    Any radical extension is contained in a Galois extension with a solvable Galois group. 
+\end{proposition}
+
+We'll assume that $\operatorname{char}(F) = 0$ (although things do generalize to $\operatorname{char}(F) = p$ with some more care). 
+
+The proof essentially hinges on the lemma discussed last class --- that if $F$ contains a primitive $n$th root of unity, and $E = F(\alpha)$ for some $\alpha$ with $\alpha^n \in F$, then $E/F$ is a Galois extension whose Galois group is cyclic. 
+
+It'll be convenient to slightly generalize this lemma, to let us \emph{simultaneously} extract a bunch of radicals. 
+
+\begin{lemma}
+Under the same assumptions, if $E = F(\beta_1, \ldots, \beta_k)$ where $\beta_i^n \in F$ for all $i$ (and $F$ contains a primitive $n$th root of unity), then $\operatorname{Gal}(E/F) \subset (\ZZ/n\ZZ)^k$. In particular, $\operatorname{Gal}(E/F)$ is still abelian. 
+\end{lemma}
+
+The proof is the same as before --- any element of the Galois group sends $\beta_i \mapsto \beta_i\zeta_n^{c_i}$ for some exponent $c_i$, and composing elements of the Galois group corresponds to adding each pair of $c_i$. 
+
+\begin{proof}[Proof of Proposition \ref{radical implies solvable}]
+    Use induction on $n$. If $n = 1$, then $E \subset F(\zeta, \alpha)$ where $\alpha^n \in F$ and $\zeta$ is a primitive $n$th root of unity (we can't assume in this proof that $F$ contains roots of unity, but we can essentially just add them). This is the splitting field of $x^n - \alpha^n$. 
+
+    So we have a tower of field extensions $F(\zeta, \alpha)/F(\zeta)/F$. We know that $F(\zeta, \alpha)/F(\zeta)$ has a Galois group which is a subgroup of $\ZZ/n\ZZ$; meanwhile, $F(\zeta)/F$ has a Galois group which is a subgroup of $(\ZZ/n\ZZ)^\times$. Both are abelian, so the Galois group of $F(\zeta, \alpha)/F$ is solvable. 
+
+    For the inductive step, assume that $F(\alpha_1, \ldots, \alpha_{i - 1}) \subset E'$, where $\operatorname{Gal}(E'/F)$ is solvable, and suppose $\alpha_i^{n_i} \in F(\alpha_1, \ldots, \alpha_{i - 1})$. 
+    
+    We then want to start with $E'$, and first add a primitive $n_i$th root of unity $\zeta$. To make sure we get a splitting field over $F$ (and not just $E'$), we need to also add all Galois conjugates of $\alpha_i$ --- let $\beta_1$, \ldots, $\beta_d$ be all conjugates of $\alpha_i^{n_i}$ under $\operatorname{Gal}(E'/F)$. Then we take \[E = E'(\zeta, \sqrt[n_i]{\beta_1}, \ldots, \sqrt[n_i]{\beta_j}).\] 
+    
+    First, we want to show that $E$ is a splitting field over $F$. Let $Q$ be a polynomial such that $E'$ is the splitting field of $Q$. Now if $\alpha_i^{n_i} = a$ (which lies in $E'$), we claim that $E$ is the splitting field of \[Q(x)\cdot (x^{n_i} - 1)\cdot \prod_{g \in \operatorname{Gal}(E'/F)} (x^{n_i} - g(a)).\] (The reason we have this product over the Galois group, rather than simply the term $x^{n_i} - a$, is that $a$ is not necessarily in $F$ --- but this product is, by the trick seen earlier.)  
+    
+    Now consider the tower of extensions $E/E'(\zeta)/E'/F$. Then $\operatorname{Gal}(E'/F)$ is solvable by the induction assumption; $\operatorname{Gal}(E'(\zeta)/E')$ is a subgroup of $(\ZZ/n_i\ZZ)^\times$ and is therefore abelian; and $\operatorname{Gal}(E/E'(\zeta))$ is a subgroup of $(\ZZ/n\ZZ)^d$, where $d = \lvert| \operatorname{Gal}(E'/F)\rvert$. So $\operatorname{Gal}(E/F)$ is solvable as well, and we're done. 
+\end{proof}
+
+\begin{note}
+The proof contains a technicality in order to ensure that our extensions are all Galois extensions of $F$; this is why we needed to deal with the $\beta_i$. Other than that, it's essentially just a direct application of the lemma from earlier (about the Galois group when we just add a $n$th root). 
+\end{note}
+
+The conclusion is now clear: 
+
+\begin{corollary}
+    There are many nonradical extensions of $\mathbb{Q}$. 
+\end{corollary}
+
+For instance, the splitting field of any polynomial with Galois group $S_5$ (such as our example $2x^5 - 5x - 10$ from earlier) is a nonradical extension; this means the roots of such a polynomial can't have an expression in radicals. 
+
+\subsection{Symmetric Polynomials}
+
+We'll now move on to a more concrete question:
+
+\begin{qq}
+    Given a polynomial, how do we compute $\operatorname{Gal}(E/F)$ and solve the equation when possible?
+\end{qq}
+
+To answer this, we'll use the computational tool of symmetric polynomials (which can be understood independently of fields and Galois theory, and is an important branch of elementary algebra). 
+
+Consider the polynomial ring $\ZZ[x_1, \ldots, x_n]$ (we could do the same with rational-coefficient polynomials). We use $R_n = \ZZ[x_1, \ldots, x_n]^{S_n}$ to denote the subgroup of $\ZZ[x_1, \ldots, x_n]$ consisting of polynomials which are invariant under permutation of the variables. 
+
+\begin{example}
+    If $n = 3$, then $x_1^3 + x_2^3 + x_3^3 \in R_3$, while $x_1^3 \not\in R_3$. 
+\end{example}
+
+It's easy to write down polynomials in $R_n$ --- we can start with any polynomial, and average over all permutations. The easiest example to think about is probably power sums; but a particularly useful one will be something different, the \emph{elementary symmetric functions}. 
+
+\begin{definition}
+If we have $n$ variables $x_1$, \ldots, $x_n$, then the \textbf{elementary symmetric functions} $\sigma_1$, \ldots, $\sigma_n$ are defined as 
+\begin{align*}
+    \sigma_1 &= x_1 + x_2 + \cdots + x_n, \\
+    \sigma_2 &= x_1x_2 + x_1x_3 + \cdots + x_{n-1}x_n, \\
+    \sigma_3 &= x_1x_2x_3 + \cdots + x_{n-2}x_{n-1}x_n,
+\end{align*}
+and so on: in general, $\sigma_k$ is the sum of the $\binom{n}{k}$ monomials which are products of $k$ distinct terms $x_j$:
+
+\[\sigma_k = \sum_{1 \leq j_1 < j_2 < \cdots < j_k \leq n} x_{j_1} \cdots x_{j_k}.\]
+\end{definition}
+
+The first reason the elementary symmetric functions are relevant is that if we have a polynomial whose roots we know, we can expand it as \[(z - x_1)\cdots (z - x_n) = z^n - \sigma_1z^{n - 1} + \sigma_2z^{n - 2} - \cdots + (-1)^n\sigma_n,\] by considering which term in each factor we choose when expanding the product. 
+
+\begin{example}
+    If $n = 2$, we have \[(z - x)(z - y) = z - (x + y)z + xy.\] 
+\end{example}
+
+A useful fact about the elementary symmetric functions is the following:
+
+\begin{theorem}
+    We have \[R_n = \mathbb{Z}[\sigma_1, \sigma_2, \ldots, \sigma_n].\] 
+\end{theorem}
+
+Given two symmetric polynomials, it's obvious that their sum and product are also symmetric polynomials. But the interesting part of this theorem is that every symmetric polynomial can be expressed as a polynomial in the elementary symmetric functions (and this expression is unique). 
+
+\begin{example}
+    We have 
+    \begin{align*}
+        x_1^2 + x_2^2 + x_3^2 &= \sigma_1^2 - 2\sigma_2; \\
+        x_1^3 + x_2^3 + x_3^3 &= \sigma_1^3 - 3\sigma_1\sigma_2 + 3\sigma_3.
+    \end{align*}
+\end{example}
+
+We'll prove the theorem later, but the reason it's useful here is the following:
+
+\begin{corollary}
+    A symmetric polynomial in the roots of $P$ can be written as a polynomial in the coefficients of $P$. 
+\end{corollary}
+
+The strategy for how to compute the Galois group of a polynomial is based on this fact. In particular, one important symmetric polynomial in the roots is the \emph{discriminant}:
+
+\begin{definition}
+    The \textbf{discriminant} of $P(x) = \prod(x - \alpha_i)$ is \[D(P(x)) = \prod_{i < j} (\alpha_i - \alpha_j)^2.\] 
+\end{definition}
+
+When we square, it doesn't matter which of $\alpha_i$ and $\alpha_j$ had smaller index; so the discriminant is a symmetric polynomial in the roots. By the theorem, the discriminant is then some polynomial in the coefficients. 
+
+Unfortunately, the formulas quickly get complicated. However, there are some cases where the discriminant is reasonable to compute:
+
+\begin{example}
+    If $P(x) = x^3 + px + q$, then $D = -4p^3 - 27q^2$.
+\end{example}
+
+\begin{proof}
+We could compute $D$ using the definition, but that's fairly messy. Instead, we'll look at degrees --- we know $D$ is a degree $6$ polynomial in the roots $\alpha_1$, $\alpha_2$, and $\alpha_3$. Meanwhile, $p$ is a degree $2$ polynomial in the roots, and $q$ is a degree $3$ polynomial. The only monomials in $p$ and $q$ which can have degree $6$ are then $p^3$ and $q^2$, so $D = ap^2 + bq^2$ for some $a$ and $b$. We can then plug in a few polynomials for $P$ to solve for $a$ and $b$ --- for example, $P(x) = x(x - 1)(x + 1)$ has $p = -1$, $q = 0$, and $D = 4$, so $a = -4$; meanwhile $P(x) = (x - 1)^2(x + 2) = x^3 - 3x + 2$ has $p = -3$, $q = 2$, and $D = 0$, so $b = -27$. 
+\end{proof}
+
+Although this only works for cubic polynomials whose $x^2$ coefficient is $0$, there's an easy trick to turn any cubic polynomial into this form --- if we start with $x^3 + ax^2 + bx + c$, we can substitute $y = x + a/3$. 
+
+Note that $D = 0$ if and only if $P$ has multiple roots. The main application to Galois theory is that $\sqrt{D}$ is always in the splitting field of $P$; and in fact $\sqrt{D} \in F$ if and only if the Galois group is a subset of $A_n.$ We'll discuss this in more detail next class.

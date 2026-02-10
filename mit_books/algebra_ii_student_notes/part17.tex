@@ -1,0 +1,286 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-012 Algebra II Student Notes, Spring 2022
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+% \rhead{\rightmark}
+\lhead{Lecture 17: Ideals in Quadratic Fields}
+
+\section{Ideals in Quadratic Fields}
+
+\subsection{Prime Ideals}
+
+\vspace{0.75em}
+
+\begin{qq}
+What are the prime ideals in $R \subset \QQ[\sqrt{d}]$?
+\end{qq}
+
+% For this section, we have the following main idea.
+% \begin{qq}
+% How do we prove what the ideals in $R \subset \QQ[\sqrt{d}]$ for $d < 0$ look like?
+% \end{qq}
+
+The answer is similar to the case $R = \ZZ[i]$, which we've seen earlier.
+
+\begin{lemma}
+If $P$ is a prime (nonzero) ideal in $R$, then either $P = (q)$ for an integer prime $q$, or $P\overline{P} = (q)$ for an integer prime $q$. 
+\end{lemma}
+
+\begin{proof}
+Suppose $P\overline{P} = (n)$, where $n$ is not prime. Then we can factor $n = ab$ with $a, b \neq \pm 1$. But then by unique ideal factorization (since $P$ and $\overline{P}$ are prime), it follows that $(a) = P$ and $(b) = \overline{P}$, or vice versa. Then we must have $a = b = q$ for a prime $q$. 
+\end{proof}
+
+\begin{lemma}
+An odd integer prime $q$ remains prime in $R$ if and only if the equation $\overline{a}^2 = d\overline{b}^2$ has no solutions in $\FF_q$ except $(0, 0)$, or equivalently, if $d$ is neither $0$ nor a square mod $q$. 
+\end{lemma}
+
+\begin{proof}
+First, suppose $(q)$ is prime, and there exists a solution in $\FF_q$ to $\overline{a}^2 = d\overline{b}^2$. Then \[q \mid (a - b\sqrt{d})(a + b\sqrt{d}).\] Since $q$ is prime, then $q$ must divide one of $a \pm b\sqrt{d}$, and therefore $q \mid a$ and $q \mid b$. 
+
+Conversely, if $q$ is not prime, then we can find $\alpha$ and $\beta$ such that $q \mid \alpha\beta$ but $q$ does not divide either $\alpha$ or $\beta$. But since $q \mid \alpha\beta$, we have \[q \mid \mathrm{N}(\alpha\beta) = \mathrm{N}(\alpha)\mathrm{N}(\beta).\] So since $q$ is an integer prime, it must divide one of the factors on the right; without loss of generality, $q \mid \mathrm{N}(\alpha)$. Now write $\alpha = a + b\sqrt{d}$, so we get that \[q \mid a^2 - db^2.\] (It's possible that $a$ and $b$ are half-integers instead of integers; if so, we can replace them with $(2a, 2b)$ without affecting the rest of the argument.) Since $q$ doesn't divide $\alpha$ in $R$, then $q$ cannot divide both $a$ and $b$; so $(a, b) \neq (0, 0)$ is a solution to $\overline{a}^2 = d\overline{b}^2$. %If $a$ and $b$ are integers, then $(a, b)$ is a solution to $\overline{a}^2 = d\overline{b}^2$, and we cannot have $\overline{a} = \overline{b} = 0$ since $q \nmid \alpha$. Similarly, if $a$ and $b$ are half-integers, then $(2a, 2b)$ is a solution.
+\end{proof}
+
+\begin{question}
+In the first lemma, how did we conclude that $P$ and $\overline{P}$ are $(a)$ and $(b)$?
+\end{question}
+
+\begin{ans}
+We know that $(n)$ is the product of two primes, $P$ and $\overline{P}$. But then the only way to factor it (where neither factor is the unit ideal) is as the product of those two primes --- and since it also factors as $(a)(b)$, then $(a)$ and $(b)$ must be those two primes. As an analogy in $\ZZ$, the only way to factor $6$ is as $2\cdot 3$.
+\end{ans}
+
+\begin{question}
+Did we use the fact that $d$ was negative here?
+\end{question}
+
+\begin{ans}
+Somewhat --- our proof involved complex conjugation, which relies on $d$ being negative. But if we modify our operation of conjugation, then this analysis works for real quadratic fields as well --- we'll discuss this later today. 
+\end{ans}
+
+\begin{question}
+Why is $q = 2$ a special case?
+\end{question}
+
+\begin{ans}
+It has to do with the fact that if $d \equiv 1 \pmod{4}$, then we may have half-integers, such as $(1 + \sqrt{d})/2$. In the case where $q$ was odd, this didn't really matter; but we have to be more careful when $q = 2$. In particular, in the first direction knowing that $2$ divides $a + b\sqrt{d}$ in $R$ does not necessarily imply that $2$ divides $a$ and $b$ in $\ZZ$. 
+\end{ans}
+
+
+
+% \begin{lemma}
+% We have two parts:
+% \begin{enumerate}[label = (\alph*)]
+%     \item If $P$ is a prime (nonzero) ideal in $R,$ either $P = (q)$ for $q \in \ZZ$ a prime number, or $P\overline{P} = (q)$ for $q$ a prime number.
+%     \item $p$ is a prime if and only if $\overline{a}^2 = d\overline{b}^2$ has no nonzero solutions for $\overline{a}, \overline{b} \in \FF_q$ where $q \in \ZZ$ is a prime number. $(q \pm 2)$
+% \end{enumerate}
+% \end{lemma}
+% \begin{proof}
+% We have two parts:
+% \begin{enumerate}[label = (\alph*)]
+%     \item If $P\overline{P} = (n),$ where $n$ is not a prime, $n = ab$ for $ab \in \ZZ,$ $ab \pm \pm 2$. Then $(a) = P,$ $(b) = \overline{P}$, or vice versa. Then $(a) = (\overline{a}), P = \overline{P} = (a),$ so $a$ is a prime.
+%     \item If $(q)$ is prime, $\overline{a}^2 = d\overline{b}^2$ for $a, b \in \ZZ$ and $\overline{a}, \overline{b} \in \FF_q.$ Then we have $(a - b\sqrt{d})(a + b\sqrt{d}) = a^2- db^2$ is divisible by $q$, so $q$ divides $a \pm b\sqrt{d}.$ This implies that $q$ divides $a$ and $q$ divides $b$, using $q \pm 2$. Let $N(\alpha) = \alpha \overline{\alpha}.$ Conversely, if $(q)$ is not prime, then $q$ divides $\alpha\beta$ where $q$ does not divide $\alpha$ or $\beta,$ implying that $q$ divides $N(\alpha\beta),$ so $q$ divides $N(\alpha)$ or $q$ divides $N(\beta).$ If $q$ divides $N(\alpha),$ where $\alpha = a + b\sqrt{d}$, then in some cases, $a, b \in \frac{1}{2}\ZZ.$ If so, replace them by $2a$ and $2b$ to get $a, b \in \ZZ.$ If $\frac{\alpha}{q} \notin R,$ since $q \pm 2,$ then $q$ divides $a$ and $q$ divides $b$. 
+%     \end{enumerate}
+% \end{proof}
+
+Combining these two results, we get a full list of primes in $R$:
+\begin{itemize}
+    \item For each integer prime $q \nmid d$ where $d$ is not a square mod $q$ (equivalently, there are no solutions to $\overline{a}^2 = d\overline{b}^2$), we get the prime $q$ itself. 
+    \item For all other primes, we can factor $q = P\overline{P}$. In most cases, $P$ and $\overline{P}$ are distinct, and this gives two prime ideals. But there's finitely many ramification primes where $P = \overline{P}$, and we get one prime ideal. In fact, these ramification primes are the divisors of $d$, along with $2$ if $d \not\equiv 1 \pmod{4}$.
+\end{itemize}
+
+% So we get a full list of primes in $R$. $(q),$ such that $\overline{a}^2 = \overline{b}^2 d$ has no nonzero solutions modulo $q.$ This is equivalent to $q \nmid d$ and $d$ is not a square modulo $q.$ For all other primes we have $q = p\overline{p}.$ In most cases, $P \pm \overline{P}$ and we get 2 prime ideals from such a $q.$ Sometimes, $P = \overline{P}$ and we get one ideal; in fact, these are divisors of $d,$ $2$ for $d \neq 1$ modulo 4. 
+
+% \todo{question here} $\frac{1 + \sqrt{d}}{2}$
+
+\subsection{The Ideal Class Group}
+
+Previously, we introduced the ideal class group $\operatorname{Cl}(F)$, which consists of the nonzero ideals in $R$ up to similarity. 
+
+\begin{theorem}
+The ideal class group $\operatorname{Cl}(F)$ is finite.
+\end{theorem}
+
+We'll prove this in a future class; but for now, we'll look at a few examples. 
+
+\begin{example}
+In the cases of $\ZZ[i] \subset \QQ[i]$ and $\ZZ[\omega] \subset \QQ[\sqrt{-3}]$ (where $\omega$ is a primitive third root of unity), the class group is trivial, since both $\ZZ[i]$ and $\ZZ[\omega]$ are PIDs. But in fact, there are finitely many negative $d$ for which $\operatorname{Cl}(\QQ[\sqrt{d}])$ is trivial. 
+\end{example}
+
+% \begin{example}
+% Take $R = \ZZ[i],$ $\ZZ[\omega] \subset \QQ[\sqrt{-3}]$ where $\omega^3 = 1.$ Then $Cl(F) = 1.$ There are only finitely many $d < 0,$ such that $\QQ[\sqrt{-d}] = 1$.
+% \end{example}
+
+% If we take $R = \ZZ[\sqrt{-5}],$ then $Cl(F) = \ZZ_2.$
+
+For a more interesting example:
+
+\begin{lemma}
+In the case of $\ZZ[\sqrt{-5}] \subset \QQ[\sqrt{-5}]$, the class group is $\ZZ/2\ZZ$. The two similarity classes of ideals are represented by $(1)$, and by $(2, 1 + \sqrt{-5})$. 
+% There are exactly two similarity classes of ideals in $R,$ represented by $(1),$ principal ideals, and $(2, 1 \pm \sqrt{-d}$.
+\end{lemma}
+
+\begin{proof}
+    Let $I$ be a nonzero ideal, and let $\alpha$ be a nonzero element of $I$ with minimal norm. Let $L$ be the lattice generated by $\alpha$ and $\sqrt{-5}\alpha$, or equivalently, the lattice corresponding to the ideal $(\alpha)$; then $L \subset I$. 
+
+    If $L = I$, then $I$ is principal. Now assume $L \neq I$, so there is an element $\beta \in I$ with $\beta\not\in L$. Without loss of generality, we can assume that $\beta$ is in the rectangle spanned by $\alpha$ and $\sqrt{-5}\alpha$ --- otherwise, we can subtract multiples of $\alpha$ and $\sqrt{-5}\alpha$ to translate $\beta$ into this rectangle) 
+
+    \begin{claim*}
+        We must have $\beta = \alpha \cdot (1 + \sqrt{-5})/2$. 
+    \end{claim*}
+
+    \begin{proof}
+        Let $r = \lvert \alpha \rvert$. Then split the rectangle into smaller rectangles as shown (note that the rectangle will not generally be horizontal, but it is drawn this way for convenience):
+        \begin{center}
+            \begin{asy}
+                unitsize(2.5cm);
+                pair A = (0, 0);
+                pair B = (1, 0);
+                pair C = (1, sqrt(5));
+                pair D = (0, sqrt(5));
+                draw(A--B--C--D--cycle);
+                real r = 0.035;
+                pair[] reds = {A, B, C, D};
+                
+                pair E = (A + D)/2;
+                pair F = (A + C)/2;
+                pair G = (B + C)/2;
+                pair[] blues = {E, F, G};
+                
+                pair W = (0, sqrt(3)/2);
+                pair X = (1, sqrt(3)/2);
+                pair Y = B + C - X;
+                pair Z = A + D - W;
+                
+                filldraw(A--B--X--W--cycle, heavyred+opacity(0.1), lightred);
+                filldraw(C--D--Z--Y--cycle, heavyred+opacity(0.1), lightred);
+                filldraw(W--X--Y--Z--cycle, heavycyan+opacity(0.1), heavycyan);
+                draw((A + B)/2--(W + X)/2, lightred);
+                draw((Y + Z)/2--(C + D)/2, lightred);
+                draw((W + X)/2--(Y + Z)/2, heavycyan);
+                draw((3*W + X)/4--(3*Z + Y)/4, heavycyan);
+                draw((3*X + W)/4--(3*Y + Z)/4, heavycyan);
+                
+                label("$0$", A, dir(225));
+                label("$\alpha$", B, dir(315));
+                label("$\sqrt{-5}\alpha$", D, dir(135));
+                draw(brace(B, A));
+                label("$r$", (A + B)/2, 5*dir(270));
+                draw(brace(C, B));
+                label("$\sqrt{5}r$", (B + C)/2, 7*dir(0));
+                draw(brace(A, W));
+                label("$\frac{\sqrt{3}}{2}r$", (A + W)/2, 4*dir(180));
+                
+                for (int i = 0; i <= 3; ++i) {
+                    fill(circle(reds[i], r), lightred);
+                }
+                for (int i = 0; i <= 2; ++i) {
+                    fill(circle(blues[i], r), heavycyan);
+                }
+            \end{asy}
+        \end{center}
+        
+        By straightforward calculation, it can be shown that every point in one of the red rectangles is at a distance less than $r$ from one of the red dots, corresponding to $0$, $\alpha$, $\sqrt{-5}\alpha$, and $(1 + \sqrt{-5})\alpha$. Meanwhile, every point in one of the blue rectangles is at a distance less than $r/2$ from one of the blue dots, corresponding to $\sqrt{-5}\alpha/2$, $(1 + \sqrt{-5})\alpha/2$, and $(2 + \sqrt{-5})\alpha/2$. 
+        
+        In the first case, let $\gamma$ be this red dot. Then $\beta \in I$ and $\gamma \in I$, so $\beta - \gamma \in I$ as well. But we have $\lvert \beta - \gamma \rvert < \lvert \alpha \rvert$, contradiction. 
+        
+        In the second case, again let $\gamma$ be this blue dot. Then $\beta \in I$ and $2\gamma \in I$, so $2\beta - 2\gamma \in I$ as well. But we have $\lvert 2\beta - 2\gamma \rvert < \lvert \alpha \rvert$, which is again a contradiction unless $2\beta - 2\gamma = 0$. 
+        
+        Now suppose $\beta = \gamma$. We now claim that $\beta$ can't be either of the two blue dots on the ends --- either case would imply that $\sqrt{-5}\alpha/2 \in I$. But multiplying by $\sqrt{-5}$ would give that $-5\alpha/2 \in I$, and therefore $\alpha/2 \in I$; this would contradict the choice of $\alpha$ as the element of smallest length. 
+        
+        So then $\beta$ must be the dot in the center, which is $(1 + \sqrt{-5})\alpha/2$. 
+    \end{proof}
+
+    So in this case, there is only one element of $I$ inside this rectangle, which is $\beta = \alpha\cdot (1 + \sqrt{-5})/2$; then \[I = (\alpha, \beta) = \frac{\alpha}{2}(2, 1 + \sqrt{-5}).\qedhere\] 
+\end{proof}
+
+% \begin{proof}
+% Suppose $I$ is a nonzero ideal. Let $\alpha \in I$ be a nonzero element of minimal norm $N(\alpha) = |\alpha|^2.$ Then $I = L$ is a lattice generated by $\alpha$ and $\sqrt{-5} \alpha$. If $I = L,$ then $I = (\alpha).$ Suppose that $I \supsetneq L.$ Then pick $\beta \in I$ for $\beta \notin L.$ Without loss of generality, we can assume that $\beta$ is in the rectangle spanned by $\alpha$ and $-\sqrt{5}\alpha.$  \todo{add the diagram here} We claim that $\beta$ can only be te middle of the rectangle, $\frac{\alpha + \sqrt{-5}\alpha}{2}.$ 
+
+% Every point in the rectangle is either of distance $<1$ to a red dot, $0, \alpha, \sqrt{-5}\alpha, \alpha + \sqrt{-5}\alpha,$ or at distance $< 1/2$ from a blue dot $\frac{\sqrt{-5}d}{2}, \frac{\alpha + \sqrt{-5}d}{2}, \alpha + \frac{\sqrt{-5}d}{2}.$ 
+
+% In the first case, $\beta -$ an element in $I$ implies that there is an element in $I$ such that $\beta \in I$ and $|\beta| < |\alpha|,$ which is a contradiction. 
+
+% In the second case, the blue points are not in $I,$ but after doubling, they are elements in $I.$ For $\beta - \gamma,$ where $\gamma = \frac{\sqrt{-5}d}{2}, \frac{\alpha + \sqrt{-5}d}{2}, \alpha + \frac{\sqrt{-5}d}{2}$, then $|2\beta - 2\gamma| < \alpha,$ and $2\beta - 2\gamma \in I.$ If $2\beta - 2\gamma = 0,$ then $\beta = \gamma,$ but $\frac{\sqrt{-5}
+% \alpha}{2}\notin I$ because taking $\sqrt{-5}d/2 \in I$ would take $\alpha/2 \in I,$ which is a contradiction as $\alpha$ has the smallest norm.
+% \end{proof}
+
+Here, we saw a proof that there's only two ideals in $\operatorname{Cl}(\QQ[\sqrt{-5}])$ up to similarity which looked geometrically at lattices. In fact, the proof of finiteness in general \emph{also} involves looking at lattices. We'll see this proof next class; but today we'll conclude by looking at a few generalizations, where we consider similar questions in fields similar to imaginary quadratic number fields. 
+
+\subsection{Real Quadratic Number Fields}
+
+So far, we've discussed the case $F = \QQ[\sqrt{d}]$ when $d < 0$.
+
+\begin{qq}
+What if we instead have $\QQ[\sqrt{d}]$ with $d > 0$?
+\end{qq}
+
+We can then write $F = \QQ[\delta]$, where $\delta^2 = d$. 
+% There are a couple of generalizations that we can discuss. 
+% \begin{qq}
+% What about $\QQ[\sqrt{d}]$ where $d > 0$?
+% \end{qq}
+
+This case is quite similar, but there are some differences. First, it doesn't make sense to talk about complex conjugation, since all our numbers are real. But there is still a type of ``conjugation'' in $F$ --- the map $a + b\delta \to a - b\delta$. (This is an example of a general construction that we'll discuss in a much later class, related to the Galois group.) This is still a field automorphism. 
+
+% Writing $\QQ[\delta],$ where $\delta^2 = d,$ this case is similar, but there are some differences. First, it is not possible to talk about complex conjugation, because we are working over the real numbers. However, there is still a type of "conjugation", taking $a + b\delta \rto a - b\delta,$ which is a field automorphism. 
+
+Moreover, $R$ is not a lattice in $\CC$, but it can be embedded as a lattice in $\RR \by \RR$, a ring where addition and multiplication are done componentwise. To perform this embedding, we send \[a + b\delta \mapsto (a + b\sqrt{d}, a - b\sqrt{d}) \in \RR^2.\] In fact, the reason we're using the notation with $\delta$ is because we can think of it as an abstract square root of $d$ --- then we can write it as the \emph{positive} square root $\sqrt{d}$, or the \emph{negative} square root $-\sqrt{d}$. %where $\sqrt{d}$ is viewed as a positive square root in the real numbers. 
+
+Another important difference is that in imaginary quadratic fields, there are very few units. However, in this case, the group of units is infinite --- there are infinitely many solutions to $a^2 - b^2d = 1$ (which is known as a Pell equation). 
+
+Although there are some differences, our arguments used in imaginary quadratic fields mostly work here as well. In principle, those arguments can be generalized to rings of algebraic integers in \emph{arbitrary} number fields; but that generalization is more difficult and requires theory we have not yet discussed.
+
+\subsection{Function Fields}
+
+There is a second generalization we'll discuss. 
+
+\begin{qq}
+What if we replace $\ZZ$ by $k[t]$ for a field $k$?
+\end{qq}
+
+Then we replace $\QQ$ with $k(t)$, the field of rational functions in $t$ over the field $k$ --- in other words, $k(t) = \operatorname{Frac}(k[t])$. 
+
+In this case, we consider fields $F$ containing $k(t)$ which are finite-dimensional over $k(t)$, similarly to how a number field is a field containing $\QQ$ which is finite-dimensional over $\QQ$. We then have \[R = \{\alpha \in F \mid P(\alpha) = 0 \text{ for a monic $P \in k[t][x]$}\}.\] Here $P$ is a polynomial in \emph{two} variables, but it's supposed to be monic as a polynomial in $x$. This is again similar to how in the number field setting, where $R$ is the set of $\alpha \in F$ which are roots of a monic polynomial in $\ZZ[x]$.
+
+The especially relevant examples are $k = \CC$ and $k = \FF_p$. We'll focus on the case $k = \CC$. 
+
+In the case of imaginary quadratic number fields, we looked at primes in $\ZZ$ and analyzed how they factored in $R$ --- we can try to perform a similar analysis here. 
+
+First, as we've seen earlier, $k[t]$ is a PID for any $k$. So in the case $k = \CC$, the primes in $\CC[t]$ are exactly $(t - \lambda)$ for $\lambda \in \CC$, since the only irreducible polynomials in $\CC$ are linear. 
+
+Meanwhile, to describe the nonzero primes in $R$, we can use Hilbert's Nullstellensatz. It's possible to write $R$ as a quotient of $\CC[t, t_2, \ldots, t_n]$ by polynomials --- for example, in the case of quadratic number fields, we have $\ZZ[\sqrt{d}] = \ZZ[x]/(x^2 - d)$, and it's possible to perform a similar construction here. We still have unique factorization into ideals in $R$, and in particular, prime ideals are maximal; so the nonzero primes in $R$ correspond to points in $\operatorname{MSpec}(R)$, which we can think of as a subset of $\CC^n$ by Nullstelensatz.
+
+Now this gives a ramified covering, where we can cover $\CC$ by $\operatorname{MSpec}(R) \subset \CC^n$. More explicitly, if we write $R$ as a quotient of $\CC[t, t_2, \ldots, t_n]$, then the elements of $\operatorname{MSpec}(R)$ correspond to points in $\CC^n$ which are roots of all the polynomials we quotient out by. In this ramified covering, a point $t \in \CC$ lies below all the points in $\operatorname{MSpec}(R)$ with that value of $t$.
+
+\begin{center}
+    \begin{asy}
+    unitsize(2cm);
+    usepackage("amsmath");
+    usepackage("amssymb");
+    filldraw((0, 0)--(2, 0)--(2.5, 0.7)--(0.5, 0.7)--cycle, palegray, lightgray);
+    label("$\mathbb{C}$", (2.25, 0.35), 2*dir(0));
+    filldraw(ellipse((1.25, 1.25), 1, 0.3), heavycyan+opacity(0.05), heavycyan+opacity(0.4));
+    filldraw(ellipse((1.25, 1.3), 1.1, 0.2), heavycyan+opacity(0.05), heavycyan+opacity(0.4));
+    label("$\operatorname{MSpec}(R)$", (2.25, 1.25), 3*dir(0));
+
+    draw((1, 0.4)--(1, 1.3), gray+dotted);
+    dot("$\lambda$", (1, 0.4), dir(225));
+    dot((1, 1.03), heavycyan);
+    dot((1, 1.3), heavycyan);
+    \end{asy}
+\end{center}
+
+Factoring $(t - \lambda)$ as a product of prime ideals in $R$ then amounts to enumerating the points in the pre-image of $\lambda$ in this ramified covering. (We'll see this in more detail next class.)
+
+The term \emph{ramified} is used in a similar sense here as when discussing ramified primes. In this setting, if for example our ramified cover corresponds to the map $z \mapsto z^2$, then most points in $\CC$ have \emph{two} points in their pre-image (since there's two square roots), but $0$ only has one --- so $0$ is a ramification point. This is similar to how in the number field setting, when we factor $(q)$ as a product of prime ideals in $R$, usually these prime ideals are distinct, but they're the same ideal for the ramified primes. 
+
+A famous mathematician, Andr\'e Weil, proposed a metaphor between this situation and the Rosetta Stone. The Rosetta Stone contained a script written in three languages. Here our languages are the finite extensions of $\QQ$ (or in other words, number fields), finite extensions of $\FF_q(t)$ for a finite field $\FF_q$, and finite extensions of $\CC(t)$. In all of these situations, it's possible to consider how normal primes (in $\ZZ$, $\FF_q[t]$, and $\CC[t]$ respectively) factor as a product of ideals in the corresponding ring $R$. There are analogies between the three settings, and Weil wondered how results in each setting could be ``translated'' to the others.  
+
+
+% , and Similarly to how the Rosetta Stone contains a script written in multiple languages, here we also have the language of $\QQ$ and number fields, and the language of $k(t)$ and its finite extensions. As we will see next class, there are analogies between these settings. 
+
+% (we'll see how this ramified covering works in more detail next class). We'll also see that factoring $(t - \lambda)$ in $R$ amounts to enumerating the points in the pre-image of $\lambda$ in this ramified covering. This actually motivates the terminology of \emph{ramified primes} --- for example, if our ramified covering corresponds to the map $z \mapsto z^2$, then every point except $0$ has two pre-images, and $0$ (which is called a \emph{ramification point}) has one. (This is similar to how ramified primes only have \emph{one} distinct factor when we factor them in $R$, while splitting primes have two.)
+
+% Let $k(t)$ be the field of fractions of polynomials, rational functions. Then $F$ is a field containing $R(t)$ and is finite dimensional over it. We have $R = \{\alpha \in F: P(\alpha) = 0 \text{ for a monic } P = k[t][x]\}$. Especially relevant are $k = \CC$ and $k = \FF_p.$ Polynomial ring is a PID, so nonzero primes in $k[t]$ are $(t - \lambda),$ for $\lambda \in \CC.$ Say $k = \CC.$ Nonzero primes in $R$ can be understood by the Nullstelensatz. We get $\CC[t_1, t_2, \cdots, t_n] \rto R.$ \todo{write the extension arrow} 
+
+% This can be understood geometrically, as solutions to equations in $n$-space. Nonzero primes in $R$ can therefore be thought of as points in $\text{MSpec}(R) \subset \CC^n.$ There will be some sort of ramified covering of $\CC$ onto some points. \todo{draw the picture} Then factoring $(t - \lambda)$ in $R$ corresponds to enumerating points in the preimage of $\lambda.$ This leads to the terminology of ramification primes. Mapping $z$ to $z^2$. There is a famous mathematician, André Weil, who proposed the metaphor of the Rosetta Stone; these three cases of number fields over $\CC$ and $\ZZ$ are three columns in this Rosetta Stone.

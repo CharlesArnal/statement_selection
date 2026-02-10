@@ -1,0 +1,154 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-012 Algebra II Student Notes, Spring 2022
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+% \rhead{\rightmark}
+\lhead{Lecture 34: Solving Polynomial Equations}
+
+\section{Solving Polynomial Equations}
+
+\subsection{Cubic Polynomials}
+
+Last class, we looked at cubic polynomials of the form $P(x) = x^3 + px + q$ (called \emph{depressed cubics}), which have discriminant $D = -4p^3 - 27p^2$. For simplicity we assume the field has characteristic $0$, as the cases of characteristic $2$ and $3$ are somewhat different. We saw that if $E$ is the splitting field of $P$, then $E \supset F(\delta)$ where $\delta = \sqrt{D}$; and $\operatorname{Gal}(E/F(\delta)) = \ZZ/3\ZZ$. (It's possible that $\delta \in F$, though it usually isn't.) We saw that then $E = F(\delta)(\alpha)$, where $\alpha$ is a cube root of some element $a \in E$; our explicit construction was $\alpha = \beta + \omega\sigma(\beta) + \omega^2\sigma^2(\beta)$ for some $\beta \in E$ (which isn't in $F$). 
+
+It's actually possible to turn these ideas into a formula for the roots of $P$. Let $\beta_1$, $\beta_2$, $\beta_3$ be the roots of $P$ (which are elements in $E$). Then some $\sigma \in \operatorname{Gal}(E/F[\delta])$ must permute the roots in a $3$-cycle $\beta_1 \to \beta_2 \to \beta_3 \to \beta_1$; this means we can take \[\alpha = \beta_1 + \omega \beta_2 + \omega^2\beta_3.\] 
+
+We know $\alpha^3 \in F(\delta)$. In fact, using symmetric polynomials, we can express $\alpha^3$ in terms of $p$, $q$, and $\delta$. It's possible to show this by a general argument --- this is because \[\alpha^3 = Q(\beta_1, \beta_2, \beta_3)\] for a polynomial $Q$ which isn't quite symmetric, but is invariant under \emph{even} permutations. This is enough, as a result of a slight generalization of the theorem on the elementary symmetric polynomials seen earlier: 
+\begin{fact}
+    We have \[\QQ[x_1, \ldots, x_n]^{A_n} = \QQ[x_1, \ldots, x_n]^{S_n} \oplus \delta\QQ[x_1, \ldots, x_n]^{S_n}.\]
+\end{fact}
+Intuitively, $\delta$ is invariant under $A_n$ but changes sign under $S_n$; but this essentially accounts for all the new polynomials allowed when we only consider even permutations. 
+
+Instead of using this theoretical argument, it's also possible to just write down the expression for $\alpha^3$ directly --- we have \[\alpha^3 = \beta_1^3 + \beta_2^3 + \beta_3^3 + 6\beta_1\beta_2\beta_3 + \omega(\beta_1^2\beta_2 + \beta_2^2\beta_3 + \beta_3^2\beta_1) + \omega^2(\beta_1\beta_2^2 + \beta_2\beta_3^2 + \beta_3\beta_1^2).\] The first few terms are symmetric --- we have the formulas \begin{align*}
+    \beta_1\beta_2\beta_3 &= -q \\
+    \beta_1^3 + \beta_2^3 + \beta_3^3 &= -3q.
+\end{align*} Meanwhile, we can let $A = \beta_1^2\beta_2 + \beta_2^2\beta_3 + \beta_3^2\beta_1$ and $B = \beta_1\beta_2^2 + \beta_2\beta_3^2 + \beta_3\beta_1^2$. We can then calculate that \[A + B = \sigma_1\sigma_2 - 3\sigma_3 = 3q.\] Meanwhile, $A - B$ is not symmetric, but by expanding we can see that \[A - B = (\beta_1 - \beta_2)(\beta_1 - \beta_3)(\beta_2 - \beta_3) = \delta.\] 
+
+Now we're basically done --- we can solve for $A$ and $B$, and get a formula for $\alpha$ --- we have \[\alpha = \sqrt[3]{-4q + 3\omega A + 3\omega^2 B}.\]  Then we can similarly define and compute $\alpha' = \beta_1 + \omega^2 \beta_2 + \omega \beta_3$. We then have $\beta_1 = (\alpha + \alpha')/3$, and we can calculate the other roots similarly. We won't describe the full formula here, but it's in the textbook. In fact, a version of this formula was discovered by Cardano in 1545.
+
+\begin{question}
+    If this formula was discovered before Galois theory, how did people come up with it? 
+\end{question}
+
+\begin{ans}
+    The approach described here, of writing down formulas for these expressions, was invented by Legendre. It doesn't really need Galois theory in its full strength --- it's possible to just notice that if we write $\alpha = \beta_1 + \omega \beta_2 + \omega^2\beta_3$, then $\alpha^3$ is an expression in the roots which can be calculated using symmetric polynomials (and the discriminant). 
+    
+    But not only was the formula discovered before Galois theory, it was also discovered before complex numbers. Having to work with roots of negative numbers gave people a lot of trouble --- this was controversial even in the early 19th century. It mattered to people whether they could operate with real numbers, or had to work with strange expressions involving roots of negative numbers. 
+    
+    In fact, suppose that $P$ has $3$ real roots. Then $\Delta$ is nonnegative, so $\delta$ is real. But the expression $\alpha = \beta_1 + \omega \beta_2 + \omega^2\beta_3$ is \emph{not} real! So when you write down the answer in radicals, the final answer will be real; but you'll still need to work with a complex cubic root. This was referred to as \emph{casus irreducibilis}. 
+    
+    If you're interested in the history and philosophy of this story, a book by Barry Mazur called \emph{Imagining Numbers, Especially $\sqrt{-15}$} talks about this history and reflects about how the understanding of such topics developed. Essentially, people were working with complex numbers three centuries before they were fully realized and accepted as existing.
+\end{ans}
+
+\subsection{Quartic Polynomials}
+
+We'll also briefly discuss quartics. The key point is that the analysis of solutions can be guided by the structure of the Galois group. 
+
+The Galois group is a subgroup of $S_4$. We know $S_4$ contains the normal subgroup $K_4$ (the Klein $4$-group $\ZZ/2\ZZ \times \ZZ/2\ZZ$), consisting of $\{(12)(34), (13)(24), (14)(23), 1\}$. We then have $S_4/K_4 \cong S_3$, corresponding to the \emph{resolvent cubic}. 
+
+So if $P(x) = (x - \alpha_1)(x - \alpha_2)(x - \alpha_3)(x - \alpha_4)$, we can write down the expressions 
+\begin{align*}
+    \beta_1 &= \alpha_1\alpha_2 + \alpha_3\alpha_4, \\
+    \beta_2 &= \alpha_1\alpha_3 + \alpha_2\alpha_4, \\
+    \beta_3 &= \alpha_1\alpha_4 + \alpha_2\alpha_3.
+\end{align*}
+These expressions are permuted by the Galois group, and we know that if we take \[Q(x) = (x - \beta_1)(x - \beta_2)(x - \beta_3),\] then when we expand, the coefficients will be symmetric polynomials in the $\alpha_i$. So if $P(x) = x^4 + a_3x^3 + a_2x^2 + a_1x + a_0$, then we have $Q(x) = x^3 + b_2x^2 + b_1x + b_0$ where the $b_i$ are polynomials in the $a_i$ --- for concreteness, the exact formulas are $b_2 = -a_2$, $b_1 = a_1a_3 - 4a_0$, and $b_0 = 4a_0a_2 - a_1^2 - a_0a_3^2$. 
+
+Now to find a root, we first find the roots of the resolvent cubic $Q(x)$ (since we already know how to solve a cubic polynomial). Then, since $K_4 = \ZZ/2\ZZ \times \ZZ/2\ZZ$, it just remains to solve a few quadratic equations. More explicitly, we can write the equations 
+\begin{align*}
+    (\alpha_1 + \alpha_2)(\alpha_3 + \alpha_4) &= \beta_1 + \beta_3 \\
+    \alpha_1 + \alpha_2 + \alpha_3 + \alpha_4 &= -a_3.
+\end{align*}
+This gives a quadratic for $\alpha_1 + \alpha_2$ and $\alpha_3 + \alpha_4$, which we know how to solve. We can similarly find the other pairwise sums, and then compute the roots themselves by solving the resulting linear system. 
+
+This shows how to find the roots explicitly, but similarly to the cubic case, we can also try to compute the Galois group:
+
+\begin{qq}
+    How do we compute $\operatorname{Gal}(E/F)$ for a given polynomial $P(x) = x^4 + a_3x^3 + a_2x^2 + a_1x + a_0$?
+\end{qq}
+
+In degree $3$, all we needed to know was whether the discriminant was a square or not --- this determined whether the group was $\ZZ/3\ZZ$ or $S_3$. In this case, the process is longer, but somewhat similar. 
+
+First, there are five transitive subgroups of $S_4$ --- these are $S_4$, $A_4$, $K_4$ (the Klein $4$-group, described earlier), $C_4$ (the cyclic group, generated by $(1234)$), and $D_4$ (the dihedral group, generated by $(1234)$ and $(24)$, which we can think of as the group of symmetries of a square).
+
+One test we can perform still uses the discriminant. It's a lengthy expression, so we won't explicitly write it down, but it's still theoretically possible to compute it. Then $\sqrt{D} \in F$ if and only if $G \subset A_4$. The groups which are subsets of $A_4$ are $K_4$ and $A_4$ itself. 
+
+Then we can obtain more information from looking at the resolvent cubic (since we've already seen how to analyze cubics). We know that $Q(x)$ splits completely in $F$ if and only if $G = K_4$ (since then all elements of $G$ fix $\alpha_1\alpha_2 + \alpha_3\alpha_4$ and the other two expressions, which means they must lie in $K_4$). 
+
+Meanwhile, if $Q(x)$ has exactly one root in $F$, then the elements of $G$ preserve one root of $Q$, say $\alpha_1\alpha_3 + \alpha_2\alpha_4$. In this case, we claim that the Galois group is $C_4$ or $D_4$ --- we can visualize this by considering a square. 
+
+\begin{center}
+    \begin{asy}
+    unitsize(1cm);
+    dot("$\alpha_1$", dir(135), dir(135));
+    dot("$\alpha_2$", dir(225), dir(225));
+    dot("$\alpha_3$", dir(315), dir(315));
+    dot("$\alpha_4$", dir(45), dir(45));
+    draw(dir(45)--dir(225), heavycyan);
+    draw(dir(135)--dir(315), heavyred);
+    \end{asy}
+\end{center}
+The square naturally splits into two subsets, by drawing its diagonals. So any permutation which fixes the square will either fix or swap $\alpha_1\alpha_3$ and $\alpha_2\alpha_4$, which means it fixes $\alpha_1\alpha_3 + \alpha_2\alpha_4$ (while not every permutation in $C_4$ fixes the other two expressions). 
+
+So this information resolves nearly all cases --- the only ambiguity left is whether the group is $C_4$ or $D_4$. We won't explain how to distinguish between them, but an explanation is in Keith Conrad's notes. 
+
+\subsection{Main Theorem of Algebra}
+
+We'll finish with another application of Galois theory --- we'll use it to give another proof of the Main Theorem of Algebra. We'll see that this proof brings in some nice considerations about finite groups, although it's somewhat less direct than the proof we've seen before. 
+
+\begin{proposition}
+    Every $p$-group is solvable --- if $G$ is a finite group with $\lvert G\rvert = p^n$ for a prime $p$, then $G$ is solvable. Moreover, there exists a chain of subgroups \[G = G_0 \supset G_1 \supset \cdots \supset G_n = \{1\},\] such that for all $i$, $G_{i + 1}$ is a normal subgroup of $G_i$ and $G_i/G_{i + 1} \cong \mathbb{Z}/p$.  
+\end{proposition}
+
+\begin{proof}
+    We'll essentially start from the right end (instead of the left). We'll need the following lemma:
+
+    \begin{lemma}
+        $G$ has a nontrivial center. 
+    \end{lemma}
+
+    \begin{proof}
+        Consider the class equation mod $p$. Every conjugacy class has size $p^m$ for some $m$. But the class equation states that \[p^n = 1 + \sum \lvert C_i \rvert\] (where the $1$ comes from the conjugacy class of the identity, which has $1$ element). If all other conjugacy classes contained more than one element, then $\lvert C_i \rvert$ would be divisible by $p$ for all $i$, and the right-hand side would be $1$ mod $p$, contradiction. So there must exist conjugacy classes of size $1$ (other than the one of the identity), and their elements are in the center of $G$. 
+    \end{proof}
+    
+    Now to prove the proposition, we induct on $n$. By the lemma, we have $G \supset Z$ (where $Z$ is the center, and $Z \neq \{1\}$). Then we can find an element $g \in Z$ of order $p$ (the center is a nontrivial $p$-group, so if we pick any element, it will have some power which has order $p$). Then let $\overline{G} = G/\langle g\rangle$ (which is valid because $g$ is in the center of $G$, so $\langle g \rangle$ is clearly normal). 
+    
+    We have $\lvert \overline{G} \rvert = p^{n - 1}$, so by the inductive assumption, $\overline{G}$ is solvable. Suppose we have a chain of subgroups \[\overline{G} = \overline{G}_0 \supset \cdots \supset \overline{G}_d = \{1\}.\] Now let $G_i$ be the pre-image of $\overline{G}_i$, and let $G_{d + 1} = \{1\}$; this works by the homomorphism theorem. 
+\end{proof}
+
+Now we can prove the Main Theorem of Algebra:
+
+\begin{theorem}
+    $\mathbb{C}$ is the only finite extension of $\mathbb{R}$. 
+\end{theorem}
+
+This implies the standard formulation, that every polynomial (over $\CC$) has a root in $\CC$. 
+
+\begin{proof}
+    Let $F = \RR$, and suppose $E$ is a finite extension. Without loss of generality assume $E$ is a splitting field (since it's a finite extension, it's obtained by adding some of the roots of some polynomial, and we can add in all the remaining roots), so $E/F$ is a Galois extension. Let $G = \operatorname{Gal}(E/F)$. 
+    
+    \begin{lemma}
+        $\lvert G \rvert$ is a power of $2$. 
+    \end{lemma}
+    
+    \begin{proof}
+        Let $H \subset G$ be a Sylow $2$-subgroup (a subgroup of order $2^n$, where $n$ is the exponent of $2$ in $\lvert G \rvert$). Then consider the extension $E^H/F$ --- we have that \[[E^H : F] = \frac{[E : F]}{[E^H : E]} = \frac{\lvert G \rvert}{\lvert H \rvert},\] which is odd. But any odd-degree polynomial in $\RR[x]$ has a real root (by the intermediate value theorem --- the polynomial goes to $+\infty$ on one end and $-\infty$ on the other). So this means there are no odd-degree extensions of $\RR$; so $H = G$, which means $\lvert G \rvert = 2^n$. (This argument works even if $G$ is odd, as then $H$ is trivial.)
+    \end{proof}
+    
+    But now we can use the proposition --- we have \[G = G_0 \supset G_1 \supset \cdots \supset G_k = \{1\}\] where $G_i/G_{i + 1} \cong \ZZ/2\ZZ$ for all $i$, and we can consider their fixed fields \[\RR = F_0 \supset F_1 \supset \cdots \supset F_k = E,\] where $F_i$ is the fixed field of $G_i$. Then we have $[F_{i + 1} : F_i] = 2$ for all $i$. 
+    
+    But it's clear that $\CC$ is the only \emph{quadratic} extension of $\RR$, and $\CC$ itself has no quadratic extensions (we can check that every quadratic over $\CC$ has a root, since we can extract square roots using the trigonometric form of a complex number). So then $G$ is $\{1\}$ or $\ZZ/2\ZZ$, and $E$ is $\RR$ or $\CC$. 
+\end{proof}
+
+Next class, we'll discuss the Galois group of extensions of finite fields. We'll see that \[\operatorname{Gal}(\FF_{q^n}/\FF_q) = \ZZ/n\ZZ,\] which essentially follows from the fact that $\FF_q = \{x \mid x^q = x\}$ (we previously thought of these $x$ as roots of a polynomial, but we can now think of them as fixed points under the map $t \mapsto t^q$). 
+
+\begin{question}
+    How did we get that $\lvert G \rvert = \lvert H\rvert$ (when showing $\lvert G \rvert$ was a power of $2$)?
+\end{question}
+
+\begin{ans}
+By the Primitive Element Theorem (assuming $E^H \neq F$), the extension $E^H/F$ is generated by one element. We can consider the minimal polynomial of this element; the degree of the minimal polynomial is equal to the degree of the extension. So the minimal polynomial has odd degree, which is a contradiction (since if it has a root, it's reducible). 
+
+It's actually possible to avoid using the Primitive Element Theorem --- if we take \emph{any} element in $E^H$, the degree of its minimal polynomial has to divide the degree of the extension (by the fact that $[K : F] = [K : E][E : F]$ for a tower of extensions $K/E/F$), and therefore has to be odd. 
+\end{ans}

@@ -1,0 +1,204 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-012 Algebra II Student Notes, Spring 2022
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+% \rhead{\rightmark}
+\lhead{Lecture 11: More About Rings}
+
+\section{More About Rings}
+
+\subsection{Review: Hilbert's Nullstelensatz}
+
+Last time, we proved Hilbert's Nullstelensatz:
+
+\begin{theorem}[Hilbert's Nullstelensatz] \label{nullstelensatz2}
+The maximal ideals in $\CC[x_1, \cdots, x_n]$ are exactly the kernels of evaluation homomorphisms, and thus they are in bijection with $\CC^n$.
+\end{theorem}
+
+\begin{corollary} \label{nullstelensatz corollary}
+The maximal ideals in $\CC[x_1, \cdots, x_n]/(P_1, \cdots, P_m)$ are in bijection with the common zeroes of $P_1$, \ldots, $P_m$.
+\end{corollary}
+
+It's clear that this corollary follows from the theorem, since maximal ideals in $\CC[x_1, \ldots, x_n]/(P_1, \ldots, P_m)$ correspond to maximal ideals of $\CC[x_1, \ldots, x_n]$ containing $(P_1, \ldots, P_m)$, and a maximal ideal $\mathfrak{m}_\alpha$ contains all the $P_i$ if and only if they all evaluate to $0$ when plugging in $\alpha$. 
+
+As a brief recap of the ideas seen in the proof of Theorem \ref{nullstelensatz2}: 
+
+\begin{proof}[Proof Sketch]
+The proof reduces to showing that if $F$ is a field containing $\CC$, such that there exists a surjective map $\CC[x_1, \ldots, x_n] \twoheadrightarrow F$, then $F = \CC$. (In this case, $F = \CC[x_1, \ldots, x_n]/\mathfrak{m}$, and the surjective map comes from taking the quotient.)
+
+We first saw that $F$ is a union of countably many finite-dimensional $\CC$-vector spaces --- it's clear that $\CC[x_1, \ldots, x_n]$ is a union of countably many finite-dimensional $\CC$-vector spaces $U_1 \subset U_2 \subset \cdots$ (we can take the vector space consisting of polynomials of degree at most $d$), and then to exhaust $F$ by finite-dimensional $\CC$-vector spaces, we can simply take the images $V_i$ of the vector spaces $U_i$ which exhaust $\CC[x_1, \ldots, x_n]$. So we can write \[F = \bigcup_{i = 1}^\infty V_i,\] where $\dim_{\CC} V_i$ is finite for all $i$. 
+
+Now if $F \neq \CC$, we can pick $z \in F$ with $z \not\in \CC$, and consider $1/(z - \lambda)$ for all $\lambda \in \CC$. There are uncountably many such elements (by set theory, $\CC$ is not countable), and since there's countably many $V_i$, infinitely many of these elements must lie in the same space $V_i$.
+
+But then by linear algebra, there must be a finite sum \[\sum_{i = 1}^n \frac{a_i}{z - \lambda_i} = 0\] with $a_i \in \CC$ (since if $n$ is greater than the dimension of the vector space, these elements must be linearly dependent). But clearing denominators, we get \[\sum_{i = 1}^n a_i\prod_{i \neq j} (z - \lambda_j) = 0.\] But the left-hand side is a nonzero polynomial $P$ in $z$ --- to see it's nonzero, we can plug in $\lambda_1$ and see that $P(\lambda_1) = a_1\prod_{j > 1}(\lambda_1 - \lambda_j) \neq 0$. Since $P \in \CC[x]$, it must factor completely over $\CC$. But $z$ is not in $\CC$, so it cannot equal any of the roots of $P$; this is a contradiction. 
+\end{proof}
+
+\begin{note}
+In fact, the theorem holds for all fields which are algebraically closed (meaning that every polynomial has a root --- here we used the fact that $\CC$ was algebraically closed in order to factor $P$ in the final step). For example, it holds for the field of algebraic numbers as well. The specific argument we used here doesn't work in that case, since the algebraic numbers are countable; but there are other proofs as well. 
+\end{note}
+
+\begin{question}
+What does it mean to take the union of vector spaces?
+\end{question}
+
+\begin{ans}
+In general, this doesn't really make sense (the union of vector spaces may not itself be a vector space). But in this case, we can get vector spaces $V_1 \subset V_2 \subset \cdots$, by taking $V_i = \im\left(\CC[x_1, \ldots, x_n]_{\leq i}\right)$ (the notation $\CC[x_1, \ldots, x_n]_{\leq i}$ denotes polynomials of degree at most $i$), and when we have an increasing chain of vector spaces, taking their union \emph{does} make sense. 
+\end{ans}
+
+This is important because algebraic geometry studies the sets of zeros of a polynomial, and this gives us an algebraic way to think about them. 
+
+% \begin{proof}
+% The proof reduces to showing that if $F$ is a field containing $\CC$ such that $\CC[x_1, \cdots, x_n] \rto F$, then $F = \CC.$\todo{what is this}\footnote{The Nullstelensatz holds for all algebraically closed fields.} Then, we use that $F$ is a union of finite-dimensional $\CC$-vector spaces, because $\CC[x_1, \cdots, x_n]$ is $F = \bigcup V_i$, $\dim_\CC(V_i) < \infty$, where $V_1 \subset V_2 \subset \cdots.$
+
+% \todo{add the rest of the proof}
+% \end{proof}
+% Why is this important? This is often used in algebraic geometry. 
+\begin{definition}
+For a ring $R$, the \textbf{maximal spectrum} of $R$, denoted $\operatorname{MSpec}(R)$, is the set of maximal ideals in $R$. 
+\end{definition}
+
+The maximal spectrum plays an important role in algebraic geometry and commutative algebra. 
+
+For instance, each element $r \in \mathbb{R}$ defines a ``function'' $f_r$ on $\operatorname{MSpec}(R)$, where $f_r$ sends each maximal ideal $\mathfrak{m}$ to the element $\overline{r}$ in $R/\mathfrak{m}$ (which is a field). If $R = \mathbb{C}[x_1, \ldots, x_n]/I$ is a quotient of a polynomial ring over $\CC$, then $R/\mathfrak{m} = \mathbb{C}$ by Hilbert's Nullstelensatz, so $f_r$ is actually a function $\operatorname{Mspec}(R) \to \mathbb{C}$. In fact, this function is given by evaluating the polynomial $r$ at the point corresponding to $\mathfrak{m}$ --- so we've recovered the original polynomial function. But in general, there isn't even a guarantee that the fields $R/\mathfrak{m}$ are all isomorphic --- they may be different for different $\mathfrak{m}$. This is why ``function'' is in quotation marks --- where the map takes values \emph{depends} on its input. 
+
+
+
+% An element $z \in R$ defines a "function" on $\text{MSpec}(R)$, given by $f_z: m \rto z$ mod $m \in R/m$ a field. If $R = \CC[x_1, \codts, x_n]/I$, then $R/m = \CC$, recovering the polynomial function. \todo{explain this}This is not quite a function, since the way it takes values at a given point \emph{depends} on the point. 
+
+% \subsection{Localization\todo{idk what the title should be}}
+
+\subsection{Inverting Elements}
+
+Last time, we discussed adjoining a root of a polynomial to a ring --- in particular, we discussed the structure of $R[x]/(P)$ for a monic polynomial $P$. 
+
+Instead of setting $P$ to be monic, we can set it to be linear, and consider $R[x]/(ax - 1)$, which is denoted by $R_{(a)}$. We've essentially added a variable $x$ and declared it to be the inverse of $a$; so $R_{(a)}$ is the result of formally inverting $a$. This construction is known as \textbf{localization}. 
+
+
+% Last time, we talked about the structure of $R[x] / (P)$ for a monic polnyomial $P.$ Another example is $R[x]/(ax - 1) = R_{(a)},$ which is the result of formally inverting $a,$ known as the \textbf{localization at $a.$} 
+
+\begin{example}
+We have $\ZZ_{(2)} = \left\{a/2^n \mid a, n \in \ZZ\right\}$ and $\ZZ_{(6)} = \left\{a/2^n3^m \mid a, n, m \in \ZZ\right\}$. 
+\end{example}
+
+% \todo{he explained something here}
+
+However, we must be careful. In these examples, we were able to simply add a formal inverse of $a$ to $R$. But it's possible that this might collapse some of $R$ --- in particular, if $ab = 0$ for nonzero $a$ and $b$ (which is possible in a general ring), then the image of $b$ in $R_{(a)}$ will vanish. This is because if $ab = 0$ and the image of $a$ is invertible, then the image of $b$ must be $0$. 
+
+\begin{example}
+In $(\ZZ/6\ZZ)_{(2)}$, the image of $3$ vanishes --- in particular, $(\ZZ/6\ZZ)_{(2)} \cong \ZZ/3\ZZ$. Meanwhile, $(\ZZ/4\ZZ)_{(2)}$ is the zero ring --- this is because $2\cdot 2 = 0$, but the image of $2\cdot 2$ in $(\ZZ/4\ZZ)_{(2)}$ is invertible. 
+\end{example}
+
+% If $ab = 0,$ which may happen for nonzero $a$ and $b$, then the image of $b$ in $R_{(a)}$ will vanish. For example, $(\ZZ_6)_{(2)} \cong \ZZ_3$, so the localization will not always \emph{add} elements. Moreover, $(\ZZ_4)_{(2)}$ is the zero ring.
+
+So when inverting elements, we want to make sure this doesn't happen. 
+
+\begin{definition}
+An element $a \in R$ is a \textbf{zero divisor} if $a \neq 0$, and there exists $b \neq 0$ for which $ab = 0$. 
+\end{definition}
+
+For example, $2$ and $3$ are zero divisors in $\ZZ/6\ZZ$.
+
+\begin{proposition}
+If $a$ is \emph{not} a zero divisor, then $R \subset R_{(a)}$. 
+\end{proposition}
+
+So we can safely invert elements which are not zero divisors. 
+
+We've seen how to invert \emph{one} element $a$, and this directly generalizes to let us invert finitely many elements; but we can also try to invert \emph{all} (nonzero) elements. For this to make sense, we'd need all elements to not be zero divisors:
+
+% Recall the following definition, which is useful in localization. \todo{?? : ?  ?}
+\begin{definition}
+A ring $R$ is an \textbf{integral domain} if $R$ has no zero divisors.
+\end{definition}
+
+One useful property of integral domains is that we can perform cancellation --- if we have $ax = ay$ with $a \neq 0$, then we must have $x = y$. 
+
+\begin{definition}
+    Let $R$ be an integral domain. Then the \textbf{fraction field} of $R$, denoted $\operatorname{Frac}(R)$, is the set $\{(a, b) \mid a, b \in R, b \neq 0\}$ modulo the equivalence relation that $(a, b) \sim (c, d)$ if $ad = bc$. 
+\end{definition}
+
+% \begin{question}
+% Is this a quotient in the same sense as quotienting a ring by an ideal?
+% \end{question}
+
+% \begin{ans}
+% Not exactly --- quotienting by an equivalence relation is a fairly different construction. If we did want to write this construction in terms of quotients by ideals, we'd need to add formal elements and quotient out by the relations they're supposed to satisfy, similar to our construction of $R_{(a)}$. 
+% \end{ans}
+
+% \begin{definition}
+% Let $R$ be an integral domain. Formally, the \textbf{fraction field} of $R$, denoted $\operatorname{Frac}(R)$, is \[\operatorname{Frac}(R) = \{(a, b)\mid  a, b \in R\} /(a, b) \sim (c, d) \text{ if } ad = bc.\] It consists of pairs of elements of $R$, modulo the relation that two pairs are equivalent if $ad = bc.$ 
+% \end{definition}
+
+This is the formal definition, but when we work with a fraction field, it's more intuitive to think of the elements as fractions in the usual sense --- we write $a/b$ instead of $(a, b)$. The operations do work in the same way we're used to --- we have \[\frac{a}{b}\cdot \frac{c}{d} = \frac{ac}{bd} \text{ and } \frac{a}{b} + \frac{c}{d} = \frac{ad + bc}{bd}.\] 
+
+It's clear that $F = \operatorname{Frac}(R)$ is a \emph{field} containing $R$. 
+
+% Equivalently, these pairs can be written as $\frac{a}{b}$ instead of $(a, b),$ and so these pairs are like "fractions." The operations are defined in the usual way: \[\frac{a}{b} \cdot \frac{c}{d} = \frac{ac}{bd}, \frac{a}{b} + \frac{c}{d} = \frac{ad + bc}{bd}.\] In this way, $F$ will be a \emph{field} containing $R.$ 
+
+\begin{example}
+A familiar example of a fraction field is $\operatorname{Frac}(\ZZ) = \QQ$.
+\end{example}
+
+% A slightly more interesting example comes from taking $R = \CC[x]$.
+
+\begin{example}
+The fraction field $\operatorname{Frac}(\CC[x])$ is called the field of \textbf{rational functions} in one variable, and is denoted $\CC(x)$; it consists of elements of the form $p(x)/q(x)$, where $p$ and $q$ are polynomials. Each of its elements defines a function on $\CC$ (which is defined everywhere except for some number of poles). 
+
+This concept can be extended to multiple variables --- we can also consider the fraction field of $\CC[x_1, \ldots, x_n]$. 
+
+% Where $R = \CC[x],$ $\text{Frac}(R)$ is the field of rational functions in one variable.\footnote{Obviously, this concept can be extended to multiple variables, with $R = \CC[x_1, \cdots, x_n].$}
+\end{example}
+
+Note that for a field $F$, we have $\operatorname{Frac}(F) = F$ (since all nonzero elements are already invertible). 
+
+In general, giving a homomorphism from $\operatorname{Frac}(R)$ to $S$ is the same as giving a homomorphism from $R$ sending nonzero elements of $R$ to $S$ where the image of each nonzero element of $R$ is an invertible element in $S$. (Invertible elements of a ring are also called \emph{units}.) 
+
+% The fraction field of a field $F$ will be the field itself; this is easy to see from the definition. 
+
+% A (ring) homomorphism from $\text{Frac}(R)$ to $S$ is "the same" as giving a homomorphism from $R$ sending nonzero elements of $R$ to units\footnote{invertible elements} in $S.$ 
+
+\subsection{Factorization}
+
+Now we will discuss factorization in certain rings. A simple case is polynomials over a field.  
+
+\begin{proposition}\label{factor}
+For a field $F$, every polynomial $P \in F[x]$ factors as a product of irreducible polynomials in an essentially unique way (up to rearrangement of the factors or multiplying the factors by scalars).
+\end{proposition}
+
+In order to prove this, we'll use the following lemma:
+
+\begin{lemma}\label{lemma factor}
+If $P$ is irreducible and $P \mid QS$, then $P \mid Q$ or $P \mid S$.
+\end{lemma}
+
+\begin{proof}
+Since $P$ is irreducible and all ideals of $F[x]$ are principal, $(P)$ is a maximal ideal, and therefore $F[x]/(P)$ is a field. So if $P$ divides $Q$, then the image of $Q$ in the quotient is zero --- so the lemma is equivalent to stating that there are no zero divisors in the field, which is true. More explicitly, if $P \mid QS$, then $\overline{Q}\cdot \overline{S} = 0$ (where $\overline{Q}$ denotes $Q$ mod $P$), which means either $\overline{Q} = 0$ or $\overline{S} = 0$.
+\end{proof}
+
+The proposition then essentially follows formally:
+
+\begin{proof}[Proof of Proposition \ref{factor}]
+Proving the \emph{existence} of such a factorization is easy --- starting with a polynomial, if it isn't irreducible, then we can factor it as a product of polynomials with strictly smaller degree. Since the degree can't keep on decreasing, this process must eventually stop, at which point all our factors are irreducible. (This can be made more formal by using induction on the degree of the polynomial.)
+
+To prove uniqueness, suppose that $P$ factors as $P_1\cdots P_n = Q_1\cdots Q_m$, where all of the $P_i$ and $Q_i$ are irreducible. By Lemma \ref{lemma factor}, since $P_1$ divides $Q_1\cdots Q_m$, we must have $P_1 \mid Q_i$ for some $i$. Without loss of generality this means $P_1 = Q_1$ --- if $P_1 \mid Q_1$ then we must have $Q_1 = \lambda P_1$ for some scalar $\lambda$ (since $Q_1$ is irreducible), and we can rescale the factors to make $\lambda = 1$. Then we have $P_2\cdots P_n = Q_2\cdots Q_m$, and we can perform the same argument to keep cancelling out common factors (again this can be made more formal by using induction on degree). 
+\end{proof}
+
+% Existence is shown by using induction on degree.\todo{flesh out or whatever} Uniqueness is shown in the following manner. Let $P = P_1 \cdots P_n = Q_1 \cdots Q_m,$ where each $P_i$ and $Q_i$ is irreducible. By Lemma \ref{lemma factor}, $P_1$ divides $Q_i$ for some $i$, so let $P_1 = \lambda Q_i,$ and by relabeling, $P_1 = Q_1$ without loss of generality. Continuing in this way, $P_2\cdots P_n = Q_2 \cdots Q_m,$ and applying induction provides the result.
+% \end{proof}
+
+This argument can be used to prove unique factorization in other situations as well, motivating the following definitions:
+
+\begin{definition}
+An integral domain is a \textbf{principal ideal domain} (PID) if every ideal is principal. 
+\end{definition}
+
+\begin{definition}
+An integral domain is a \textbf{unique factorization domain} (UFD) if every element factors as a product of irreducibles in an essentially unique way. 
+\end{definition}
+
+The argument we used to prove Proposition \ref{factor} more generally proves that every PID is a UFD. The converse is not true --- in future classes, we'll see that $\ZZ[x]$ and $\CC[x_1, \ldots, x_n]$ are UFDs but not PIDs. 
+
+% An integral domain is a principal ideal domain (PID) if every ideal is principal. An integral domain is a unique factorization domain (UFD) if every element factors as a product of irreducibles \todo{what did he say here} in an essentially unique way. The same proof shows that every PID is a UFD.\footnote{The converse is not true.}
+
+% On the other hand, $\ZZ[x]$ and $\CC[x_1, \cdots, x_n]$ are UFDs but not PIDs.

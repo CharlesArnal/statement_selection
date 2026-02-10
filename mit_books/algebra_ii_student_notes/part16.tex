@@ -1,0 +1,233 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-012 Algebra II Student Notes, Spring 2022
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+% \rhead{\rightmark}
+\lhead{Lecture 16: Uniqueness of Ideal Factorization}
+
+\section{Uniqueness of Ideal Factorization}
+
+\subsection{Properties of Ideal Multiplication}
+
+Last time, we began discussing the uniqueness of factorization into ideals in the ring of algebraic integers of an imaginary quadratic field. We let $F = \QQ[\sqrt{d}]$ for a squarefree integer $d < 0$, and we saw that then the ring of algebraic integers in $F$ is \[R = \begin{cases} \ZZ[\sqrt{d}] = \left\{a + b\sqrt{d} \mid a, b \in \ZZ\right\} & \text{if $d \not\equiv 1 \pmod{4}$} \\ \ZZ\left[\frac{1 + \sqrt{d}}{2}\right] = \left\{a + b\sqrt{d} \mid a, b \in \frac{1}{2}\ZZ \text{ and } a + b \in \ZZ\right\} & \text{if $d \equiv 1 \pmod{4}$}.\end{cases}\] 
+
+We then proved the key lemma:
+
+\begin{lemma} \label{IconjI principal}
+    If $I \subset R$ is an ideal, then $I\overline{I} = (n)$ for some $n \in \mathbb{Z}$. 
+\end{lemma}
+
+We can assume $n > 0$ (since $n$ and $-n$ generate the same ideal), giving the following definition:
+
+\begin{definition}
+The \textbf{norm} of an ideal $I$, denoted $\operatorname{N}(I)$, is the positive integer $n$ with $I\overline{I} = (n)$. 
+\end{definition}
+
+Note that when $I = (\alpha)$ is principal, then $I\overline{I} = (\alpha\overline{\alpha})$, so $\operatorname{N}(I) = \alpha\overline{\alpha}$. So this coincides with the usual concept of the norm of a complex number. It's also clear from the definition that $\operatorname{N}$ is multiplicative, meaning that $\operatorname{N}(IJ) = \operatorname{N}(I)\operatorname{N}(J)$ --- this is because \[IJ\cdot \overline{IJ} = I\overline{I} \cdot J\overline{J}.\]  
+
+Last time, we also stated the following key proposition:
+\begin{proposition} \label{key proposition 2}
+    Multiplication of ideals has the following two properties:
+    \begin{enumerate}[label = (\alph*)]
+        \item Cancellation: if $IJ = I'J$ and $J \neq 0$, then $I = I'$. 
+        \item If $I \subset J$, then $I = JJ'$ for some $J'$. 
+    \end{enumerate}
+\end{proposition}
+
+As stated last time, the second condition is actually an \emph{if and only if} statement --- we've seen already that if $I = JJ'$, then $I \subset J$. 
+
+\begin{question}
+    Is this only true for imaginary quadratic number fields? 
+\end{question}
+
+\begin{ans}
+It's true for other rings of algebraic integers; it's also true for some other examples, such as a ring of polynomials in one variable (which we'll discuss next class) and its extensions; but it doesn't hold in general. For example, it doesn't hold for polynomials in two variables. 
+\end{ans}
+
+\begin{proof}[Proof of Proposition \ref{key proposition 2}]
+    The main idea is that in the case where $J$ is principal, this is almost obvious; and using Lemma \ref{IconjI principal}, we can reduce to the case where $J$ is principal.
+
+    First consider the case where $J$ is principal. Then for (a), it's clear that \[\alpha I = \alpha I' \implies I = I'.\] This is because multiplying by $\alpha$ is easily inverted, just by multiplying by $\alpha^{-1}$, if we think of these sets as belonging to the field $F$ and not the ring $R$. 
+
+    Similarly, for (b), if we have $I \subset (\alpha)$, then $x/\alpha \in R$ for all $x \in I$. Then we can take \[J' = \frac{I}{\alpha} = \left\{\frac{x}{\alpha} \mid x \in I\right\},\] which is an ideal of $R$.
+
+    Now consider the more general case. For (a), if we have $IJ = I'J$, then we can multiply by $\overline{J}$ to get \[I(J\overline{J}) = I'(J\overline{J}) \implies I(n) = I'(n),\] where $n = \operatorname{N}(J)$. Since $n \neq 0$ if $J \neq 0$, then by the principal case of (a), we have that $I = I'$ in the general case as well. 
+
+    For (b), we use the same trick. Suppose $I \subset J$, and multiply both sides by $\overline{J}$. Then \[I\overline{J} \subset J\overline{J} = (n).\] As before, now set $J' = I\overline{J}/n$ (which is an ideal for the same reason as in the principal case). Then \[J'(J\overline{J}) = J'(n) = I\overline{J},\] and by (a) we can cancel out $\overline{J}$ to get $J'J = I$. 
+\end{proof}
+
+\begin{question}
+    For rings of general algebraic integers, can we get a principal ideal by multiplying by \emph{all} conjugates?
+\end{question}
+
+\begin{ans}
+Yes --- if the field is Galois, then we can multiply by all the Galois conjugates. But we haven't yet learned the relevant theory. 
+\end{ans}
+
+Finally, before proving unique factorization, we'll need the following lemma (which will essentially allow us to use (b) to find a prime ideal dividing \emph{any} ideal, so that we can factor repeatedly):
+
+\begin{lemma} \label{ideal in maximal}
+    Every non-unit ideal $I$ in $R$ is contained in a maximal ideal. 
+\end{lemma}
+
+This lemma is actually true for \emph{any} ring. But we'll only prove it in our case (since the proof is harder in general). 
+
+\begin{proof}
+    Assume without loss of generality that $I \neq 0$, since the zero ideal is contained in \emph{any} ideal. Then we know that $R/I$ is finite --- this means there are finitely many ideals in $R/I$.
+    
+    But ideals in $R/I$ are in bijection with ideals in $R$ containing $I$, by the correspondence theorem for rings. And since $R/I$ is finite, it must have a maximal ideal --- if we have an ideal that isn't maximal (or the unit ideal), we can find a bigger one, and we can't keep on doing this forever since there's only finitely many ideals. 
+\end{proof}
+
+\begin{question}
+    Why is $R/I$ finite?
+\end{question}
+
+\begin{ans}
+As discussed last time, this is because $R$ and $I$ are both lattices in $\CC$, and the index of any lattice in another is finite. In fact, for any lattice, we can take two vectors which generate it, and compute the area of the parallelogram formed by those two vectors:
+\begin{center}
+    \begin{asy}
+    unitsize(1cm);
+    pair x = (1, 0);
+    pair y = (0.4, 0.6);
+    for (int i = 0; i <= 3; ++i) {
+        for (int j = 0; j <= 3; ++j) {
+            dot(i*x + j*y);
+        }
+    }
+    draw((x + y) -- (2*x + y), heavycyan, EndArrow, EndMargin);
+    draw((x + y) -- (x + 2*y), heavycyan, EndArrow, EndMargin);
+    filldraw((x + y) -- (x + 2*y) -- (2*x + 2*y) -- (2*x + y) -- cycle, heavycyan+opacity(0.1), heavycyan);
+    \end{asy}
+\end{center}
+Then the index of $I$ in $R$ is the ratio of the areas of their corresponding parallelograms. 
+\end{ans}
+
+\begin{note}
+    Lemma \ref{ideal in maximal} is true in any ring. But in this proof, we used the fact that the poset of ideals in $R/I$ under inclusion is finite, and therefore has a maximal element; this isn't true for a general poset --- for example, the positive integers don't have a maximal element. 
+    
+    But the poset of ideals has the additional property that any increasing chain of ideals is majorated by an element of the set --- if we have a chain $I_1 \subset I_2 \subset I_3 \cdots$, their union $I_1 \cup I_2 \cup \cdots$ is again an ideal, which contains all the $I_n$. 
+    
+    Then it's possible to use Zorn's Lemma from set theory, which applies to partially ordered sets with this property. Although Zorn's Lemma is needed in the general case, we'll see a weaker finiteness property in which case there \emph{is} an easier proof. That finiteness property will be much more general than the one used here --- in particular, it will apply to polynomial rings and their quotients. 
+\end{note}
+
+\subsection{Proof of Unique Factorization}
+
+Finally, we are ready to prove the uniqueness of ideal factorization for imaginary quadratic number fields:
+
+\begin{theorem} \label{unique ideal factorization 2}
+    Every nonzero ideal $I \subset R$ factors uniquely (up to permutation of factors) as a product of prime ideals. 
+\end{theorem}
+
+\begin{proof}
+    First, we'll prove the existence of a prime factorization. Let $I \subset R$ be an ideal which is neither the zero ideal nor the unit ideal. Then by Lemma \ref{ideal in maximal}, there is a maximal ideal $\mathfrak{m}$ with $I \subset \mathfrak{m}$, and therefore by Proposition \ref{key proposition 2}, we can factor $I = \mathfrak{m}\cdot J$ for some ideal $J$. Since $\mathfrak{m}$ is maximal, it is also prime; so we can think of this as the first step in the factorization process, and now it suffices to factor $J$ (unless $J$ is the unit ideal, in which case we're done). 
+    
+    It then suffices to show that this factorization process terminates. To do so, we can consider the norm --- we have \[\operatorname{N}(I) = \operatorname{N}(\mathfrak{m})\cdot \operatorname{N}(J).\] We must have $\operatorname{N}(\mathfrak{m}) > 1$ (since $1 \not\in \mathfrak{m}$), so then $\operatorname{N}(J) < \operatorname{N}(I)$. This means the norm of our ideal decreases, so the process must eventually terminate, meaning that $J$ must eventually become the unit ideal. (This argument can also be phrased by induction on the norm.)
+    
+    Now we'll prove uniqueness of factorization. Suppose \[I = P_1\cdots P_n = Q_1\cdots Q_n,\] where the $P_i$ and $Q_i$ are all ideals. It's enough to show that $P_1 = Q_i$ for some $i$, since then by part (a) of Proposition \ref{key proposition 2}, we can cancel out the common factor (this is the same way we proved uniqueness in the case of integers or polynomials, except that now we're dealing with ideals instead of elements). 
+    
+    Assume for contradiction that $Q_i \neq P_1$ for all $i$. Then $Q_i \not\subset P_1$ for all $i$ --- since $Q_i$ is maximal, the only ideals containing it are itself and the unit ideal. So for each $i$, we can find an element $x_i \in Q_i$ with $x_i \not\in P_1$. But now consider their product $x_1x_2\cdots x_n$. By definition, this product lies in $Q_1\cdots Q_n$. But since $P_1$ is prime and none of the $x_i$ are in $P_1$, their product cannot be either; contradiction. 
+\end{proof}
+
+The last step can instead be worded using the following lemma: 
+
+\begin{lemma}
+    If $P$ is a prime ideal, and $I$ and $J$ are ideals with $I \not\subset P$ and $J \not\subset P$, then $IJ \not\subset P$. 
+\end{lemma}
+
+\begin{proof}
+    The same proof works --- pick $x \in I$ and $y \in J$ with $x, y \not\in P$. Then we have $xy \in IJ$, but $xy \not\in P$.
+\end{proof}
+
+\subsection{Classification of Prime Ideals}
+
+We can look more concretely at the structure of these prime ideals. In a future class, we'll see that the classification of prime ideals actually works quite similarly to the classification of primes we saw in the Gaussian integers --- by looking at all integer primes $p$, and trying to factor $(p)$ into prime ideals. We'll see that there are three possibilities:
+\begin{itemize}
+    \item $(p)$ remains prime in $R$ --- such primes are called \textbf{inert primes};
+    \item $(p)$ factors as $Q_1Q_2$, where $Q_1$ and $Q_2$ are distinct (they must then be conjugate) --- such primes are called \textbf{splitting primes};
+    \item $(p)$ factors as $Q^2$ --- such primes are called \textbf{ramified primes}. (In the case of Gaussian integers, the only ramified prime was $2$; in general, the ramified primes come from divisors of $d$.)
+\end{itemize}
+All prime ideals in this list are distinct, and this gives a full list of the prime ideals. 
+
+\subsection{Similarity Classes of Ideals}
+
+We'll now discuss another important concept regarding ideals. 
+
+\begin{definition}
+    Two nonzero ideals $I, J \subset R$ are \textbf{similar} if there exists some $\lambda \in F$ such that $\lambda I = J$. 
+\end{definition}
+
+(We only consider nonzero ideals when discussing similarity.)
+
+Note that it would be equivalent to state $\lambda \in \CC$ in the definition, since if $\lambda \in \CC$ were the quotient of two elements in $R$, then we must have $\lambda \in F$. Meanwhile, two lattices $L_1$ and $L_2$ in $\CC$ are similar if $L_2 = \lambda L_1$ for some $\lambda \in \CC$ --- geometrically, multiplication by a complex number corresponds to scaling and rotation. So the algebraic notion of similarity of ideals coincides with the geometric notion of similarity of their lattices. 
+
+Similarity is an equivalence relation --- if $I_2 = \lambda I_1$ and $I_3 = \mu I_2$, then $I_3 = \lambda \mu I_1$. So we will use the notation $I \sim J$ to denote that two ideals are similar. Then we can think about ideals in terms of their equivalence classes, which are called \textbf{ideal classes}. 
+
+\begin{example}
+    The similarity class of the unit ideal $(1)$ consists of ideals $I = \lambda(1)$ for $\lambda \in F$. But since $\lambda \cdot 1 \in R$, then we must have $\lambda \in R$. So then $I = \lambda(1) = (\lambda)$ is a principal ideal --- so the similarity class of $(1)$ consists of exactly the principal ideals. 
+\end{example}
+
+In particular, this example implies that in a PID, all ideals are similar. But there are many cases which are \emph{not} PIDs --- and in some sense, the number of equivalence classes is a measure of the ring's failure to be a PID. 
+
+\begin{proposition}
+If $I \sim I'$, then $IJ \sim I'J$. 
+\end{proposition}
+
+This is straightforward from the definitions, but it's important --- it means that taking the product of ideals gives a commutative and associative operation on the set of ideal classes. In fact, the set of ideal classes, along with ideal multiplication, is an abelian group --- the class of $(1)$ is the unit, and every nonzero class is invertible because $I\overline{I}$ is principal, so the class of $\overline{I}$ is the inverse of the class of $I$. This group is called the \textbf{ideal class group}, and denoted $\operatorname{Cl}(F)$. 
+
+An important theorem about the ideal class group, which we'll look at in more detail later, is the following:
+
+\begin{theorem}
+    The ideal class group $\operatorname{Cl}(F)$ is finite. 
+\end{theorem}
+
+\begin{example}
+    For $R = \mathbb{Z}[\sqrt{-5}]$, the class group is $\mathbb{Z}/2\ZZ$ --- the only two ideals up to similarity are $(1)$ and $(2, 1 + \sqrt{-5})$. 
+\end{example}
+
+% \section{Unique factorization of ideals in the ring of algebraic integers in a quadratic imaginary field}
+% \subsection{Review}
+% Let us set $\FF=\QQ(\sqrt{d})$ for a squarefree integer $d<0$ and let $R$ be the ring of algebraic integers in $\FF$. As we have already seen,
+% \begin{align*}
+% R&=\ZZ(\sqrt{d})\\
+% \text{or }R=\ZZ\left(\frac{1+\sqrt{d}}{2}\right)\quad \text{if $d=1\mod 4$}\,.
+% \end{align*}
+% Last time we proved the following lemma.
+% \begin{lemma}[Key lemma]\label{l16:key}
+% For an ideal $I\subset R$ there is an integer $n$ such that
+% \[I\overline{I}=(n)\]
+% where $\overline{I}$ is the ideal conjugate to $I$.
+% \end{lemma}
+% In this lemma we can without loss of generality pick $n\geq 0$ -- such $n$ is called the \emph{norm} of $I$ and is denoted by $N(I)$. It is not surprising since when $I$ is principal, i.e. $I=(\alpha)$, then $n=\alpha\overline{\alpha}$. It is also clear from definition that
+% \begin{align*}
+% N(IJ)=N(I)N(J)
+% \intertext{since}
+% IJ\overline{IJ}&=I\overline{I}J\overline{J}\,.
+% \end{align*}
+% Let us now use the lemma \ref{l16:key} to prove more properties of ideals.
+% \begin{proposition}
+% \begin{enumerate}[label=\alph*)]
+% \item \emph{Cancellation}. When ideals $I$, $I'$ and $J$ satisfy $IJ=I'J$ with $J\neq 0$ then $I=I'$.
+% \item If $I\subset J$, then $I=JJ'$ for some ideal $J'$ (that is $I$ is divisible by $J$).
+% \end{proposition}
+% \begin{proof}
+% The proof can be summarized as follows: when $J$ is principal, the proposition is almost trivial. Otherwise we can reduce to the case of principal $J$ by multiplication by $\overline{J}$.
+
+% So first let us assume that $J$ is principal -- let $J=(\alpha)$. 
+% \medskip
+
+% a)
+
+% $IJ=I'J$ states in fact that $\alpha I=\alpha I'$, so $I=\alpha^{-1}(\alpha I)=\alpha^{-1}(\alpha I')=I'$ as desired (we are allowed to multiply by $\alpha^{-1}\in \FF$, we are working in a field and $\alpha\neq 0$).
+
+% \medksip
+
+% b)
+
+% If $\alpha\in I$
+
+
+
+
+
+

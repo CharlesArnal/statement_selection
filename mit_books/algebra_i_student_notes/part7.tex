@@ -1,0 +1,241 @@
+%MIT OpenCourseWare: https://ocw.mit.edu
+%RES.18-011 Algebra I Student Notes, Fall 2021
+%License: Creative Commons BY-NC-SA 
+%For information about citing these materials or our Terms of Use, visit: https://ocw.mit.edu/terms.
+
+\section{Fields and Vector Spaces}
+\subsection{Review}
+Last time, we learned that we can quotient out a normal subgroup of $N$ to make a new group, $G/N.$
+
+\subsection{Fields}
+
+Now, we will do a hard pivot to learning linear algebra, and then later we will begin to merge it with group theory in different ways. In order to define a vector space, the underlying \emph{field} must be specified.
+\begin{definition}
+A \textbf{field} $F$ is a set with the operations $(+, \by).$ It must satisfy that 
+\begin{itemize}
+    \item $(F, +)$ is an abelian group with the usual rules, and
+    \item $(F^{\by} \coloneqq F \setminus \{0\}, \by)$ is an abelian group.
+\end{itemize}
+Also, addition and multiplication must distribute over each other.\footnote{There is some compatibility required.} %add the requirements
+\end{definition}
+
+In essence, a field is a set with additive and multiplicative group structures that interact in nice ways.
+\begin{example}\label{c r q fields}
+The sets $\CC, \RR, $ and $\mathbb{Q}$ are fields, but not $\ZZ,$ since it is not invertible under multiplication.
+\end{example}
+
+Since division does not exist in $\ZZ,$ it is not a field. In fact, $\QQ$ is essentially obtained from $\ZZ$ by making it into a field by adding division.
+
+Example \ref{c r q fields} gives us examples of fields with infinitely many elements, but fields can also be constructed that have finite order. Indeed, there is one for every prime number $p.$
+\begin{example}[Fields of prime order]
+For a prime $p,$ 
+\[
+(\mathbb{F}_p = \ZZ_p, +, \by)
+\]
+is a field. If $a \neq 0 \mod p,$ then $\gcd(a, p) = 1$ implies that $ar + ps = 1,$ and so $ar \equiv 1 \mod p,$ and thus $a$ is invertible with multiplicative inverse $r^{-1}.$
+\end{example}
+
+However, $\ZZ_6$ is not a field; for example, $2 \mod 6$ has no inverse. In general, $\ZZ_n$ where $n$ is not a prime is not a field, because there will exist some element that is not relatively prime to $n,$ and it will not be invertible. %add the explanation why
+
+\subsection{Vector Spaces}
+
+A vector space, which may be a familiar concept from learning about matrices, can be defined over any field. 
+\begin{definition}
+A \textbf{vector space} $V$ over a field $F$ is a set $V$ with some operation + such that $(V, +)$ is an abelian group. 
+\begin{itemize}
+    \item We must be able to scale vectors:
+    \begin{align*}
+    F &\by V \rightarrow V \\
+    (a, \vec{v}) &\mapsto a\vec{v}.
+    \end{align*}
+    \item Addition and multiplication play nicely and satisfy the usual rules 
+    \[
+    (\cdots, a(b\vec{v}) = (ab) \cdot \vec{v}, \cdots ).
+    \]
+    
+\end{itemize}
+\end{definition}
+
+\begin{example}
+For a field $F,$ $F^n$, column vectors with $n$ components $(a_1, \cdots, a_n)^t,$ form a vector space of dimension $n.$
+\end{example}
+
+\begin{example}
+If $A$ is an $m \by n$ matrix, then 
+\[
+\{\vec{v} \in F^n : A\vec{v} = (0, \cdots, 0)\}
+\]
+is a vector space.
+\end{example}
+
+\begin{example}
+For a homogeneous linear ODE, the solutions form a vector space.
+\end{example}
+
+\subsection{Bases and Dimension}
+
+A basis of a vector space is a set of vectors providing a way of describing it without having to list every vector in the vector space.
+\begin{definition}
+Given $\vec{v}_1, \vec{v}_2, \cdots, \vec{v}_n \in V,$ a \textbf{linear combination} is 
+\[
+\vec{v} = \sum a_i\vec{v}_i
+\]
+for $a_i \in F.$
+\end{definition}
+
+\begin{definition}
+For $S = \{\vec{v}_1, \vec{v}_2, \cdots, \vec{v}_n\}$, the span 
+\[
+\text{Span}(S) = \{\vec{v} \in V: \vec{v} = \sum a_i \vec{v}_i\}
+\]
+\end{definition}
+
+This is similar to generating subgroups using elements of a group $G,$ except using the operations of vector spaces.
+
+Artin likes to use the (nonstandard) notation 
+\[
+\begin{pmatrix}
+\vec{v}_1 & \cdots & \vec{v}_n
+\end{pmatrix}
+\begin{pmatrix}
+a_1 \\
+\vdots \\
+a_n
+\end{pmatrix}
+\coloneqq \sum a_i \vec{v}_i
+\]
+for a linear combination. 
+
+\begin{definition}
+A set of vectors $S$ \textbf{spans} $V$ if $\text{Span}(S) = V.$ \footnote{There is at least one way of writing $\vec{v}$ as a linear combination.}
+\end{definition}
+
+\begin{definition}
+A set of vectors $\{\vec{v}_i\}$ is \textbf{linearly independent} if 
+\[
+\sum a_i \vec{v}_i = \vec{0}
+\]
+if and only if $a_i = 0$ for all $i.$\footnote{There is at most one way of writing $\vec{v}$ as a linear combination.}
+
+\end{definition}
+
+A basis is both linearly independent and spans.
+\begin{definition}
+A set of vectors $S = \{\vv{v}_1, \cdots, \vec{v}_n\}$ is a \textbf{basis} if $S$ spans $V$ \emph{and} is linearly independent. Equivalently, each $\vec{v} \in V$ can be written \textbf{uniquely} as $\vec{v} = a_1\vec{v}_1 + \cdots + a_n \vec{v}_n$, where the $a_i$ are called the \textbf{coordinates} of $\vec{v}$ in the basis $S.$
+\end{definition}
+
+The standard basis for $\RR^2$ is 
+\[
+\left\{
+\begin{pmatrix}
+1 \\
+0
+\end{pmatrix}, 
+\begin{pmatrix}
+0 \\
+1
+\end{pmatrix}\right\}.
+\]
+
+In general, when we write a vector $(a, b)^t,$ it represents the linear combination $a(1, 0)^t + b(0, 1)^t.$ 
+
+\begin{example}
+Let $V = \RR^2.$ Then the set 
+\[
+S = \left\{
+\begin{pmatrix}
+1 \\
+1
+\end{pmatrix}, \begin{pmatrix}
+3 \\
+2
+\end{pmatrix},
+\begin{pmatrix}
+2 \\
+1
+\end{pmatrix}\right\}
+\]
+spans $\RR^2,$ but is linearly dependent: $\vv{v}_1 - \vv{v}_2 + \vv{v}_3 = \vv{0}.$ But $\{\vv{v}_1, \vv{v}_2\}$ forms a basis. 
+\end{example}
+
+A good choice of basis often makes problems easier. 
+
+\begin{definition}
+A vector space $V$ is \textbf{finite-dimensional} if $V = \spann(\{\vvv_1, \cdots, \vvv_n\})$ for some $\vv{v}_i \in V.$\footnote{Infinite-dimensional vector spaces are super interesting, but not studied in this class. Real analysis can be used to study them!}
+
+\end{definition}
+
+\begin{lemma}
+\label{spanlemma}
+If $S = \{\vvv_1, \cdots, \vvv_r\}$ spans $V,$ and $L = \{\vv{w}_1, \cdots, \vv{w}_s\}$ is linearly independent, then 
+\begin{enumerate}
+    \item Removing elements of $S$ gets a basis of $V.$ 
+    \item Adding elements of $S$ to $L$ gets another basis of $V.$
+    \item $|S| \geq |L|$.
+\end{enumerate}
+\end{lemma}
+
+\begin{corollary}
+If $S$ and $L$ are both bases for $V,$ then $|S| = |L|.$ Any two bases of $V$ contain the same number of vectors.
+\end{corollary}
+
+\begin{proof}
+Applying the lemma twice for $S$ and $L$ gives $|S| \geq |L|$ and $|L| \geq |S|.$
+\end{proof}
+
+\begin{definition}
+The \textbf{dimension} of a vector space $v$ is the size of any basis of $V.$
+\end{definition}
+
+\begin{proof}[Proof of Lemma \ref{spanlemma}]
+
+We prove each point separately
+\begin{enumerate}
+    \item If $S$ is not linearly independent, then there are some $a_i$ such that 
+    \[
+    \sum_{i=1}^r a_i \vvv_i = \vv{0}.
+    \]
+    Suppose WLOG that $a_n \neq 0.$ Then \[\vvv_r = a_r^{-1}(-a_1\vvv_1 - \cdots - a_{r-1}\vvv_{r-1}) \in \spann(\vvv_1, \cdots, \vvv_{r-1}).\] If we take $S' = \{\vvv_1, \cdots, \vvv_{r-1}\},$ we have $\spann(S') = \spann(S) = V.$ This is because if we have a linear combination using the vectors of $S$, we can use the equation above to turn it into a combination of vectors in $S'$. We can repeatedly remove until we have a basis of $V.$
+    
+    \item
+    If $S \subset \spann(L)$, then $\spann(L) = V$ so we are done. 
+    Otherwise, suppose $\vvv_i \not \in \spann(L)$. We can create $L' = \{\vv{w}_1, \ldots, \vv{w}_s, \vvv_i\}$. 
+    Then $L'$ is still linearly independent. 
+    We can just keep adding vectors to $L$ so that it stays linearly independent but eventually spans $V.$
+    
+    \item Each $\vv{w}_j$ is a linear combination of $\vvv_1 , \cdots, \vvv_r.$ Then $\vec{w}_j = \sum_{i = 1}^{r}  a_{ij} \vvv_i$. Let $A$ be the $r \by s $ matrix 
+    \[
+    A = 
+    \begin{pmatrix}
+    a_{11} & a_{12} & \cdots & a_{1s}\\
+    \vdots & \vdots & \ddots & \vdots \\
+    a_{r1} & a_{r2} & \cdots & a_{rs}
+    \end{pmatrix}.
+    \]
+    Then $(\vv{w}_1, \cdots, \vec{w}_s) = (\vvv_1, \cdots, \vvv_r)A.$ Suppose $r < s.$ Then by row-reduction, there exists some nonzero vector $\vv{x}$ such that $A \vv{x} = \vv{0}.$ Then $\sum x_i \vec{w}_i = (\vvv_1, \cdots, \vvv_r)A\vv{x} = \vv{0}.$ This is a contradiction, since $L$ is linearly independent, so $r \geq s.$
+\end{enumerate}
+\end{proof}
+
+\begin{definition}
+A \textbf{linear transformation} is a map 
+\[
+T: V \rightarrow W
+\]
+such that 
+\[
+T(\vv{v}_1 + \vvv_2) = T(\vvv_1) + T(\vvv_2) 
+\]
+and 
+\[
+T(a\vvv) = aT(\vvv).
+\] We say that $T$ is an \textbf{isomorphism} if it is a bijection $(T^{-1}$ is also an isomorphism). 
+\end{definition}
+For a vector space $V$ over a field $F$ and a set of vectors $S = \{\vvv_i \in V\},$ we can define the following linear transformation:
+\begin{align*}
+T_S: F^n &\rightarrow V \\
+(a_1, \cdots, a_n) &\mapsto \sum a_i \vvv_i \in V.
+\end{align*}
+
+If $S$ is linearly independent, then $T_S$ is injective; if $\spann(S) = V,$ then $T_S$ is surjective, and if $T_S$ is a basis, then $T_S$ is an isomorphism.
+
+\newpage
